@@ -1,8 +1,12 @@
-{                                                     
-    "mcpServers": {                                                                                                                                                                                            
-      "salesforce": {                                                                                                                                                                                          
+{
+    "mcpServers": {
+      "salesforce": {
         "command": "npx",
-        "args": ["@salesforce/mcp", "--orgs", "YOUR_ORG_ALIAS", "--toolsets", "all"]                                                                                                                                                     
-      }                                                                                                                                                                                                        
-    }                                                                                                                                                                                                          
+        "args": ["@salesforce/mcp", "--orgs", "YOUR_ORG_ALIAS", "--toolsets", "all"]
+      },
+      "omnistudio-mcp": {
+        "command": "npx",
+        "args": ["-y", "@salesforce/omnistudio-mcp"]
+      }
+    }
   }

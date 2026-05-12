@@ -70,9 +70,26 @@ Key tools available:
 - `mcp__salesforce__create_lwc_component_from_prd` — generate LWC from spec
 - `mcp__salesforce__deploy_metadata` with `checkOnly: true` — validation deploy
 
+### OmniStudio MCP (`omnistudio-mcp`)
+Dedicated AI toolkit for OmniStudio component development. Use for any engagement involving FlexCards, OmniScripts, or DataMappers.
+
+Key tools available:
+- `author` — convert a natural-language or PDF requirement into a FlexCard JSON definition (layout, styles, data bindings)
+- `create` — push a validated FlexCard JSON definition into the Salesforce org
+- `modify` — iterate on an existing FlexCard based on updated specifications
+- `describe` — generate a summary of an existing FlexCard for onboarding or version comparison
+- `gen_tests` — generate test cases covering different UI states and data scenarios
+- `simulate` — render a FlexCard in a safe non-production environment for real-time preview
+
+**When to use OmniStudio MCP:**
+- Implementation phase: any user story involving FlexCard creation or modification
+- Testing phase: generate and validate FlexCard test cases
+- Design phase: describe existing FlexCards to understand current state before redesigning
+- Use alongside `mcp__salesforce__*` tools — OmniStudio MCP handles component authoring, Headless 360 handles org operations (deploy, query, permissions)
+
 **Tool execution rules:**
 - Read-only tools (query, retrieve, list, describe): run freely, no approval needed
-- Mutation tools (deploy, assign, bulk operations): present the action and scope to the user and wait for explicit approval before executing
+- Mutation tools (deploy, assign, bulk operations, `create`): present the action and scope to the user and wait for explicit approval before executing
 - Never deploy to production without explicit human approval — always confirm target org before any mutation
 
 ---
