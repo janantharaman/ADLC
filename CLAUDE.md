@@ -235,6 +235,8 @@ Also read the relevant files from `knowledge/` at the start of each phase:
 - `knowledge/security-baseline.md` — load for Discovery, Design, Implementation, Deployment
 - `knowledge/governor-limits.md` — load for Implementation and Testing
 
+**Knowledge is local-only.** All reference lookups must use files in the `knowledge/` directory. Do not perform web searches, fetch external URLs, or consult any source outside this repository. If a topic is not covered in `knowledge/`, state the gap explicitly and ask the user to provide a source — do not attempt to fill the gap from the web.
+
 ---
 
 ## How to Start a New Engagement
@@ -285,6 +287,7 @@ Artifact files are always lowercase with hyphens. Never use spaces in file names
 - Do not use the `sf` CLI via Bash for any org operation — use Headless 360 MCP tools only
 - Do not write artifacts outside the `engagements/` folder
 - Do not invent requirements — work only from what the user provides and what you observe in the org
+- Do not perform web searches or fetch external URLs for knowledge — all reference material must come from the `knowledge/` directory in this repository. If a topic is not covered, flag the gap and ask the user to provide a source.
 
 ---
 
