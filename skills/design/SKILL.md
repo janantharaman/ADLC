@@ -215,6 +215,9 @@ Write `engagements/{customer}/design.md`. Every architectural claim must cite a 
 | Object | Rule Name | Condition | Error Message |
 |---|---|---|---|
 
+### Relationship Diagram
+Mermaid `erDiagram` block showing all objects and their relationships (lookup, master-detail, many-to-many via junction object).
+
 ## Automation Design
 
 ### [Automation Name]
