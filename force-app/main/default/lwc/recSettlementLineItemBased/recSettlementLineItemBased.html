@@ -1,0 +1,244 @@
+<template>
+    <div class="container">
+        <div lwc:if={_isLoading} class="spinner">
+            <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+        </div>
+
+        <!-- ═══ Section 1: Settlement Line Item ═══ -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-header-left">
+                    <span class="section-title">Settlement Line Item</span>
+                    <span class="section-notice">
+                        <lightning-icon icon-name="utility:info" size="xx-small" class="notice-icon"></lightning-icon>
+                        Changes to non-calculation fields will only take effect upon Reconciliation Confirm.
+                    </span>
+                </div>
+                <div class="section-actions">
+                    <lightning-button-group>
+                        <lightning-button
+                            label="Draft"
+                            icon-name="utility:advanced_function"
+                            variant="neutral"
+                            disabled={draftBtnDisabled}
+                            onclick={handleSelectedItemDraft}
+                        ></lightning-button>
+                        <lightning-button
+                            label="Confirm"
+                            icon-name="utility:check"
+                            variant="brand"
+                            disabled={confirmBtnDisabled}
+                            onclick={handleSelectedItemConfirm}
+                        ></lightning-button>
+                    </lightning-button-group>
+                </div>
+            </div>
+            <div class="section-body">
+                <c-rec-table
+                    lwc:ref="baseSliTable"
+                    key-field="Id"
+                    columns={baseSliColumns}
+                    data={baseSliData}
+                    hide-checkbox-column
+                    disabled-row-ids={baseSliDisabledRowIds}
+                ></c-rec-table>
+            </div>
+        </div>
+
+        <!-- ═══ Section 2: Select Transactions ═══ -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-title">Select Transactions</span>
+            </div>
+            <div class="section-body">
+                <lightning-tabset active-tab-value={_activeTab} onactive={handleTabChange}>
+                    <!-- Tab: Bank Transaction -->
+                    <lightning-tab label="Bank Transaction" value="bt">
+                        <div class="filter-wrapper slds-box slds-box_xx-small slds-var-m-vertical_medium">
+                            <c-rec-filter-bar
+                                filter-defs={btFilterDefs}
+                                filter-width="10"
+                                lwc:ref="btFilter"
+                                onfilterchange={handleBtFilterChange}
+                            >
+                                <lightning-button-group slot="actions">
+                                    <lightning-button
+                                        name="action_Inquiry"
+                                        label="Inquiry"
+                                        icon-name="utility:search"
+                                        variant="brand"
+                                        disabled={isConfirmed}
+                                        onclick={handleBtInquiryClick}
+                                    ></lightning-button>
+                                    <lightning-button
+                                        name="action_Reset"
+                                        label="Reset"
+                                        icon-name="utility:undo"
+                                        variant="neutral"
+                                        disabled={isConfirmed}
+                                        onclick={handleBtResetClick}
+                                    ></lightning-button>
+                                </lightning-button-group>
+                            </c-rec-filter-bar>
+                        </div>
+
+                        <div class="table-summary">
+                            <span>Rows: {displayRowCount} / Selected: {displaySelectedCount}</span>
+                            <div class="table-actions">
+                                <lightning-button
+                                    name="action_Select"
+                                    label="Select"
+                                    title="Select"
+                                    alternative-text="Select"
+                                    variant="brand"
+                                    disabled={isConfirmed}
+                                    onclick={handleBtSelect}
+                                ></lightning-button>
+                            </div>
+                        </div>
+
+                        <div class="table-wrapper inquiry-table">
+                            <c-rec-table
+                                lwc:ref="btTable"
+                                key-field="Id"
+                                columns={btColumns}
+                                data={btData}
+                                disabled-row-ids={btDisabledRowIds}
+                                onrowselection={handleBtRowSelection}
+                            ></c-rec-table>
+                        </div>
+                    </lightning-tab>
+
+                    <!-- Tab: Fiduciary Others -->
+                    <lightning-tab label="Fiduciary Others" value="fo">
+                        <div class="filter-wrapper slds-box slds-box_xx-small slds-var-m-vertical_medium">
+                            <c-rec-filter-bar
+                                filter-defs={foFilterDefs}
+                                filter-width="10"
+                                lwc:ref="foFilter"
+                                data-id="foFilter"
+                                onfilterchange={handleFoFilterChange}
+                            >
+                                <lightning-button-group slot="actions">
+                                    <lightning-button
+                                        name="action_Inquiry"
+                                        label="Inquiry"
+                                        icon-name="utility:search"
+                                        variant="brand"
+                                        disabled={isConfirmed}
+                                        onclick={handleFoInquiryClick}
+                                    ></lightning-button>
+                                    <lightning-button
+                                        name="action_Reset"
+                                        label="Reset"
+                                        icon-name="utility:undo"
+                                        variant="neutral"
+                                        disabled={isConfirmed}
+                                        onclick={handleFoResetClick}
+                                    ></lightning-button>
+                                </lightning-button-group>
+                            </c-rec-filter-bar>
+                        </div>
+
+                        <div class="table-summary">
+                            <span>Rows: {displayFoRowCount} / Selected: {displayFoSelectedCount}</span>
+                            <div class="table-actions">
+                                <lightning-button
+                                    name="action_Select"
+                                    icon-name="utility:filter"
+                                    label="Select"
+                                    title="Select"
+                                    alternative-text="Select"
+                                    variant="brand"
+                                    disabled={isConfirmed}
+                                    onclick={handleFoSelect}
+                                ></lightning-button>
+                            </div>
+                        </div>
+
+                        <div class="table-wrapper inquiry-table">
+                            <c-rec-table
+                                lwc:ref="foTable"
+                                key-field="Id"
+                                columns={foColumns}
+                                data={foData}
+                                disabled-row-ids={foDisabledRowIds}
+                                onrowselection={handleFoRowSelection}
+                            ></c-rec-table>
+                        </div>
+                    </lightning-tab>
+                </lightning-tabset>
+
+                <!-- Selected Items -->
+                <div class="table-summary">
+                    <span class="table-meta">
+                        Rows: {displaySelectedItemRowCount} / Selected: {displaySelectedItemSelectedCount} / Settlement
+                        Currency: {displaySettlementCurrency} / Reconciled AMT: {reconciledAmount}
+                    </span>
+                    <div class="table-actions">
+                        <lightning-button
+                            label="Delete"
+                            icon-name="utility:delete"
+                            variant="destructive-text"
+                            disabled={actionBtnsDisabled}
+                            onclick={handleSelectedItemDelete}
+                        ></lightning-button>
+                    </div>
+                </div>
+
+                <div class="table-wrapper selected-items-table">
+                    <c-rec-table
+                        lwc:ref="selectedTable"
+                        key-field="Id"
+                        columns={selectedItemColumns}
+                        data={selectedItems}
+                        disabled-row-ids={selectedItemDisabledRowIds}
+                        onrowselection={handleSelectedItemRowSelection}
+                    ></c-rec-table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══ Section 3: Other Charges ═══ -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-header-left">
+                    <span class="section-title">Other Charges</span>
+                    <span class="section-notice">
+                        <lightning-icon icon-name="utility:info" size="xx-small" class="notice-icon"></lightning-icon>
+                        Other Charges are saved on Draft and applied upon Confirm.
+                    </span>
+                </div>
+                <div class="section-actions">
+                    <lightning-button-group>
+                        <lightning-button
+                            label="Delete"
+                            icon-name="utility:delete"
+                            variant="destructive-text"
+                            disabled={actionBtnsDisabled}
+                            onclick={handleOtherChargesDelete}
+                        ></lightning-button>
+                        <lightning-button
+                            label="Add"
+                            icon-name="utility:add"
+                            variant="neutral"
+                            disabled={actionBtnsDisabled}
+                            onclick={handleOtherChargesAdd}
+                        ></lightning-button>
+                    </lightning-button-group>
+                </div>
+            </div>
+            <div class="section-body">
+                <c-rec-table
+                    lwc:ref="otherChargesTable"
+                    key-field="Id"
+                    columns={otherChargesColumns}
+                    data={otherChargesData}
+                    disabled-row-ids={otherChargesDisabledRowIds}
+                    onrowselection={handleOtherChargesRowSelection}
+                    oncellchange={handleOtherChargesCellChange}
+                ></c-rec-table>
+            </div>
+        </div>
+    </div>
+</template>

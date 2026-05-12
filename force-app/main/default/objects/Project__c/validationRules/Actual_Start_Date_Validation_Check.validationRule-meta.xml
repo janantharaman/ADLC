@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Actual_Start_Date_Validation_Check</fullName>
+    <active>true</active>
+    <description>Actual End Date != Null &amp;&amp; Actual Start Date = Null</description>
+    <errorConditionFormula>ISBLANK(ActualStart__c)  &amp;&amp;  NOT(ISBLANK(ActualEnd__c) )</errorConditionFormula>
+    <errorDisplayField>ActualStart__c</errorDisplayField>
+    <errorMessage>Please Input Actual Start Date!</errorMessage>
+</ValidationRule>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>SOC</fullName>
+        <default>false</default>
+        <label>SOC</label>
+    </customValue>
+    <customValue>
+        <fullName>PLA</fullName>
+        <default>false</default>
+        <label>PLA</label>
+    </customValue>
+    <masterLabel>[CLM] Claim Doc Type</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

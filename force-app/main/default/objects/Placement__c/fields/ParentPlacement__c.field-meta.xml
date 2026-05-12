@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ParentPlacement__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>배서대상</description>
+    <label>END Target</label>
+    <referenceTo>Placement__c</referenceTo>
+    <relationshipLabel>Placements (END Target)</relationshipLabel>
+    <relationshipName>Placements_ParentPlacement</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

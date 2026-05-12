@@ -1,0 +1,230 @@
+<!--
+ * @filename      : clmSocPlaAllocationLineItems.html
+ * @project-name  : LK보험중계_신규계약관리시스템 구축
+ * @author        : i2max
+ * @date          : 2026-01-26 (월)
+ * @group         :
+ * @group-content :
+ * @description   :
+ * @reference     : 
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2026-01-26      i2max        Create
+-->
+<template>
+    <div class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="standard:partner_fund_claim" size="small"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span class="slds-truncate" title="Allocation Items">Claim Allocation</span>
+                    </h2>
+                </div>
+                <div class="slds-no-flex">
+                    <lightning-button-group>
+                        <lightning-button
+                                label={labels.COM_BTN_REFRESH}
+                                title={labels.COM_BTN_REFRESH}
+                                icon-name="utility:refresh"
+                                onclick={handleRefresh}>
+                        </lightning-button>
+                        <lightning-button
+                                label={labels.COM_BTN_DEL}
+                                title={labels.COM_BTN_DEL}
+                                icon-name="utility:delete"
+                                if:false={isDisabled}
+                                onclick={handleDelete}
+                                disabled={isDeleteDisabled}>
+                        </lightning-button>
+                    </lightning-button-group>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <div class="slds-scrollable_x">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" aria-label="Allocation Items">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th scope="col" style="width: 2rem;">
+                                <div class="slds-truncate" title="Select All">
+                                    <lightning-input
+                                            type="checkbox"
+                                            label=""
+                                            variant="label-hidden"
+                                            checked={isAllSelected}
+                                            onchange={handleSelectAll}>
+                                    </lightning-input>
+                                </div>
+                            </th>
+                            <th scope="col" style="width: 3rem;">
+                                <div class="slds-truncate" title={labelSeq}>{labelSeq}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title={labelType}>{labelType}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate slds-text-align_right" title={labelLoss}>{labelLoss}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate slds-text-align_right" title={labelExpense}>{labelExpense}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate slds-text-align_right" title={labelTotal}>{labelTotal}</div>
+                            </th>
+                            <th scope="col" style="width: 3rem;">
+                                <div class="slds-truncate" title={labelNo}>{labelNo}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title={labelReinsurer}>{labelReinsurer}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate slds-text-align_right" title={labelSigned}>{labelSigned}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate slds-text-align_right" title={labelTotalRI}>{labelTotalRI}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title={labelSettlementCurr}>{labelSettlementCurr}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate slds-text-align_right" title={labelTotalRISettled}>{labelTotalRISettled}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title={labelIssueDate}>{labelIssueDate}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title={labelFacility}>{labelFacility}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title={labelOffset}>{labelOffset}</div>
+                            </th>
+<!--                            <th scope="col" style="width: 3rem;">-->
+<!--                                <div class="slds-truncate" title="Action"></div>-->
+<!--                            </th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template if:true={hasItems}>
+                            <template for:each={displayItems} for:item="item">
+                                <tr key={item.Id} class={item.rowClass}>
+                                    <template if:true={item.isFirstInGroup}>
+
+                                    <td rowspan={item.rowSpan} data-label="Select">
+                                        <div class="slds-truncate">
+                                            <lightning-input
+                                                    type="checkbox"
+                                                    label=""
+                                                    variant="label-hidden"
+                                                    checked={item.isSelected}
+                                                    data-id={item.Id}
+                                                    onchange={handleRowSelect}>
+                                            </lightning-input>
+                                        </div>
+                                    </td>
+                                    <td rowspan={item.rowSpan} data-label="Seq">
+                                        <div class="slds-truncate" title={item.PanelGroupSeq__c}>{item.PanelGroupSeq__c}</div>
+                                    </td>
+                                    <td rowspan={item.rowSpan} data-label="Type">
+                                        <div class="slds-truncate" title={item.ClaimDocType__c}>{item.ClaimDocType__c}</div>
+                                    </td>
+                                    <td rowspan={item.rowSpan} data-label="Loss Amount">
+                                        <div class="slds-truncate slds-text-align_right">
+                                            <lightning-formatted-number value={item.LossAmt__c} format-style="decimal" minimum-fraction-digits={currencyScale}></lightning-formatted-number>
+                                        </div>
+                                    </td>
+                                    <td rowspan={item.rowSpan} data-label="Expense Amount">
+                                        <div class="slds-truncate slds-text-align_right">
+                                            <lightning-formatted-number value={item.ExpAmt__c} format-style="decimal" minimum-fraction-digits={currencyScale}></lightning-formatted-number>
+                                        </div>
+                                    </td>
+                                    <td rowspan={item.rowSpan} data-label="Total Amount">
+                                        <div class="slds-truncate slds-text-align_right">
+                                            <lightning-formatted-number value={item.AllocatedTotalAmt_fm__c} format-style="decimal" minimum-fraction-digits={currencyScale}></lightning-formatted-number>
+                                        </div>
+                                    </td>
+                                    </template>
+                                    <td data-label="No">
+                                        <div class="slds-truncate" title={item._rowNo}>{item._rowNo}</div>
+                                    </td>
+                                    <td data-label="Reinsurer">
+                                        <div class="slds-truncate slds-text-align_left" title={item.reinsurerName}>
+                                            <lightning-formatted-url
+                                                    label={item.reinsurerName}
+                                                    value={item.reinsurerUrl}
+                                                    tooltip={item.reinsurerName}
+                                                    target="_blank"
+                                            >
+                                            </lightning-formatted-url>
+                                        </div>
+                                    </td>
+                                    <td data-label="Signed Line">
+                                        <div class="slds-truncate slds-text-align_right">
+                                            <lightning-formatted-number value={item.SignedLine__c} format-style="decimal" minimum-fraction-digits={currencyScale}></lightning-formatted-number>
+                                        </div>
+                                    </td>
+                                    <td data-label="Total Amount (RI)">
+                                        <div class="slds-truncate slds-text-align_right">
+                                            <lightning-formatted-number value={item.TotalAmtForRI__c} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number>
+                                        </div>
+                                    </td>
+                                    <td data-label="Settlement Currency">
+                                        <div class="slds-truncate" title={item.SettlementCurrency__c}>{item.SettlementCurrency__c}</div>
+                                    </td>
+                                    <td data-label="Total Amount (RI Settled)">
+                                        <div class="slds-truncate slds-text-align_right">
+                                            <lightning-formatted-number value={item.TotalAmtForRISettled__c} format-style="decimal" minimum-fraction-digits="2" maximum-fraction-digits="2"></lightning-formatted-number>
+                                        </div>
+                                    </td>
+                                    <td data-label="Issue Date">
+                                        <div class="slds-truncate" title={item.IssueDate_fm__c}>
+                                            <lightning-formatted-date-time
+                                                    value={item.IssueDate_fm__c}
+                                                    year="numeric"
+                                                    month="numeric"
+                                                    day="numeric"
+                                                    hour="2-digit"
+                                                    minute="2-digit">
+                                            </lightning-formatted-date-time>
+                                        </div>
+                                    </td>
+                                    <td data-label="Facility/MGA Name">
+                                        <div class="slds-truncate slds-text-align_left" title={item.facilityName}>
+                                            <lightning-formatted-url
+                                                    label={item.facilityName}
+                                                    value={item.facilityUrl}
+                                                    tooltip={item.facilityName}
+                                                    target="_blank"
+                                            >
+                                            </lightning-formatted-url>
+                                        </div>
+                                    </td>
+                                    <td data-label="Offset">
+                                        <div class="slds-align_absolute-center">
+                                            <lightning-input
+                                                    label=""
+                                                    variant="label-hidden"
+                                                    type="checkbox"
+                                                    disabled="true"
+                                                    checked={item.ClaimOffset_is__c}
+                                            >
+                                            </lightning-input>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </template>
+                        <template if:false={hasItems}>
+                            <c-com-no-records></c-com-no-records>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,841 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_5</activeVersionIdentifier>
+    <description>InsurancePolicyExtractionAllFieldsJson for EAL</description>
+    <developerName>EAL_InsurancePolicyExtractionAllFieldsJson</developerName>
+    <masterLabel>EAL_ InsurancePolicyExtractionAllFieldsJson</masterLabel>
+    <overridable>false</overridable>
+    <templateVersions>
+        <content>Role
+Insurance Data Extraction Specialist
+Task
+Analyze the provided insurance proposal (slip) to extract key data and organize it into a structured format.
+Requirements
+Language: Please write all field names and data in &apos;Korean&apos;.
+Accuracy: Extract data exactly as written in the document, ensuring there are no typos.
+Structure: Organize the data into the following 3 sections.
+
+
+Output Format:
+
+{
+ &quot;1_basic_policy_info&quot;: {
+  &quot;description&quot;: &quot;Basic contract details&quot;,
+  &quot;fields&quot;: {
+   &quot;proposal_number&quot;: &quot;[Content]&quot;,
+   &quot;policyholder_name&quot;: &quot;[Content]&quot;,
+   &quot;business_license_number&quot;: &quot;[Content]&quot;,
+   &quot;insurance_period&quot;: &quot;[YYYY-MM-DD] ~ [YYYY-MM-DD]&quot;,
+   &quot;total_premium&quot;: &quot;[Amount (KRW)]&quot;,
+   &quot;branch_handler&quot;: &quot;[Content]&quot;,
+   &quot;common_special_terms&quot;: &quot;[List of special terms applicable to all groups]&quot;
+  }
+ },
+ &quot;2_coverage_groups&quot;: {
+  &quot;description&quot;: &quot;List by group referring to &apos;Object Classification&apos; and &apos;Limit of Liability per Coverage&apos; tables. Must include liability limits and deductibles applicable to each group.&quot;,
+  &quot;items&quot;: [
+   {
+    &quot;group_name&quot;: &quot;[e.g., Elevator Liability 1]&quot;,
+    &quot;object_description&quot;: &quot;[e.g., Passenger &lt; 20 persons / &lt; 5 floors]&quot;,
+    &quot;count&quot;: &quot;[Number of units]&quot;,
+    &quot;bodily_injury_limit_per_person&quot;: &quot;[Amount]&quot;,
+    &quot;property_damage_limit_per_accident&quot;: &quot;[Amount]&quot;,
+    &quot;deductible&quot;: &quot;[Amount]&quot;,
+    &quot;group_premium&quot;: &quot;[Amount (WON)]&quot;
+   }
+  ]
+ },
+ &quot;3_elevator_assets&quot;: {
+  &quot;description&quot;: &quot;Extract individual elevator information referring to the &apos;Elevator Specification&apos; pages at the end of the document.&quot;,
+  &quot;items&quot;: [
+   {
+    &quot;serial_number_id&quot;: &quot;[Number]&quot;,
+    &quot;location_full_address&quot;: &quot;[Full Address]&quot;,
+    &quot;elevator_type_group&quot;: &quot;[e.g., Group 1]&quot;,
+    &quot;status&quot;: &quot;[e.g., New]&quot;
+   }
+  ]
+ }
+}
+
+Instruction: Using the format of the 3 sections above, please extract and organize all elevator data and all group ($1\sim6$) information from the file without omission.
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Draft</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an Elevator Liability Insurance Data Analysis and Extraction Specialist. Analyze the input insurance policy text and extract structured data to create Salesforce records. Your task is to process the attached Elevator Liability Insurance (승강기사고배상책임보험) application and return the data as a single, valid JSON object.
+Input Text: {!$RecordSnapshot:ContentDocument.Snapshot}
+INSTRUCTIONS:
+1. Extract All Key Information from the &apos;기본사항&apos; (Basic Info), &apos;목적물 부호&apos; (Risk/Elevator Details), &apos;보험료사항&apos; (Premium), and &apos;승강기명세&apos; (Elevator Specification) sections.
+2. Strict JSON Format: The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory, descriptive, or concluding text.
+3. Data Cleansing: Remove ALL currency symbols (WON, KRW) and commas (,) from numeric values (e.g., &quot;1,072,950&quot; becomes 1072950.00).
+4. Date Formatting: Dates must be returned in &apos;YYYY-MM-DD&apos; format.
+5. Handling Missing Data: If a number is explicitly non-numeric (e.g., &quot;Unavailable&quot;, &quot;Not specified&quot;), return the value as 0.
+6. Asset Mapping: In this context, an &quot;Asset&quot; corresponds to a specific Elevator Group or Individual Elevator (e.g., &quot;Group 1 - Passenger Elevator &lt; 20 persons&quot;).
+7. Section Classification (Adapted for Elevator Insurance):
+Section I (Liability): Bodily Injury &amp; Property Damage Liability (대인/대물 배상책임).
+Please label the coverage sections accordingly.
+
+Task: Extract data for the following objects and map them to the JSON structure provided below:
+1. InsurancePolicy: Basic policy info (Policy No, Dates, Totals).
+2. InsurancePolicyParticipant: Parties involved (Insurer, Policyholder).
+3. InsurancePolicyAsset: Map each &quot;Elevator Group&quot; (목적물 구분) as an Asset. Note: Use AssetDescription to capture the elevator type and specs (e.g., &quot;Passenger &lt; 20 persons / 5 floors or less&quot;).
+4. InsurancePolicyProductClause: Special clauses or warranties mentioned (e.g., &quot;Cyber Risk Exclusion&quot;).
+5. InsurancePolicyCoverage: High-level coverage (Liability) linked to each Elevator Group.
+6. InsurancePolicyCoverageLineitem: Specific liability limits (Bodily Injury, Property Damage) for each group.
+
+Rules:
+Dates: Format as YYYY-MM-DD.
+Numbers: Remove commas and currency symbols.
+Links: For &quot;LinkedAssetName&quot; in Coverages, use the exact name of the Elevator Group listed in the &quot;assets&quot; array.
+Premiums: Sum the individual group premiums to get the total if needed, but map specific group premiums to their respective sections.
+
+JSON Output:
+{
+ &quot;Name&quot;: &quot;RQ25-60447640&quot;,
+ &quot;NameContractor&quot;: &quot;Coca-Cola Beverage Co., Ltd.&quot;,
+ &quot;EffectiveDate&quot;: &quot;2025-09-09&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;2025-09-26&quot;,
+ &quot;EffectiveToDate&quot;: &quot;2026-09-26&quot;,
+ &quot;TotalSumInsured&quot;: 0.00, 
+ &quot;PremiumAmount&quot;: 157900.00,
+ &quot;CurrencyVal&quot;: &quot;WON&quot;,
+ &quot;Facility_lk&quot;: &quot;Elevators at Multiple Locations&quot;,
+ &quot;participants&quot;: [
+ {
+  &quot;ParticipantName&quot;: &quot;KB Insurance&quot;,
+  &quot;IsPolicyholder&quot;: true,
+  &quot;BeneficiarySharePercentage&quot;: null
+ }
+ ],
+ &quot;assets&quot;: [
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 1&quot;,
+  &quot;AssetLocation&quot;: &quot;139-77 Anyang-si Manan-gu Bakdal-ro 337&quot;,
+  &quot;AssetDescription&quot;: &quot;Passenger Elevator &lt; 20 persons / 5 floors or less (Qty: 1)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 2&quot;,
+  &quot;AssetLocation&quot;: &quot;139-77 Anyang-si Manan-gu Bakdal-ro 337&quot;,
+  &quot;AssetDescription&quot;: &quot;Passenger Elevator &lt; 20 persons / 5-25 floors (Qty: 1)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 3&quot;,
+  &quot;AssetLocation&quot;: &quot;505-92 Yangsan-si Chungryeol-ro 269&quot;,
+  &quot;AssetDescription&quot;: &quot;Freight Elevator &lt; 1 ton / 5 floors or less (Qty: 2)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 4&quot;,
+  &quot;AssetLocation&quot;: &quot;505-92 Yangsan-si Chungryeol-ro 269&quot;,
+  &quot;AssetDescription&quot;: &quot;Freight Elevator &lt; 2 tons / 5 floors or less (Qty: 2)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 5&quot;,
+  &quot;AssetLocation&quot;: &quot;158-42 Gunpo-si LS-ro 45beon-gil 105-1&quot;,
+  &quot;AssetDescription&quot;: &quot;Freight Elevator &lt; 4 tons / 5 floors or less (Qty: 2)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 6&quot;,
+  &quot;AssetLocation&quot;: &quot;126-53 Yeoju-si Sejong-ro 415&quot;,
+  &quot;AssetDescription&quot;: &quot;Freight Elevator &lt; 5 tons / 5 floors or less (Qty: 2)&quot;
+ }
+ ],
+ &quot;productClauses&quot;: [
+ {
+  &quot;Name&quot;: &quot;Elevator Liability Insurance Conditions&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;Cyber Risk Exclusion Clause&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;Date Recognition Error Exclusion Clause&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;Sanction Limitation and Exclusion Clause&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ }
+ ],
+ &quot;coverages&quot;: [
+ {
+  &quot;CategoryGroup&quot;: &quot;I. Elevator Liability&quot;,
+  &quot;CoverageSumInsured&quot;: 0.00, 
+  &quot;SectionSumInsured&quot;: 0.00,
+  &quot;CoveragePremiumAmount&quot;: 7266.00,
+  &quot;SectionPremiumAmount&quot;: 7266.00,
+  &quot;CoverageDeductibleAmount&quot;: 100000.00,
+  &quot;Description&quot;: &quot;Liability Coverage for Group 1&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;Elevator Group 1&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Bodily Injury&quot;,
+   &quot;Risk_Type&quot;: &quot;Liability Limit&quot;,
+   &quot;Risk_Details&quot;: &quot;Per Person Limit&quot;,
+   &quot;Risk_Insured_Amount&quot;: 80000000.00, 
+   &quot;Risk_Premium_Amount&quot;: 6555.00,
+   &quot;Risk_Deductible&quot;: 100000.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;I. Elevator Liability&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Liability&quot;
+  },
+  {
+   &quot;Risk_Name&quot;: &quot;Property Damage&quot;,
+   &quot;Risk_Type&quot;: &quot;Liability Limit&quot;,
+   &quot;Risk_Details&quot;: &quot;Per Accident Limit&quot;,
+   &quot;Risk_Insured_Amount&quot;: 10000000.00,
+   &quot;Risk_Premium_Amount&quot;: 711.00,
+   &quot;Risk_Deductible&quot;: 100000.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;I. Elevator Liability&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Liability&quot;
+  }
+  ]
+ },
+ {
+  &quot;CategoryGroup&quot;: &quot;I. Elevator Liability&quot;,
+  &quot;CoverageSumInsured&quot;: 0.00,
+  &quot;SectionSumInsured&quot;: 0.00,
+  &quot;CoveragePremiumAmount&quot;: 8630.00,
+  &quot;SectionPremiumAmount&quot;: 8630.00,
+  &quot;CoverageDeductibleAmount&quot;: 100000.00,
+  &quot;Description&quot;: &quot;Liability Coverage for Group 2&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;Elevator Group 2&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Bodily Injury&quot;,
+   &quot;Risk_Type&quot;: &quot;Liability Limit&quot;,
+   &quot;Risk_Details&quot;: &quot;Per Person Limit&quot;,
+   &quot;Risk_Insured_Amount&quot;: 80000000.00,
+   &quot;Risk_Premium_Amount&quot;: 7794.00,
+   &quot;Risk_Deductible&quot;: 100000.00,
+   &quot;Risk_Rate&quot;: 0.00,
+   &quot;Category_Group&quot;: &quot;I. Elevator Liability&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Liability&quot;
+  },
+  {
+   &quot;Risk_Name&quot;: &quot;Property Damage&quot;,
+   &quot;Risk_Type&quot;: &quot;Liability Limit&quot;,
+   &quot;Risk_Details&quot;: &quot;Per Accident Limit&quot;,
+   &quot;Risk_Insured_Amount&quot;: 10000000.00,
+   &quot;Risk_Premium_Amount&quot;: 836.00,
+   &quot;Risk_Deductible&quot;: 100000.00,
+   &quot;Risk_Rate&quot;: 0.00,
+   &quot;Category_Group&quot;: &quot;I. Elevator Liability&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Liability&quot;
+  }
+  ]
+ }
+ ]
+}
+
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:ContentDocument.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:ContentDocument</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_2</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an Elevator Liability Insurance Data Analysis and Extraction Specialist. Analyze the input insurance policy text and extract structured data to create Salesforce records. Your task is to process the attached Elevator Liability Insurance (승강기사고배상책임보험) application and return the data as a single, valid JSON object.
+Input Text: {!$RecordSnapshot:ContentDocument.Snapshot}
+INSTRUCTIONS:
+1. Extract All Key Information from the &apos;기본사항&apos; (Basic Info), &apos;목적물 부호&apos; (Risk/Elevator Details), &apos;보험료사항&apos; (Premium), and &apos;승강기명세&apos; (Elevator Specification) sections.
+2. Strict JSON Format: The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory, descriptive, or concluding text.
+3. Data Cleansing: Remove ALL currency symbols (WON, KRW) and commas (,) from numeric values (e.g., &quot;1,072,950&quot; becomes 1072950.00).
+4. Date Formatting: Dates must be returned in &apos;YYYY-MM-DD&apos; format.
+5. Handling Missing Data: If a number is explicitly non-numeric (e.g., &quot;Unavailable&quot;, &quot;Not specified&quot;), return the value as 0.
+6. Asset Mapping: In this context, an &quot;Asset&quot; corresponds to a specific Elevator Group or Individual Elevator (e.g., &quot;Group 1 - Passenger Elevator &lt; 20 persons&quot;).
+7. Section Classification (Adapted for Elevator Insurance):
+Section I (Liability): Bodily Injury &amp; Property Damage Liability (대인/대물 배상책임).
+Please label the coverage sections accordingly.
+
+Task: Extract data for the following objects and map them to the JSON structure provided below:
+1. InsurancePolicy: Basic policy info (Policy No, Dates, Totals).
+2. InsurancePolicyParticipant: Parties involved (Insurer, Policyholder).
+3. InsurancePolicyAsset: Map each &quot;Elevator Group&quot; (목적물 구분) as an Asset. Note: Use AssetDescription to capture the elevator type and specs (e.g., &quot;Passenger &lt; 20 persons / 5 floors or less&quot;).
+4. InsurancePolicyProductClause: Special clauses or warranties mentioned (e.g., &quot;Cyber Risk Exclusion&quot;).
+5. InsurancePolicyCoverage: High-level coverage (Liability) linked to each Elevator Group.
+6. InsurancePolicyCoverageLineitem: Specific liability limits (Bodily Injury, Property Damage) for each group.
+
+Rules:
+Dates: Format as YYYY-MM-DD.
+Numbers: Remove commas and currency symbols.
+Links: For &quot;LinkedAssetName&quot; in Coverages, use the exact name of the Elevator Group listed in the &quot;assets&quot; array.
+Premiums: Sum the individual group premiums to get the total if needed, but map specific group premiums to their respective sections.
+
+JSON Output:
+{
+ &quot;Name&quot;: &quot;RQ25-60447640&quot;,
+ &quot;NameContractor&quot;: &quot;Coca-Cola Beverage Co., Ltd.&quot;,
+ &quot;EffectiveDate&quot;: &quot;2025-09-09&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;2025-09-26&quot;,
+ &quot;EffectiveToDate&quot;: &quot;2026-09-26&quot;,
+ &quot;TotalSumInsured&quot;: 0.00, 
+ &quot;PremiumAmount&quot;: 157900.00,
+ &quot;CurrencyVal&quot;: &quot;WON&quot;,
+ &quot;Facility_lk&quot;: &quot;Elevators at Multiple Locations&quot;,
+ &quot;participants&quot;: [
+ {
+  &quot;ParticipantName&quot;: &quot;KB Insurance&quot;,
+  &quot;IsPolicyholder&quot;: true,
+  &quot;BeneficiarySharePercentage&quot;: null
+ }
+ ],
+ &quot;assets&quot;: [
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 1&quot;,
+  &quot;AssetLocation&quot;: &quot;139-77 Anyang-si Manan-gu Bakdal-ro 337&quot;,
+  &quot;AssetDescription&quot;: &quot;Passenger Elevator &lt; 20 persons / 5 floors or less (Qty: 1)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 2&quot;,
+  &quot;AssetLocation&quot;: &quot;139-77 Anyang-si Manan-gu Bakdal-ro 337&quot;,
+  &quot;AssetDescription&quot;: &quot;Passenger Elevator &lt; 20 persons / 5-25 floors (Qty: 1)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 3&quot;,
+  &quot;AssetLocation&quot;: &quot;505-92 Yangsan-si Chungryeol-ro 269&quot;,
+  &quot;AssetDescription&quot;: &quot;Freight Elevator &lt; 1 ton / 5 floors or less (Qty: 2)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 4&quot;,
+  &quot;AssetLocation&quot;: &quot;505-92 Yangsan-si Chungryeol-ro 269&quot;,
+  &quot;AssetDescription&quot;: &quot;Freight Elevator &lt; 2 tons / 5 floors or less (Qty: 2)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 5&quot;,
+  &quot;AssetLocation&quot;: &quot;158-42 Gunpo-si LS-ro 45beon-gil 105-1&quot;,
+  &quot;AssetDescription&quot;: &quot;Freight Elevator &lt; 4 tons / 5 floors or less (Qty: 2)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 6&quot;,
+  &quot;AssetLocation&quot;: &quot;126-53 Yeoju-si Sejong-ro 415&quot;,
+  &quot;AssetDescription&quot;: &quot;Freight Elevator &lt; 5 tons / 5 floors or less (Qty: 2)&quot;
+ }
+ ],
+ &quot;productClauses&quot;: [
+ {
+  &quot;Name&quot;: &quot;Elevator Liability Insurance Conditions&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;Cyber Risk Exclusion Clause&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;Date Recognition Error Exclusion Clause&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;Sanction Limitation and Exclusion Clause&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ }
+ ],
+ &quot;coverages&quot;: [
+ {
+  &quot;CategoryGroup&quot;: &quot;I. Elevator Liability&quot;,
+  &quot;CoverageSumInsured&quot;: 0.00, 
+  &quot;SectionSumInsured&quot;: 0.00,
+  &quot;CoveragePremiumAmount&quot;: 7266.00,
+  &quot;SectionPremiumAmount&quot;: 7266.00,
+  &quot;CoverageDeductibleAmount&quot;: 100000.00,
+  &quot;Description&quot;: &quot;Liability Coverage for Group 1&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;Elevator Group 1&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Bodily Injury&quot;,
+   &quot;Risk_Type&quot;: &quot;Liability Limit&quot;,
+   &quot;Risk_Details&quot;: &quot;Per Person Limit&quot;,
+   &quot;Risk_Insured_Amount&quot;: 80000000.00, 
+   &quot;Risk_Premium_Amount&quot;: 6555.00,
+   &quot;Risk_Deductible&quot;: 100000.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;I. Elevator Liability&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Liability&quot;
+  },
+  {
+   &quot;Risk_Name&quot;: &quot;Property Damage&quot;,
+   &quot;Risk_Type&quot;: &quot;Liability Limit&quot;,
+   &quot;Risk_Details&quot;: &quot;Per Accident Limit&quot;,
+   &quot;Risk_Insured_Amount&quot;: 10000000.00,
+   &quot;Risk_Premium_Amount&quot;: 711.00,
+   &quot;Risk_Deductible&quot;: 100000.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;I. Elevator Liability&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Liability&quot;
+  }
+  ]
+ },
+ {
+  &quot;CategoryGroup&quot;: &quot;I. Elevator Liability&quot;,
+  &quot;CoverageSumInsured&quot;: 0.00,
+  &quot;SectionSumInsured&quot;: 0.00,
+  &quot;CoveragePremiumAmount&quot;: 8630.00,
+  &quot;SectionPremiumAmount&quot;: 8630.00,
+  &quot;CoverageDeductibleAmount&quot;: 100000.00,
+  &quot;Description&quot;: &quot;Liability Coverage for Group 2&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;Elevator Group 2&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Bodily Injury&quot;,
+   &quot;Risk_Type&quot;: &quot;Liability Limit&quot;,
+   &quot;Risk_Details&quot;: &quot;Per Person Limit&quot;,
+   &quot;Risk_Insured_Amount&quot;: 80000000.00,
+   &quot;Risk_Premium_Amount&quot;: 7794.00,
+   &quot;Risk_Deductible&quot;: 100000.00,
+   &quot;Risk_Rate&quot;: 0.00,
+   &quot;Category_Group&quot;: &quot;I. Elevator Liability&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Liability&quot;
+  },
+  {
+   &quot;Risk_Name&quot;: &quot;Property Damage&quot;,
+   &quot;Risk_Type&quot;: &quot;Liability Limit&quot;,
+   &quot;Risk_Details&quot;: &quot;Per Accident Limit&quot;,
+   &quot;Risk_Insured_Amount&quot;: 10000000.00,
+   &quot;Risk_Premium_Amount&quot;: 836.00,
+   &quot;Risk_Deductible&quot;: 100000.00,
+   &quot;Risk_Rate&quot;: 0.00,
+   &quot;Category_Group&quot;: &quot;I. Elevator Liability&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Liability&quot;
+  }
+  ]
+ }
+ ]
+}
+
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:ContentDocument.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:ContentDocument</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_3</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an Elevator Liability Insurance Data Analysis and Extraction Specialist. Analyze the input insurance policy text and extract structured data to create Salesforce records. Your task is to process the attached Elevator Liability Insurance (승강기사고배상책임보험) application and return the data as a single, valid JSON object.
+Input Text: {!$RecordSnapshot:ContentDocument.Snapshot}
+INSTRUCTIONS:
+1. Extract All Key Information from the &apos;ContExtract All Key Information from the &apos;Contract Essentials&apos;, &apos;Premium Details&apos;, &apos;Insured Group Details&apos;, and &apos;Coverage Details&apos; tables.
+2. Strict JSON Format: The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory, descriptive, or concluding text.
+3. Data Cleansing: Remove ALL currency symbols (WON, KRW) and commas (,) from numeric values (e.g., &quot;1,072,950&quot; becomes 1072950.00).
+4. Date Formatting: Dates must be returned in &apos;YYYY-MM-DD&apos; format.
+5. Handling Missing Data: If a number is explicitly non-numeric (e.g., &quot;Unavailable&quot;, &quot;Not specified&quot;), return the value as 0.
+6. Asset Mapping: In this context, an &quot;Asset&quot; corresponds to a specific Elevator Group or Individual Elevator (e.g., &quot;Group 1 - Passenger Elevator &lt; 20 persons&quot;).
+7. Section Classification (Adapted for Insurance): Please label the coverage sections accordingly.
+
+Task: Extract data for the following objects and map them to the JSON structure provided below in its original language exactly as written :
+1. InsurancePolicy: Basic policy info (Policy No, Dates, Totals).
+2. InsurancePolicyParticipant: Parties involved (Insurer, Policyholder).
+3. InsurancePolicyAsset: Map each &quot;Insured Group&quot; as an Asset. Note: Use AssetDescription to capture the elevator type and specs .
+4. InsurancePolicyProductClause: Special clauses or warranties mentioned (e.g., &quot;Cyber Risk Exclusion&quot;).
+5. InsurancePolicyCoverage: High-level coverage (Liability) linked to each Elevator Group.
+6. InsurancePolicyCoverageLineitem: Specific liability limits (Bodily Injury, Property Damage) for each group.
+
+Rules:
+Dates: Format as YYYY-MM-DD.
+Numbers: Remove commas and currency symbols.
+Links: For &quot;LinkedAssetName&quot; in Coverages, use the exact name of the Elevator Group listed in the &quot;assets&quot; array.
+Premiums: Sum the individual group premiums to get the total if needed, but map specific group premiums to their respective sections.
+
+JSON Output:
+{
+ &quot;Name&quot;: &quot;RQ25-60447640&quot;,
+ &quot;NameContractor&quot;: &quot;Coca-Cola Beverage Co., Ltd.&quot;,
+ &quot;EffectiveDate&quot;: &quot;2025-09-09&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;2025-09-26&quot;,
+ &quot;EffectiveToDate&quot;: &quot;2026-09-26&quot;,
+ &quot;TotalSumInsured&quot;: 0.00, 
+ &quot;PremiumAmount&quot;: 157900.00,
+ &quot;CurrencyVal&quot;: &quot;WON&quot;,
+ &quot;Facility_lk&quot;: &quot;Elevators at Multiple Locations&quot;,
+ &quot;participants&quot;: [
+ {
+  &quot;ParticipantName&quot;: &quot;KB Insurance&quot;,
+  &quot;IsPolicyholder&quot;: true,
+  &quot;BeneficiarySharePercentage&quot;: null
+ }
+ ],
+ &quot;assets&quot;: [
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 1&quot;,
+  &quot;AssetLocation&quot;: &quot;139-77 Anyang-si Manan-gu Bakdal-ro 337&quot;,
+  &quot;AssetDescription&quot;: &quot;Passenger Elevator &lt; 20 persons / 5 floors or less (Qty: 1)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 2&quot;,
+  &quot;AssetLocation&quot;: &quot;139-77 Anyang-si Manan-gu Bakdal-ro 337&quot;,
+  &quot;AssetDescription&quot;: &quot;Passenger Elevator &lt; 20 persons / 5-25 floors (Qty: 1)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 3&quot;,
+  &quot;AssetLocation&quot;: &quot;505-92 Yangsan-si Chungryeol-ro 269&quot;,
+  &quot;AssetDescription&quot;: &quot;Freight Elevator &lt; 1 ton / 5 floors or less (Qty: 2)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 4&quot;,
+  &quot;AssetLocation&quot;: &quot;505-92 Yangsan-si Chungryeol-ro 269&quot;,
+  &quot;AssetDescription&quot;: &quot;Freight Elevator &lt; 2 tons / 5 floors or less (Qty: 2)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 5&quot;,
+  &quot;AssetLocation&quot;: &quot;158-42 Gunpo-si LS-ro 45beon-gil 105-1&quot;,
+  &quot;AssetDescription&quot;: &quot;Freight Elevator &lt; 4 tons / 5 floors or less (Qty: 2)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 6&quot;,
+  &quot;AssetLocation&quot;: &quot;126-53 Yeoju-si Sejong-ro 415&quot;,
+  &quot;AssetDescription&quot;: &quot;Freight Elevator &lt; 5 tons / 5 floors or less (Qty: 2)&quot;
+ }
+ ],
+ &quot;productClauses&quot;: [
+ {
+  &quot;Name&quot;: &quot;Elevator Liability Insurance Conditions&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;Cyber Risk Exclusion Clause&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;Date Recognition Error Exclusion Clause&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;Sanction Limitation and Exclusion Clause&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ }
+ ],
+ &quot;coverages&quot;: [
+ {
+  &quot;CategoryGroup&quot;: &quot;I. Elevator Liability&quot;,
+  &quot;CoverageSumInsured&quot;: 0.00, 
+  &quot;SectionSumInsured&quot;: 0.00,
+  &quot;CoveragePremiumAmount&quot;: 7266.00,
+  &quot;SectionPremiumAmount&quot;: 7266.00,
+  &quot;CoverageDeductibleAmount&quot;: 100000.00,
+  &quot;Description&quot;: &quot;Liability Coverage for Group 1&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;Elevator Group 1&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Bodily Injury&quot;,
+   &quot;Risk_Type&quot;: &quot;Liability Limit&quot;,
+   &quot;Risk_Details&quot;: &quot;Per Person Limit&quot;,
+   &quot;Risk_Insured_Amount&quot;: 80000000.00, 
+   &quot;Risk_Premium_Amount&quot;: 6555.00,
+   &quot;Risk_Deductible&quot;: 100000.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;I. Elevator Liability&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Liability&quot;
+  },
+  {
+   &quot;Risk_Name&quot;: &quot;Property Damage&quot;,
+   &quot;Risk_Type&quot;: &quot;Liability Limit&quot;,
+   &quot;Risk_Details&quot;: &quot;Per Accident Limit&quot;,
+   &quot;Risk_Insured_Amount&quot;: 10000000.00,
+   &quot;Risk_Premium_Amount&quot;: 711.00,
+   &quot;Risk_Deductible&quot;: 100000.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;I. Elevator Liability&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Liability&quot;
+  }
+  ]
+ },
+ {
+  &quot;CategoryGroup&quot;: &quot;I. Elevator Liability&quot;,
+  &quot;CoverageSumInsured&quot;: 0.00,
+  &quot;SectionSumInsured&quot;: 0.00,
+  &quot;CoveragePremiumAmount&quot;: 8630.00,
+  &quot;SectionPremiumAmount&quot;: 8630.00,
+  &quot;CoverageDeductibleAmount&quot;: 100000.00,
+  &quot;Description&quot;: &quot;Liability Coverage for Group 2&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;Elevator Group 2&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Bodily Injury&quot;,
+   &quot;Risk_Type&quot;: &quot;Liability Limit&quot;,
+   &quot;Risk_Details&quot;: &quot;Per Person Limit&quot;,
+   &quot;Risk_Insured_Amount&quot;: 80000000.00,
+   &quot;Risk_Premium_Amount&quot;: 7794.00,
+   &quot;Risk_Deductible&quot;: 100000.00,
+   &quot;Risk_Rate&quot;: 0.00,
+   &quot;Category_Group&quot;: &quot;I. Elevator Liability&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Liability&quot;
+  },
+  {
+   &quot;Risk_Name&quot;: &quot;Property Damage&quot;,
+   &quot;Risk_Type&quot;: &quot;Liability Limit&quot;,
+   &quot;Risk_Details&quot;: &quot;Per Accident Limit&quot;,
+   &quot;Risk_Insured_Amount&quot;: 10000000.00,
+   &quot;Risk_Premium_Amount&quot;: 836.00,
+   &quot;Risk_Deductible&quot;: 100000.00,
+   &quot;Risk_Rate&quot;: 0.00,
+   &quot;Category_Group&quot;: &quot;I. Elevator Liability&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Liability&quot;
+  }
+  ]
+ }
+ ]
+}
+
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:ContentDocument.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:ContentDocument</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_5</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an Elevator Liability Insurance Data Analysis and Extraction Specialist. Analyze the input insurance policy text and extract structured data to create Salesforce records. Your task is to process the attached Elevator Liability Insurance (승강기사고배상책임보험) application and return the data as a single, valid JSON object.
+Input Text: {!$RecordSnapshot:ContentDocument.Snapshot}
+INSTRUCTIONS:
+1. Extract All Key Information from the &apos;기본사항&apos; (Basic Info), &apos;목적물 부호&apos; (Risk/Elevator Details), &apos;보험료사항&apos; (Premium), and &apos;승강기명세&apos; (Elevator Specification) sections.
+2. Strict JSON Format: The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory, descriptive, or concluding text.
+3. Data Cleansing: Remove ALL currency symbols (WON, KRW) and commas (,) from numeric values (e.g., &quot;1,072,950&quot; becomes 1072950.00).
+4. Date Formatting: Dates must be returned in &apos;YYYY-MM-DD&apos; format.
+5. Handling Missing Data: If a number is explicitly non-numeric (e.g., &quot;Unavailable&quot;, &quot;Not specified&quot;), return the value as 0.
+6. Asset Mapping: In this context, an &quot;Asset&quot; corresponds to a specific Elevator Group or Individual Elevator (e.g., &quot;Group 1 - Passenger Elevator &lt; 20 persons&quot;).
+7. Section Classification (Adapted for Elevator Insurance):
+Section I (Liability): Bodily Injury &amp; Property Damage Liability (대인/대물 배상책임).
+Please label the coverage sections accordingly.
+
+Task: Extract data for the following objects and map them to the JSON structure provided below in its original language exactly as written :
+1. InsurancePolicy: Basic policy info (Policy No, Dates, Totals).
+2. InsurancePolicyParticipant: Parties involved (Insurer, Policyholder).
+3. InsurancePolicyAsset: Map each &quot;Elevator Group&quot; (목적물 구분) as an Asset. Note: Use AssetDescription to capture the elevator type and specs (e.g., &quot;Passenger &lt; 20 persons / 5 floors or less&quot;).
+4. InsurancePolicyProductClause: Special clauses or warranties mentioned (e.g., &quot;Cyber Risk Exclusion&quot;).
+5. InsurancePolicyCoverage: High-level coverage (Liability) linked to each Elevator Group.
+6. InsurancePolicyCoverageLineitem: Specific liability limits (Bodily Injury, Property Damage) for each group.
+
+Rules:
+Dates: Format as YYYY-MM-DD.
+Numbers: Remove commas and currency symbols.
+Links: For &quot;LinkedAssetName&quot; in Coverages, use the exact name of the Elevator Group listed in the &quot;assets&quot; array.
+Premiums: Sum the individual group premiums to get the total if needed, but map specific group premiums to their respective sections.
+
+JSON Output:
+{
+ &quot;Name&quot;: &quot;RQ25-60447640&quot;,
+ &quot;NameContractor&quot;: &quot;Coca-Cola Beverage Co., Ltd.&quot;,
+ &quot;EffectiveDate&quot;: &quot;2025-09-09&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;2025-09-26&quot;,
+ &quot;EffectiveToDate&quot;: &quot;2026-09-26&quot;,
+ &quot;TotalSumInsured&quot;: 0.00, 
+ &quot;PremiumAmount&quot;: 157900.00,
+ &quot;CurrencyVal&quot;: &quot;WON&quot;,
+ &quot;Facility_lk&quot;: &quot;Elevators at Multiple Locations&quot;,
+ &quot;participants&quot;: [
+ {
+  &quot;ParticipantName&quot;: &quot;KB Insurance&quot;,
+  &quot;IsPolicyholder&quot;: true,
+  &quot;BeneficiarySharePercentage&quot;: null
+ }
+ ],
+ &quot;assets&quot;: [
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 1&quot;,
+  &quot;AssetLocation&quot;: &quot;139-77 Anyang-si Manan-gu Bakdal-ro 337&quot;,
+  &quot;AssetDescription&quot;: &quot;Passenger Elevator &lt; 20 persons / 5 floors or less (Qty: 1)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 2&quot;,
+  &quot;AssetLocation&quot;: &quot;139-77 Anyang-si Manan-gu Bakdal-ro 337&quot;,
+  &quot;AssetDescription&quot;: &quot;Passenger Elevator &lt; 20 persons / 5-25 floors (Qty: 1)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 3&quot;,
+  &quot;AssetLocation&quot;: &quot;505-92 Yangsan-si Chungryeol-ro 269&quot;,
+  &quot;AssetDescription&quot;: &quot;Freight Elevator &lt; 1 ton / 5 floors or less (Qty: 2)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 4&quot;,
+  &quot;AssetLocation&quot;: &quot;505-92 Yangsan-si Chungryeol-ro 269&quot;,
+  &quot;AssetDescription&quot;: &quot;Freight Elevator &lt; 2 tons / 5 floors or less (Qty: 2)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 5&quot;,
+  &quot;AssetLocation&quot;: &quot;158-42 Gunpo-si LS-ro 45beon-gil 105-1&quot;,
+  &quot;AssetDescription&quot;: &quot;Freight Elevator &lt; 4 tons / 5 floors or less (Qty: 2)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Elevator Group 6&quot;,
+  &quot;AssetLocation&quot;: &quot;126-53 Yeoju-si Sejong-ro 415&quot;,
+  &quot;AssetDescription&quot;: &quot;Freight Elevator &lt; 5 tons / 5 floors or less (Qty: 2)&quot;
+ }
+ ],
+ &quot;productClauses&quot;: [
+ {
+  &quot;Name&quot;: &quot;Elevator Liability Insurance Conditions&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;Cyber Risk Exclusion Clause&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;Date Recognition Error Exclusion Clause&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;Sanction Limitation and Exclusion Clause&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ }
+ ],
+ &quot;coverages&quot;: [
+ {
+  &quot;CategoryGroup&quot;: &quot;I. Elevator Liability&quot;,
+  &quot;CoverageSumInsured&quot;: 0.00, 
+  &quot;SectionSumInsured&quot;: 0.00,
+  &quot;CoveragePremiumAmount&quot;: 7266.00,
+  &quot;SectionPremiumAmount&quot;: 7266.00,
+  &quot;CoverageDeductibleAmount&quot;: 100000.00,
+  &quot;Description&quot;: &quot;Liability Coverage for Group 1&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;Elevator Group 1&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Bodily Injury&quot;,
+   &quot;Risk_Type&quot;: &quot;Liability Limit&quot;,
+   &quot;Risk_Details&quot;: &quot;Per Person Limit&quot;,
+   &quot;Risk_Insured_Amount&quot;: 80000000.00, 
+   &quot;Risk_Premium_Amount&quot;: 6555.00,
+   &quot;Risk_Deductible&quot;: 100000.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;I. Elevator Liability&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Liability&quot;
+  },
+  {
+   &quot;Risk_Name&quot;: &quot;Property Damage&quot;,
+   &quot;Risk_Type&quot;: &quot;Liability Limit&quot;,
+   &quot;Risk_Details&quot;: &quot;Per Accident Limit&quot;,
+   &quot;Risk_Insured_Amount&quot;: 10000000.00,
+   &quot;Risk_Premium_Amount&quot;: 711.00,
+   &quot;Risk_Deductible&quot;: 100000.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;I. Elevator Liability&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Liability&quot;
+  }
+  ]
+ },
+ {
+  &quot;CategoryGroup&quot;: &quot;I. Elevator Liability&quot;,
+  &quot;CoverageSumInsured&quot;: 0.00,
+  &quot;SectionSumInsured&quot;: 0.00,
+  &quot;CoveragePremiumAmount&quot;: 8630.00,
+  &quot;SectionPremiumAmount&quot;: 8630.00,
+  &quot;CoverageDeductibleAmount&quot;: 100000.00,
+  &quot;Description&quot;: &quot;Liability Coverage for Group 2&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;Elevator Group 2&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Bodily Injury&quot;,
+   &quot;Risk_Type&quot;: &quot;Liability Limit&quot;,
+   &quot;Risk_Details&quot;: &quot;Per Person Limit&quot;,
+   &quot;Risk_Insured_Amount&quot;: 80000000.00,
+   &quot;Risk_Premium_Amount&quot;: 7794.00,
+   &quot;Risk_Deductible&quot;: 100000.00,
+   &quot;Risk_Rate&quot;: 0.00,
+   &quot;Category_Group&quot;: &quot;I. Elevator Liability&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Liability&quot;
+  },
+  {
+   &quot;Risk_Name&quot;: &quot;Property Damage&quot;,
+   &quot;Risk_Type&quot;: &quot;Liability Limit&quot;,
+   &quot;Risk_Details&quot;: &quot;Per Accident Limit&quot;,
+   &quot;Risk_Insured_Amount&quot;: 10000000.00,
+   &quot;Risk_Premium_Amount&quot;: 836.00,
+   &quot;Risk_Deductible&quot;: 100000.00,
+   &quot;Risk_Rate&quot;: 0.00,
+   &quot;Category_Group&quot;: &quot;I. Elevator Liability&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Liability&quot;
+  }
+  ]
+ }
+ ]
+}
+
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:ContentDocument.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:ContentDocument</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_4</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

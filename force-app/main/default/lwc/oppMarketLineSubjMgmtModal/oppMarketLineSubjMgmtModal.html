@@ -1,0 +1,152 @@
+<template>
+    <div class="component-wrapper" style="position: relative;">
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+        </template>
+        <div class="slds-p-around_small">
+            <div class="slds-text-align_right slds-m-bottom_small">
+                <lightning-button label="New" icon-name="utility:add" onclick={handleAddRow} disabled={isReadOnly}></lightning-button>
+            </div>
+
+            <div class="table-container slds-scrollable_y" style="min-height: 300px;">
+                <table class="slds-table slds-table_header-fixed slds-table_bordered slds-table_cell-buffer slds-table_col-bordered">
+                    <colgroup>
+                        <col style="width: 100px;">
+                        <col style="width: 150px;">
+                        <col style="width: 200px;">
+                        <col>
+                        <col style="width: 50px;">
+                        <col style="width: 100px;">
+                    </colgroup>
+                    <thead><!-- Type__c -->
+                    <tr class="slds-line-height_reset">
+                        <th scope="col">
+                            <div class="slds-truncate" title="No.">No.</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title={labelType}>{labelType}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title={labelName}>
+                                <abbr class="slds-required slds-p-right_xxx-small" title="required" aria-hidden="true">*</abbr>
+                                {labelName}
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title={labelDetail}>
+                                <abbr class="slds-required slds-p-right_xxx-small" title="required" aria-hidden="true">*</abbr>
+                                {labelDetail}
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title={labelClear}>{labelClear}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title="Action">Action</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <template if:true={hasRecords}>
+                        <template for:each={rows} for:item="row" for:index="idx">
+                            <tr key={row.key}>
+                                <td title={row.no}>
+                                    <div class="slds-truncate">{row.no}</div>
+                                </td>
+                                <td title={row.Type__c}>
+                                    <c-com-picklist
+                                            value={row.Type__c}
+                                            options={typeOptions}
+                                            label="Type"
+                                            onpicklistchange={handleChange}
+                                            data-id={row.key}
+                                            data-field="Type__c"
+                                            disabled={isReadOnly}
+                                    >
+                                    </c-com-picklist>
+                                </td>
+                                <td title={row.Name}>
+                                    <template if:true={row.isEdit}>
+                                        <div class="slds-line-clamp_x-small" style={row.detailStyle}>
+                                            <lightning-input label="" variant="label-hidden" value={row.Name} data-id={row.key} data-field="Name" onchange={handleChange} disabled={isReadOnly} max-length="80" required></lightning-input>
+                                        </div>
+                                    </template>
+                                    <template if:false={row.isEdit}>
+                                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                            <div class="slds-line-clamp_x-small" style={row.detailStyle}>
+                                                <lightning-formatted-url label={row.Name} value={row.recordUrl} target="_blank" ></lightning-formatted-url>
+                                            </div>
+                                            <lightning-icon icon-name="utility:edit"
+                                                            size="x-small"
+                                                            onclick={handleAction}
+                                                            data-action="nameEdit"
+                                                            data-id={row.key}
+                                                            class="slds-input__icon slds-input__icon_right slds-icon-text-default"
+                                                            if:false={isReadOnly}>
+                                            </lightning-icon>
+                                        </div>
+                                    </template>
+                                </td>
+                                <td title={row.Detail__c}>
+                                    <div class="slds-form-element">
+                                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right"
+                                             onclick={handleOpenEdit}
+                                             data-id={row.key}
+                                             style="cursor: pointer; position: relative;">
+                                            <div class="slds-line-clamp_x-small" style={row.detailStyle}>
+                                                <lightning-formatted-rich-text value={row.Detail__c} disable-linkify></lightning-formatted-rich-text>
+                                            </div>
+                                            <template if:false={isReadOnly}>
+                                                <lightning-icon icon-name="utility:edit" size="x-small" class="slds-input__icon slds-input__icon_right slds-icon-text-default"></lightning-icon>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="slds-text-align_center" title={row.Clear_is__c}>
+                                    <lightning-input label="" type="checkbox" variant="label-hidden" checked={row.Clear_is__c} data-id={row.key} data-field="Clear_is__c" onchange={handleChange} disabled={isReadOnly}></lightning-input>
+                                </td>
+                                <td class="slds-text-align_center">
+                                    <lightning-button-icon
+                                            icon-name="utility:delete"
+                                            variant="bare"
+                                            alternative-text={labels.COM_BTN_DELETE}
+                                            data-id={row.key}
+                                            onclick={handleDeleteRow}
+                                            disabled={isReadOnly}>
+                                    </lightning-button-icon>
+                                </td>
+                            </tr>
+                        </template>
+                    </template>
+                    <template if:false={hasRecords}>
+                        <c-com-no-records></c-com-no-records>
+                    </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- RichText Popover -->
+        <template if:true={editingRowKey}>
+            <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9990; cursor: default;" onclick={handleCloseEdit}></div>
+            <section class={popoverClass} role="dialog" style={popoverStyle} onclick={handlePopupClick}>
+                <div class="slds-popover__body">
+                    <lightning-input-rich-text
+                            style="min-height: 10.5em;"
+                            value={tempDetail}
+                            onchange={handleDetailChange}
+                            disabled={isReadOnly}>
+                    </lightning-input-rich-text>
+                    <div class="slds-text-align_right slds-m-top_small">
+                        <template if:true={isReadOnly}>
+                            <lightning-button label={labels.COM_BTN_CLOSE} onclick={handleCloseEdit}></lightning-button>
+                        </template>
+                        <template if:false={isReadOnly}>
+                            <lightning-button label={labels.COM_BTN_CANCEL} onclick={handleCloseEdit} class="slds-m-right_x-small"></lightning-button>
+                            <lightning-button variant="brand" label={labels.COM_BTN_APPLY} onclick={handleApplyEdit}></lightning-button>
+                        </template>
+                    </div>
+                </div>
+            </section>
+        </template>
+    </div>
+</template>

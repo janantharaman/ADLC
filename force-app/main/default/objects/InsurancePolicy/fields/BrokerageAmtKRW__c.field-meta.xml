@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BrokerageAmtKRW__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF ( ( TEXT(BizRegion__c) = &apos;LK_KR&apos; || TEXT(BizRegion__c) = &apos;LK_A&amp;G&apos; ) &amp;&amp; TEXT(Currency__c) = &apos;KRW&apos; , BrokerageAmt__c  *  1,
+    IF ( TEXT(BizRegion__c) = &apos;LK_Re&apos; &amp;&amp; TEXT(Currency__c) = &apos;USD&apos; , BrokerageAmt__c  *  1,
+        IF ( TEXT(BizRegion__c) = &apos;LK_VN&apos; &amp;&amp; TEXT(Currency__c) = &apos;VDN&apos; , BrokerageAmt__c  *  1,
+           IF ( NOT(ISBLANK(ExchangeRatePolicy__c)), BrokerageAmt__c * ExchangeRatePolicy__c, BrokerageAmt__c  *  ExchangeRate__c )
+           )
+        )
+    )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Brokerage Amt.(Local)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

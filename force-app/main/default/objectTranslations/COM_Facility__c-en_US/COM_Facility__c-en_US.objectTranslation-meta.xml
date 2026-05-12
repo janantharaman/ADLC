@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Facility</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Facilities</value>
+    </caseValues>
+    <layouts>
+        <layout>COM_Facility Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Related Info --></label>
+            <section>Related Info</section>
+        </sections>
+        <sections>
+            <label><!-- Remarks --></label>
+            <section>Remarks</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- Active --></label>
+        <name>Active</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Add Facility Participant --></label>
+        <name>Add_Facility_Participant</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Clone Facility --></label>
+        <name>Clone_Facility</name>
+    </quickActions>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Activation is available only through an approval process. --></errorMessage>
+        <name>Change_Active</name>
+    </validationRules>
+</CustomObjectTranslation>

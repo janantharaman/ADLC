@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Accounting Standards --></label>
+    <name>AccountingStandards__c</name>
+    <picklistValues>
+        <masterLabel>GAAP</masterLabel>
+        <translation><!-- GAAP --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IFRS</masterLabel>
+        <translation><!-- IFRS --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

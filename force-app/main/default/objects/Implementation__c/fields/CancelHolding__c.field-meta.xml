@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CancelHolding__c</fullName>
+    <deprecated>false</deprecated>
+    <inlineHelpText>Task 를 중지하거나 취소하는 경우 선택</inlineHelpText>
+    <label>(X)Cancel/Holding</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Cancel</fullName>
+                <default>false</default>
+                <label>Cancel</label>
+            </value>
+            <value>
+                <fullName>Holding</fullName>
+                <default>false</default>
+                <label>Holding</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

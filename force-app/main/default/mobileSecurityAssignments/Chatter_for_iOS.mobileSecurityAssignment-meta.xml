@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MobileSecurityAssignment xmlns="http://soap.sforce.com/2006/04/metadata">
+    <connectedApplication>sf_chttr_apps__Chatter_for_iOS</connectedApplication>
+    <masterLabel>Chatter_for_iOS</masterLabel>
+</MobileSecurityAssignment>

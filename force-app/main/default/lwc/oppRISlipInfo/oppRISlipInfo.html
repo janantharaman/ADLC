@@ -1,0 +1,1566 @@
+<!--
+ * @filename       : oppRISlipInfo.html
+ * @project-name  : LK보험중개_신규계약관리시스템 구축
+ * @author        : i2max
+ * @date          : 2026-01-28 (수)
+ * @group         :
+ * @group-content :
+ * @description   : RI Slip Info 상세 조회·편집·저장을 처리하는 LWC 컴포넌트
+ * @reference     :
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2026-01-28      i2max        Create
+-->
+
+<!-- Opp Ri Slip Info -->
+<template>
+    <lightning-card>
+        <div class="content-70">
+            <div class="slds-p-left_medium slds-p-top_medium slds-p-bottom_medium slds-p-right_none">
+
+                <div class="slds-grid slds-grid_vertical-align-center slds-m-bottom_small slds-p-bottom_small slds-border_bottom">
+                    <div class="slds-col slds-size_3-of-12 slds-text-heading_small slds-truncate">
+                        <strong>Risk Reference</strong>
+                    </div>
+
+                    <div class="slds-col slds-size_6-of-12">
+                        <span class="view-text">
+                            {lkRefNo}
+                        </span>
+                    </div>
+
+                    <!-- 버튼 -->
+                    <div class="slds-col slds-size_3-of-12 slds-grid slds-grid_align-end slds-grid_vertical-align-center">
+                        <template if:false={isEditMode}>
+                            <lightning-button
+                                    label="Edit"
+                                    variant="brand"
+                                    onclick={handleEdit}
+                                    disabled={isHeaderActionDisabled}>
+                            </lightning-button>
+                        </template>
+
+                        <template if:true={isEditMode}>
+                            <lightning-button-group>
+                                <lightning-button
+                                        label="Cancel"
+                                        variant="neutral"
+                                        onclick={handleCancel}
+                                        disabled={isHeaderActionDisabled}>
+                                </lightning-button>
+                                <lightning-button
+                                        label="Save"
+                                        variant="brand"
+                                        onclick={handleSave}
+                                        disabled={isHeaderActionDisabled}>
+                                </lightning-button>
+                            </lightning-button-group>
+                        </template>
+                    </div>
+                </div>
+
+                <template if:true={showEndCompactLayout}>
+                    <div class="slds-grid slds-border_bottom form-row">
+                        <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                            <label class="slds-form-element__label">Type</label>
+                        </div>
+                        <div class={wrapperClassMap.Type__c} data-field="Type__c" onfocusin={handleFocus} onfocusout={handleBlur}>
+                            <span class="view-text pre-wrap">{formData.Type__c}</span>
+                        </div>
+                        <template if:true={TypeEndUI.hasPrevious}>
+                            <lightning-helptext content={TypeEndUI.tooltip}></lightning-helptext>
+                        </template>
+                    </div>
+
+                    <div class="slds-grid slds-border_bottom form-row">
+                        <div class="slds-col slds-size_3-of-12 slds-align-middle"><label class="slds-form-element__label">{FormLabel}</label></div>
+                        <div class={wrapperClassMap.Form__c} data-field="Form__c" onfocusin={handleFocus} onfocusout={handleBlur}>
+                            <template if:true={isEditMode}><lightning-input variant="label-hidden" data-field="Form__c" value={formData.Form__c} onchange={handleChange}></lightning-input></template>
+                            <template if:false={isEditMode}><span class="view-text pre-wrap">{formData.Form__c}</span></template>
+                        </div>
+                        <template if:true={formUI.hasPrevious}>
+                            <lightning-helptext content={formUI.tooltip}></lightning-helptext>
+                        </template>
+                    </div>
+
+                    <div class="slds-grid slds-border_bottom form-row">
+                        <div class="slds-col slds-size_3-of-12 slds-align-middle"><label class="slds-form-element__label">{ReinsurerLabel}</label></div>
+                        <div class={wrapperClassMap.Reinsured__c} data-field="Reinsured__c" onfocusin={handleFocus} onfocusout={handleBlur}>
+                            <template if:true={isEditMode}><lightning-input variant="label-hidden" data-field="Reinsured__c" value={formData.Reinsured__c} onchange={handleChange}></lightning-input></template>
+                            <template if:false={isEditMode}><span class="view-text pre-wrap">{formData.Reinsured__c}</span></template>
+                        </div>
+                        <template if:true={ReinsuredUI.hasPrevious}>
+                            <lightning-helptext content={ReinsuredUI.tooltip}></lightning-helptext>
+                        </template>
+                    </div>
+
+                    <div class="slds-grid slds-border_bottom form-row">
+                        <div class="slds-col slds-size_3-of-12 slds-align-middle"><label class="slds-form-element__label">{InsuredLabel}</label></div>
+                        <div class={wrapperClassMap.Insured__c} data-field="Insured__c" onfocusin={handleFocus} onfocusout={handleBlur}>
+                            <template if:true={isEditMode}><lightning-textarea variant="label-hidden" data-field="Insured__c" value={formData.Insured__c} onchange={handleChange}></lightning-textarea></template>
+                            <template if:false={isEditMode}><span class="view-text pre-wrap">{formData.Insured__c}</span></template>
+                        </div>
+                        <template if:true={InsuredUI.hasPrevious}>
+                            <lightning-helptext content={InsuredUI.tooltip}></lightning-helptext>
+                        </template>
+                    </div>
+
+                    <div class="slds-grid slds-border_bottom form-row">
+                        <div class="slds-col slds-size_3-of-12 slds-align-middle"><label class="slds-form-element__label">{PeriodFromLabel}</label></div>
+                        <div class={wrapperClassMap.PeriodFrom__c} data-field="PeriodFrom__c" onfocusin={handleFocus} onfocusout={handleBlur}>
+                            <template if:true={isEditMode}><lightning-input value={formData.PeriodFrom__c} data-field="PeriodFrom__c" timezone="GMT" type="datetime" onchange={handleChange} variant="label-hidden"></lightning-input></template>
+                            <template if:false={isEditMode}><span class="view-text pre-wrap">{periodFromFormatted}</span></template>
+                        </div>
+                        <template if:true={PeriodFromUI.hasPrevious}>
+                            <lightning-helptext content={PeriodFromUI.tooltip}></lightning-helptext>
+                        </template>
+                    </div>
+
+                    <div class="slds-grid slds-border_bottom form-row">
+                        <div class="slds-col slds-size_3-of-12 slds-align-middle"><label class="slds-form-element__label">{PeriodToLabel}</label></div>
+                        <div class={wrapperClassMap.PeriodTo__c} data-field="PeriodTo__c" onfocusin={handleFocus} onfocusout={handleBlur}>
+                            <template if:true={isEditMode}><lightning-input value={formData.PeriodTo__c} data-field="PeriodTo__c" timezone="GMT" type="datetime" onchange={handleChange} variant="label-hidden"></lightning-input></template>
+                            <template if:false={isEditMode}><span class="view-text pre-wrap">{periodToFormatted}</span></template>
+                        </div>
+                        <template if:true={PeriodToUI.hasPrevious}>
+                            <lightning-helptext content={PeriodToUI.tooltip}></lightning-helptext>
+                        </template>
+                    </div>
+
+                    <div class="slds-grid slds-border_bottom form-row">
+                        <div class="slds-col slds-size_3-of-12 slds-align-middle"><label class="slds-form-element__label">{ENDEffectivedDateLabel}</label></div>
+                        <div class={wrapperClassMap.ENDEffectivedDate__c} data-field="ENDEffectivedDate__c" onfocusin={handleFocus} onfocusout={handleBlur}>
+                            <template if:true={isEditMode}><lightning-input value={formData.ENDEffectivedDate__c} data-field="ENDEffectivedDate__c" timezone="GMT" type="datetime" onchange={handleChange} variant="label-hidden"></lightning-input></template>
+                            <template if:false={isEditMode}><span class="view-text pre-wrap">{endEffectiveDateFormatted}</span></template>
+                        </div>
+                        <template if:true={ENDEffectivedDateUI.hasPrevious}>
+                            <lightning-helptext content={ENDEffectivedDateUI.tooltip}></lightning-helptext>
+                        </template>
+                    </div>
+
+                    <div class="slds-grid slds-border_bottom form-row">
+                        <div class="slds-col slds-size_3-of-12 slds-align-middle"><label class="slds-form-element__label">{AmendmentsLabel}</label></div>
+                        <div class={wrapperClassMap.Amendments__c} data-field="Amendments__c" onfocusin={handleFocus} onfocusout={handleBlur}>
+                            <template if:true={isEditMode}><lightning-textarea variant="label-hidden" data-field="Amendments__c" value={formData.Amendments__c} onchange={handleChange}></lightning-textarea></template>
+                            <template if:false={isEditMode}><span class="view-text pre-wrap">{formData.Amendments__c}</span></template>
+                        </div>
+                        <template if:true={AmendmentsUI.hasPrevious}>
+                            <lightning-helptext content={AmendmentsUI.tooltip}></lightning-helptext>
+                        </template>
+                    </div>
+
+                    <div class="slds-grid slds-border_bottom form-row">
+                        <div class="slds-col slds-size_3-of-12 slds-align-middle"><label class="slds-form-element__label">{Prem100Label}</label></div>
+                        <div class={wrapperClassMap.Prem100__c} data-field="Prem100__c" onfocusin={handleFocus} onfocusout={handleBlur}>
+                            <template if:true={isEditMode}><lightning-input variant="label-hidden" data-field="Prem100__c" value={formData.Prem100__c} onchange={handleChange}></lightning-input></template>
+                            <template if:false={isEditMode}><span class="view-text pre-wrap">{formData.Prem100__c}</span></template>
+                        </div>
+                        <template if:true={Prem100UI.hasPrevious}>
+                            <lightning-helptext content={Prem100UI.tooltip}></lightning-helptext>
+                        </template>
+                    </div>
+                </template>
+
+                <template if:false={showEndCompactLayout}>
+
+                <!-- Type  -->
+                <div class="slds-grid slds-border_bottom form-row">
+
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label">{TypeLabel}</label>
+                    </div>
+
+                    <div class={wrapperClassMap.RIType__c}
+                         data-field="RIType__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-combobox
+                                    class="stretch"
+                                    data-field="RIType__c"
+                                    value={formData.RIType__c}
+                                    options={RITypeOptions}
+                                    onchange={handleChange}
+                                    variant="label-hidden">
+                            </lightning-combobox>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text">
+                                {formData.RIType__c}
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={typeUI.hasPrevious}>
+                        <lightning-helptext content={typeUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Form -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label">{FormLabel}</label>
+                    </div>
+
+                    <div class={wrapperClassMap.Form__c}
+                         data-field="Form__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-input
+                                    variant="label-hidden"
+                                    data-field="Form__c"
+                                    value={formData.Form__c}
+                                    onchange={handleChange}>
+                            </lightning-input>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text">
+                                {formData.Form__c}
+                            </span>
+                       </template>
+                    </div>
+
+                    <template if:true={formUI.hasPrevious}>
+                        <lightning-helptext content={formUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+
+                <!-- Reinsured -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {ReinsurerLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.Reinsured__c}
+                         data-field="Reinsured__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-input
+                                    value={formData.Reinsured__c}
+                                    data-field="Reinsured__c"
+                                    onchange={handleChange}
+                                    variant="label-hidden">
+                            </lightning-input>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {formData.Reinsured__c}
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={ReinsuredUI.hasPrevious}>
+                        <lightning-helptext content={ReinsuredUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Insured -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {InsuredLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.Insured__c}
+                         data-field="Insured__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-textarea
+                                    value={formData.Insured__c}
+                                    data-field="Insured__c"
+                                    onchange={handleChange}
+                                    variant="label-hidden">
+                            </lightning-textarea>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {formData.Insured__c}
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={InsuredUI.hasPrevious}>
+                        <lightning-helptext content={InsuredUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Period From -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {PeriodFromLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.PeriodFrom__c}
+                         data-field="PeriodFrom__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-input
+                                    value={formData.PeriodFrom__c}
+                                    data-field="PeriodFrom__c"
+                                    timezone="GMT"
+                                    type="datetime"
+                                    onchange={handleChange}
+                                    variant="label-hidden">
+                            </lightning-input>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {periodFromFormatted}
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={PeriodFromUI.hasPrevious}>
+                        <lightning-helptext content={PeriodFromUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Period To -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {PeriodToLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.PeriodTo__c}
+                         data-field="PeriodTo__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-input
+                                    value={formData.PeriodTo__c}
+                                    timezone="GMT"
+                                    type="datetime"
+                                    data-field="PeriodTo__c"
+                                    onchange={handleChange}
+                                    variant="label-hidden">
+                            </lightning-input>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {periodToFormatted}
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={PeriodToUI.hasPrevious}>
+                        <lightning-helptext content={PeriodToUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Add Phrase -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label">
+                            {AddPhraseLabel}
+                        </label>
+                    </div>
+
+                    <div class={wrapperClassMap.AddPhrase_is__c}
+                         data-field="AddPhrase_is__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-input
+                                    type="checkbox"
+                                    variant="label-hidden"
+                                    checked={formData.AddPhrase_is__c}
+                                    data-field="AddPhrase_is__c"
+                                    onchange={handleCheckboxChange}>
+                            </lightning-input>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <div class="slds-checkbox">
+                                <input
+                                        type="checkbox"
+                                        checked={formData.AddPhrase_is__c}
+                                        onclick={preventCheckboxToggle}
+                                        onchange={preventCheckboxToggle}
+                                        tabindex="-1"/>
+                                <label class="slds-checkbox__label">
+                                    <span class="slds-checkbox_faux"></span>
+                                </label>
+                            </div>
+                        </template>
+
+                    </div>
+                    <template if:true={AddPhraseUI.hasPrevious}>
+                        <lightning-helptext content={AddPhraseUI.tooltip}></lightning-helptext>
+                    </template>
+
+                </div>
+
+
+                <!-- Covered Risk -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {CoveredRiskLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.CoveredRisk__c}
+                         data-field="CoveredRisk__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-textarea variant="label-hidden" data-field="CoveredRisk__c" value={formData.CoveredRisk__c}
+                                                class="auto-grow-textarea" onchange={handleChange}></lightning-textarea>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {formData.CoveredRisk__c}
+                            </span>
+                        </template>
+
+                    </div>
+                    <template if:true={CoveredRiskUI.hasPrevious}>
+                        <lightning-helptext content={CoveredRiskUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Interest -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {InterestLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.Interest__c}
+                         data-field="Interest__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-textarea variant="label-hidden" data-field="Interest__c" value={formData.Interest__c}
+                                                class="auto-grow-textarea" onchange={handleChange}></lightning-textarea>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {formData.Interest__c}
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={InterestUI.hasPrevious}>
+                        <lightning-helptext content={InterestUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Location -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {LocationLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.Location__c}
+                         data-field="Location__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-input
+                                    value={formData.Location__c}
+                                    data-field="Location__c"
+                                    onchange={handleChange}
+                                    variant="label-hidden">
+                            </lightning-input>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {formData.Location__c}
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={LocationUI.hasPrevious}>
+                        <lightning-helptext content={LocationUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Limit of Liability -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {LimitOfLiabilityLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.LimitofLiability__c}
+                         data-field="LimitofLiability__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-textarea variant="label-hidden" data-field="LimitofLiability__c" value={formData.LimitofLiability__c}
+                                                class="auto-grow-textarea" onchange={handleChange}></lightning-textarea>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {formData.LimitofLiability__c}
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={LimitofLiabilityUI.hasPrevious}>
+                        <lightning-helptext content={LimitofLiabilityUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Deductible -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {DeductibleLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.Deductible__c}
+                         data-field="Deductible__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-textarea variant="label-hidden" data-field="Deductible__c" value={formData.Deductible__c}
+                                                class="auto-grow-textarea" onchange={handleChange}></lightning-textarea>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {formData.Deductible__c}
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={DeductibleUI.hasPrevious}>
+                        <lightning-helptext content={DeductibleUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Territorial Scope -->
+             <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {TerritoryScopeLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.TerritoryScope__c}
+                         data-field="TerritoryScope__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-dual-listbox
+                                    label=""
+                                    data-field="TerritoryScope__c"
+                                    value={territoryScopeArray}
+                                    options={TerritoryOptions}
+                                    onchange={handleDualListChange}
+                                    variant="label-hidden"
+                                    dropdown-alignment="auto"
+                                    selected-label=""
+                                    source-label="">
+                            </lightning-dual-listbox>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                               <span class="view-text">{territoryScopeValue}</span>
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={TerritoryScopeUI.hasPrevious}>
+                        <lightning-helptext content={TerritoryScopeUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Choice of Law and Jurisdiction -->
+             <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {GoverningLawLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.GoverningLaw__c}
+                         data-field="GoverningLaw__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-dual-listbox
+                                    label=""
+                                    data-field="GoverningLaw__c"
+                                    value={GoverningLawArray}
+                                    options={GoverningLawOptions}
+                                    onchange={handleDualListChange}
+                                    variant="label-hidden"
+                                    dropdown-alignment="auto"
+                                    selected-label=""
+                                    source-label="">
+                            </lightning-dual-listbox>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                <span class="view-text">{GoverningRawValue}</span>
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={GoverningLawUI.hasPrevious}>
+                        <lightning-helptext content={GoverningLawUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Premium (100%) -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {Prem100Label} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.Prem100__c}
+                         data-field="Prem100__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-textarea
+                                    value={formData.Prem100__c}
+                                    data-field="Prem100__c"
+                                    onchange={handleChange}
+                                    read-only="true"
+                                    variant="label-hidden">
+                            </lightning-textarea>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {formData.Prem100__c}
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={Prem100UI.hasPrevious}>
+                        <lightning-helptext content={Prem100UI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Deposit Premium (100%) -->
+               <!-- <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {DepositPremLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.DepositPrem__c}
+                         data-field="DepositPrem__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-textarea
+                                    value={formData.DepositPrem__c}
+                                    data-field="DepositPrem__c"
+                                    onchange={handleChange}
+                                    variant="label-hidden">
+                            </lightning-textarea>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {formData.DepositPrem__c}
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={DepositPremUI.hasPrevious}>
+                        <lightning-helptext content={DepositPremUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>-->
+
+                <!-- Premium Payment Terms -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label">
+                            {PremiumPaymentTermsLabel}
+                        </label>
+                    </div>
+
+                    <div class="slds-col slds-size_9-of-12 cell-wrap">
+                        <div class="slds-grid slds-wrap slds-gutters_small">
+                            <!-- TOR / LSW -->
+                            <div class="slds-col slds-size_12-of-12">
+                                <div class="slds-grid slds-align_absolute-center">
+
+                                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                                            <span class="slds-form-element__label">
+                                                {TorLswLabel}
+                                            </span>
+                                    </div>
+
+                                    <div class={wrapperClassMap.TorLsw__c}>
+                                        <template if:true={isEditMode}>
+                                            <lightning-combobox
+                                                    value={formData.TorLsw__c}
+                                                    options={TorLswOptions}
+                                                    data-field="TorLsw__c"
+                                                    onchange={handleChange}
+                                                    variant="label-hidden">
+                                            </lightning-combobox>
+                                        </template>
+
+                                        <template if:false={isEditMode}>
+                                                <span class="view-text">
+                                                    {formData.TorLsw__c}
+                                                </span>
+                                        </template>
+                                    </div>
+                                    <template if:true={TorLswUI.hasPrevious}>
+                                        <lightning-helptext content={TorLswUI.tooltip}></lightning-helptext>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- Days -->
+                            <div class="slds-col slds-size_12-of-12 slds-m-top_x-small">
+                                <div class="slds-grid slds-align_absolute-center">
+
+                                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                                            <span class="slds-form-element__label">
+                                                {PremiumPaymentDaysLabel}
+                                            </span>
+                                    </div>
+
+                                    <div class={wrapperClassMap.PremiumPaymentTermDays__c}>
+                                        <template if:true={isEditMode}>
+                                            <lightning-combobox
+                                                    value={formData.PremiumPaymentTermDays__c}
+                                                    options={PremiumPaymentDaysOptions}
+                                                    data-field="PremiumPaymentTermDays__c"
+                                                    onchange={handleChange}
+                                                    variant="label-hidden">
+                                            </lightning-combobox>
+                                        </template>
+
+                                        <template if:false={isEditMode}>
+                                                <span class="view-text">
+                                                    {formData.PremiumPaymentTermDays__c}
+                                                </span>
+                                        </template>
+                                    </div>
+                                    <template if:true={PremiumPaymentDaysUI.hasPrevious}>
+                                        <lightning-helptext content={PremiumPaymentDaysUI.tooltip}></lightning-helptext>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Taxes payable by the reinsured and administered by reinsurers -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label">{TaxPayableReinAdminLabel}</label>
+                    </div>
+
+                    <div class={wrapperClassMap.TaxPayableReinAdmin__c}
+                         data-field="TaxPayableReinAdmin__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+                        <template if:true={isEditMode}>
+                            <lightning-input
+                                    value={formData.TaxPayableReinAdmin__c}
+                                    data-field="TaxPayableReinAdmin__c"
+                                    onchange={handleChange}
+                                    variant="label-hidden">
+                            </lightning-input>
+                        </template>
+                        <template if:false={isEditMode}>
+                                <span class="view-text pre-wrap">
+                                    {formData.TaxPayableReinAdmin__c}
+                                </span>
+                        </template>
+                    </div>
+                    <template if:true={TaxPayableReinAdminUI.hasPrevious}>
+                        <lightning-helptext content={TaxPayableReinAdminUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Recording -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label">{labels.recordingLabel}</label>
+                    </div>
+
+                    <div class="slds-col slds-size_9-of-12 cell-wrap slds-align-middle">
+                        <span class="view-text pre-wrap">{labels.recording}</span>
+                    </div>
+                    <!--<div class={wrapperClassMap.Recording__c}
+                         data-field="Recording__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <lightning-formatted-text value={labels.recording}>
+                        </lightning-formatted-text>
+                    </div>
+                    <template if:true={RecordingUI.hasPrevious}>
+                        <lightning-helptext content={RecordingUI.tooltip}></lightning-helptext>
+                    </template>-->
+                </div>
+
+                <!-- Contract Documentation -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label">{labels.contractDocLabel}</label>
+                    </div>
+
+                    <div class="slds-col slds-size_9-of-12 cell-wrap slds-align-middle">
+                        <span class="view-text pre-wrap">{labels.contractDoc}</span>
+                    </div>
+
+
+                   <!--
+                    <div class={wrapperClassMap.ContractDoc__c}
+                         data-field="ContractDoc__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <lightning-formatted-text value={labels.contractDoc}>
+                        </lightning-formatted-text>
+                    </div>
+                    <template if:true={ContractDocUI.hasPrevious}>
+                        <lightning-helptext content={ContractDocUI.tooltip}></lightning-helptext>
+                    </template>-->
+                </div>
+
+                <!-- Reinsurance Conditions -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label">{labels.reinsConditionLabel}</label>
+                    </div>
+
+                    <div class="slds-col slds-size_9-of-12 cell-wrap slds-align-middle">
+                        <span class="view-text pre-wrap">{labels.reinsCondition}</span>
+                    </div>
+
+                    <!--<div class={wrapperClassMap.ReinsCondition__c}
+                         data-field="ReinsCondition__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <lightning-formatted-text value={labels.reinsCondition}>
+                        </lightning-formatted-text>
+                    </div>
+                    <template if:true={ReinsConditionUI.hasPrevious}>
+                        <lightning-helptext content={ReinsConditionUI.tooltip}></lightning-helptext>
+                    </template>-->
+                </div>
+
+
+                <!-- Occupancy -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {OccupancyLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.OccupancyBiz__c}
+                         data-field="OccupancyBiz__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-textarea
+                                    value={formData.OccupancyBiz__c}
+                                    data-field="OccupancyBiz__c"
+                                    onchange={handleChange}
+                                    variant="label-hidden">
+                            </lightning-textarea>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {formData.OccupancyBiz__c}
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={OccupancyBizUI.hasPrevious}>
+                        <lightning-helptext content={OccupancyBizUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Total Sum Insured -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {TSILabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.TSI__c}
+                         data-field="TSI__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-textarea
+                                    value={formData.TSI__c}
+                                    data-field="TSI__c"
+                                    onchange={handleChange}
+                                    variant="label-hidden">
+                            </lightning-textarea>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {formData.TSI__c}
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={TSIUI.hasPrevious}>
+                        <lightning-helptext content={TSIUI.tooltip}></lightning-helptext>
+                    </template>
+                    <lightning-button-icon
+                            icon-name={tsiIconName}
+                            variant="bare"
+                            onclick={handleTsiCollapse}
+                            alternative-text="Toggle Details"
+                            class="slds-m-left_xx-small">
+                    </lightning-button-icon>
+                </div>
+
+                <template if:true={isTsiExpanded}>
+                    <div class="slds-p-around_small slds-theme_shade slds-border_bottom">
+
+                        <div class="slds-grid slds-grid_align-end slds-grid_vertical-align-center">
+                            <div class="slds-col slds-size_3-of-12"></div>
+                            <div class="slds-col slds-size_9-of-12">
+                                <div class="slds-grid slds-align-center">
+                                    <div class="slds-grow"></div>
+                                    <div>
+                                        <lightning-button-group>
+                                            <lightning-button-icon
+                                                    icon-name="utility:refresh"
+                                                    alternative-text="Refresh"
+                                                    variant="border"
+                                                    class="refresh-btn slds-p-left_x-small"
+                                                    onclick={handleRefreshTSI}
+                                                    disabled={isTSISectionDisabled}>
+                                            </lightning-button-icon>
+                                            <lightning-button
+                                                    label={labels.add}
+                                                    variant="neutral"
+                                                    onclick={handleAddTSI}
+                                                    disabled={isTSISectionDisabled}>
+                                            </lightning-button>
+                                            <lightning-button
+                                                    label={labels.save}
+                                                    variant="brand"
+                                                    onclick={handleSaveTSI}
+                                                    disabled={isTSISaveDisabled}>
+                                            </lightning-button>
+                                        </lightning-button-group>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="slds-p-horizontal_medium slds-m-bottom_medium">
+                            <div class="slds-grid slds-gutters slds-m-bottom_xx-small">
+                                <div class="slds-col slds-size_4-of-12">
+                                    <span class="slds-form-element__label">TSI Currency</span>
+                                </div>
+                                <div class="slds-col slds-size_6-of-12">
+                                    <span class="slds-form-element__label">TSI Amount</span>
+                                </div>
+                                <div class="slds-col slds-size_2-of-12"></div>
+                            </div>
+
+                            <template for:each={tsiRows} for:item="row">
+                                <div key={row.key} class={row.rowClass}>
+
+                                    <div class="slds-col slds-size_4-of-12">
+                                        <lightning-combobox
+                                                label="TSI Currency"
+                                                variant="label-hidden"
+                                                value={row.TSICurrency__c}
+                                                options={TSICurrencyOptions}
+                                                data-key={row.key}
+                                                data-field="TSICurrency__c"
+                                                onchange={handleRowChange}
+                                                disabled={isTSISectionDisabled}>
+                                        </lightning-combobox>
+                                    </div>
+
+                                    <div class="slds-col slds-size_6-of-12">
+                                        <lightning-input
+                                                label="TSI Amount"
+                                                variant="label-hidden"
+                                                type="number"
+                                                class="cus-lk-input-right"
+                                                value={row.SlipTSI__c}
+                                                data-key={row.key}
+                                                data-field="SlipTSI__c"
+                                                onchange={handleRowChange}
+                                                disabled={isTSISectionDisabled}>
+                                        </lightning-input>
+                                    </div>
+
+                                    <div class="slds-col slds-size_2-of-12">
+                                        <lightning-button-icon
+                                                icon-name="utility:delete"
+                                                data-key={row.key}
+                                                onclick={handleDeleteRow}
+                                                disabled={isTSISectionDisabled}>
+                                        </lightning-button-icon>
+                                    </div>
+
+                                </div>
+                                <template if:true={row._currencyError}>
+                                    <div key={row.key} class="slds-text-color_error slds-text-body_small slds-m-bottom_x-small slds-p-left_small">
+                                        Only one record is allowed per currency.
+                                    </div>
+                                </template>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Original Policy Terms and Conditions -->
+               <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {TermsCondsLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.TermsConds__c}
+                         data-field="TermsConds__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-textarea variant="label-hidden" data-field="TermsConds__c" value={formData.TermsConds__c}
+                                                class="auto-grow-textarea" onchange={handleChange}></lightning-textarea>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {formData.TermsConds__c}
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={TermsCondsUI.hasPrevious}>
+                        <lightning-helptext content={TermsCondsUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Extension Clauses -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label">{ExtensionClausesLabel}</label>
+                    </div>
+                    <div class={wrapperClassMap.ExtensionClauses__c} data-field="ExtensionClauses__c" onfocusin={handleFocus} onfocusout={handleBlur}>
+                        <template if:true={isEditMode}>
+                            <lightning-textarea variant="label-hidden" data-field="ExtensionClauses__c"
+                                                value={formData.ExtensionClauses__c}
+                                                class="auto-grow-textarea" onchange={handleInputChange}></lightning-textarea>
+                        </template>
+                        <template if:false={isEditMode}>
+                            <span class="view-text">{formData.ExtensionClauses__c}</span>
+                        </template>
+                    </div>
+                    <template if:true={ExtensionClausesUI.hasPrevious}>
+                        <lightning-helptext content={ExtensionClausesUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Loss Record -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {LossRecordLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.LossRecord__c}
+                         data-field="LossRecord__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-textarea variant="label-hidden" data-field="LossRecord__c" value={formData.LossRecord__c}
+                                                class="auto-grow-textarea" onchange={handleChange}></lightning-textarea>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {formData.LossRecord__c}
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={LossRecordUI.hasPrevious}>
+                        <lightning-helptext content={LossRecordUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Additional Information -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {AddInfoLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.RIAddInfo__c}
+                         data-field="RIAddInfo__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-textarea
+                                    value={formData.RIAddInfo__c}
+                                    data-field="RIAddInfo__c"
+                                    onchange={handleChange}
+                                    variant="label-hidden">
+                            </lightning-textarea>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {formData.RIAddInfo__c}
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={AddInfoUI.hasPrevious}>
+                        <lightning-helptext content={AddInfoUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Reinsurer's Liability -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {labels.reinsurerLiabilityLabel} </label>
+                    </div>
+
+                    <div class="slds-col slds-size_9-of-12 cell-wrap slds-align-middle">
+                        <span class="view-text pre-wrap">{customLabels.SLIP_DOC_REINSURERS_LIABILITY}</span>
+                    </div>
+
+<!--                    <div class={wrapperClassMap.ReinsLiability__c}
+                         data-field="ReinsLiability__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <span class="view-text pre-wrap">
+                            {customLabels.SLIP_DOC_REINSURERS_LIABILITY}
+                        </span>
+                    </div>-->
+
+                 <!--   <template if:true={ReinsurerLiabilityUI.hasPrevious}>
+                        <lightning-helptext content={ReinsurerLiabilityUI.tooltip}></lightning-helptext>
+                    </template>-->
+                </div>
+
+                <!-- Order Hereon -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {OrderHereonLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.OrderHereon__c}
+                         data-field="OrderHereon__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-textarea
+                                    value={formData.OrderHereon__c}
+                                    data-field="OrderHereon__c"
+                                    onchange={handleChange}
+                                    read-only="true"
+                                    variant="label-hidden">
+                            </lightning-textarea>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {formData.OrderHereon__c}
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={OrderHereonUI.hasPrevious}>
+                        <lightning-helptext content={OrderHereonUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Basis Of Written Lines -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {labels.basisWrittenLabel} </label>
+                    </div>
+
+                    <div class="slds-col slds-size_9-of-12 cell-wrap slds-align-middle">
+                        <span class="view-text pre-wrap">{labels.basisWritten}</span>
+                    </div>
+<!--
+                    <div class={wrapperClassMap.BasisWritten__c}
+                         data-field="BasisWritten__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <lightning-formatted-text value={labels.basisWritten}>
+                        </lightning-formatted-text>
+                    </div>
+
+                    <template if:true={BasisWrittenUI.hasPrevious}>
+                        <lightning-helptext content={BasisWrittenUI.tooltip}></lightning-helptext>
+                    </template>-->
+                </div>
+
+                <!-- Basis Of Signed Lines -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {labels.basisSignedLabel} </label>
+                    </div>
+
+                    <div class="slds-col slds-size_9-of-12 cell-wrap slds-align-middle">
+                        <span class="view-text pre-wrap">{labels.basisSinged}</span>
+                    </div>
+
+                   <!-- <div class={wrapperClassMap.BasisSinged__c}
+                         data-field="BasisSinged__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <lightning-formatted-text value={labels.basisSinged}>
+                        </lightning-formatted-text>
+                    </div>
+
+                    <template if:true={BasisSignedUI.hasPrevious}>
+                        <lightning-helptext content={BasisSignedUI.tooltip}></lightning-helptext>
+                    </template>-->
+                </div>
+
+                <!-- Signing Provisions -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {labels.provisionsLabel} </label>
+                    </div>
+
+                    <div class="slds-col slds-size_9-of-12 cell-wrap slds-align-middle">
+                        <span class="view-text pre-wrap">{labels.provision}</span>
+                    </div>
+
+           <!--         <div class={wrapperClassMap.Provision__c}
+                         data-field="Provision__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <lightning-formatted-text value={labels.provision}>
+                        </lightning-formatted-text>
+                    </div>
+
+                    <template if:true={ProvisionUI.hasPrevious}>
+                        <lightning-helptext content={ProvisionUI.tooltip}></lightning-helptext>
+                    </template>-->
+                </div>
+
+                <!--Written Lines -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {labels.writtenLinesLabel} </label>
+                    </div>
+
+                    <div class="slds-col slds-size_9-of-12 cell-wrap slds-align-middle">
+                        <span class="view-text pre-wrap">{labels.writtenLines}</span>
+                    </div>
+
+        <!--            <div class={wrapperClassMap.WrittenLines__c}
+                         data-field="WrittenLines__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <lightning-formatted-text value={labels.writtenLines}>
+                        </lightning-formatted-text>
+                    </div>
+
+                    <template if:true={WrittenLinesUI.hasPrevious}>
+                        <lightning-helptext content={WrittenLinesUI.tooltip}></lightning-helptext>
+                    </template>-->
+                </div>
+
+                <!-- Sanction Limitation and Exclusion Clause -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {labels.sanctionLimitLabel} </label>
+                    </div>
+
+                    <div class="slds-col slds-size_9-of-12 cell-wrap slds-align-middle">
+                        <span class="view-text pre-wrap">{labels.sanctionLimit}</span>
+                    </div>
+
+
+                    <!--            <div class={wrapperClassMap.SanctionLimit__c}
+                                     data-field="SanctionLimit__c"
+                                     onfocusin={handleFocus}
+                                     onfocusout={handleBlur}>
+
+                                    <lightning-formatted-text value={labels.sanctionLimit}>
+                                    </lightning-formatted-text>
+                                </div>
+
+                                <template if:true={SanctionLimitUI.hasPrevious}>
+                                    <lightning-helptext content={SanctionLimitUI.tooltip}></lightning-helptext>
+                                </template>-->
+                </div>
+
+                <!-- Intermediary Clause -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {labels.intermediaryClauseLabel} </label>
+                    </div>
+
+                    <div class="slds-col slds-size_9-of-12 cell-wrap slds-align-middle">
+                        <span class="view-text pre-wrap">{labels.intermediaryClause}</span>
+                    </div>
+
+               <!--     <div class={wrapperClassMap.IntermediaryClause_fm__c}
+                         data-field="IntermediaryClause_fm__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <lightning-formatted-text value={labels.intermediaryClause}>
+                        </lightning-formatted-text>
+                    </div>
+
+                    <template if:true={IntermediaryUI.hasPrevious}>
+                        <lightning-helptext content={IntermediaryUI.tooltip}></lightning-helptext>
+                    </template>-->
+                </div>
+
+                <!-- Premium Payment Clause -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {PremiumPaymentClauseLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.PremPaymentClause_fm__c}
+                         data-field="PremPaymentClause_fm__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}
+                         title={PremiumPaymentClauseUI.tooltip}>
+
+                        <template for:each={premPaymentClauseFormatted} for:item="line">
+                            <p key={line.id} class="clause-line">{line.text}</p>
+                        </template>
+
+                       <!-- <template if:true={isEditMode}>
+                            <lightning-textarea
+                                    value={formData.PremPaymentClause_fm__c}
+                                    data-field="PremPaymentClause_fm__c"
+                                    onchange={handleChange}
+                                    variant="label-hidden">
+                            </lightning-textarea>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <lightning-formatted-rich-text
+                                    value={formData.PremPaymentClause_fm__c}>
+                            </lightning-formatted-rich-text>
+                        </template>-->
+                    </div>
+
+                    <template if:true={PremiumPaymentClauseUI.hasPrevious}>
+                        <lightning-helptext content={PremiumPaymentClauseUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Foreign Exchange Clause (Reinsurances) -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {labels.foreignExReinsLabel} </label>
+                    </div>
+
+                    <div class="slds-col slds-size_9-of-12 cell-wrap slds-align-middle">
+                        <span class="view-text pre-wrap">{labels.foreignExReins}</span>
+                    </div>
+
+
+                    <!--<div class={wrapperClassMap.ForeignEx__c}
+                         data-field="ForeignEx__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                            <lightning-formatted-text
+                                    value={labels.foreignExReins}>
+                            </lightning-formatted-text>
+                    </div>
+
+                    <template if:true={ForeignExUI.hasPrevious}>
+                        <lightning-helptext content={ForeignExUI.tooltip}></lightning-helptext>
+                    </template>-->
+                </div>
+
+                <!-- Security Cancellation Clause -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {labels.securityCancelLabel} </label>
+                    </div>
+                    <div class="slds-col slds-size_9-of-12 cell-wrap slds-align-middle">
+                        <span class="view-text pre-wrap">{customLabels.SLIP_CLAUSE_SEC_CANCEL}</span>
+                    </div>
+                   <!-- <div class={wrapperClassMap.SecurityCancel__c}
+                         data-field="SecurityCancel__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                       <span class="view-text pre-wrap">
+                            {customLabels.SLIP_CLAUSE_SEC_CANCEL}
+                        </span>
+                    </div>
+
+                    <template if:true={SecurityCancelUI.hasPrevious}>
+                        <lightning-helptext content={SecurityCancelUI.tooltip}></lightning-helptext>
+                    </template>-->
+                </div>
+
+                <!-- Tax Payable By Reinsurer -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label">{TaxPayableLabel}</label>
+                    </div>
+
+                    <div class={wrapperClassMap.TaxPayable__c}
+                         data-field="TaxPayable__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+                        <template if:true={isEditMode}>
+                            <lightning-input
+                                    value={formData.TaxPayable__c}
+                                    data-field="TaxPayable__c"
+                                    onchange={handleChange}
+                                    variant="label-hidden">
+                            </lightning-input>
+                        </template>
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {taxPayableDisplay}
+                            </span>
+                        </template>
+                    </div>
+                    <template if:true={TaxPayableUI.hasPrevious}>
+                        <lightning-helptext content={TaxPayableUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Country Of Origin -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {CountryOriginLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.CountryOrigin_fm__c}
+                         data-field="CountryOrigin_fm__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                             <span class="view-text pre-wrap">
+                                {formData.CountryOrigin_fm__c}
+                            </span>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {formData.CountryOrigin_fm__c}
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={CountryOriginUI.hasPrevious}>
+                        <lightning-helptext content={CountryOriginUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Total Deductions -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {TotalDeductionLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.TotalDeduction__c}
+                         data-field="TotalDeduction__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                             <span class="view-text pre-wrap">
+                                {formData.TotalDeduction__c}
+                            </span>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {formData.TotalDeduction__c}
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={TotalDeductionUI.hasPrevious}>
+                        <lightning-helptext content={TotalDeductionUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                <!-- Other Deductions From Premium -->
+                <div class="slds-grid slds-border_bottom form-row">
+                    <div class="slds-col slds-size_3-of-12 slds-align-middle">
+                        <label class="slds-form-element__label"> {otherDeductionLabel} </label>
+                    </div>
+
+                    <div class={wrapperClassMap.RIOtherDeduction__c}
+                         data-field="RIOtherDeduction__c"
+                         onfocusin={handleFocus}
+                         onfocusout={handleBlur}>
+
+                        <template if:true={isEditMode}>
+                            <lightning-textarea
+                                    value={formData.RIOtherDeduction__c}
+                                    data-field="RIOtherDeduction__c"
+                                    onchange={handleChange}
+                                    variant="label-hidden">
+                            </lightning-textarea>
+                        </template>
+
+                        <template if:false={isEditMode}>
+                            <span class="view-text pre-wrap">
+                                {formData.RIOtherDeduction__c}
+                            </span>
+                        </template>
+                    </div>
+
+                    <template if:true={otherDeductionUI.hasPrevious}>
+                        <lightning-helptext content={otherDeductionUI.tooltip}></lightning-helptext>
+                    </template>
+                </div>
+
+                </template>
+
+            </div>
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>rel_1767084635168_end__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>co_insurance_SourceRecordId_map_pack_rel</label>
+    <referenceTo>packageinsurance__dlm</referenceTo>
+    <relationshipLabel>co_insurance_SourceRecordId_map_pack_rel</relationshipLabel>
+    <relationshipName>rel_1767084635168_end</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

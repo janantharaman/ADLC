@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Slip Information</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Slip Informations</value>
+    </caseValues>
+    <layouts>
+        <layout>Slip Information Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- Add TSI Info --></label>
+        <name>Add_TSI_Info</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- RI Closing Slip --></label>
+        <name>RI_Closing_Slip</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- RI Offer Slip --></label>
+        <name>RI_Offer_Slip</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- RQ Clone --></label>
+        <name>RQ_Clone</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Risk Detail Doc Generate --></label>
+        <name>Risk_Detail_Doc_Generate</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Google Map Search --></label>
+        <name>Slip_GoogleMapSearch</name>
+    </quickActions>
+    <recordTypes>
+        <label><!-- Risk Detail --></label>
+        <name>RQ</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Slip --></label>
+        <name>Slip</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <webLinks>
+        <label><!-- View_Cedant_Slip --></label>
+        <name>View_Cedant_Slip</name>
+    </webLinks>
+</CustomObjectTranslation>

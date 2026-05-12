@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <customErrors>
+        <name>Actual_End_Error1</name>
+        <label>Actual End Error1</label>
+        <locationX>182</locationX>
+        <locationY>1595</locationY>
+        <connector>
+            <targetReference>Check_Upper_Project_Id</targetReference>
+        </connector>
+        <customErrorMessages>
+            <errorMessage>Actual Start ({!$Record.ActualStart__c} ) &gt; Actual End ({!$Record.ActualEnd__c})</errorMessage>
+            <fieldSelection>ActualEnd__c</fieldSelection>
+            <isFieldError>true</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <customErrors>
+        <name>Actual_Start_Error1</name>
+        <label>Actual Start Error1</label>
+        <locationX>182</locationX>
+        <locationY>1295</locationY>
+        <connector>
+            <targetReference>Check_Actual_End_Date_Validation</targetReference>
+        </connector>
+        <customErrorMessages>
+            <errorMessage>Actual End Date 가 지정되어 있기 때문에 Actual Start Date 도 지정되어야 합니다.</errorMessage>
+            <fieldSelection>ActualStart__c</fieldSelection>
+            <isFieldError>true</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <customErrors>
+        <name>Plan_End_Error1</name>
+        <label>Plan End Error1</label>
+        <locationX>182</locationX>
+        <locationY>695</locationY>
+        <connector>
+            <targetReference>Check_Upper_Plan_End_Date</targetReference>
+        </connector>
+        <customErrorMessages>
+            <errorMessage>Plan Start ({!$Record.PlanStart__c} ) &gt; Plan End ({!$Record.PlanEnd__c})</errorMessage>
+            <fieldSelection>PlanEnd__c</fieldSelection>
+            <isFieldError>true</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <customErrors>
+        <name>Plan_End_Error2</name>
+        <label>Plan End Error2</label>
+        <locationX>182</locationX>
+        <locationY>995</locationY>
+        <connector>
+            <targetReference>Check_Actual_Start_Date_Validation</targetReference>
+        </connector>
+        <customErrorMessages>
+            <errorMessage>Plan End ( {!$Record.PlanEnd__c} ) &gt; &quot;{!$Record.Requirement__r.Name}&quot; Plan End ( {!$Record.Requirement__r.PlanEnd__c} )</errorMessage>
+            <fieldSelection>PlanEnd__c</fieldSelection>
+            <isFieldError>true</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <customErrors>
+        <name>Plan_Start_Error1</name>
+        <label>Plan Start Error1</label>
+        <locationX>182</locationX>
+        <locationY>395</locationY>
+        <connector>
+            <targetReference>Check_Plan_End_Date_Validation</targetReference>
+        </connector>
+        <customErrorMessages>
+            <errorMessage>Actual Start Date 가 지정되어 있기 때문에 Plan Start Date 의 변경은 불가합니다.</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <decisions>
+        <description>입력한 Actual End Date 가 Actual Start Date 보다 과거인 경우</description>
+        <name>Check_Actual_End_Date_Validation</name>
+        <label>Check Actual End Date Validation</label>
+        <locationX>314</locationX>
+        <locationY>1487</locationY>
+        <defaultConnector>
+            <targetReference>Check_Upper_Project_Id</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>is_Actual_End_Past</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.ActualStart__c</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <elementReference>$Record.ActualEnd__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ActualEnd__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Actual_End_Error1</targetReference>
+            </connector>
+            <label>is Actual End Past</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Actual End Date 가 입력(하는) 상태에서 Actual Start Date 가 빈값이거나 삭제하는 경우</description>
+        <name>Check_Actual_Start_Date_Validation</name>
+        <label>Check Actual Start Date Validation</label>
+        <locationX>314</locationX>
+        <locationY>1187</locationY>
+        <defaultConnector>
+            <targetReference>Check_Actual_End_Date_Validation</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>is_Plan_Start_Blank</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.ActualEnd__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ActualStart__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Actual_Start_Error1</targetReference>
+            </connector>
+            <label>is Plan Start Blank</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>입력한 Plan End Date 가 Plan Start Date 보다 과거인 경우</description>
+        <name>Check_Plan_End_Date_Validation</name>
+        <label>Check Plan End Date Validation</label>
+        <locationX>314</locationX>
+        <locationY>587</locationY>
+        <defaultConnector>
+            <targetReference>Check_Upper_Plan_End_Date</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>is_Plan_End_Past</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.PlanStart__c</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <elementReference>$Record.PlanEnd__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Plan_End_Error1</targetReference>
+            </connector>
+            <label>is Plan End Past</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Plan_End_Today_or_Past</name>
+        <label>Check Plan End Today or Past</label>
+        <locationX>314</locationX>
+        <locationY>2387</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>is_Plan_End_Today_or_Past</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.PlanEnd__c</leftValueReference>
+                <operator>LessThanOrEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Flow.CurrentDate</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>fm_isNewRecord</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.PlanEnd__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Ended_Task_Flag</targetReference>
+            </connector>
+            <label>is Plan End Today or Past</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Actual Start 가 입력되어 있고 Plan Start 를 변경하는 경우</description>
+        <name>Check_Plan_Start_Date_Validation</name>
+        <label>Check Plan Start Date Validation</label>
+        <locationX>314</locationX>
+        <locationY>287</locationY>
+        <defaultConnector>
+            <targetReference>Check_Plan_End_Date_Validation</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>is_Plan_Start_Changed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.ActualStart__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.PlanStart__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Plan_Start_Error1</targetReference>
+            </connector>
+            <label>is Plan Start Changed</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Plan Start 가 당일 또는 과거일 경우</description>
+        <name>Check_Plan_Start_Today_or_Past</name>
+        <label>Check Plan Start Today or Past</label>
+        <locationX>314</locationX>
+        <locationY>2087</locationY>
+        <defaultConnector>
+            <targetReference>Check_Plan_End_Today_or_Past</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>is_Plan_Start_equal_Today</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.PlanStart__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>$Flow.CurrentDate</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>fm_isNewRecord</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.PlanStart__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Started_Task_Flag</targetReference>
+            </connector>
+            <label>is Plan Start equal Today</label>
+        </rules>
+        <rules>
+            <name>is_Plan_Start_is_Past</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.PlanStart__c</leftValueReference>
+                <operator>LessThan</operator>
+                <rightValue>
+                    <elementReference>$Flow.CurrentDate</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>fm_isNewRecord</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.PlanStart__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Stage_Started_Task_Flag</targetReference>
+            </connector>
+            <label>is Plan Start is Past</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>입력한 Plan End Date 가 상위 Requirement 의 Plan End Date 를 초과하는 경우</description>
+        <name>Check_Upper_Plan_End_Date</name>
+        <label>Check Upper Plan End Date</label>
+        <locationX>314</locationX>
+        <locationY>887</locationY>
+        <defaultConnector>
+            <targetReference>Check_Actual_Start_Date_Validation</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>is_Upper_Plan_End_Date_Over</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.PlanEnd__c</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <elementReference>$Record.Requirement__r.PlanEnd__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Plan_End_Error2</targetReference>
+            </connector>
+            <label>is Upper Plan End Date Over</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Upper_Project_Id</name>
+        <label>Check Upper Project Id</label>
+        <locationX>314</locationX>
+        <locationY>1787</locationY>
+        <defaultConnector>
+            <targetReference>Check_Plan_Start_Today_or_Past</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>is_Upper_Project_Id</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Requirement__r.Milestone__r.Project__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>fm_isNewRecord</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Project_Id</targetReference>
+            </connector>
+            <label>is Upper Project Id</label>
+        </rules>
+    </decisions>
+    <description>Implementation 등록 전, Date 관련 Validation 체크, (신규 시)관련 Project ID 지정 및 Plan Start, Plan End  당일/과거 여부 확인</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>fm_isNewRecord</name>
+        <dataType>Boolean</dataType>
+        <expression>ISNEW()</expression>
+    </formulas>
+    <interviewLabel>Implementation Validation Check {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Implementation Validation Check</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Ended_Task_Flag</name>
+        <label>Update Ended Task Flag</label>
+        <locationX>182</locationX>
+        <locationY>2495</locationY>
+        <inputAssignments>
+            <field>isEndedTaskPlan__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Project_Id</name>
+        <label>Update Project Id</label>
+        <locationX>182</locationX>
+        <locationY>1895</locationY>
+        <connector>
+            <targetReference>Check_Plan_Start_Today_or_Past</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Project_Temp__c</field>
+            <value>
+                <elementReference>$Record.Requirement__r.Milestone__r.Project__r.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Stage_Started_Task_Flag</name>
+        <label>Update Stage &amp; Started Task Flag</label>
+        <locationX>314</locationX>
+        <locationY>2195</locationY>
+        <connector>
+            <targetReference>Check_Plan_End_Today_or_Past</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>DataRange__c</field>
+            <value>
+                <stringValue>Delayed</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Stage__c</field>
+            <value>
+                <stringValue>Delayed(Start)</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>isStartedTaskPlan__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Started_Task_Flag</name>
+        <label>Update Started Task Flag</label>
+        <locationX>50</locationX>
+        <locationY>2195</locationY>
+        <connector>
+            <targetReference>Check_Plan_End_Today_or_Past</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>isStartedTaskPlan__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>188</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Plan_Start_Date_Validation</targetReference>
+        </connector>
+        <object>Implementation__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>var_PlanEnd</name>
+        <dataType>Date</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <elementReference>$Record.PlanEnd__c</elementReference>
+        </value>
+    </variables>
+</Flow>

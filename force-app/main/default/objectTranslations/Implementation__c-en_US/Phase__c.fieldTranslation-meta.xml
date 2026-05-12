@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Phase --></label>
+    <name>Phase__c</name>
+    <picklistValues>
+        <masterLabel>...</masterLabel>
+        <translation><!-- ... --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>개발</masterLabel>
+        <translation><!-- 개발 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>마이그레이션</masterLabel>
+        <translation><!-- 마이그레이션 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>배포</masterLabel>
+        <translation><!-- 배포 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>분석 및 설계</masterLabel>
+        <translation><!-- 분석 및 설계 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>요구사항정의</masterLabel>
+        <translation><!-- 요구사항정의 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>테스트</masterLabel>
+        <translation><!-- 테스트 --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

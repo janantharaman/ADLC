@@ -1,0 +1,192 @@
+<!--
+ * @filename      : oppMarketLineTable.html
+ * @project-name  : LK보험중계_신규계약관리시스템 구축
+ * @author        : i2max
+ * @date          : 2026-01-07 (수)
+ * @group         :
+ * @group-content :
+ * @description   :
+ * @reference     :
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2026-01-07      i2max        Create
+-->
+<template>
+    <div class="table-container slds-scrollable_x slds-scrollable_y" style={tableContainerStyle} > <!-- style="height: 550px;" -->
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_col-bordered data-table">
+            <thead class="thead-sticky">
+            <!-- 헤더 1 -->
+            <tr class="slds-line-height_reset header1">
+                <!-- 전체선택 체크박스 -->
+                <th rowspan="2"
+                    class="checkbox-col"
+                    scope="col"
+                    if:true={isCheckboxVisible}>
+                    <div class="slds-truncate">
+                        <lightning-input
+                                label=""
+                                title="All"
+                                data-id="selectAll"
+                                variant="label-hidden"
+                                type="checkbox"
+                                checked={isAllSelected}
+                                onchange={handleSelectAll}
+                                disabled={isAllCheckboxDisabled}>
+                        </lightning-input>
+                    </div>
+                </th>
+                <!-- 'No.' -->
+                <th rowspan="2" class="rowno-col" scope="col">
+                    <div class="slds-truncate" title="No.">No.</div>
+                </th>
+
+                <!-- 그룹/단일 헤더들 -->
+                <template for:each={headerRow1} for:item="h">
+                    <th key={h.key}
+                        colspan={h.colspan}
+                        rowspan={h.rowspan}
+                        style={h.thStyle}
+                        scope="col">
+
+                        <!-- 그룹 헤더(접기/펼치기 버튼: 다중 컬럼 그룹만 노출) -->
+                        <template if:true={h.isGroup}>
+                            <div class="slds-grid slds-grid_align-spread slds-p-horizontal_x-small slds-align_absolute-center">
+                                <span class="slds-truncate" title={h.label}>{h.label}</span>
+                                <template if:true={h.collapsible}>
+                                    <div class="slds-m-left_x-small">
+                                        <lightning-button-icon
+                                                icon-name={h.toggleIcon}
+                                                size="x-small"
+                                                alternative-text={h.toggleLabel}
+                                                title={h.toggleLabel}
+                                                data-group={h.groupName}
+                                                data-mode={h.toggleMode}
+                                                onclick={handleGroupHeader}>
+                                        </lightning-button-icon>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+
+                        <!-- 단일 컬럼 헤더 -->
+                        <template if:false={h.isGroup}>
+                            <div class="slds-truncate" title={h.label}>{h.label}</div>
+                        </template>
+                    </th>
+                </template>
+            </tr>
+
+            <!-- 헤더 2 -->
+            <tr class="slds-line-height_reset header2">
+                <template for:each={headerRow2} for:item="h">
+                    <th key={h.key}
+                        style={h.thStyle}
+                        scope="col">
+                        <div class="slds-truncate" title={h.label}>
+                            <abbr class="slds-required" title="required" aria-hidden="true" if:true={h.required}>*</abbr>
+                            {h.label}
+                        </div>
+                    </th>
+                </template>
+            </tr>
+            </thead>
+            <tbody>
+            <template if:true={hasRecords}>
+                <template for:each={displayRows} for:item="row">
+                    <tr key={row.Id}>
+                        <td class="slds-cell-fixed checkbox-col" if:true={isCheckboxVisible}>
+                            <lightning-input
+                                    label=""
+                                    variant="label-hidden"
+                                    type="checkbox"
+                                    checked={row.isSelected}
+                                    data-row-id={row.Id}
+                                    onchange={handleRowSelect}
+                                    disabled={row.chkDisabled}
+                            >
+                            </lightning-input>
+                        </td>
+
+                        <td class="slds-cell-fixed slds-text-align_center rowno-col">
+                            {row._rowNo}
+                        </td>
+
+                        <!-- 본문 셀들 -->
+                        <template for:each={row.cells} for:item="cell">
+
+                            <!-- Layer 수준(세로 병합) 컬럼 -->
+                            <template if:true={cell.col.isLayer}>
+                                <template if:true={row.layerRowSpan}>
+                                    <td key={cell.key}
+                                        rowspan={row.layerRowSpan}
+                                        style={cell.tdStyle}
+                                        class={cell.tdClass}>
+                                        <template if:false={cell.col.isHidden}>
+                                            <c-opp-market-line-cell
+                                                    row={row}
+                                                    row-id={row.Id}
+                                                    layer-id={row.layerId}
+                                                    panel-id={row.panelId}
+                                                    col={cell.col}
+                                                    error-message={cell.errorMessage}
+                                                    is-read-only={cell.isReadOnly}
+                                                    is-edited={cell.isEdited}
+                                                    is-blank={cell.isBlank}
+                                                    is-ci-case={isCiCase}
+                                                    selected-currency={selectedCurrency}
+                                                    biz-region={bizRegion}
+                                                    onaddpanel={handleRelayEvent}
+                                                    ondellayer={handleRelayEvent}
+                                                    onvaluechange={handleValueChange}
+                                                    onkycstatuschange={handleRelayEvent}
+                                                    onopensubjectivity={handleRelayEvent}
+                                                    onopenmarketsearch={handleRelayEvent}>
+                                            </c-opp-market-line-cell>
+                                        </template>
+                                    </td>
+                                </template>
+                            </template>
+                            <!-- 나머지 컬럼(Panel 수준 포함) -->
+                            <template if:false={cell.col.isLayer}>
+                                <td key={cell.key}
+                                    style={cell.tdStyle}
+                                    class={cell.tdClass}>
+                                    <template if:false={cell.col.isHidden}>
+                                        <c-opp-market-line-cell
+                                                row={row}
+                                                row-id={row.Id}
+                                                layer-id={row.layerId}
+                                                panel-id={row.panelId}
+                                                col={cell.col}
+                                                error-message={cell.errorMessage}
+                                                is-read-only={cell.isReadOnly}
+                                                is-edited={cell.isEdited}
+                                                is-blank={cell.isBlank}
+                                                is-ci-case={isCiCase}
+                                                selected-currency={selectedCurrency}
+                                                biz-region={bizRegion}
+                                                onaddpanel={handleRelayEvent}
+                                                ondelpanel={handleRelayEvent}
+                                                onvaluechange={handleValueChange}
+                                                onkycstatuschange={handleRelayEvent}
+                                                onopenmarketsearch={handleRelayEvent}
+                                                onopensubjectivity={handleRelayEvent}>
+                                        </c-opp-market-line-cell>
+                                    </template>
+                                </td>
+                            </template>
+                        </template>
+                    </tr>
+                </template>
+            </template>
+            <template if:false={hasRecords}>
+                <c-com-no-records></c-com-no-records>
+            </template>
+            </tbody>
+        </table>
+    </div>
+
+</template>

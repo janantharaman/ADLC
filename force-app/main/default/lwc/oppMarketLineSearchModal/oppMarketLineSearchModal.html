@@ -1,0 +1,103 @@
+<!--
+ * @filename      : oppMarketLineSearchModal.html
+ * @project-name  : LK보험중계_신규계약관리시스템 구축
+ * @author        : i2max
+ * @date          : 2026-01-07 (수)
+ * @group         :
+ * @group-content :
+ * @description   :
+ * @reference     :
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2026-01-07      i2max        Create
+-->
+<template>
+    <div class="slds-var-p-around_medium">
+        <!-- 검색 영역 -->
+        <div class="slds-grid slds-gutters slds-var-m-bottom_medium">
+            <div class="slds-col slds-size_3-of-12 slds-align-bottom slds-var-p-bottom_x-small">
+                <p class="slds-grid_vertical-align-end slds-text-title_bold slds-text-heading_large">
+                    {labels.COM_LBL_ASOFDATE}({periodFromLabel}): <lightning-formatted-date-time value={periodFromDate} year="numeric" month="2-digit" day="2-digit"></lightning-formatted-date-time>
+                </p>
+            </div>
+            <div class="slds-col slds-size_6-of-12">
+                <lightning-input
+                        type="search"
+                        label={labels.COM_LBL_SEARCH}
+                        variant="label-hidden"
+                        placeholder={msgPlaceholder}
+                        value={searchText}
+                        onchange={handleSearchChange}
+                        onkeyup={handleKeyUp}>
+                </lightning-input>
+            </div>
+            <div class="slds-col slds-size_3-of-12">
+                <lightning-button
+                        variant="brand"
+                        label={labels.COM_LBL_SEARCH}
+                        onclick={handleSearch}
+                        class="slds-var-m-left_small">
+                </lightning-button>
+            </div>
+        </div>
+
+        <!-- 목록 영역 -->
+        <div class="table-container slds-scrollable_y" style="height: 300px;">
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </template>
+
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" aria-label="Market Search Result">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th scope="col" class="slds-text-align_center slds-theme_shade slds-p-vertical_large slds-text-color_inverse" style="vertical-align: middle; width: 20px; position: sticky; top: 0; z-index: 1; background-color: lightgray;">
+                            <div class="slds-truncate" title="No.">No.</div>
+                        </th>
+                        <!-- 동적 컬럼 헤더 -->
+                        <template for:each={columns} for:item="col">
+                            <th key={col.fieldName} scope="col" class="slds-text-align_center slds-text-color_inverse" style="vertical-align: middle; position: sticky; top: 0; z-index: 1; background-color: lightgray;">
+                                <div class="slds-truncate" title={col.label}>{col.label}</div>
+                            </th>
+                        </template>
+                        <th scope="col" class="slds-text-align_center" style="vertical-align: middle; width: 30px; position: sticky; top: 0; z-index: 1; background-color: lightgray;">
+                            <div class="slds-truncate" title="Action">Action</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                <template if:true={hasRows}>
+                    <template for:each={rows} for:item="row">
+                        <tr key={row.key} class="slds-hint-parent">
+                            <td>
+                                <div class="slds-truncate" title={row.no}>{row.no}</div>
+                            </td>
+                            <!-- 동적 셀 데이터 -->
+                            <template for:each={row.cells} for:item="cell">
+                                <td key={cell.fieldName} class={cell.alignClass}>
+                                    <div class="slds-truncate" title={cell.value}>{cell.value}</div>
+                                </td>
+                            </template>
+                            <td class="slds-text-align_center">
+                                <lightning-button
+                                        label={labels.COM_LBL_SELECT}
+                                        variant="neutral"
+                                        data-id={row.Id}
+                                        data-name={row.Name}
+                                        data-facility-participant-id={row.FacilityParticipantId}
+                                        onclick={handleSelect}>
+                                </lightning-button>
+                            </td>
+                        </tr>
+                    </template>
+                </template>
+                <template if:false={hasRows}>
+                    <c-com-no-records ></c-com-no-records>
+                </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</template>

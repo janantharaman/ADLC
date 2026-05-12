@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>isBrokerAcc__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>거래처 중개사 여부 관리</description>
+    <label>isBrokerAcc</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Checkbox</type>
+</CustomField>

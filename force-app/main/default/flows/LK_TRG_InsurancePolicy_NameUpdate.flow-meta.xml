@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Inception Date 또는 Idenfication Value 변경 시, 계약명을 업데이트</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>fm_InceptionDateMonth</name>
+        <dataType>String</dataType>
+        <expression>IF ( TEXT ( MONTH ( DATEVALUE ( {!$Record.InceptionDate__c} ) ) ) = &quot;10&quot; || 
+      TEXT ( MONTH ( DATEVALUE ( {!$Record.InceptionDate__c} ) ) ) = &quot;11&quot; || 
+      TEXT ( MONTH ( DATEVALUE ( {!$Record.InceptionDate__c} ) ) ) = &quot;12&quot;, 
+TEXT ( MONTH ( DATEVALUE ( {!$Record.InceptionDate__c} ) ) ) ,
+&quot;0&quot; &amp; TEXT ( MONTH ( DATEVALUE ( {!$Record.InceptionDate__c} ) ) )
+)</expression>
+    </formulas>
+    <formulas>
+        <name>fm_InceptionDateYear2Char</name>
+        <dataType>String</dataType>
+        <expression>RIGHT ( TEXT ( YEAR ( DATEVALUE ({!$Record.InceptionDate__c}) ) ), 2 )</expression>
+    </formulas>
+    <formulas>
+        <name>fm_PolicyName</name>
+        <dataType>String</dataType>
+        <expression>IF ( ISNULL ( {!$Record.IdentificationValue__c} ), {!fm_InceptionDateYear2Char} &amp; {!fm_InceptionDateMonth} &amp; &quot;_&quot; &amp; {!$Record.PolicyHodler_lk__r.Name} &amp; &quot;_&quot; &amp; TEXT ( {!$Record.LOB3__c} ), 
+{!fm_InceptionDateYear2Char} &amp; {!fm_InceptionDateMonth} &amp; &quot;_&quot; &amp; {!$Record.PolicyHodler_lk__r.Name} &amp; &quot;_&quot; &amp; TEXT ( {!$Record.LOB3__c} ) &amp; &quot;_&quot; &amp;  {!$Record.IdentificationValue__c}
+)</expression>
+    </formulas>
+    <interviewLabel>LK_TRG_InsurancePolicy_NameUpdate {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>LK_TRG_InsurancePolicy_NameUpdate</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Insurance_Policy_Name</name>
+        <label>Update Insurance Policy Name</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>fm_PolicyName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Insurance_Policy_Name</targetReference>
+        </connector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>InceptionDate__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>IdentificationValue__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>InsurancePolicy</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

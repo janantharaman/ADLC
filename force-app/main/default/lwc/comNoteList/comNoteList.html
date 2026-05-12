@@ -1,0 +1,76 @@
+<!--
+ * @filename      : comNoteList.html
+ * @project-name  : LK보험중계_신규계약관리시스템 구축
+ * @author        : i2max
+ * @date          : 2026-03-10 (화)
+ * @group         :
+ * @group-content :
+ * @description   : 
+ * @reference     : 
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2026-03-10      i2max        Create
+-->
+<template>
+    <div class="slds-p-around_medium slds-p-left_large">
+        <lightning-card title="Note List" icon-name="standard:note">
+
+            <!-- Filter -->
+            <div class="slds-p-horizontal_small">
+                <c-com-note-list-filter
+                        default-filter={_defaultFilter}
+                        onsearch={handleSearch}
+                        onreset={handleReset}>
+                </c-com-note-list-filter>
+            </div>
+
+            <!-- Loading -->
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </template>
+
+            <!-- Button Bar & Total Count -->
+            <div class="slds-p-horizontal_x-small slds-p-top_x-small slds-p-bottom_xx-small slds-grid slds-grid_vertical-align-end">
+                <span class="slds-text-body_small slds-text-title">Total Count: {totalCount}</span>
+                <div class="slds-col_bump-left">
+                    <lightning-button-group >
+                        <lightning-button-icon
+                                icon-name="utility:add"
+                                alternative-text="Expand All"
+                                title="Expand All"
+                                onclick={handleExpandAll}>
+                        </lightning-button-icon>
+                        <lightning-button-icon
+                                icon-name="utility:dash"
+                                alternative-text="Collapse All"
+                                title="Collapse All"
+                                onclick={handleCollapseAll}>
+                        </lightning-button-icon>
+                        <lightning-button
+                                label="New"
+                                icon-name="utility:add"
+                                variant="brand"
+                                onclick={handleCreate}
+                                disabled={isCreateDisabled}>
+                        </lightning-button>
+                    </lightning-button-group>
+                </div>
+            </div>
+
+            <div class="slds-p-horizontal_x-small">
+                <c-rec-table
+                        lwc:ref="table"
+                        key-field="Id"
+                        columns={tableColumns}
+                        data={tableData}
+                        onrowselection={handleRowSelection}
+                >
+                </c-rec-table>
+            </div>
+        </lightning-card>
+    </div>
+
+</template>

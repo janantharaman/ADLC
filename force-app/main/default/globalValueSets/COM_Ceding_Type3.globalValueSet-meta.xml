@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Quota Share</fullName>
+        <default>false</default>
+        <label>Quota Share</label>
+    </customValue>
+    <customValue>
+        <fullName>Surplus</fullName>
+        <default>false</default>
+        <label>Surplus</label>
+    </customValue>
+    <customValue>
+        <fullName>Fac. Obligatory Open Cover</fullName>
+        <default>false</default>
+        <label>Fac. Obligatory Open Cover</label>
+    </customValue>
+    <customValue>
+        <fullName>etc.(Proportional)</fullName>
+        <default>false</default>
+        <label>etc.(Proportional)</label>
+    </customValue>
+    <customValue>
+        <fullName>Excess of Loss</fullName>
+        <default>false</default>
+        <label>Excess of Loss</label>
+    </customValue>
+    <customValue>
+        <fullName>Stop Loss</fullName>
+        <default>false</default>
+        <label>Stop Loss</label>
+    </customValue>
+    <customValue>
+        <fullName>etc.(Non-Proportional)</fullName>
+        <default>false</default>
+        <label>etc.(Non-Proportional)</label>
+    </customValue>
+    <masterLabel>[COM] Ceding Type3</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

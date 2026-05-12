@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IntermediaryClause_fm__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( ISPICKVAL(Opportunity_lk__r.CreatedBy.Region__c , &quot;SG&quot;),
+
+&quot; LK Re Pte Ltd (hereinafter refer to LK Re) is hereby recognized as the Intermediary negotiating this Agreement. All communications (including notices, statements, premiums, return premiums, commissions, taxes, loss expense, salvage and settlements) relating thereto shall be transmitted to the Reinsured or the Reinsurers through the Intermediary at the address shown below:&quot;
+
+&amp;BR()&amp;
+
+&quot;LK Re Pte Ltd&quot;
+
+&amp;BR()&amp;
+
+&quot;2 Central Boulevard West Tower&quot;
+
+&amp;BR()&amp;
+
+&quot;#08-03A IOI Central Boulevard Towers Singapore 018916&quot;, &quot;&quot;)</formula>
+    <label>Intermediary clause</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

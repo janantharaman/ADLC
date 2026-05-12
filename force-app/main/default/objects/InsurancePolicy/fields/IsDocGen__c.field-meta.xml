@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IsDocGen__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>결약서 생성 여부 판단 boolean 필드</description>
+    <label>IsDocGen</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

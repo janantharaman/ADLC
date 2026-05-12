@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- TOR/LSW --></label>
+    <name>TorLsw__c</name>
+    <picklistValues>
+        <masterLabel>LSW</masterLabel>
+        <translation><!-- LSW --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>TOR</masterLabel>
+        <translation><!-- TOR --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

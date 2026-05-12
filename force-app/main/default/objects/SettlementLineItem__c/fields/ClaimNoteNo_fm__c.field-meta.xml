@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ClaimNoteNo_fm__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(TEXT(ClosingOrign__c) = &apos;Claim&apos; , HYPERLINK(&apos;/&apos;+ Id, RefReinsuranceDetail__r.LKRefNo__c &amp; &apos;-&apos; &amp; &apos;C&apos; &amp; &apos;-&apos; &amp; RefClaimAllocation__r.ClaimSeq_fm__c &amp; &apos;-&apos; &amp; Text(ClaimNoteSeqNo__c) ) , &apos;&apos; )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Claim Note No.</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

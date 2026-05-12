@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Submitter --></label>
+    <name>Submitter_lk__c</name>
+    <relationshipLabel><!-- Various Approval Mgmt (Submitter) --></relationshipLabel>
+</CustomFieldTranslation>

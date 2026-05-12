@@ -1,0 +1,78 @@
+:host { display:block; }
+
+/* 입력 박스 바로 아래 1px 간격 정렬 */
+.slds-combobox .slds-dropdown {
+    margin-top: 1px; /* 요청 사항 */
+}
+
+/* 셀 내 좁은 폭에서 자연스럽게 확장 */
+.slds-dropdown_fluid {
+    min-width: 100%;
+}
+
+.lkp {
+    overflow: visible;
+    position: relative;
+}
+
+.slds-combobox {
+    overflow: visible;
+    position: relative !important;
+}
+
+.dropdown-base {
+    position: absolute;
+    right: 0;
+    z-index: 9999999;
+    max-height: 240px;
+    overflow: auto;
+}
+
+/* SLDS 기본 모양 유지 + 위치만 제어 */
+.slds-dropdown.bottom {
+    top: calc(100% + 2px);
+    z-index: 9999999 !important;
+}
+.slds-dropdown.top {
+    top: calc(100% + 2px);
+    z-index: 9999999 !important;
+}
+
+.slds-dropdown {
+    z-index: 9999999 !important;
+    position: absolute;
+}
+
+.slds-listbox {
+    z-index: 9999999 !important;
+}
+
+.slds-combobox_container {
+    position: relative !important;
+}
+
+/*.slds-combobox_container,*/
+/*.slds-combobox,*/
+/*.lkp {*/
+/*    overflow: visible;*/
+/*}*/
+.createnew {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
+.close-modal {
+    cursor: pointer;
+}
+
+.selectionGroup {
+    display: flex;
+    position: relative;
+    background: #fff;
+    border: 1px solid #dddbda;
+    border-top: 0;
+    border-bottom-left-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+    padding: 1px 2px;
+    height: auto !important;
+}

@@ -1,0 +1,152 @@
+:host {
+    display: block;
+    width: 100%;
+}
+
+/* ── Wrapper ─────────────────────────────────────────────────────────────── */
+.lkp-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0 0.5rem;
+    height: 1.875rem;
+    border: 1px solid #dddbda;
+    border-radius: 0.25rem;
+    background: #fff;
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+.lkp-wrap:focus-within {
+    border-color: #1b96ff;
+    box-shadow: 0 0 3px #1b96ff80;
+}
+
+/* ── Search icon ─────────────────────────────────────────────────────────── */
+.lkp-icon-left {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    color: #706e6b;
+}
+
+/* ── Input ───────────────────────────────────────────────────────────────── */
+.lkp-input {
+    flex: 1 1 0;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 0.8125rem;
+    color: #3e3e3c;
+    padding: 0;
+}
+
+.lkp-input::placeholder {
+    color: #9e9e9c;
+}
+
+/* ── Selected label ──────────────────────────────────────────────────────── */
+.lkp-selected {
+    flex: 1 1 0;
+    min-width: 0;
+    font-size: 0.8125rem;
+    color: #3e3e3c;
+}
+
+/* URL-style link for selected record */
+.lkp-selected--link {
+    color: var(--slds-g-color-accent-2, #0070d2);
+    text-decoration: none;
+    cursor: pointer;
+}
+.lkp-selected--link:hover {
+    text-decoration: underline;
+}
+
+/* ── Clear button ────────────────────────────────────────────────────────── */
+.lkp-clear {
+    flex: 0 0 auto;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #706e6b;
+}
+
+.lkp-clear:hover {
+    color: #c23934;
+}
+
+/* ── Backdrop ────────────────────────────────────────────────────────────── */
+.lkp-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 9999998;
+    background: transparent;
+}
+
+/* ── Dropdown (position:fixed set via inline style in JS) ────────────────── */
+.lkp-dropdown {
+    background: #fff;
+    border: 1px solid #dddbda;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    max-height: 240px;
+    overflow-y: auto;
+    padding: 0.25rem 0;
+    list-style: none;
+    margin: 0;
+}
+
+/* ── Option items ────────────────────────────────────────────────────────── */
+.lkp-opt {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.375rem 0.75rem;
+    cursor: pointer;
+    font-size: 0.8125rem;
+    color: #3e3e3c;
+}
+
+.lkp-opt:hover {
+    background: #f3f3f3;
+}
+
+.lkp-opt__icon {
+    flex: 0 0 auto;
+    color: #706e6b;
+}
+
+.lkp-opt__body {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.lkp-opt__label {
+    font-size: 0.8125rem;
+    color: #3e3e3c;
+}
+
+.lkp-opt__sub {
+    font-size: 0.6875rem;
+    color: #706e6b;
+    margin-top: 1px;
+}
+
+.lkp-opt--empty {
+    color: #706e6b;
+    font-style: italic;
+    cursor: default;
+}
+
+.lkp-opt--more {
+    color: #1b96ff;
+    justify-content: center;
+    font-size: 0.75rem;
+}

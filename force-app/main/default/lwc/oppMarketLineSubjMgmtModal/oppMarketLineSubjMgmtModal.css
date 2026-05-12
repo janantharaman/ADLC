@@ -1,0 +1,9 @@
+.table-container th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    height: 50px !important;
+    text-align: center !important;
+    background-color: var(--slds-g-color-neutral-base-90);
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
+}

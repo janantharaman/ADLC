@@ -1,0 +1,16 @@
+<template>
+    <!--
+        c-rec-cell-lookup: position:fixed 드롭다운 루업
+        overflow:auto 테이블 컨테이너를 탈출. 레이블 없음.
+        event: onlookupchange → detail: { fieldName, value, label }
+    -->
+    <c-rec-cell-lookup
+        config={comLookupConfig}
+        value={value}
+        resolved-label={resolvedLabel}
+        field-name={fieldName}
+        placeholder={recordPickerPlaceholder}
+        disabled={isDisabled}
+        onlookupchange={handleRecordPickerChange}
+    ></c-rec-cell-lookup>
+</template>

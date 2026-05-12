@@ -1,0 +1,15 @@
+.slds-table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.slds-table th {
+    text-align: center !important;
+}
+.slds-table td {
+    padding: var(--slds-g-spacing-3);
+    border-left: 1px solid #ccc !important;
+    white-space: nowrap;
+    position: relative;
+    text-align: center !important;
+}

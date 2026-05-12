@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Additional Account Info</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Additional Account Info</value>
+    </caseValues>
+    <layouts>
+        <layout>Additional Account Info Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Bank Information</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Security</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- Activate --></label>
+        <name>Activate</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Activate/Deactivate --></label>
+        <name>Activate_Deactivate</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Activate --></label>
+        <name>Activate_Se</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Submit for Approval --></label>
+        <name>Approval_Security</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Approve --></label>
+        <name>Approve</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Deactivate --></label>
+        <name>Deactivate</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Deactivate --></label>
+        <name>Deactivate_Se</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Reject --></label>
+        <name>Reject</name>
+    </quickActions>
+    <recordTypes>
+        <label><!-- Bank Information --></label>
+        <name>BankInformation</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Security --></label>
+        <name>Security</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Activation is available only through an approval process. --></errorMessage>
+        <name>Change_Active</name>
+    </validationRules>
+</CustomObjectTranslation>

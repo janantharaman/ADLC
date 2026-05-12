@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IssueDate_fm__c</fullName>
+    <formula>NOT(ISBLANK(IssueDate__c ))</formula>
+    <label>SOC/PLA Issue Exists</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

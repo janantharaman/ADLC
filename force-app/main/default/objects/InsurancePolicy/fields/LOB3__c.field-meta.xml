@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LOB3__c</fullName>
+    <label>LOB3</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>LOB2__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetName>COM_LOB3</valueSetName>
+        <valueSettings>
+            <controllingFieldValue>Government-backed reinsurance</controllingFieldValue>
+            <valueName>TT71</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Government-backed reinsurance</controllingFieldValue>
+            <valueName>TT72</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Long-Term</controllingFieldValue>
+            <valueName>TT81</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Long-Term</controllingFieldValue>
+            <valueName>TT82</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Life</controllingFieldValue>
+            <valueName>TT91</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Others</controllingFieldValue>
+            <valueName>TT99</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Erection</controllingFieldValue>
+            <controllingFieldValue>Engineering</controllingFieldValue>
+            <valueName>PE02</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Completed Construction</controllingFieldValue>
+            <controllingFieldValue>Engineering</controllingFieldValue>
+            <valueName>PE05</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Construction &amp; Erection</controllingFieldValue>
+            <controllingFieldValue>Engineering</controllingFieldValue>
+            <valueName>PE08</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Machinery</controllingFieldValue>
+            <controllingFieldValue>Engineering</controllingFieldValue>
+            <valueName>PE07</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Machinery</controllingFieldValue>
+            <valueName>PE03</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Machinery</controllingFieldValue>
+            <valueName>PE04</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Machinery</controllingFieldValue>
+            <controllingFieldValue>Engineering</controllingFieldValue>
+            <valueName>PE06</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Machinery</controllingFieldValue>
+            <controllingFieldValue>Engineering</controllingFieldValue>
+            <valueName>PE99</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Personal Accident(T)</controllingFieldValue>
+            <valueName>TT41</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Personal Accident</controllingFieldValue>
+            <valueName>PA01</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Personal Accident</controllingFieldValue>
+            <valueName>PA02</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Personal Accident</controllingFieldValue>
+            <valueName>PA06</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Personal Accident</controllingFieldValue>
+            <valueName>PA07</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Personal Accident</controllingFieldValue>
+            <valueName>PA99</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Commercial Auto</controllingFieldValue>
+            <valueName>AU01</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Commercial Auto</controllingFieldValue>
+            <valueName>AU02</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Commercial Auto</controllingFieldValue>
+            <valueName>AU03</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Commercial Auto</controllingFieldValue>
+            <valueName>AU04</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Commercial Auto</controllingFieldValue>
+            <valueName>AU05</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Commercial Auto</controllingFieldValue>
+            <valueName>AU06</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Etc</controllingFieldValue>
+            <valueName>ET01</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Etc</controllingFieldValue>
+            <valueName>ETCS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Etc</controllingFieldValue>
+            <valueName>ET99</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Construction</controllingFieldValue>
+            <controllingFieldValue>Engineering</controllingFieldValue>
+            <valueName>PE01</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Aviation</controllingFieldValue>
+            <valueName>MA02</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cargo</controllingFieldValue>
+            <valueName>MA03</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cargo</controllingFieldValue>
+            <valueName>MA04</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cargo</controllingFieldValue>
+            <valueName>MA09</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cargo</controllingFieldValue>
+            <valueName>MA12</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cargo</controllingFieldValue>
+            <valueName>MA06</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cargo</controllingFieldValue>
+            <valueName>MA99</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Travel</controllingFieldValue>
+            <valueName>PA03</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Travel</controllingFieldValue>
+            <valueName>PA04</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Travel</controllingFieldValue>
+            <valueName>PA05</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property</controllingFieldValue>
+            <valueName>TT01</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property</controllingFieldValue>
+            <valueName>TT02</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marine</controllingFieldValue>
+            <valueName>TT21</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marine</controllingFieldValue>
+            <valueName>TT22</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marine</controllingFieldValue>
+            <valueName>TT23</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Casualty</controllingFieldValue>
+            <valueName>TT31</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fire</controllingFieldValue>
+            <valueName>PF01</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fire</controllingFieldValue>
+            <valueName>PF02</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fire</controllingFieldValue>
+            <valueName>PF03</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fire</controllingFieldValue>
+            <valueName>PF04</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fire</controllingFieldValue>
+            <valueName>PF05</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fire</controllingFieldValue>
+            <valueName>PF99</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property All Risks</controllingFieldValue>
+            <valueName>PR01</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property All Risks</controllingFieldValue>
+            <valueName>PR02</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property All Risks</controllingFieldValue>
+            <valueName>PR03</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property All Risks</controllingFieldValue>
+            <valueName>PR04</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property All Risks</controllingFieldValue>
+            <valueName>PR05</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property All Risks</controllingFieldValue>
+            <valueName>PR06</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property All Risks</controllingFieldValue>
+            <valueName>PR07</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property All Risks</controllingFieldValue>
+            <valueName>PR08</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property All Risks</controllingFieldValue>
+            <valueName>PR09</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property All Risks</controllingFieldValue>
+            <valueName>PR10</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property All Risks</controllingFieldValue>
+            <valueName>PR11</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property All Risks</controllingFieldValue>
+            <valueName>PR12</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property All Risks</controllingFieldValue>
+            <valueName>PR99</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Engineering</controllingFieldValue>
+            <valueName>TT11</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Hull</controllingFieldValue>
+            <valueName>MA01</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Hull</controllingFieldValue>
+            <valueName>MA07</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Hull</controllingFieldValue>
+            <valueName>MA08</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Hull</controllingFieldValue>
+            <valueName>MA10</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Hull</controllingFieldValue>
+            <valueName>MA11</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG01</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG02</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG03</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG04</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG05</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG06</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG07</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG08</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG09</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG10</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG11</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG12</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG13</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG14</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG15</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG16</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG17</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG18</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG19</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG21</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG22</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG23</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG24</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG26</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG27</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG28</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG29</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG30</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Liability</controllingFieldValue>
+            <valueName>CG99</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Professional Liability</controllingFieldValue>
+            <valueName>CP01</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Professional Liability</controllingFieldValue>
+            <valueName>CP02</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Professional Liability</controllingFieldValue>
+            <valueName>CP03</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Professional Liability</controllingFieldValue>
+            <valueName>CP04</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Professional Liability</controllingFieldValue>
+            <valueName>CP05</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Professional Liability</controllingFieldValue>
+            <valueName>CP06</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Professional Liability</controllingFieldValue>
+            <valueName>CP99</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Workers Compensation</controllingFieldValue>
+            <valueName>CW01</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Workers Compensation</controllingFieldValue>
+            <valueName>CW02</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Workers Compensation</controllingFieldValue>
+            <valueName>CW03</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Workers Compensation</controllingFieldValue>
+            <valueName>CW04</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Workers Compensation</controllingFieldValue>
+            <valueName>CW05</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Workers Compensation</controllingFieldValue>
+            <valueName>CW99</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Specialty</controllingFieldValue>
+            <valueName>CO01</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Specialty</controllingFieldValue>
+            <valueName>CO02</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Specialty</controllingFieldValue>
+            <valueName>CO03</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Specialty</controllingFieldValue>
+            <valueName>CO04</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Specialty</controllingFieldValue>
+            <valueName>CO05</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Specialty</controllingFieldValue>
+            <valueName>CO06</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Specialty</controllingFieldValue>
+            <valueName>CO07</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Specialty</controllingFieldValue>
+            <valueName>CO08</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Specialty</controllingFieldValue>
+            <valueName>CO09</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Specialty</controllingFieldValue>
+            <valueName>CO10</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Specialty</controllingFieldValue>
+            <valueName>CO11</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Specialty</controllingFieldValue>
+            <valueName>CO12</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Specialty</controllingFieldValue>
+            <valueName>CO13</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Specialty</controllingFieldValue>
+            <valueName>CO14</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Specialty</controllingFieldValue>
+            <valueName>CO15</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Specialty</controllingFieldValue>
+            <valueName>CO99</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Guarantee</controllingFieldValue>
+            <valueName>CS01</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Guarantee</controllingFieldValue>
+            <valueName>CS99</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Motor</controllingFieldValue>
+            <valueName>TT51</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Motor</controllingFieldValue>
+            <valueName>TT52</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Motor</controllingFieldValue>
+            <valueName>TT53</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Bond</controllingFieldValue>
+            <valueName>TT61</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

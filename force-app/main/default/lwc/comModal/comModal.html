@@ -1,0 +1,90 @@
+<!--
+ * @filename      : comModal.html
+ * @project-name  : LK보험중계_신규계약관리시스템 구축
+ * @author        : i2max
+ * @date          : 2025-12-09 (화)
+ * @group         :
+ * @group-content :
+ * @description   : 
+ * @reference     : 
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2025-12-09      i2max        Create
+ * 1.1   2025-12-19      i2max        Add hideFooter option
+-->
+<template>
+    <section
+            role="dialog"
+            tabindex="-1"
+            aria-modal="true"
+            class={modalClass}
+    >
+        <div class="slds-modal__container">
+            <!-- Header -->
+            <template if:false={hideHeader}>
+                <header class="slds-modal__header">
+                    <button
+                            class="slds-button slds-button_icon slds-modal__close"
+                            title={label.COM_BTN_CLOSE}
+                            onclick={handleCancel}
+                    >
+                        <lightning-icon
+                                icon-name="utility:close"
+                                alternative-text={label.COM_BTN_CLOSE}
+                                variant="bare-inverse"
+                                size="small"
+                        ></lightning-icon><!-- variant="bare-inverse" 미지정시 아이콘 조회 불가 이슈 있음 -->
+                        <span class="slds-assistive-text">{label.COM_BTN_CLOSE}</span>
+                    </button>
+                    <h2 class="slds-text-heading_medium slds-hyphenate">
+                        {title}
+                    </h2>
+                </header>
+            </template>
+            <template if:true={hideHeader}>
+                <header class="slds-modal__header slds-modal__header_empty">
+                    <button
+                            class="slds-button slds-button_icon slds-modal__close"
+                            title={label.COM_BTN_CLOSE}
+                            onclick={handleCancel}
+                    >
+                        <lightning-icon
+                                icon-name="utility:close"
+                                alternative-text={label.COM_BTN_CLOSE}
+                                variant="bare-inverse"
+                                size="small"
+                        ></lightning-icon>
+                        <span class="slds-assistive-text">{label.COM_BTN_CLOSE}</span>
+                    </button>
+                </header>
+            </template>
+
+            <!-- Body -->
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content">
+                <slot></slot>
+            </div>
+
+            <!-- Footer (조건부 렌더링) -->
+            <template if:false={hideFooter}>
+                <footer class="slds-modal__footer slds-p-bottom_small">
+                    <lightning-button
+                            variant="neutral"
+                            label={cancelLabel}
+                            onclick={handleCancel}
+                    ></lightning-button>
+                    <lightning-button
+                            variant="brand"
+                            class="slds-p-left_xx-small"
+                            label={saveLabel}
+                            onclick={handleSave}
+                            if:false={hideSave}
+                    ></lightning-button>
+                </footer>
+            </template>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

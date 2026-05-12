@@ -1,0 +1,37 @@
+<template>
+    <lightning-card>
+        <lightning-accordion active-section-name="Market Line" allow-multiple-sections-open>
+            <lightning-accordion-section name="Market Line" label={sectionTitle}>
+                <!-- Currency Selector -->
+                <div class="slds-m-top_medium">
+                    <div class="slds-grid slds-grid_vertical-align-center slds-m-horizontal_medium">
+                        <div class="slds-shrink-none slds-text-body_regular slds-m-right_small">
+                            <h1 class="slds-text-heading_small slds-m-bottom_none">Prem Currency</h1>
+                        </div>
+                        <div class="slds-col slds-size_1-of-6 currency-selector-wrapper">
+                            <lightning-combobox value={selectedCurrency} options={currencyOptions} onchange={handleCurrencyChange} variant="label-hidden" placeholder="Select Currency">
+                            </lightning-combobox>
+                        </div>
+                    </div>
+                    <template if:true={hasCurrencyOptions}>
+                        <!-- Premium from Cedent Section -->
+                        <c-opp-premium-from-cedent record-id={recordId} selected-currency={selectedCurrency} has-c-i-detail={hasCIDetail}> </c-opp-premium-from-cedent>
+
+                        <!-- Brokerage Summary Section -->
+                        <c-opp-brokerage-summary record-id={recordId} selected-currency={selectedCurrency} has-c-i-detail={hasCIDetail}> </c-opp-brokerage-summary>
+
+                        <!-- Layer Panel Grid Section(oppMarketLineTable로 교체예정) -->
+                        <!-- <c-opp-test-layer-panel-grid record-id={recordId} selected-currency={selectedCurrency}>
+                    </c-opp-test-layer-panel-grid> -->
+                        <c-opp-market-line-manage record-id={recordId} selected-currency={selectedCurrency} onfinalize={handleFinalize}> </c-opp-market-line-manage>
+                    </template>
+                    <template if:false={hasCurrencyOptions}>
+                        <div class="slds-m-top_medium slds-m-horizontal_medium">
+                            <lightning-formatted-text value={labels.COM_MSG_INPUT_TSI_BY_LOCATION} class="currency-warning-text"> </lightning-formatted-text>
+                        </div>
+                    </template>
+                </div>
+            </lightning-accordion-section>
+        </lightning-accordion>
+    </lightning-card>
+</template>

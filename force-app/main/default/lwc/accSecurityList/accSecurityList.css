@@ -1,0 +1,73 @@
+/* td 기본 */
+.inline-cell {
+    position: relative;
+    padding-right: 1.75rem;
+}
+
+/* view 영역 */
+.cell-view {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* 텍스트 영역 */
+.cell-text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 링크 스타일 */
+.link-text {
+    color: #0176d3;
+    text-decoration: none;
+}
+
+.link-text:hover {
+    text-decoration: underline;
+}
+
+.edit-icon {
+    position: absolute;
+    right: 0.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s ease-in-out;
+}
+
+tr:hover .edit-icon {
+    opacity: 1;
+}
+
+.cell-editing {
+    background-color: #ffeaa7 !important;
+    outline: 2px solid #64b5f6;
+}
+
+.cell-edited {
+    background-color: #ffeaa7 !important;
+}
+
+/* 보기 모드 (날짜) 가운데 정렬 */
+.cell-view.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+.cell-error {
+    box-shadow: 0 0 3px rgba(194, 57, 52, 0.5);
+    border: 1px solid #c23934 !important;
+}
+
+
+/*.field-error {
+    color: #e03131;
+    font-size: 0.75rem;
+    margin-top: 4px;
+}*/

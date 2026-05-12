@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Provision__c</fullName>
+    <defaultValue>&quot;In the event that the written lines hereon exceed 100% of the order, any lines written “to stand” will be allocated in full and all other lines will be signed down in equal proportions so that the aggregate signed lines are equal to 100% of the order without further agreement of any of the insurers.&quot;
+&amp;BR()&amp;BR()&amp;
+&quot;However:&quot;
+&amp;BR()&amp;BR()&amp;
+&quot;a)	in the event that the placement of the order is not completed by the commencement date of the period of insurance then all lines written by that date will be signed in full;&quot;
+&amp;BR()&amp;BR()&amp;
+&quot;b)	the signed lines resulting from the application of the above provisions can be varied, before or after the commencement date of the period of insurance, by the documented agreement of the insured and all insurers whose lines are to be varied. The variation to the contracts will take effect only when all such insurers have agreed, with the resulting variation in signed lines commencing from the date set out in that agreement. &quot;</defaultValue>
+    <label>(X)Signing provisions</label>
+    <length>925</length>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

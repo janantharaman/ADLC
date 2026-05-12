@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlowDefinition xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionNumber>12</activeVersionNumber>
+    <description>보험료 기준 Policy Lineitem 생성</description>
+    <masterLabel>LK_SCR_Policy_CreateLineitembyPremium</masterLabel>
+</FlowDefinition>

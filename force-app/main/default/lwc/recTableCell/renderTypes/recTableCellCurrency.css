@@ -1,0 +1,47 @@
+:host {
+    display: block;
+    width: 100%;
+}
+
+/*
+ * Layout:  [ symbol ][ integer → flex:1, right ][ decimal → var(--dec-w), left ]
+ *
+ * --dec-w is injected as a CSS custom property via inline style binding on the
+ * outer <div>. Custom properties are single tokens and are never mis-parsed by
+ * LWC's inline-style binding — so `flex: 0 0 var(--dec-w)` in the class works.
+ *
+ * Result:
+ *   $     12,345 .67          ← USD: decimal slot filled
+ *   ₩ 16,890,000              ← KRW: decimal slot empty but width reserved
+ *            ↑                ↑
+ *          symbol left     decimal column aligned
+ */
+.rec-cell-currency {
+    display: flex;
+    align-items: baseline;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.rec-cell-currency__symbol {
+    flex: 0 0 auto;
+    margin-right: 0.15em;
+    color: var(--slds-g-color-neutral-base-40, #706e6b);
+    font-size: 0.9em;
+}
+
+.rec-cell-currency__integer {
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rec-cell-currency__decimal {
+    flex: 0 0 var(--dec-w, 0ch);
+    width: var(--dec-w, 0ch); /* belt-and-suspenders for older engines */
+    overflow: hidden;
+    text-align: left;
+    font-size: smaller;
+}

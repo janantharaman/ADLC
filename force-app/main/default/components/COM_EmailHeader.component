@@ -1,0 +1,66 @@
+<!--
+ * @filename      : COM_EmailHeader.component
+ * @project-name  : LK보험중계_신규계약관리시스템 구축
+ * @author        : i2max
+ * @date          : 2026-02-02 (월)
+ * @group         :
+ * @group-content :
+ * @description   :
+ * @reference     :
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2026-02-02      i2max        Create
+-->
+<apex:component controller="COM_EmailHeader_Ctrl" access="global">
+
+    <apex:attribute name="targetId" type="Id" description="Recipient User ID" assignTo="{!recipientId}" />
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; max-width:100%; margin:0 auto; padding-top:16px; padding-left:20px; padding-right:20px;">
+        <tbody>
+            <tr>
+                <td>
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; margin:0 auto; max-width:100%; padding-bottom:16px; border-bottom:1px solid #eeeeee">
+                        <tbody>
+                            <tr>
+                                <td style="text-align:left;">
+                                    <!--
+                                        메일에서 받아올 수 없어 org > Switch to Salesforce Classic > all Tab > Documents에 업로드 후 가져옴
+                                        <img src="{!LEFT($CurrentPage.URL, FIND('/apex/', $CurrentPage.URL)) + URLFOR($Resource.Logo_Symbol)}" width="39px" height="37px" style="display: block; padding:0; margin:0; width:39px; height:37px; border: 0;" alt="Logo" />
+                                    -->
+                                    <img src="https://data-momentum-7077--dev2.sandbox.my.salesforce.com/servlet/servlet.ImageServer?id=015JO000004Kfcb&oid=00DJO000001MIH3&lastMod=1771552964000" width="39px" height="37px" style="display: block; padding:0; margin:0; width:39px; height:37px; border: 0;" alt="Logo" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+<!--    <tr>-->
+<!--        <td style="background:#1aa36f; padding:20px;">-->
+
+<!--            &lt;!&ndash; 1. 한국 (KR), 법인별 로고 등록 필요 &ndash;&gt;-->
+<!--            <apex:outputPanel rendered="{!recipientUser.Region__c == 'KR'}">-->
+<!--                <img src="https://www.lkins.co.kr/images/common/logo.png" alt="LK 보험중개 (Korea)" style="height:32px; border:0;" />-->
+<!--            </apex:outputPanel>-->
+
+<!--            &lt;!&ndash; 2. 싱가포르 (SG) &ndash;&gt;-->
+<!--            <apex:outputPanel rendered="{!recipientUser.Region__c == 'SG'}">-->
+<!--                <img src="https://www.lkins.co.kr/images/common/logo.png" alt="LK Insurance (Singapore)" style="height:32px; border:0;" />-->
+<!--            </apex:outputPanel>-->
+
+<!--            &lt;!&ndash; 3. 베트남 (VN) &ndash;&gt;-->
+<!--            <apex:outputPanel rendered="{!recipientUser.Region__c == 'VN'}">-->
+<!--                <img src="https://www.lkins.co.kr/images/common/logo.png" alt="LK Insurance (Vietnam)" style="height:32px; border:0;" />-->
+<!--            </apex:outputPanel>-->
+
+<!--            &lt;!&ndash; 4. 기본값 &ndash;&gt;-->
+<!--            <apex:outputPanel rendered="{!ISBLANK(recipientUser.Region__c)}">-->
+<!--                <img src="https://www.lkins.co.kr/images/common/logo.png" alt="LK Insurance" style="height:32px; border:0;" />-->
+<!--            </apex:outputPanel>-->
+
+<!--        </td>-->
+<!--    </tr>-->
+</apex:component>

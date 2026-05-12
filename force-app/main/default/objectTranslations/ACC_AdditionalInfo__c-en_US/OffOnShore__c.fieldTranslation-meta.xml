@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Off/On-Shore --></label>
+    <name>OffOnShore__c</name>
+    <picklistValues>
+        <masterLabel>All</masterLabel>
+        <translation><!-- All --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Offshore</masterLabel>
+        <translation><!-- Offshore --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Onshore</masterLabel>
+        <translation><!-- Onshore --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

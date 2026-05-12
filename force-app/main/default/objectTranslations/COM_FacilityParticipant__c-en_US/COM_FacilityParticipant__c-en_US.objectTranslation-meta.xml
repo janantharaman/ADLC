@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Facility Participant</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Facility Participants</value>
+    </caseValues>
+    <layouts>
+        <layout>COM_Facility_Participant Layout</layout>
+        <sections>
+            <label><!-- Cedant --></label>
+            <section>Cedant</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Reinsurer --></label>
+            <section>Reinsurer</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- Activate --></label>
+        <name>Activate</name>
+    </quickActions>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Activation is available only through an approval process. --></errorMessage>
+        <name>Change_Active</name>
+    </validationRules>
+</CustomObjectTranslation>

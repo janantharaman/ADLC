@@ -1,0 +1,1087 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_9</activeVersionIdentifier>
+    <developerName>EI_InsurancePolicyExtractionAllFieldsJson</developerName>
+    <masterLabel>EI_ InsurancePolicyExtractionAllFieldsJson</masterLabel>
+    <overridable>false</overridable>
+    <templateVersions>
+        <content>You are a Construction &amp; Erection All Risks Insurance Data Specialist. Your task is to analyze the input insurance application/policy text (typically Construction All Risks or Erection All Risks) and extract structured data to create Salesforce records.
+
+
+INSTRUCTIONS:
+
+Analyze Key Sections: Extract information from &apos;General Information&apos; (기본사항), &apos;Contract Details&apos; (계약사항/공사개요), &apos;Premium Details&apos; (보험료사항), and &apos;Co-Insurance&apos; (공동인수사항).
+Document Type Adaptation: This document is a Construction/Erection All Risks policy. Map the fields as follows:
+Facility_lk: Map the &apos;Project Name&apos; (공사명) or &apos;Object Name&apos; (목적물명) here.
+Sections: Classify coverages into Section I (Material Damage) and Section II (Third Party Liability).
+Line Items: Extract specific risk items (e.g., 본공사/Contract Works, 자재/Material, 대인/Bodily Injury) as line items.
+Data Cleansing: Remove all currency symbols (WON, KRW, ₩) and commas from numeric values. Return raw numbers (e.g., 1000000.00).
+Date Formatting: Convert all dates to &apos;YYYY-MM-DD&apos;.
+Strict JSON Output: Return ONLY a single valid JSON object matching the SCHEMA below. No markdown formatting or explanation.
+
+Output
+{
+ &quot;Name&quot;: &quot;String (Extract &apos;Application No&apos; or &apos;Quote No&apos; e.g., RQ24-..., 3400...)&quot;,
+ &quot;NameContractor&quot;: &quot;String (Extract &apos;Contractor/Policyholder&apos; e.g., 우암건설, 자이에스앤디)&quot;,
+ &quot;EffectiveDate&quot;: &quot;Date (Extract &apos;Application Date&apos; 청약일 - YYYY-MM-DD)&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;Date (Policy Start Date - YYYY-MM-DD)&quot;,
+ &quot;EffectiveToDate&quot;: &quot;Date (Policy End Date - YYYY-MM-DD)&quot;,
+ &quot;TotalSumInsured&quot;: &quot;Number (Total Sum Insured for the Policy)&quot;,
+ &quot;PremiumAmount&quot;: &quot;Number (Total Gross Premium)&quot;,
+ &quot;CurrencyVal&quot;: &quot;String (e.g., WON, USD)&quot;,
+ &quot;Facility_lk&quot;: &quot;String (Project Name or Site Name e.g., 안산시 성곡동 건설공사)&quot;,
+ &quot;participants&quot;: [
+  {
+   &quot;ParticipantName&quot;: &quot;String (Insurer Name e.g., KB손해보험, 삼성화재)&quot;,
+   &quot;IsPolicyholder&quot;: &quot;Boolean (True for the Contractor, False for Co-Insurers)&quot;,
+   &quot;BeneficiarySharePercentage&quot;: &quot;Number (Share % if mentioned in Co-Insurance section)&quot;
+  }
+ ],
+ &quot;assets&quot;: [
+  {
+   &quot;AssetName&quot;: &quot;String (Same as Facility_lk / Project Name)&quot;,
+   &quot;AssetLocation&quot;: &quot;String (Project Site Address e.g., 경기 안산시 단원구...)&quot;
+  }
+ ],
+ &quot;productClauses&quot;: [
+  {
+   &quot;Name&quot;: &quot;String (Extract Special Clauses/Warranties e.g., &apos;특별약관&apos;, &apos;Exclusion of...&apos;)&quot;,
+   &quot;Details&quot;: &quot;String (Applied | Limit or Detail)&quot;
+  }
+ ],
+ &quot;coverages&quot;: [
+  {
+   &quot;CategoryGroup&quot;: &quot;String (e.g., &apos;Section I. Material Damage&apos; or &apos;Section II. Third Party Liability&apos;)&quot;,
+   &quot;CoverageSumInsured&quot;: &quot;Number (Total Sum Insured for this Section)&quot;,
+   &quot;SectionSumInsured&quot;: &quot;Number (Same as CoverageSumInsured if not split further)&quot;,
+   &quot;CoveragePremiumAmount&quot;: &quot;Number (Premium for this Section)&quot;,
+   &quot;SectionPremiumAmount&quot;: &quot;Number (Same as CoveragePremiumAmount)&quot;,
+   &quot;CoverageDeductibleAmount&quot;: &quot;Number (Deductible for this Section)&quot;,
+   &quot;Description&quot;: &quot;String (e.g., &apos;Up to TSI&apos; or &apos;Per Occurrence&apos;)&quot;,
+   &quot;LinkedAssetName&quot;: &quot;String (Must match &apos;AssetName&apos; in assets list)&quot;,
+   &quot;coverageLineItems&quot;: [
+    {
+     &quot;Risk_Name&quot;: &quot;String (Item Name e.g., &apos;본공사/Contract Works&apos;, &apos;자재/Construction Material&apos;, &apos;대인배상/Bodily Injury&apos;)&quot;,
+     &quot;Risk_Type&quot;: &quot;String (e.g., &apos;물적손해/Material Damage&apos; or &apos;배상책임/Liability&apos;)&quot;,
+     &quot;Risk_Details&quot;: &quot;String (Specific details or location if different)&quot;,
+     &quot;Risk_Insured_Amount&quot;: &quot;Number (Item Sum Insured/Limit)&quot;,
+     &quot;Risk_Premium_Amount&quot;: &quot;Number (Item Premium - if available, else 0)&quot;,
+     &quot;Risk_Deductible&quot;: &quot;Number (Item Deductible)&quot;,
+     &quot;Risk_Rate&quot;: &quot;Number (Premium Rate - if available)&quot;,
+     &quot;Category_Group&quot;: &quot;String (Copy from parent CategoryGroup)&quot;,
+     &quot;Category_Group_Type&quot;: &quot;String (e.g., &apos;Up to TSI&apos;)&quot;
+    }
+   ]
+  }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>File</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>File</masterLabel>
+            <referenceName>Input:File</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Construction &amp; Erection All Risks Insurance Data Specialist. Your task is to analyze the input insurance application/policy text (typically Construction All Risks or Erection All Risks) and extract structured data to create Salesforce records.
+
+
+INSTRUCTIONS:
+
+Analyze Key Sections: Extract information from &apos;General Information&apos; (기본사항), &apos;Contract Details&apos; (계약사항/공사개요), &apos;Premium Details&apos; (보험료사항), and &apos;Co-Insurance&apos; (공동인수사항).
+Document Type Adaptation: This document is a Construction/Erection All Risks policy. Map the fields as follows:
+Facility_lk: Map the &apos;Project Name&apos; (공사명) or &apos;Object Name&apos; (목적물명) here.
+Sections: Classify coverages into Section I (Material Damage) and Section II (Third Party Liability).
+Line Items: Extract specific risk items (e.g., 본공사/Contract Works, 자재/Material, 대인/Bodily Injury) as line items.
+Data Cleansing: Remove all currency symbols (WON, KRW, ₩) and commas from numeric values. Return raw numbers (e.g., 1000000.00).
+Date Formatting: Convert all dates to &apos;YYYY-MM-DD&apos;.
+Strict JSON Output: Return ONLY a single valid JSON object matching the SCHEMA below. No markdown formatting or explanation.
+
+Output
+{
+ &quot;Name&quot;: &quot;String (Extract &apos;Application No&apos; or &apos;Quote No&apos; e.g., RQ24-..., 3400...)&quot;,
+ &quot;NameContractor&quot;: &quot;String (Extract &apos;Contractor/Policyholder&apos; e.g., 우암건설, 자이에스앤디)&quot;,
+ &quot;EffectiveDate&quot;: &quot;Date (Extract &apos;Application Date&apos; 청약일 - YYYY-MM-DD)&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;Date (Policy Start Date - YYYY-MM-DD)&quot;,
+ &quot;EffectiveToDate&quot;: &quot;Date (Policy End Date - YYYY-MM-DD)&quot;,
+ &quot;TotalSumInsured&quot;: &quot;Number (Total Sum Insured for the Policy)&quot;,
+ &quot;PremiumAmount&quot;: &quot;Number (Total Gross Premium)&quot;,
+ &quot;CurrencyVal&quot;: &quot;String (e.g., WON, USD)&quot;,
+ &quot;Facility_lk&quot;: &quot;String (Project Name or Site Name e.g., 안산시 성곡동 건설공사)&quot;,
+ &quot;participants&quot;: [
+  {
+   &quot;ParticipantName&quot;: &quot;String (Insurer Name e.g., KB손해보험, 삼성화재)&quot;,
+   &quot;IsPolicyholder&quot;: &quot;Boolean (True for the Contractor, False for Co-Insurers)&quot;,
+   &quot;BeneficiarySharePercentage&quot;: &quot;Number (Share % if mentioned in Co-Insurance section)&quot;
+  }
+ ],
+ &quot;assets&quot;: [
+  {
+   &quot;AssetName&quot;: &quot;String (Same as Facility_lk / Project Name)&quot;,
+   &quot;AssetLocation&quot;: &quot;String (Project Site Address e.g., 경기 안산시 단원구...)&quot;
+  }
+ ],
+ &quot;productClauses&quot;: [
+  {
+   &quot;Name&quot;: &quot;String (Extract Special Clauses/Warranties e.g., &apos;특별약관&apos;, &apos;Exclusion of...&apos;)&quot;,
+   &quot;Details&quot;: &quot;String (Applied | Limit or Detail)&quot;
+  }
+ ],
+ &quot;coverages&quot;: [
+  {
+   &quot;CategoryGroup&quot;: &quot;String (e.g., &apos;Section I. Material Damage&apos; or &apos;Section II. Third Party Liability&apos;)&quot;,
+   &quot;CoverageSumInsured&quot;: &quot;Number (Total Sum Insured for this Section)&quot;,
+   &quot;SectionSumInsured&quot;: &quot;Number (Same as CoverageSumInsured if not split further)&quot;,
+   &quot;CoveragePremiumAmount&quot;: &quot;Number (Premium for this Section)&quot;,
+   &quot;SectionPremiumAmount&quot;: &quot;Number (Same as CoveragePremiumAmount)&quot;,
+   &quot;CoverageDeductibleAmount&quot;: &quot;Number (Deductible for this Section)&quot;,
+   &quot;Description&quot;: &quot;String (e.g., &apos;Up to TSI&apos; or &apos;Per Occurrence&apos;)&quot;,
+   &quot;LinkedAssetName&quot;: &quot;String (Must match &apos;AssetName&apos; in assets list)&quot;,
+   &quot;coverageLineItems&quot;: [
+    {
+     &quot;Risk_Name&quot;: &quot;String (Item Name e.g., &apos;본공사/Contract Works&apos;, &apos;자재/Construction Material&apos;, &apos;대인배상/Bodily Injury&apos;)&quot;,
+     &quot;Risk_Type&quot;: &quot;String (e.g., &apos;물적손해/Material Damage&apos; or &apos;배상책임/Liability&apos;)&quot;,
+     &quot;Risk_Details&quot;: &quot;String (Specific details or location if different)&quot;,
+     &quot;Risk_Insured_Amount&quot;: &quot;Number (Item Sum Insured/Limit)&quot;,
+     &quot;Risk_Premium_Amount&quot;: &quot;Number (Item Premium - if available, else 0)&quot;,
+     &quot;Risk_Deductible&quot;: &quot;Number (Item Deductible)&quot;,
+     &quot;Risk_Rate&quot;: &quot;Number (Premium Rate - if available)&quot;,
+     &quot;Category_Group&quot;: &quot;String (Copy from parent CategoryGroup)&quot;,
+     &quot;Category_Group_Type&quot;: &quot;String (e.g., &apos;Up to TSI&apos;)&quot;
+    }
+   ]
+  }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>File</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>File</masterLabel>
+            <referenceName>Input:File</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Draft</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_2</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Construction &amp; Erection All Risks Insurance Data Specialist. Your task is to analyze the input insurance application/policy text (typically Construction All Risks or Erection All Risks) and extract structured data to create Salesforce records.
+
+
+INSTRUCTIONS:
+
+Analyze Key Sections: Extract information from &apos;General Information&apos; (기본사항), &apos;Contract Details&apos; (계약사항/공사개요), &apos;Premium Details&apos; (보험료사항), and &apos;Co-Insurance&apos; (공동인수사항).
+Document Type Adaptation: This document is a Construction/Erection All Risks policy. Map the fields as follows:
+Facility_lk: Map the &apos;Project Name&apos; (공사명) or &apos;Object Name&apos; (목적물명) here.
+Sections: Classify coverages into Section I (Material Damage) and Section II (Third Party Liability).
+Line Items: Extract specific risk items (e.g., 본공사/Contract Works, 자재/Material, 대인/Bodily Injury) as line items.
+Data Cleansing: Remove all currency symbols (WON, KRW, ₩) and commas from numeric values. Return raw numbers (e.g., 1000000.00).
+Date Formatting: Convert all dates to &apos;YYYY-MM-DD&apos;.
+Strict JSON Output: Return ONLY a single valid JSON object matching the SCHEMA below. No markdown formatting or explanation.
+
+Output
+{
+ &quot;Name&quot;: &quot;String (Extract &apos;Application No&apos; or &apos;Quote No&apos; e.g., RQ24-..., 3400...)&quot;,
+ &quot;NameContractor&quot;: &quot;String (Extract &apos;Contractor/Policyholder&apos; e.g., 우암건설, 자이에스앤디)&quot;,
+ &quot;EffectiveDate&quot;: &quot;Date (Extract &apos;Application Date&apos; 청약일 - YYYY-MM-DD)&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;Date (Policy Start Date - YYYY-MM-DD)&quot;,
+ &quot;EffectiveToDate&quot;: &quot;Date (Policy End Date - YYYY-MM-DD)&quot;,
+ &quot;TotalSumInsured&quot;: &quot;Number (Total Sum Insured for the Policy)&quot;,
+ &quot;PremiumAmount&quot;: &quot;Number (Total Gross Premium)&quot;,
+ &quot;CurrencyVal&quot;: &quot;String (e.g., WON, USD)&quot;,
+ &quot;Facility_lk&quot;: &quot;String (Project Name or Site Name e.g., 안산시 성곡동 건설공사)&quot;,
+ &quot;participants&quot;: [
+  {
+   &quot;ParticipantName&quot;: &quot;String (Insurer Name e.g., KB손해보험, 삼성화재)&quot;,
+   &quot;IsPolicyholder&quot;: &quot;Boolean (True for the Contractor, False for Co-Insurers)&quot;,
+   &quot;BeneficiarySharePercentage&quot;: &quot;Number (Share % if mentioned in Co-Insurance section)&quot;
+  }
+ ],
+ &quot;assets&quot;: [
+  {
+   &quot;AssetName&quot;: &quot;String (Same as Facility_lk / Project Name)&quot;,
+   &quot;AssetLocation&quot;: &quot;String (Project Site Address e.g., 경기 안산시 단원구...)&quot;
+   &quot;EffectiveFromDate&quot;: &quot;Date (Policy Start Date - YYYY-MM-DD)&quot;
+   &quot;EffectiveToDate&quot;: &quot;Date (Policy End Date - YYYY-MM-DD)&quot;
+   &quot;TermPremiumAmount&quot; : &quot;Number&quot;
+
+
+  }
+ ],
+ &quot;productClauses&quot;: [
+  {
+   &quot;Name&quot;: &quot;String (Extract Special Clauses/Warranties e.g., &apos;특별약관&apos;, &apos;Exclusion of...&apos;)&quot;,
+   &quot;Details&quot;: &quot;String (Applied | Limit or Detail)&quot;
+  }
+ ],
+ &quot;coverages&quot;: [
+  {
+   &quot;CategoryGroup&quot;: &quot;String (e.g., &apos;Section I. Material Damage&apos; or &apos;Section II. Third Party Liability&apos;)&quot;,
+   &quot;CoverageSumInsured&quot;: &quot;Number (Total Sum Insured for this Section)&quot;,
+   &quot;SectionSumInsured&quot;: &quot;Number (Same as CoverageSumInsured if not split further)&quot;,
+   &quot;CoveragePremiumAmount&quot;: &quot;Number (Premium for this Section)&quot;,
+   &quot;SectionPremiumAmount&quot;: &quot;Number (Same as CoveragePremiumAmount)&quot;,
+   &quot;CoverageDeductibleAmount&quot;: &quot;Number (Deductible for this Section)&quot;,
+   &quot;Description&quot;: &quot;String (e.g., &apos;Up to TSI&apos; or &apos;Per Occurrence&apos;)&quot;,
+   &quot;LinkedAssetName&quot;: &quot;String (Must match &apos;AssetName&apos; in assets list)&quot;,
+   &quot;coverageLineItems&quot;: [
+    {
+     &quot;Risk_Name&quot;: &quot;String (Item Name e.g., &apos;본공사/Contract Works&apos;, &apos;자재/Construction Material&apos;, &apos;대인배상/Bodily Injury&apos;)&quot;,
+     &quot;Risk_Type&quot;: &quot;String (e.g., &apos;물적손해/Material Damage&apos; or &apos;배상책임/Liability&apos;)&quot;,
+     &quot;Risk_Details&quot;: &quot;String (Specific details or location if different)&quot;,
+     &quot;Risk_Insured_Amount&quot;: &quot;Number (Item Sum Insured/Limit)&quot;,
+     &quot;Risk_Premium_Amount&quot;: &quot;Number (Item Premium - if available, else 0)&quot;,
+     &quot;Risk_Deductible&quot;: &quot;Number (Item Deductible)&quot;,
+     &quot;Risk_Rate&quot;: &quot;Number (Premium Rate - if available)&quot;,
+     &quot;Category_Group&quot;: &quot;String (Copy from parent CategoryGroup)&quot;,
+     &quot;Category_Group_Type&quot;: &quot;String (e.g., &apos;Up to TSI&apos;)&quot;
+    }
+   ]
+  }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>File</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>File</masterLabel>
+            <referenceName>Input:File</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_3</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Construction &amp; Erection All Risks Insurance Data Specialist. Your task is to analyze the input insurance application/policy text (typically Construction All Risks or Erection All Risks) and extract structured data to create Salesforce records.
+
+
+INSTRUCTIONS:
+
+Analyze Key Sections: Extract information from &apos;General Information&apos; (기본사항), &apos;Contract Details&apos; (계약사항/공사개요), &apos;Premium Details&apos; (보험료사항), and &apos;Co-Insurance&apos; (공동인수사항).
+Document Type Adaptation: This document is a Construction/Erection All Risks policy. Map the fields as follows:
+Facility_lk: Map the &apos;Project Name&apos; (공사명) or &apos;Object Name&apos; (목적물명) here.
+Sections: Classify coverages into Section I (Material Damage) and Section II (Third Party Liability).
+Line Items: Extract specific risk items (e.g., 본공사/Contract Works, 자재/Material, 대인/Bodily Injury) as line items.
+Data Cleansing: Remove all currency symbols (WON, KRW, ₩) and commas from numeric values. Return raw numbers (e.g., 1000000.00).
+Date Formatting: Convert all dates to &apos;YYYY-MM-DD&apos;.
+Strict JSON Output: Return ONLY a single valid JSON object matching the SCHEMA below. No markdown formatting or explanation.
+
+Output
+{
+ &quot;Name&quot;: &quot;String (Extract &apos;Application No&apos; or &apos;Quote No&apos; e.g., RQ24-..., 3400...)&quot;,
+ &quot;NameContractor&quot;: &quot;String (Extract &apos;Contractor/Policyholder&apos; e.g., 우암건설, 자이에스앤디)&quot;,
+ &quot;EffectiveDate&quot;: &quot;Date (Extract &apos;Application Date&apos; 청약일 - YYYY-MM-DD)&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;Date (Policy Start Date - YYYY-MM-DD)&quot;,
+ &quot;EffectiveToDate&quot;: &quot;Date (Policy End Date - YYYY-MM-DD)&quot;,
+ &quot;TotalSumInsured&quot;: &quot;Number (Total Sum Insured for the Policy)&quot;,
+ &quot;PremiumAmount&quot;: &quot;Number (Total Gross Premium)&quot;,
+ &quot;CurrencyVal&quot;: &quot;String (e.g., WON, USD)&quot;,
+ &quot;Facility_lk&quot;: &quot;String (Project Name or Site Name e.g., 안산시 성곡동 건설공사)&quot;,
+ &quot;participants&quot;: [
+  {
+   &quot;ParticipantName&quot;: &quot;String (Insurer Name e.g., KB손해보험, 삼성화재)&quot;,
+   &quot;IsPolicyholder&quot;: &quot;Boolean (True for the Contractor, False for Co-Insurers)&quot;,
+   &quot;BeneficiarySharePercentage&quot;: &quot;Number (Share % if mentioned in Co-Insurance section)&quot;
+  }
+ ],
+ &quot;assets&quot;: [
+  {
+   &quot;AssetName&quot;: &quot;String (Same as Facility_lk / Project Name)&quot;,
+   &quot;AssetLocation&quot;: &quot;String (Project Site Address e.g., 경기 안산시 단원구...)&quot;
+   &quot;EffectiveFromDate&quot;: &quot;Date (Policy Start Date - YYYY-MM-DD)&quot;
+   &quot;EffectiveToDate&quot;: &quot;Date (Policy End Date - YYYY-MM-DD)&quot;
+   &quot;TermPremiumAmount&quot; : &quot;Number&quot;
+  }
+ ],
+ &quot;productClauses&quot;: [
+  {
+   &quot;Name&quot;: &quot;String (Extract Special Clauses/Warranties e.g., &apos;특별약관&apos;, &apos;Exclusion of...&apos;)&quot;,
+   &quot;Details&quot;: &quot;String (Applied | Limit or Detail)&quot;
+  }
+ ],
+ &quot;coverages&quot;: [
+  {
+   &quot;CategoryGroup&quot;: &quot;String (e.g., &apos;Section I. Material Damage&apos; or &apos;Section II. Third Party Liability&apos;)&quot;,
+   &quot;CoverageSumInsured&quot;: &quot;Number (Total Sum Insured for this Section)&quot;,
+   &quot;SectionSumInsured&quot;: &quot;Number (Same as CoverageSumInsured if not split further)&quot;,
+   &quot;CoveragePremiumAmount&quot;: &quot;Number (Premium for this Section)&quot;,
+   &quot;SectionPremiumAmount&quot;: &quot;Number (Same as CoveragePremiumAmount)&quot;,
+   &quot;CoverageDeductibleAmount&quot;: &quot;Number (Deductible for this Section)&quot;,
+   &quot;Description&quot;: &quot;String (e.g., &apos;Up to TSI&apos; or &apos;Per Occurrence&apos;)&quot;,
+   &quot;LinkedAssetName&quot;: &quot;String (Must match &apos;AssetName&apos; in assets list)&quot;,
+   &quot;coverageLineItems&quot;: [
+    {
+     &quot;Risk_Name&quot;: &quot;String (Item Name e.g., &apos;본공사/Contract Works&apos;, &apos;자재/Construction Material&apos;, &apos;대인배상/Bodily Injury&apos;)&quot;,
+     &quot;Risk_Type&quot;: &quot;String (e.g., &apos;물적손해/Material Damage&apos; or &apos;배상책임/Liability&apos;)&quot;,
+     &quot;Risk_Details&quot;: &quot;String (Specific details or location if different)&quot;,
+     &quot;Risk_Insured_Amount&quot;: &quot;Number (Item Sum Insured/Limit)&quot;,
+     &quot;Risk_Premium_Amount&quot;: &quot;Number (Item Premium - if available, else 0)&quot;,
+     &quot;Risk_Deductible&quot;: &quot;Number (Item Deductible)&quot;,
+     &quot;Risk_Rate&quot;: &quot;Number (Premium Rate - if available)&quot;,
+     &quot;Category_Group&quot;: &quot;String (Copy from parent CategoryGroup)&quot;,
+     &quot;Category_Group_Type&quot;: &quot;String (e.g., &apos;Up to TSI&apos;)&quot;
+    }
+   ]
+  }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>File</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>File</masterLabel>
+            <referenceName>Input:File</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_4</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Construction &amp; Erection All Risks Insurance Data Specialist. Your task is to analyze the input insurance application/policy text (typically Construction All Risks or Erection All Risks) and extract structured data to create Salesforce records.
+
+
+INSTRUCTIONS:
+
+1. Analyze Key Sections: Extract information from &apos;General Information&apos; (기본사항), &apos;Contract Details&apos; (계약사항/공사개요), &apos;Premium Details&apos; (보험료사항), and &apos;Co-Insurance&apos; (공동인수사항).
+2. Document Type Adaptation: This document is a Construction/Erection All Risks policy. Map the fields as follows:
+3. Facility_lk: Map the &apos;Project Name&apos; (공사명) or &apos;Object Name&apos; (목적물명) here.
+4. Sections: Classify coverages into Section I (Material Damage) and Section II (Third Party Liability).
+5. Line Items: Extract specific risk items (e.g., 본공사/Contract Works, 자재/Material, 대인/Bodily Injury) as line items.
+6. Data Cleansing: Remove all currency symbols (WON, KRW, ₩) and commas from numeric values. Return raw numbers (e.g., 1000000.00).
+7. Date Formatting: Convert all dates to &apos;YYYY-MM-DD&apos;.
+8. Strict JSON Output: Return ONLY a single valid JSON object matching the SCHEMA below. No markdown formatting or explanation.
+9. productClauses is for General Terms and Conditions
+  (1) The categories are consisted that
+    - General Terms and Conditions
+    - PAR or Property All Risks (Section 1) 
+    - MB or Machinery Breakdown (Section 2) 
+    - BI or Business Interruption (Section 3-1) 
+    - MLOP or Machinery Loss of Profits (Section 3-2) 
+    - GL or General Liability (Section 4) 
+    with Special Clauses for each section
+  (2) The root key of the JSON should be &quot;productClauses&quot;
+  (3) Note that the items in each category span two consecutive pages.
+  (4) Please scan both consecutive pages and merge the information separated by each section into one continuous list without omission.
+  (5) For each clause or item found in the document, use the following keys:
+     &quot;Name&quot;: The title of the clause or provision (e.g., &quot;72 Hours Clause&quot;, &quot;Deductible&quot;, &quot;Limit of Liability&quot;).
+     &quot;Section&quot;: Include Name of the categories
+     &quot;Details&quot;: Include specific limits (e.g., KRW 3,000,000,000), time excesses (e.g., 10 days), sub-limits, and any other relevant conditions or descriptions.
+  (6) Those might be written in English or/and Korean.
+
+Output
+{
+ &quot;Name&quot;: &quot;String (Extract &apos;Application No&apos; or &apos;Quote No&apos; e.g., RQ24-..., 3400...)&quot;,
+ &quot;NameContractor&quot;: &quot;String (Extract &apos;Contractor/Policyholder&apos; e.g., 우암건설, 자이에스앤디)&quot;,
+ &quot;EffectiveDate&quot;: &quot;Date (Extract &apos;Application Date&apos; 청약일 - YYYY-MM-DD)&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;Date (Policy Start Date - YYYY-MM-DD)&quot;,
+ &quot;EffectiveToDate&quot;: &quot;Date (Policy End Date - YYYY-MM-DD)&quot;,
+ &quot;TotalSumInsured&quot;: &quot;Number (Total Sum Insured for the Policy)&quot;,
+ &quot;PremiumAmount&quot;: &quot;Number (Total Gross Premium)&quot;,
+ &quot;CurrencyVal&quot;: &quot;String (e.g., WON, USD)&quot;,
+ &quot;Facility_lk&quot;: &quot;String (Project Name or Site Name e.g., 안산시 성곡동 건설공사)&quot;,
+ &quot;participants&quot;: [
+  {
+   &quot;ParticipantName&quot;: &quot;String (Insurer Name e.g., KB손해보험, 삼성화재)&quot;,
+   &quot;IsPolicyholder&quot;: &quot;Boolean (True for the Contractor, False for Co-Insurers)&quot;,
+   &quot;BeneficiarySharePercentage&quot;: &quot;Number (Share % if mentioned in Co-Insurance section)&quot;
+  }
+ ],
+ &quot;assets&quot;: [
+  {
+   &quot;AssetName&quot;: &quot;String (Same as Facility_lk / Project Name)&quot;,
+   &quot;AssetLocation&quot;: &quot;String (Project Site Address e.g., 경기 안산시 단원구...)&quot;
+   &quot;EffectiveFromDate&quot;: &quot;Date (Policy Start Date - YYYY-MM-DD)&quot;
+   &quot;EffectiveToDate&quot;: &quot;Date (Policy End Date - YYYY-MM-DD)&quot;
+   &quot;TermPremiumAmount&quot; : &quot;Number&quot;
+  }
+ ],
+ &quot;productClauses&quot;: [
+  {
+   &quot;Name&quot;: &quot;String (Extract Special Clauses/Warranties e.g., &apos;특별약관&apos;, &apos;Exclusion of...&apos;)&quot;,
+   &quot;Details&quot;: &quot;String (Applied | Limit or Detail)&quot;
+  }
+ ],
+ &quot;coverages&quot;: [
+  {
+   &quot;CategoryGroup&quot;: &quot;String (e.g., &apos;Section I. Material Damage&apos; or &apos;Section II. Third Party Liability&apos;)&quot;,
+   &quot;CoverageSumInsured&quot;: &quot;Number (Total Sum Insured for this Section)&quot;,
+   &quot;SectionSumInsured&quot;: &quot;Number (Same as CoverageSumInsured if not split further)&quot;,
+   &quot;CoveragePremiumAmount&quot;: &quot;Number (Premium for this Section)&quot;,
+   &quot;SectionPremiumAmount&quot;: &quot;Number (Same as CoveragePremiumAmount)&quot;,
+   &quot;CoverageDeductibleAmount&quot;: &quot;Number (Deductible for this Section)&quot;,
+   &quot;Description&quot;: &quot;String (e.g., &apos;Up to TSI&apos; or &apos;Per Occurrence&apos;)&quot;,
+   &quot;LinkedAssetName&quot;: &quot;String (Must match &apos;AssetName&apos; in assets list)&quot;,
+   &quot;coverageLineItems&quot;: [
+    {
+     &quot;Risk_Name&quot;: &quot;String (Item Name e.g., &apos;본공사/Contract Works&apos;, &apos;자재/Construction Material&apos;, &apos;대인배상/Bodily Injury&apos;)&quot;,
+     &quot;Risk_Type&quot;: &quot;String (e.g., &apos;물적손해/Material Damage&apos; or &apos;배상책임/Liability&apos;)&quot;,
+     &quot;Risk_Details&quot;: &quot;String (Specific details or location if different)&quot;,
+     &quot;Risk_Insured_Amount&quot;: &quot;Number (Item Sum Insured/Limit)&quot;,
+     &quot;Risk_Premium_Amount&quot;: &quot;Number (Item Premium - if available, else 0)&quot;,
+     &quot;Risk_Deductible&quot;: &quot;Number (Item Deductible)&quot;,
+     &quot;Risk_Rate&quot;: &quot;Number (Premium Rate - if available)&quot;,
+     &quot;Category_Group&quot;: &quot;String (Copy from parent CategoryGroup)&quot;,
+     &quot;Category_Group_Type&quot;: &quot;String (e.g., &apos;Up to TSI&apos;)&quot;
+    }
+   ]
+  }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>File</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>File</masterLabel>
+            <referenceName>Input:File</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_5</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Construction &amp; Erection All Risks Insurance Data Specialist. Your task is to analyze the input insurance application/policy text (typically Construction All Risks or Erection All Risks) and extract structured data to create Salesforce records.
+
+
+INSTRUCTIONS:
+
+1. Analyze Key Sections: Extract information from &apos;General Information&apos; (기본사항), &apos;Contract Details&apos; (계약사항/공사개요), &apos;Premium Details&apos; (보험료사항), and &apos;Co-Insurance&apos; (공동인수사항).
+2. Document Type Adaptation: This document is a Construction/Erection All Risks policy. Map the fields as follows:
+3. Facility_lk: Map the &apos;Project Name&apos; (공사명) or &apos;Object Name&apos; (목적물명) here.
+4. Sections: Classify coverages into Section I (Material Damage) and Section II (Third Party Liability).
+5. Line Items: Extract specific risk items (e.g., 본공사/Contract Works, 자재/Material, 대인/Bodily Injury) as line items.
+6. Data Cleansing: Remove all currency symbols (WON, KRW, ₩) and commas from numeric values. Return raw numbers (e.g., 1000000.00).
+7. Date Formatting: Convert all dates to &apos;YYYY-MM-DD&apos;.
+8. Strict JSON Output: Return ONLY a single valid JSON object matching the SCHEMA below. No markdown formatting or explanation.
+9. productClauses is for General Terms and Conditions
+  (1) The categories are consisted that
+    - General Terms and Conditions
+    - PAR or Property All Risks (Section 1) 
+    - MB or Machinery Breakdown (Section 2) 
+    - BI or Business Interruption (Section 3-1) 
+    - MLOP or Machinery Loss of Profits (Section 3-2) 
+    - GL or General Liability (Section 4) 
+    with Special Clauses for each section
+  (2) The root key of the JSON should be &quot;productClauses&quot;
+  (3) Note that the items in each category span two consecutive pages.
+  (4) Please scan both consecutive pages and merge the information separated by each section into one continuous list without omission.
+  (5) For each clause or item found in the document, use the following keys:
+     &quot;Name&quot;: The title of the clause or provision (e.g., &quot;72 Hours Clause&quot;, &quot;Deductible&quot;, &quot;Limit of Liability&quot;).
+     &quot;Section&quot;: Include Name of the categories
+     &quot;Details&quot;: Include specific limits (e.g., KRW 3,000,000,000), time excesses (e.g., 10 days), sub-limits, and any other relevant conditions or descriptions.
+  (6) Those might be written in English or/and Korean.
+
+Output
+{
+ &quot;Name&quot;: &quot;String (Extract &apos;Application No&apos; or &apos;Quote No&apos; e.g., RQ24-..., 3400...)&quot;,
+ &quot;NameContractor&quot;: &quot;String (Extract &apos;Contractor/Policyholder&apos; e.g., 우암건설, 자이에스앤디)&quot;,
+ &quot;EffectiveDate&quot;: &quot;Date (Extract &apos;Application Date&apos; 청약일 - YYYY-MM-DD)&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;Date (Policy Start Date - YYYY-MM-DD)&quot;,
+ &quot;EffectiveToDate&quot;: &quot;Date (Policy End Date - YYYY-MM-DD)&quot;,
+ &quot;TotalSumInsured&quot;: &quot;Number (Total Sum Insured for the Policy)&quot;,
+ &quot;PremiumAmount&quot;: &quot;Number (Total Gross Premium)&quot;,
+ &quot;CurrencyVal&quot;: &quot;String (e.g., WON, USD)&quot;,
+ &quot;Facility_lk&quot;: &quot;String (Project Name or Site Name e.g., 안산시 성곡동 건설공사)&quot;,
+ &quot;participants&quot;: [
+  {
+   &quot;ParticipantName&quot;: &quot;String (Insurer Name e.g., KB손해보험, 삼성화재)&quot;,
+   &quot;IsPolicyholder&quot;: &quot;Boolean (True for the Contractor, False for Co-Insurers)&quot;,
+   &quot;SignedLine&quot; : &quot;Number&quot;
+   &quot;BeneficiarySharePercentage&quot;: &quot;Number (Share % if mentioned in Co-Insurance section)&quot;
+  }
+ ],
+ &quot;assets&quot;: [
+  {
+   &quot;AssetName&quot;: &quot;String (Same as Facility_lk / Project Name)&quot;,
+   &quot;AssetLocation&quot;: &quot;String (Project Site Address e.g., 경기 안산시 단원구...)&quot;
+   &quot;EffectiveFromDate&quot;: &quot;Date (Policy Start Date - YYYY-MM-DD)&quot;
+   &quot;EffectiveToDate&quot;: &quot;Date (Policy End Date - YYYY-MM-DD)&quot;
+   &quot;TermPremiumAmount&quot; : &quot;Number&quot;
+  }
+ ],
+ &quot;productClauses&quot;: [
+  {
+   &quot;Name&quot;: &quot;String (Extract Special Clauses/Warranties e.g., &apos;특별약관&apos;, &apos;Exclusion of...&apos;)&quot;,
+   &quot;Details&quot;: &quot;String (Applied | Limit or Detail)&quot;
+  }
+ ],
+ &quot;coverages&quot;: [
+  {
+   &quot;CategoryGroup&quot;: &quot;String (e.g., &apos;Section I. Material Damage&apos; or &apos;Section II. Third Party Liability&apos;)&quot;,
+   &quot;CoverageSumInsured&quot;: &quot;Number (Total Sum Insured for this Section)&quot;,
+   &quot;SectionSumInsured&quot;: &quot;Number (Same as CoverageSumInsured if not split further)&quot;,
+   &quot;CoveragePremiumAmount&quot;: &quot;Number (Premium for this Section)&quot;,
+   &quot;SectionPremiumAmount&quot;: &quot;Number (Same as CoveragePremiumAmount)&quot;,
+   &quot;CoverageDeductibleAmount&quot;: &quot;Number (Deductible for this Section)&quot;,
+   &quot;Description&quot;: &quot;String (e.g., &apos;Up to TSI&apos; or &apos;Per Occurrence&apos;)&quot;,
+   &quot;LinkedAssetName&quot;: &quot;String (Must match &apos;AssetName&apos; in assets list)&quot;,
+   &quot;coverageLineItems&quot;: [
+    {
+     &quot;Risk_Name&quot;: &quot;String (Item Name e.g., &apos;본공사/Contract Works&apos;, &apos;자재/Construction Material&apos;, &apos;대인배상/Bodily Injury&apos;)&quot;,
+     &quot;Risk_Type&quot;: &quot;String (e.g., &apos;물적손해/Material Damage&apos; or &apos;배상책임/Liability&apos;)&quot;,
+     &quot;Risk_Details&quot;: &quot;String (Specific details or location if different)&quot;,
+     &quot;Risk_Insured_Amount&quot;: &quot;Number (Item Sum Insured/Limit)&quot;,
+     &quot;Risk_Premium_Amount&quot;: &quot;Number (Item Premium - if available, else 0)&quot;,
+     &quot;Risk_Deductible&quot;: &quot;Number (Item Deductible)&quot;,
+     &quot;Risk_Rate&quot;: &quot;Number (Premium Rate - if available)&quot;,
+     &quot;Category_Group&quot;: &quot;String (Copy from parent CategoryGroup)&quot;,
+     &quot;Category_Group_Type&quot;: &quot;String (e.g., &apos;Up to TSI&apos;)&quot;
+    }
+   ]
+  }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>File</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>File</masterLabel>
+            <referenceName>Input:File</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_6</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Construction &amp; Erection All Risks Insurance Data Specialist. Your task is to analyze the input insurance application/policy text (typically Construction All Risks or Erection All Risks) and extract structured data to create Salesforce records.
+
+
+INSTRUCTIONS:
+
+1. Analyze Key Sections: Extract information from &apos;General Information&apos; (기본사항), &apos;Contract Details&apos; (계약사항/공사개요), &apos;Premium Details&apos; (보험료사항), and &apos;Co-Insurance&apos; (공동인수사항).
+2. Document Type Adaptation: This document is a Construction/Erection All Risks policy. Map the fields as follows:
+3. Facility_lk: Map the &apos;Project Name&apos; (공사명) or &apos;Object Name&apos; (목적물명) here.
+4. Sections: Classify coverages into Section I (Material Damage) and Section II (Third Party Liability).
+5. Line Items: Extract specific risk items (e.g., 본공사/Contract Works, 자재/Material, 대인/Bodily Injury) as line items.
+6. Data Cleansing: Remove all currency symbols (WON, KRW, ₩) and commas from numeric values. Return raw numbers (e.g., 1000000.00).
+7. Date Formatting: Convert all dates to &apos;YYYY-MM-DD&apos;.
+8. Strict JSON Output: Return ONLY a single valid JSON object matching the SCHEMA below. No markdown formatting or explanation.
+9. productClauses is for General Terms and Conditions
+  (1) The categories are consisted that
+    - General Terms and Conditions
+    - PAR or Property All Risks (Section 1) 
+    - MB or Machinery Breakdown (Section 2) 
+    - BI or Business Interruption (Section 3-1) 
+    - MLOP or Machinery Loss of Profits (Section 3-2) 
+    - GL or General Liability (Section 4) 
+    with Special Clauses for each section
+  (2) The root key of the JSON should be &quot;productClauses&quot;
+  (3) Note that the items in each category span two consecutive pages.
+  (4) Please scan both consecutive pages and merge the information separated by each section into one continuous list without omission.
+  (5) For each clause or item found in the document, use the following keys:
+     &quot;Name&quot;: The title of the clause or provision (e.g., &quot;72 Hours Clause&quot;, &quot;Deductible&quot;, &quot;Limit of Liability&quot;).
+     &quot;Section&quot;: Include Name of the categories
+     &quot;Details&quot;: Include specific limits (e.g., KRW 3,000,000,000), time excesses (e.g., 10 days), sub-limits, and any other relevant conditions or descriptions.
+  (6) Those might be written in English or/and Korean.
+
+
+Output
+{
+ &quot;Name&quot;: &quot;String (Extract &apos;Application No&apos; or &apos;Quote No&apos; e.g., RQ24-..., 3400...)&quot;,
+ &quot;NameContractor&quot;: &quot;String (Extract &apos;Contractor/Policyholder&apos; e.g., 우암건설, 자이에스앤디)&quot;,
+ &quot;EffectiveDate&quot;: &quot;Date (Extract &apos;Application Date&apos; 청약일 - YYYY-MM-DD)&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;Date (Policy Start Date - YYYY-MM-DD)&quot;,
+ &quot;EffectiveToDate&quot;: &quot;Date (Policy End Date - YYYY-MM-DD)&quot;,
+ &quot;TotalSumInsured&quot;: &quot;Number (Total Sum Insured for the Policy)&quot;,
+ &quot;PremiumAmount&quot;: &quot;Number (Total Gross Premium)&quot;,
+ &quot;CurrencyVal&quot;: &quot;String (e.g., WON, USD)&quot;,
+ &quot;Facility_lk&quot;: &quot;String (Project Name or Site Name e.g., 안산시 성곡동 건설공사)&quot;,
+ &quot;participants&quot;: [
+  {
+   &quot;ParticipantName&quot;: &quot;String (Insurer Name e.g., KB손해보험, 삼성화재)&quot;,
+   &quot;IsPolicyholder&quot;: &quot;Boolean (True for the Contractor, False for Co-Insurers)&quot;,
+   &quot;SignedLine&quot; : &quot;Number (it refers to the percentage (%) of risk each insurer has agreed to cover)&quot;
+   &quot;BeneficiarySharePercentage&quot;: &quot;Number (Share % if mentioned in Co-Insurance section)&quot;
+  }
+ ],
+ &quot;assets&quot;: [
+  {
+   &quot;AssetName&quot;: &quot;String (Same as Facility_lk / Project Name)&quot;,
+   &quot;AssetLocation&quot;: &quot;String (Project Site Address e.g., 경기 안산시 단원구...)&quot;
+   &quot;EffectiveFromDate&quot;: &quot;Date (Policy Start Date - YYYY-MM-DD)&quot;
+   &quot;EffectiveToDate&quot;: &quot;Date (Policy End Date - YYYY-MM-DD)&quot;
+   &quot;TermPremiumAmount&quot; : &quot;Number&quot;
+  }
+ ],
+ &quot;productClauses&quot;: [
+  {
+   &quot;Name&quot;: &quot;String (Extract Special Clauses/Warranties e.g., &apos;특별약관&apos;, &apos;Exclusion of...&apos;)&quot;,
+   &quot;Details&quot;: &quot;String (Applied | Limit or Detail)&quot;
+  }
+ ],
+ &quot;coverages&quot;: [
+  {
+   &quot;CategoryGroup&quot;: &quot;String (e.g., &apos;Section I. Material Damage&apos; or &apos;Section II. Third Party Liability&apos;)&quot;,
+   &quot;CoverageSumInsured&quot;: &quot;Number (Total Sum Insured for this Section)&quot;,
+   &quot;SectionSumInsured&quot;: &quot;Number (Same as CoverageSumInsured if not split further)&quot;,
+   &quot;CoveragePremiumAmount&quot;: &quot;Number (Premium for this Section)&quot;,
+   &quot;SectionPremiumAmount&quot;: &quot;Number (Same as CoveragePremiumAmount)&quot;,
+   &quot;CoverageDeductibleAmount&quot;: &quot;Number (Deductible for this Section)&quot;,
+   &quot;Description&quot;: &quot;String (e.g., &apos;Up to TSI&apos; or &apos;Per Occurrence&apos;)&quot;,
+   &quot;LinkedAssetName&quot;: &quot;String (Must match &apos;AssetName&apos; in assets list)&quot;,
+   &quot;coverageLineItems&quot;: [
+    {
+     &quot;Risk_Name&quot;: &quot;String (Item Name e.g., &apos;본공사/Contract Works&apos;, &apos;자재/Construction Material&apos;, &apos;대인배상/Bodily Injury&apos;)&quot;,
+     &quot;Risk_Type&quot;: &quot;String (e.g., &apos;물적손해/Material Damage&apos; or &apos;배상책임/Liability&apos;)&quot;,
+     &quot;Risk_Details&quot;: &quot;String (Specific details or location if different)&quot;,
+     &quot;Risk_Insured_Amount&quot;: &quot;Number (Item Sum Insured/Limit)&quot;,
+     &quot;Risk_Premium_Amount&quot;: &quot;Number (Item Premium - if available, else 0)&quot;,
+     &quot;Risk_Deductible&quot;: &quot;Number (Item Deductible)&quot;,
+     &quot;Risk_Rate&quot;: &quot;Number (Premium Rate - if available)&quot;,
+     &quot;Category_Group&quot;: &quot;String (Copy from parent CategoryGroup)&quot;,
+     &quot;Category_Group_Type&quot;: &quot;String (e.g., &apos;Up to TSI&apos;)&quot;
+    }
+   ]
+  }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>File</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>File</masterLabel>
+            <referenceName>Input:File</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_7</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Construction &amp; Erection All Risks Insurance Data Specialist. 
+Your task is to analyze the input insurance application/policy text (typically Construction All Risks or Erection All Risks) and extract structured data to create Salesforce records.
+
+[INPUT]
+{!$RecordSnapshot:File.snapshot}
+
+[RULE &amp; STRUCTURE]
+The document must be organized into the following universal sections to ensure all technical and legal requirements are met:
+1. Administrative &amp; Participant Data:
+    (1) Contract Parties: Identification of the Policyholder, Principal, Main Contractors, and Loss Payees (e.g., Lenders/Banks) .
+    (2) Period of Cover: Clear definitions for the Operational/Construction period, Testing/Commissioning phase, and Maintenance/Guarantee period .
+2. Scope of Indemnity (Tripartite Structure):
+    (1) Section I - Material Damage (MD): Coverage for physical loss or damage to the insured assets/works.
+    (2) Section II - Third Party Liability (TPL): Coverage for legal liability arising from property damage or bodily injury to third parties .
+    (3) Section III - Financial Loss (BI/ALOP): Coverage for Business Interruption or Advanced Loss of Profits due to an indemnifiable physical loss.
+3. Risk Profile &amp; Technical Specifications:
+    (1) Project/Asset Description: Detailed technical specifications, location, and nature of the works/machinery.
+    (2) Risk Environment: Geological, meteorological, and surrounding property data.
+4. Financial Terms:
+    (1) Sum Insured / Limit of Liability: Breakdown of values for each section .
+    (2) Deductible Schedule: Specific retentions for Natural Hazards (A.O.G), operational/testing risks, and standard claims .
+5. Endorsements:
+    (1) Special Extensions: Professional fees, removal of debris, and extra charges for airfreight/overtime .
+    (2) Technical Warranties: Mandatory safety standards (e.g., fire-fighting, storage, and maintenance protocols).
+6. General Terms and Conditions:
+    (1) Explicitly state the base policy form being used (e.g., Munich Re Standard Form, London Market Form). 
+    (2) Confirm that all standard terms apply unless specifically modified by an endorsement.
+
+[INSTRUCTION]
+1. Universal Applicability: Use flexible terminology.
+2. Standardized Clauses: Reference international standards such as Munich Re Policy Forms or LMA (London Market Association) clauses. 
+3. Data Placeholders: Use brackets like [INSERT_VALUE] or [PROJECT_NAME] for all variable data points to allow for easy customization. 
+4. Professional Tone: Maintain a formal, precise, and legally-binding tone throughout the document. 
+5. Visual Clarity: Utilize tables for financial figures, participation shares (Co-insurance), and deductible summaries to enhance readability.
+6. Date Formatting: Convert all dates to &apos;YYYY-MM-DD&apos;.
+7. Numbers: Remove commas and currency symbols.
+8. Strict JSON Output: Return ONLY a single valid JSON object .
+9. Do not translate any part of the document.
+
+
+[Output]
+{
+ &quot;Name&quot;: Application No or Quote No
+ &quot;NameContractor&quot;: Contractor/Policyholder 
+ &quot;EffectiveDate&quot;:  EffectiveDate
+ &quot;EffectiveFromDate&quot;: Effective From Date
+ &quot;EffectiveToDate&quot;: Effective To Date
+ &quot;TotalSumInsured&quot;: Total Sum Insured for the Policy 
+ &quot;PremiumAmount&quot;:  Total Gross Premium 
+ &quot;CurrencyVal&quot;: Official 3-letter ISO 4217 codes
+ &quot;Facility_lk&quot;: Project Name or Site Name  
+ &quot;participants&quot;: [
+  {
+   &quot;ParticipantName&quot;: Insurer Name
+   &quot;IsPolicyholder&quot;: True for the Contractor, False for Co-Insurers
+  &quot;SignedLine&quot; : It refers to the percentage (%) of risk each insurer has agreed to cover, e.g.: 10.0
+   &quot;BeneficiarySharePercentage&quot;: Share % if mentioned in Co-Insurance section, e.g.: 10.0
+  }
+ ],
+ &quot;assets&quot;:   The physical components
+  [
+  {
+   &quot;AssetName&quot;:  The insured customer property
+   &quot;AssetLocation&quot;:  The Address of insured customer property
+  &quot;EffectiveFromDate&quot;: Policy Start Date
+  &quot;EffectiveToDate&quot;: Policy End Date
+  &quot;TermPremiumAmount&quot; : The Grand total premium.
+  }
+ ],
+ &quot;productClauses&quot;: [
+    General Terms and Conditions, Endorsements :
+    (1) General Terms and Conditions
+    (2) PAR or Property All Risks (Section 1) 
+    (3) MB or Machinery Breakdown (Section 2) 
+    (4) BI or Business Interruption (Section 3-1) 
+    (5) MLOP or Machinery Loss of Profits (Section 3-2) 
+    (6) GL or General Liability (Section 4) 
+    with Special Clauses for each section
+  {
+   &quot;Name&quot;: Extract Special Clauses/Warranties.
+    &quot;Section&quot;: Include Name of the categories.
+   &quot;Details&quot;:  Applied | Limit or Detail.
+  }
+ ],
+ &quot;coverages&quot;: [
+ {
+  &quot;CategoryGroup&quot;: &quot;String (e.g., &apos;Section I. Material Damage&apos; or &apos;Section II. Third Party Liability&apos;)&quot;,
+  &quot;CoverageSumInsured&quot;: &quot;Number (Total Sum Insured for this Section)&quot;,
+  &quot;SectionSumInsured&quot;: &quot;Number (Same as CoverageSumInsured if not split further)&quot;,
+  &quot;CoveragePremiumAmount&quot;: &quot;Number (Premium for this Section)&quot;,
+  &quot;SectionPremiumAmount&quot;: &quot;Number (Same as CoveragePremiumAmount)&quot;,
+  &quot;CoverageDeductibleAmount&quot;: &quot;Number (Deductible for this Section)&quot;,
+  &quot;Description&quot;: &quot;String (e.g., &apos;Up to TSI&apos; or &apos;Per Occurrence&apos;)&quot;,
+  &quot;LinkedAssetName&quot;: &quot;String (Must match &apos;AssetName&apos; in assets list)&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;String (Item Name e.g., &apos;본공사/Contract Works&apos;, &apos;자재/Construction Material&apos;, &apos;대인배상/Bodily Injury&apos;)&quot;,
+   &quot;Risk_Type&quot;: &quot;String (e.g., &apos;물적손해/Material Damage&apos; or &apos;배상책임/Liability&apos;)&quot;,
+   &quot;Risk_Details&quot;: &quot;String (Specific details or location if different)&quot;,
+   &quot;Risk_Insured_Amount&quot;: &quot;Number (Item Sum Insured/Limit)&quot;,
+   &quot;Risk_Premium_Amount&quot;: &quot;Number (Item Premium - if available, else 0)&quot;,
+   &quot;Risk_Deductible&quot;: &quot;Number (Item Deductible)&quot;,
+   &quot;Risk_Rate&quot;: &quot;Number (Premium Rate - if available)&quot;,
+   &quot;Category_Group&quot;: &quot;String (Copy from parent CategoryGroup)&quot;,
+   &quot;Category_Group_Type&quot;: &quot;String (e.g., &apos;Up to TSI&apos;)&quot;
+  }
+  ]
+ }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>File</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>File</masterLabel>
+            <referenceName>Input:File</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:File.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:File</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_8</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Construction &amp; Erection All Risks Insurance Data Specialist. 
+Your task is to analyze the input insurance application/policy text (typically Construction All Risks or Erection All Risks) and extract structured data to create Salesforce records.
+
+[INPUT]
+{!$RecordSnapshot:File.snapshot}
+
+[RULE &amp; STRUCTURE]
+The document must be organized into the following universal sections to ensure all technical and legal requirements are met:
+1. Administrative &amp; Participant Data:
+    (1) Contract Parties: Identification of the Policyholder, Principal, Main Contractors, and Loss Payees (e.g., Lenders/Banks) .
+    (2) Period of Cover: Clear definitions for the Operational/Construction period, Testing/Commissioning phase, and Maintenance/Guarantee period .
+2. Scope of Indemnity (Tripartite Structure):
+    (1) Section I - Material Damage (MD): Coverage for physical loss or damage to the insured assets/works.
+    (2) Section II - Third Party Liability (TPL): Coverage for legal liability arising from property damage or bodily injury to third parties .
+    (3) Section III - Financial Loss (BI/ALOP): Coverage for Business Interruption or Advanced Loss of Profits due to an indemnifiable physical loss.
+3. Risk Profile &amp; Technical Specifications:
+    (1) Project/Asset Description: Detailed technical specifications, location, and nature of the works/machinery.
+    (2) Risk Environment: Geological, meteorological, and surrounding property data.
+4. Financial Terms:
+    (1) Sum Insured / Limit of Liability: Breakdown of values for each section .
+    (2) Deductible Schedule: Specific retentions for Natural Hazards (A.O.G), operational/testing risks, and standard claims .
+5. Endorsements:
+    (1) Special Extensions: Professional fees, removal of debris, and extra charges for airfreight/overtime .
+    (2) Technical Warranties: Mandatory safety standards (e.g., fire-fighting, storage, and maintenance protocols).
+6. General Terms and Conditions:
+    (1) Explicitly state the base policy form being used (e.g., Munich Re Standard Form, London Market Form). 
+    (2) Confirm that all standard terms apply unless specifically modified by an endorsement.
+
+[INSTRUCTION]
+1. Universal Applicability: Use flexible terminology.
+2. Standardized Clauses: Reference international standards such as Munich Re Policy Forms or LMA (London Market Association) clauses. 
+3. Data Placeholders: Use brackets like [INSERT_VALUE] or [PROJECT_NAME] for all variable data points to allow for easy customization. 
+4. Professional Tone: Maintain a formal, precise, and legally-binding tone throughout the document. 
+5. Visual Clarity: Utilize tables for financial figures, participation shares (Co-insurance), and deductible summaries to enhance readability.
+6. Date Formatting: Convert all dates to &apos;YYYY-MM-DD&apos;.
+7. Numbers: Remove commas and currency symbols.
+8. Strict JSON Output: Return ONLY a single valid JSON object .
+9. Do not translate any part of the document.
+
+
+[Output]
+{
+ &quot;Name&quot;: Application No or Quote No
+ &quot;NameContractor&quot;: Contractor/Policyholder 
+ &quot;EffectiveDate&quot;:  EffectiveDate
+ &quot;EffectiveFromDate&quot;: Effective From Date
+ &quot;EffectiveToDate&quot;: Effective To Date
+ &quot;TotalSumInsured&quot;: Total Sum Insured for the Policy 
+ &quot;PremiumAmount&quot;:  Total Gross Premium 
+ &quot;CurrencyVal&quot;: Official 3-letter ISO 4217 codes
+ &quot;Facility_lk&quot;: Project Name or Site Name  
+ &quot;participants&quot;: [
+  {
+   &quot;ParticipantName&quot;: Insurer Name
+   &quot;IsPolicyholder&quot;: True for the Contractor, False for Co-Insurers
+  &quot;SignedLine&quot; : It refers to the percentage (%) of risk each insurer has agreed to cover, e.g.: 10.0
+   &quot;BeneficiarySharePercentage&quot;: Share % if mentioned in Co-Insurance section, e.g.: 10.0
+  }
+ ],
+ &quot;assets&quot;:   The physical components
+  [
+  {
+   &quot;AssetName&quot;:  The insured customer property
+   &quot;AssetLocation&quot;:  The Address of insured customer property
+  &quot;EffectiveFromDate&quot;: Policy Start Date
+  &quot;EffectiveToDate&quot;: Policy End Date
+  &quot;TermPremiumAmount&quot; : The Grand total premium.
+  }
+ ],
+ &quot;productClauses&quot;: [
+    General Terms and Conditions, Endorsements :
+    (1) General Terms and Conditions
+    (2) PAR or Property All Risks (Section 1) 
+    (3) MB or Machinery Breakdown (Section 2) 
+    (4) BI or Business Interruption (Section 3-1) 
+    (5) MLOP or Machinery Loss of Profits (Section 3-2) 
+    (6) GL or General Liability (Section 4) 
+    with Special Clauses for each section
+  {
+   &quot;Name&quot;: Extract Special Clauses/Warranties.
+    &quot;Section&quot;: Include Name of the categories.
+   &quot;Details&quot;:  Applied | Limit or Detail.
+  }
+ ],
+ &quot;coverages&quot;: [
+ {
+  &quot;CategoryGroup&quot;: &quot;String (e.g., &apos;Section I. Material Damage&apos; or &apos;Section II. Third Party Liability&apos;)&quot;,
+  &quot;CoverageSumInsured&quot;: &quot;Number (Total Sum Insured for this Section)&quot;,
+  &quot;SectionSumInsured&quot;: &quot;Number (Same as CoverageSumInsured if not split further)&quot;,
+  &quot;CoveragePremiumAmount&quot;: &quot;Number (Premium for this Section)&quot;,
+  &quot;SectionPremiumAmount&quot;: &quot;Number (Same as CoveragePremiumAmount)&quot;,
+  &quot;CoverageDeductibleAmount&quot;: &quot;Number (Deductible for this Section)&quot;,
+  &quot;Description&quot;: &quot;String (e.g., &apos;Up to TSI&apos; or &apos;Per Occurrence&apos;)&quot;,
+  &quot;LinkedAssetName&quot;: &quot;String (Must match &apos;AssetName&apos; in assets list)&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;String (Item Name e.g., &apos;본공사/Contract Works&apos;, &apos;자재/Construction Material&apos;, &apos;대인배상/Bodily Injury&apos;)&quot;,
+   &quot;Risk_Type&quot;: &quot;String (e.g., &apos;물적손해/Material Damage&apos; or &apos;배상책임/Liability&apos;)&quot;,
+   &quot;Risk_Details&quot;: &quot;String (Specific details or location if different)&quot;,
+   &quot;Risk_Insured_Amount&quot;: &quot;Number (Item Sum Insured/Limit)&quot;,
+   &quot;Risk_Premium_Amount&quot;: &quot;Number (Item Premium - if available, else 0)&quot;,
+   &quot;Risk_Deductible&quot;: &quot;Number (Item Deductible)&quot;,
+   &quot;Risk_Rate&quot;: &quot;Number (Premium Rate - if available)&quot;,
+   &quot;Category_Group&quot;: &quot;String (Copy from parent CategoryGroup)&quot;,
+   &quot;Category_Group_Type&quot;: &quot;String (e.g., &apos;Up to TSI&apos;)&quot;
+  }
+  ]
+ }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>File</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>File</masterLabel>
+            <referenceName>Input:File</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:File.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:File</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_9</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Construction &amp; Erection All Risks Insurance Data Specialist. 
+Your task is to analyze the input insurance application/policy text (typically Construction All Risks or Erection All Risks) and extract structured data to create Salesforce records.
+
+[INPUT]
+{!$RecordSnapshot:File.snapshot}
+
+[RULE &amp; STRUCTURE]
+The document must be organized into the following universal sections to ensure all technical and legal requirements are met:
+1. Administrative &amp; Participant Data:
+    (1) Contract Parties: Identification of the Policyholder, Principal, Main Contractors, and Loss Payees (e.g., Lenders/Banks) .
+    (2) Period of Cover: Clear definitions for the Operational/Construction period, Testing/Commissioning phase, and Maintenance/Guarantee period .
+2. Scope of Indemnity (Tripartite Structure):
+    (1) Section I - Material Damage (MD): Coverage for physical loss or damage to the insured assets/works.
+    (2) Section II - Third Party Liability (TPL): Coverage for legal liability arising from property damage or bodily injury to third parties .
+    (3) Section III - Financial Loss (BI/ALOP): Coverage for Business Interruption or Advanced Loss of Profits due to an indemnifiable physical loss.
+3. Risk Profile &amp; Technical Specifications:
+    (1) Project/Asset Description: Detailed technical specifications, location, and nature of the works/machinery.
+    (2) Risk Environment: Geological, meteorological, and surrounding property data.
+4. Financial Terms:
+    (1) Sum Insured / Limit of Liability: Breakdown of values for each section .
+    (2) Deductible Schedule: Specific retentions for Natural Hazards (A.O.G), operational/testing risks, and standard claims .
+5. Endorsements:
+    (1) Special Extensions: Professional fees, removal of debris, and extra charges for airfreight/overtime .
+    (2) Technical Warranties: Mandatory safety standards (e.g., fire-fighting, storage, and maintenance protocols).
+6. General Terms and Conditions:
+    (1) Explicitly state the base policy form being used (e.g., Munich Re Standard Form, London Market Form). 
+    (2) Confirm that all standard terms apply unless specifically modified by an endorsement.
+
+[INSTRUCTION]
+1. Universal Applicability: Use flexible terminology.
+2. Standardized Clauses: Reference international standards such as Munich Re Policy Forms or LMA (London Market Association) clauses. 
+3. Data Placeholders: Use brackets like [INSERT_VALUE] or [PROJECT_NAME] for all variable data points to allow for easy customization. 
+4. Professional Tone: Maintain a formal, precise, and legally-binding tone throughout the document. 
+5. Visual Clarity: Utilize tables for financial figures, participation shares (Co-insurance), and deductible summaries to enhance readability.
+6. Date Formatting: Convert all dates to &apos;YYYY-MM-DD&apos;.
+7. Number: Remove commas and currency symbols.
+8. Strict JSON Output: Return ONLY a single valid JSON object .
+9. Do not translate any part of the document.
+
+
+[Output]
+{
+ &quot;Name&quot;: Application No or Quote No
+ &quot;NameContractor&quot;: Contractor/Policyholder 
+ &quot;EffectiveDate&quot;:  EffectiveDate
+ &quot;EffectiveFromDate&quot;: Effective From Date
+ &quot;EffectiveToDate&quot;: Effective To Date
+ &quot;TotalSumInsured&quot;: Total Sum Insured for the Policy 
+ &quot;PremiumAmount&quot;:  Total Gross Premium 
+ &quot;CurrencyVal&quot;: Official 3-letter ISO 4217 codes
+ &quot;Facility_lk&quot;: Project Name or Site Name  
+ &quot;participants&quot;: [
+  {
+   &quot;ParticipantName&quot;: Insurer Name
+   &quot;IsPolicyholder&quot;: True for the Contractor, False for Co-Insurers
+  &quot;SignedLine&quot; : It refers to the percentage (%) of risk each insurer has agreed to cover, e.g.: 10.0
+   &quot;BeneficiarySharePercentage&quot;: Share % if mentioned in Co-Insurance section, e.g.: 10.0
+  }
+ ],
+ &quot;assets&quot;:   The physical components
+  [
+  {
+   &quot;AssetName&quot;:  The insured customer property
+   &quot;AssetLocation&quot;:  The Address of insured customer property
+  &quot;EffectiveFromDate&quot;: Policy Start Date
+  &quot;EffectiveToDate&quot;: Policy End Date
+  &quot;TermPremiumAmount&quot; : The Grand total premium.
+  }
+ ],
+ &quot;productClauses&quot;: [
+    General Terms and Conditions, Endorsements :
+    (1) General Terms and Conditions
+    (2) PAR or Property All Risks (Section 1) 
+    (3) MB or Machinery Breakdown (Section 2) 
+    (4) BI or Business Interruption (Section 3-1) 
+    (5) MLOP or Machinery Loss of Profits (Section 3-2) 
+    (6) GL or General Liability (Section 4) 
+    with Special Clauses for each section
+  {
+   &quot;Name&quot;: Extract Special Clauses/Warranties.
+    &quot;Section&quot;: Include Name of the categories.
+   &quot;Details&quot;:  Applied | Limit or Detail.
+  }
+ ],
+ &quot;coverages&quot;: 
+  - The hierarchical structure of the Total Sum Insured (TSI)
+      [
+          {
+              &quot;CategoryGroup&quot;: Major Category Group(Section)
+              &quot;CoverageSumInsured&quot;: Total Sum Insured for this Section
+              &quot;SectionSumInsured&quot;: SectionSumInsured. Same as CoverageSumInsured if not split further.
+              &quot;CoveragePremiumAmount&quot;: Coverage Premium Amount
+              &quot;SectionPremiumAmount&quot;: Same as Coverage Premium Amount
+              &quot;CoverageDeductibleAmount&quot;: Coverage Deductible Amount
+              &quot;Description&quot;: Description
+              &quot;LinkedAssetName&quot;:  Must match &apos;AssetName&apos; in assets list 
+              &quot;coverageLineItems&quot;: 
+              [
+                  {
+                      &quot;Risk_Name&quot;: Risk Name
+                      &quot;Risk_Type&quot;: Risk Type
+                      &quot;Risk_Details&quot;: Risk Details
+                      &quot;Risk_Insured_Amount&quot;: 
+                          - Risk Insured Amount 
+                          - Data type should be Number
+                      &quot;Risk_Premium_Amount&quot;: 
+                          - Risk Premium Amount, if available, else 0
+                          - Data type should be Number
+                      &quot;Risk_Deductible&quot;: 
+                          - Risk Deductible
+                          - Data type should be Number
+                      &quot;Risk_Rate&quot;: 
+                          - Risk Rate or Premium Rate if available
+                          - Data type should be Number
+                      &quot;Category_Group&quot;: Major Category Group(Section),
+                      &quot;Category_Group_Type&quot;: Category Group Type
+                  }
+              ]
+          }
+      ]
+}
+</content>
+        <inputs>
+            <apiName>File</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>File</masterLabel>
+            <referenceName>Input:File</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:File.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:File</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_10</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

@@ -1,0 +1,83 @@
+:host {
+    display: block;
+}
+
+/* ── 섹션 헤더 ── */
+.section-header {
+    border-top: 1px solid #dddbda;
+    border-bottom: 1px solid #dddbda;
+}
+
+/* ── View 모드 셀 레이아웃 ── */
+.view-mode-cell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 4px;
+}
+
+.view-mode-cell > div:first-child {
+    flex: 1;
+    min-width: 0;
+}
+
+.view-cell-right {
+    display: block;
+    text-align: right;
+}
+
+/* ── 연필 아이콘: hover 시 표시 ── */
+.edit-icon {
+    opacity: 0;
+    transition: opacity 0.2s;
+    flex-shrink: 0;
+}
+
+tr:hover .edit-icon {
+    opacity: 1;
+}
+
+/* ── Lead Insurer 심볼 ── */
+.lead-dot {
+    color: #1a1a1a;
+}
+
+.lead-circle {
+    color: #888888;
+}
+
+/* ── 필수 필드 에러 표시 - 빨간 테두리 ── */
+td.error-cell {
+    border: 2px solid #c23934 !important;
+    box-shadow: 0 0 3px rgba(194, 57, 52, 0.5);
+}
+
+/* ── Total 행 ── */
+.total-row td {
+    background-color: #f3f3f3;
+    font-weight: 600;
+}
+
+
+/* ── comLookup 드롭다운이 테이블 밖으로 나오도록 overflow visible 설정 ── */
+.pol-table-container,
+table,
+thead,
+tbody,
+tr,
+td {
+    overflow: visible !important;
+}
+
+/* ── Step 3 검토 테이블: Lookup 없으므로 가로 스크롤 허용 ── */
+.review-table-container {
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+}
+
+/* ── Step 0 Action 선택 라디오 그룹 ── */
+.action-radio-group {
+    font-size: 1.1rem;
+    --sds-c-radio-spacing-block-end: var(--lwc-spacingMedium, 1rem);
+}

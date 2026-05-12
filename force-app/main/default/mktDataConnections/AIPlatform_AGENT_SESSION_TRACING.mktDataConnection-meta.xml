@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MktDataConnection xmlns="http://soap.sforce.com/2006/04/metadata">
+    <connectionMethod>Ingress</connectionMethod>
+    <connectionStatus>ACTIVE</connectionStatus>
+    <connectorName>AIPlatform</connectorName>
+    <externalRecordIdentifier>b9e4f9a9-9a93-4b13-b76d-7e6f3f2abcb1</externalRecordIdentifier>
+    <isActivityEnabled>false</isActivityEnabled>
+    <isSentosEnabled>false</isSentosEnabled>
+    <masterLabel>AIPlatform_AGENT_SESSION_TRACING</masterLabel>
+    <parameters>
+        <fullName>AIPlatform_AGENT_SESSION_TRACING_customerOrg</fullName>
+        <paramName>customerOrg</paramName>
+        <value>true</value>
+    </parameters>
+    <parameters>
+        <fullName>AIPlatform_AGENT_SESSION_TRACING_providerName</fullName>
+        <paramName>providerName</paramName>
+        <value>AGENT_SESSION_TRACING</value>
+    </parameters>
+    <shouldAutoCreatePolicies>false</shouldAutoCreatePolicies>
+</MktDataConnection>

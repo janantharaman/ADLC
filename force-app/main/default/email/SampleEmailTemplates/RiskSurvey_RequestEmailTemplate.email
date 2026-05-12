@@ -1,0 +1,212 @@
+<messaging:emailTemplate subject="Risk Survey 요청의 건" recipientType="User" relatedToType="COM_RiskSurveyReport__c">
+
+    <messaging:plainTextEmailBody >
+[안내: 본 메일은 단일 레코드 정보 전달용 샘플 템플릿입니다.]
+
+안녕하세요 {!relatedTo.Approver1_lk__r.Name}님,
+아래 기회 레코드의 상태가 변경되었습니다.
+
+- 기회명: {!relatedTo.Opportunity_lk__r.Name}
+- 계약자: {!relatedTo.PolicyHolder_lk__r.Name}
+- 대상 사업장 : {!relatedTo.VisitingSites__c}
+
+시스템에서 상세 내용을 확인해 주세요.
+    </messaging:plainTextEmailBody>
+
+    <messaging:htmlEmailBody >
+        <html lang="ko">
+            <head>
+                <style>
+                    /*Pretendard폰트 적용을 위해 불러오고, 특정 메일사에 의해 폰트를 불러오지 못할 수 있음.*/
+                    @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+                    table,tbody,tr,td,h1,h2,h3,h4,h5,h6,p,ul,li,a,button,pre,div{
+                        font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+                    }
+                </style>
+            </head>
+            <body style="padding:0; margin:0;">
+                <table border="0" cellpadding="0" cellspacing="0" width="640px" style="width:100%; max-width:640px; font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <table width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; max-width:100%; padding:16px;">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <!-- 컨텐츠 border 영역 -->
+                                                <table width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; max-width:100%; margin:0 auto; padding:0; border:1px solid #dddddd">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <!--최상단 border 영역 -->
+                                                                <table width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; max-width:100%; margin:0 auto;">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <table width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; margin:0 auto; max-width:100%; border-top:6px solid #07AA73;">
+                                                                                    <tbody>
+                                                                                    <tr>
+                                                                                        <td></td>
+                                                                                    </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <!--최상단 border 영역 종료 -->
+
+                                                                <!--헤더 영역-->
+                                                                <c:COM_EmailHeader targetId="{!recipient.Id}" />
+                                                                <!--헤더 영역 종료-->
+
+                                                                <!-- 컨텐츠 (본문) 영역 -->
+                                                                <table width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; margin:0 auto; max-width:100%; padding-top:32px; padding-left:20px; padding-right:20px;">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <!-- 컨텐츠 타이틀 영역-->
+                                                                                <table width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; max-width:100%; margin:0 auto; padding-bottom:12px;">
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <!--타이틀 영역-->
+                                                                                                <h3 style="margin:0; padding:0; font-size:24px; font-weight:700; color:#111111; line-height:36px;">Risk Suvery 요청</h3>
+                                                                                                <!--타이틀 영역 종료-->
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                                <!-- 컨텐츠 타이틀 영역 종료-->
+
+                                                                                <!-- 컨텐츠 (내용, 표) 영역-->
+                                                                                <table width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; max-width:100%; margin:0 auto;">
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <!--내용 영역-->
+                                                                                                <!--
+                                                                                                <p style="padding:0; margin:0; color:#333333; font-weight:400; font-size:14px; line-height:24px; word-break:keep-all;">
+                                                                                                    안녕하세요 <strong>{!relatedTo.Approver1_lk__r.Name}</strong>님,<br />
+                                                                                                    Risk Survey 요청이 등록되었습니다.<br />
+                                                                                                    해당 내용을 확인해 주시기 바랍니다.
+                                                                                                </p>
+                                                                                                -->
+                                                                                                <p style="padding:0; margin:0; color:#333333; font-weight:400; font-size:14px; line-height:24px; word-break:keep-all;">
+                                                                                                    <apex:outputText rendered="{!BEGINS(recipient.LanguageLocaleKey, 'ko')}">
+                                                                                                        안녕하세요 <strong>{!relatedTo.Approver1_lk__r.Name}</strong>님,<br />
+                                                                                                        Risk Survey 요청이 등록되었습니다.<br />
+                                                                                                        해당 내용을 확인해 주시기 바랍니다.
+                                                                                                    </apex:outputText>
+                                                                                                
+                                                                                                    <apex:outputText rendered="{!NOT(BEGINS(recipient.LanguageLocaleKey, 'ko'))}">
+                                                                                                        Hello <strong>{!relatedTo.Approver1_lk__r.Name}</strong>,<br />
+                                                                                                        A Risk Survey request has been created.<br />
+                                                                                                        Please review the details.
+                                                                                                    </apex:outputText>
+                                                                                                </p>
+                                                                                                <!--내용 영역 종료-->
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <!--상하 여백 조정 영역-->
+                                                                                            <p style="margin:0; padding:0; padding-top:24px;"></p>
+                                                                                            <!--상하 여백 조정 영역 종료-->
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <!--표 영역-->
+                                                                                            <table width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; max-width:100%; margin:0 auto; border-collapse:collapse;">
+                                                                                                <!--표 넓이값 조절 영역-->
+                                                                                                <colgroup>
+                                                                                                    <col style="width:145px;" />
+                                                                                                    <col style="width:auto;" />
+                                                                                                </colgroup>
+                                                                                                <!--표 넓이값 조절 영역 종료-->
+                                                                                                <tbody>
+                                                                                                    <tr>
+                                                                                                        <th style="padding:8px 12px; background:#F4F4F4; text-align:left; font-size:12px; color:#333; font-weight:700; line-height:18px; border-top:1px solid #EEEEEE; border-bottom:1px solid #EEEEEE;">
+                                                                                                            Opportunity
+                                                                                                        </th>
+                                                                                                        <td style="padding:8px 12px; background:#FFFFFF; text-align:left; font-size:12px; color:#111; font-weight:400; line-height:18px; border-top:1px solid #EEEEEE; border-bottom:1px solid #EEEEEE;">
+                                                                                                            {!relatedTo.Opportunity_lk__r.Name}
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <th style="padding:8px 12px; background:#F4F4F4; text-align:left; font-size:12px; color:#333; font-weight:700; line-height:18px; border-top:1px solid #EEEEEE; border-bottom:1px solid #EEEEEE;">
+                                                                                                            Policy Holder
+                                                                                                        </th>
+                                                                                                        <td style="padding:8px 12px; background:#FFFFFF; text-align:left; font-size:12px; color:#111; font-weight:400; line-height:18px; border-top:1px solid #EEEEEE; border-bottom:1px solid #EEEEEE;">
+                                                                                                            {!relatedTo.PolicyHolder_lk__r.Name}
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <th style="padding:8px 12px; background:#F4F4F4; text-align:left; font-size:12px; color:#333; font-weight:700; line-height:18px; border-top:1px solid #EEEEEE; border-bottom:1px solid #EEEEEE;">
+                                                                                                            Request Due Date
+                                                                                                        </th>
+                                                                                                        <td style="padding:8px 12px; background:#FFFFFF; text-align:left; font-size:12px; color:#111; font-weight:400; line-height:18px; border-top:1px solid #EEEEEE; border-bottom:1px solid #EEEEEE;">
+                                                                                                            <!--{!relatedTo.RequestDueDate__c}-->
+                                                                                                            <apex:outputText value="{0,date,M/d/yyyy}">
+        <apex:param value="{!relatedTo.RequestDueDate__c}" />
+    </apex:outputText>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <th style="padding:8px 12px; background:#F4F4F4; text-align:left; font-size:12px; color:#333; font-weight:700; line-height:18px; border-top:1px solid #EEEEEE; border-bottom:1px solid #EEEEEE;">
+                                                                                                            Request Comments
+                                                                                                        </th>
+                                                                                                        <td style="padding:8px 12px; background:#FFFFFF; text-align:left; font-size:12px; color:#111; font-weight:400; line-height:18px; border-top:1px solid #EEEEEE; border-bottom:1px solid #EEEEEE;">
+                                                                                                            {!relatedTo.RequestComments__c}    
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    </tbody>
+                                                                                            </table>
+                                                                                            <!--표 영역 종료-->
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                                <!-- 컨텐츠 (내용, 표) 영역 종료-->
+
+                                                                                <!-- 하단 버튼 영역 -->
+                                                                                <table width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; max-width:100%; margin:0 auto; text-align:center; padding-top:32px; max-width:360px;">
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td align="center">
+                                                                                                <a href="{!LEFT($Api.Partner_Server_URL_550, FIND('/services', $Api.Partner_Server_URL_550))}/{!relatedTo.Id}"
+                                                                                                   target="_blank"
+                                                                                                   style="display:inline-block; font-size:16px; line-height:26px; font-weight:700; color:#fff; padding:8px 32px; background:#1AA36F; border-radius:999px; text-decoration:none;">
+                                                                                                    Risk Survey 바로 가기 <!-- View Details -->
+                                                                                                </a>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                                <!-- 하단 버튼 영역 종료 -->
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <!-- 컨텐츠 (본문) 영역 종료 -->
+
+                                                                <!-- 푸터 영역-->
+                                                                <c:COM_EmailFooter />
+                                                                <!-- 푸터 영역 종료-->
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </body>
+        </html>
+    </messaging:htmlEmailBody>
+</messaging:emailTemplate>

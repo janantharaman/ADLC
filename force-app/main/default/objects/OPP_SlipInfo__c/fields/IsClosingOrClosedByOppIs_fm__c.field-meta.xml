@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IsClosingOrClosedByOppIs_fm__c</fullName>
+    <formula>OR(                                                                                                                                                                                                                                                 
+      ISPICKVAL(Opportunity_lk__r.StageName, &apos;Closing&apos;),                                                                                                                                                                                                              
+      Opportunity_lk__r.IsClosed                                                                                                                                                                                                                                        
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Closing or Closed (Opp)</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>LK_KR</fullName>
+        <default>false</default>
+        <label>LK_KR</label>
+    </customValue>
+    <customValue>
+        <fullName>LK_Re</fullName>
+        <default>false</default>
+        <label>LK_Re</label>
+    </customValue>
+    <customValue>
+        <fullName>LK_VN</fullName>
+        <default>false</default>
+        <label>LK_VN</label>
+    </customValue>
+    <customValue>
+        <fullName>None</fullName>
+        <default>false</default>
+        <label>None</label>
+    </customValue>
+    <masterLabel>[COM] Biz Region</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

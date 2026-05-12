@@ -1,0 +1,23 @@
+<template>
+    <!-- Label(+optional icon) button -->
+    <template if:false={isButtonIconOnly}>
+        <lightning-button
+            label={displayValue}
+            icon-name={buttonIconName}
+            variant={buttonVariant}
+            disabled={isDisabled}
+            onclick={handleButtonClick}
+        ></lightning-button>
+    </template>
+
+    <!-- Icon-only button -->
+    <template if:true={isButtonIconOnly}>
+        <lightning-button-icon
+            icon-name={buttonIconName}
+            variant={buttonVariant}
+            size={buttonIconSize}
+            disabled={isDisabled}
+            onclick={handleButtonClick}
+        ></lightning-button-icon>
+    </template>
+</template>

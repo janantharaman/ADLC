@@ -1,0 +1,262 @@
+<!--
+ * @filename      : oppMarketLineCell.html
+ * @project-name  : LK보험중계_신규계약관리시스템 구축
+ * @author        : i2max
+ * @date          : 2026-01-07 (수)
+ * @group         :
+ * @group-content :
+ * @description   : 
+ * @reference     : 
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2026-01-07      i2max        Create
+-->
+<template>
+    <template lwc:if={isBlank}>&nbsp;</template>
+    <template lwc:else>
+        <template if:true={col}>
+            <template if:true={isText}>
+                <template if:true={isCellDisabled}>
+                    {value}
+                </template>
+                <template if:false={isCellDisabled}>
+                    <lightning-input
+                            label={label}
+                            variant="label-hidden"
+                            type="text"
+                            required={isRequired}
+                            value={value}
+                            onchange={handleChange}
+                    >
+                    </lightning-input>
+                    <!-- read-only={isCellDisabled} -->
+                </template>
+            </template>
+
+            <template if:true={isPopupType}>
+                <div class="slds-form-element">
+                    <div
+                        class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right"
+                        onclick={handleAction}
+                        data-action="openTextEditor"
+                        style="cursor: pointer; position: relative"
+                    >
+                        <!-- 평상시: 뷰 모드 -->
+                        <div class="slds-truncate slds-is-disabled" style={textAreaStyle}>
+                            <template if:true={isTextArea}>{value}</template>
+                            <template if:true={isRichText}>
+                                <lightning-formatted-rich-text
+                                    value={value}
+                                    disable-linkify
+                                ></lightning-formatted-rich-text>
+                            </template>
+                        </div><!-- utility:edit-->
+                        <lightning-icon
+                            icon-name="utility:new_window"
+                            size="x-small"
+                            class="slds-input__icon slds-input__icon_right slds-icon-text-default"
+                        ></lightning-icon>
+                    </div>
+                </div>
+            </template>
+
+            <template if:true={isNum}>
+                <template if:true={isZeroDisplayText}>
+                    <span class="slds-text-align_center">{zeroDisplayText}</span>
+                </template>
+                <template if:false={isZeroDisplayText}>
+                    <lightning-input
+                        label={label}
+                        variant="label-hidden"
+                        type="number"
+                        required={isRequired}
+                        read-only={isCellDisabled}
+                        step={stepValue}
+                        value={value}
+                        max={maxValue}
+                        class="cus-lk-input-right"
+                        placeholder={inputPlaceholder}
+                        message-when-range-overflow={rangeOverflowMessage}
+                        onchange={handleChange}
+                    >
+                    </lightning-input>
+                </template>
+            </template>
+
+            <template if:true={isDate}>
+                <lightning-input
+                    label={label}
+                    variant="label-hidden"
+                    type="date"
+                    required={isRequired}
+                    read-only={isCellDisabled}
+                    value={value}
+                    onchange={handleChange}
+                >
+                </lightning-input>
+            </template>
+
+            <template if:true={isDatetime}>
+                <lightning-input
+                    label={label}
+                    variant="label-hidden"
+                    type="datetime"
+                    required={isRequired}
+                    read-only={isCellDisabled}
+                    value={value}
+                    onchange={handleChange}
+                >
+                </lightning-input>
+            </template>
+
+            <template if:true={isCheckbox}>
+                <div class="slds-align_absolute-center">
+                <lightning-input
+                    label={label}
+                    variant="label-hidden"
+                    type="checkbox"
+                    required={isRequired}
+                    disabled={isCellDisabled}
+                    checked={value}
+                    onchange={handleChange}
+                >
+                </lightning-input>
+                </div>
+            </template>
+
+            <template if:true={isPicklist}>
+                <c-com-picklist
+                    value={value}
+                    multi={col.isMulti}
+                    options={filteredOptions}
+                    label={label}
+                    required={isRequired}
+                    disabled={isCellDisabled}
+                    field-name={col.key}
+                    onpicklistchange={handleChange}
+                >
+                </c-com-picklist>
+            </template>
+
+            <template if:true={isPopupLookup}>
+                <div class="slds-form-element">
+                    <div
+                        class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right"
+                        style="position: relative; cursor: pointer !important"
+                    >
+                        <div class="slds-truncate" style="padding-right: 1.6rem">
+                            <lightning-icon
+                                    icon-name="utility:warning"
+                                    title={labels.OPP_MSG_RE_KYC_INCOMPLETE}
+                                    alternative-text={labels.OPP_MSG_RE_KYC_INCOMPLETE}
+                                    size="small"
+                                    variant="warning"
+                                    if:true={isKycIncomplete}
+                                    class="slds-m-right_xx-small slds-no-flex"
+                            >
+                            </lightning-icon>
+                            <lightning-formatted-url
+                                label={displayValue}
+                                value={selectedRecordUrl}
+                                tooltip={displayValue}
+                                target="_blank"
+                            >
+                            </lightning-formatted-url>
+                        </div>
+                        <lightning-icon
+                            alternative-text="Search"
+                            icon-name="utility:search"
+                            size="x-small"
+                            class="slds-input__icon slds-input__icon_right"
+                            onclick={handleAction}
+                            data-action="openMarketSearch"
+                        ></lightning-icon>
+                    </div>
+                </div>
+            </template>
+
+            <template if:true={isLookup}>
+                <div class="slds-grid slds-grid_vertical-align-center" style="overflow: visible;">
+                    <lightning-icon
+                        icon-name="utility:warning"
+                        title={labels.OPP_MSG_RE_KYC_INCOMPLETE}
+                        alternative-text={labels.OPP_MSG_RE_KYC_INCOMPLETE}
+                        size="small"
+                        variant="warning"
+                        if:true={isKycIncomplete}
+                        class="slds-m-right_xx-small slds-no-flex"
+                    >
+                    </lightning-icon>
+                    <div class="slds-col" style="min-width: 0; overflow: visible;">
+                        <c-com-lookup
+                            value={lookupValue}
+                            field-name={col.key}
+                            required={isRequired}
+                            disabled={lookupDisabled}
+                            config={lookupConfig}
+                            is-fixed="true"
+                            onlookupchange={handleChange}
+                        >
+                        </c-com-lookup>
+                    </div>
+                </div>
+            </template>
+
+            <template if:true={isLayerAction}>
+                <lightning-button-group>
+                    <lightning-button-icon
+                        data-action="delLayerRow"
+                        icon-name="utility:delete"
+                        size="x-small"
+                        title={labels.OPP_LBL_DELETE_LAYER_ITEM}
+                        alternative-text={labels.OPP_LBL_DELETE_LAYER_ITEM}
+                        onclick={handleAction}
+                        disabled={isActionDisabled}
+                    >
+                    </lightning-button-icon>
+                    <lightning-button-icon
+                        data-action="addPanelRow"
+                        icon-name="utility:add"
+                        size="x-small"
+                        title={labels.OPP_LBL_ADD_PANEL_ITEM}
+                        alternative-text={labels.OPP_LBL_ADD_PANEL_ITEM}
+                        onclick={handleAction}
+                        disabled={isAddActionDisabled}
+                    >
+                    </lightning-button-icon>
+                </lightning-button-group>
+            </template>
+
+            <template if:true={isMarketAction}>
+                <lightning-button-group>
+                    <!--"Delete Panel Item."-->
+                    <lightning-button-icon
+                        data-action="delPanelRow"
+                        icon-name="utility:delete"
+                        size="x-small"
+                        alternative-text={labels.OPP_LBL_DELETE_PANEL_ITEM}
+                        title={labels.OPP_LBL_DELETE_PANEL_ITEM}
+                        onclick={handleAction}
+                        disabled={isCellDisabled}
+                    >
+                    </lightning-button-icon>
+                </lightning-button-group>
+            </template>
+
+            <template if:true={isSubjAction}>
+                <lightning-button
+                    label="View All"
+                    variant="neutral"
+                    class="slds-p-horizontal_x-small"
+                    onclick={handleAction}
+                    data-action="openSubjectivity"
+                    disabled={isSubjActionDisabled}
+                >
+                </lightning-button>
+            </template>
+        </template>
+    </template>
+</template>

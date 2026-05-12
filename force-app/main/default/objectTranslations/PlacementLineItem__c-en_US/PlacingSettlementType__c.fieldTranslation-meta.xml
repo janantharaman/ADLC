@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Placing Settlement Type --></label>
+    <name>PlacingSettlementType__c</name>
+    <picklistValues>
+        <masterLabel>Seperate</masterLabel>
+        <translation><!-- Seperate --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Together</masterLabel>
+        <translation><!-- Together --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

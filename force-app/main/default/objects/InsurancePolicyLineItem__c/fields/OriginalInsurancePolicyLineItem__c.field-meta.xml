@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OriginalInsurancePolicyLineItem__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>최초 계약상세</description>
+    <label>Original InsurancePolicy Details</label>
+    <referenceTo>InsurancePolicyLineItem__c</referenceTo>
+    <relationshipLabel>Insurance Policy Line Items(Original)</relationshipLabel>
+    <relationshipName>InsurancePolicyLineItems_Original</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

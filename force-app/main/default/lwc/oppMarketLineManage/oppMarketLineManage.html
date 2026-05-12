@@ -1,0 +1,135 @@
+<!--
+ * @filename      : oppMarketLineManage.html
+ * @project-name  : LK보험중계_신규계약관리시스템 구축
+ * @author        : i2max
+ * @date          : 2026-01-07 (수)
+ * @group         :
+ * @group-content :
+ * @description   : 
+ * @reference     : 
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2026-01-07      i2max        Create
+-->
+<template>
+    <div class="fsRoot">
+        <div class="content">
+            <article class="slds-card slds-is-relative">
+                <template if:false={isInit}>
+                    <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+                    <div class="slds-scrollable_x" style="opacity: 0.5;">
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                            <thead>
+                            <tr class="slds-line-height_reset">
+                                <th scope="col" style="width: 50px;">
+                                    <div class="slds-truncate"><div class="slds-skeleton" style="width: 30px; height: 1rem;"></div></div>
+                                </th>
+                                <template for:each={skeletonCols} for:item="i">
+                                    <th key={i} scope="col">
+                                        <div class="slds-truncate"><div class="slds-skeleton" style="width: 80px; height: 1rem;"></div></div>
+                                    </th>
+                                </template>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <template for:each={skeletonRows} for:item="r">
+                                <tr key={r}>
+                                    <td><div class="slds-skeleton" style="width: 30px; height: 1.5rem;"></div></td>
+                                    <template for:each={skeletonCols} for:item="c">
+                                        <td key={c}>
+                                            <div class="slds-skeleton" style="width: 100%; height: 1.5rem;"></div>
+                                        </td>
+                                    </template>
+                                </tr>
+                            </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </template>
+
+                <template if:true={isInit}>
+
+                    <template if:true={isLoading}>
+                        <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+                    </template>
+
+
+                    <div class="slds-card__header slds-grid">
+                        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                            <div class="slds-media__figure"></div>
+                            <div class="slds-media__body">
+                                <!-- Toolbar -->
+                                <template if:true={columns.length}>
+                                    <c-opp-market-line-toolbar
+                                            selected-currency={selectedCurrency}
+                                            cnt-finalized-line={cntFinalizedLine}
+                                            is-fullscreen={isFullscreen}
+                                            is-group-toggle-disabled={isGroupToggleDisabled}
+                                            is-all-collapsed={isAllCollapsed}
+                                            is-read-only={isReadOnly}
+                                            is-save-disabled={isSaveDisabled}
+                                            is-simul-disabled={isSimulDisabled}
+                                            is-opp={isOpp}
+                                            is-claim={isClaim}
+                                            is-ci-case={isCICase}
+                                            is-placement={isPlacement}
+                                            has-finalize-modified={hasFinalizeModified}
+                                            ontoolbaraction={handleAction}
+                                            has-need-recalculate={hasNeedRecalculate}>
+                                    >
+                                    </c-opp-market-line-toolbar>
+                                </template>
+                            </div>
+                        </header>
+                    </div>
+
+                    <div class="slds-card__body slds-card__body_inner">
+                        <!-- Grid -->
+                        <template if:true={columns.length}>
+                            <c-opp-market-line-table
+                                    columns={columns}
+                                    rows={rows}
+                                    ctx={ctx}
+                                    is-read-only={isReadOnly}
+                                    is-opp={isOpp}
+                                    is-claim={isClaim}
+                                    is-ci-case={isCICase}
+                                    biz-region={bizRegion}
+                                    is-placement={isPlacement}
+                                    is-fullscreen={isFullscreen}
+                                    selected-currency={selectedCurrency}
+                                    claim-currency={claimCurrency}
+                                    onaddpanel={handleAddPanel}
+                                    ondelpanel={handleDelPanel}
+                                    oncellchange={handleCellChange}
+                                    ongroupstatechange={onGroupStateChange}
+                                    onkycstatuschange={handleKycStatusChange}
+                                    ondellayer={handleDelLayer}
+                                    onopensubjectivity={handleOpenSubjectivity}
+                                    onopenmarketsearch={handleOpenMarketSearch}
+                                    onopentexteditor={handleOpenTextEditor}
+                            >
+                            </c-opp-market-line-table>
+                        </template>
+                    </div>
+                    <!-- Simulation Button -->
+                    <div class="slide-toggle-btn" data-action="simulation" onclick={handleAction} if:false={isSimulDisabled}>
+                        <span>{labels.COM_BTN_SIMULATION}</span>
+                    </div>
+                </template>
+            </article>
+        </div>
+    </div>
+    <!-- 팝업 컨테이너 -->
+    <c-opp-modal-container
+        record-id={recordId}
+        onrecordselect={handleMarketSelect}
+        onsavecomplete={onReload}
+        ontexteditorapply={handleTextEditorApply}
+        onfinalize={onReload}
+    >
+    </c-opp-modal-container>
+</template>

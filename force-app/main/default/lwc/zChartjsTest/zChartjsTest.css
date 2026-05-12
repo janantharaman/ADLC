@@ -1,0 +1,7 @@
+.layout { display: grid; grid-template-columns: 1fr 280px; gap: 16px; }
+.chartBox {
+    height: 600px !important;
+    width: 100% !important;
+}
+.side .row { display: grid; grid-template-columns: 1fr 1fr; padding: 6px 0; }
+.side .header { font-weight: 700; border-bottom: 1px solid #ddd; }

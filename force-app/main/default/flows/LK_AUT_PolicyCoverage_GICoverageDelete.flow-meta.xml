@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Assign_Return_Value_True</name>
+        <label>Assign Return Value True</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>v_OutDeleteReturn</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <name>Check_Delete_Result</name>
+        <label>Check Delete Result</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Normal_End</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Delete_Group_Insurance_Coverages</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Return_Value_True</targetReference>
+            </connector>
+            <label>Normal End</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Selected_Row_Exist</name>
+        <label>Check Selected Row Exist</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Check_Delete_Result</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Row_Exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>v_CollPolicyCoveragesSelected</leftValueReference>
+                <operator>IsEmpty</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Delete_Group_Insurance_Coverages</targetReference>
+            </connector>
+            <label>Row Exist</label>
+        </rules>
+    </decisions>
+    <description>단체보험 담보정보 삭제</description>
+    <environments>Default</environments>
+    <interviewLabel>LK_AUT_PolicyCoverage_GICoverageDelete {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>LK_AUT_PolicyCoverage_GICoverageDelete</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordDeletes>
+        <name>Delete_Group_Insurance_Coverages</name>
+        <label>Delete Group Insurance Coverages</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Delete_Result</targetReference>
+        </connector>
+        <inputReference>v_CollPolicyCoveragesSelected</inputReference>
+    </recordDeletes>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Selected_Row_Exist</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>v_CollPolicyCoveragesSelected</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>InsurancePolicyCoverage</objectType>
+    </variables>
+    <variables>
+        <name>v_InRecordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>v_OutDeleteReturn</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+</Flow>

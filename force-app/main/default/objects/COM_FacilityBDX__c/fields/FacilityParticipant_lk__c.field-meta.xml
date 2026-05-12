@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FacilityParticipant_lk__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Account (Issue to)</label>
+    <lookupFilter>
+        <active>true</active>
+        <booleanFilter>1 AND 2 AND 3 AND ((4 AND 5) OR (6 AND 7))</booleanFilter>
+        <filterItems>
+            <field>$Source.Facility_lk__c</field>
+            <operation>equals</operation>
+            <valueField>COM_FacilityParticipant__c.Facility_lk__c</valueField>
+        </filterItems>
+        <filterItems>
+            <field>COM_FacilityParticipant__c.BillingCycle__c</field>
+            <operation>notEqual</operation>
+            <value>Separate</value>
+        </filterItems>
+        <filterItems>
+            <field>COM_FacilityParticipant__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Active</value>
+        </filterItems>
+        <filterItems>
+            <field>COM_FacilityParticipant__c.CedantReinsurer_fm__c</field>
+            <operation>equals</operation>
+            <value>Cedant</value>
+        </filterItems>
+        <filterItems>
+            <field>$Source.BDXType__c</field>
+            <operation>equals</operation>
+            <value>Debit Note</value>
+        </filterItems>
+        <filterItems>
+            <field>COM_FacilityParticipant__c.CedantReinsurer_fm__c</field>
+            <operation>equals</operation>
+            <value>Reinsurer</value>
+        </filterItems>
+        <filterItems>
+            <field>$Source.BDXType__c</field>
+            <operation>equals</operation>
+            <value>SOA</value>
+        </filterItems>
+        <isOptional>true</isOptional>
+    </lookupFilter>
+    <referenceTo>COM_FacilityParticipant__c</referenceTo>
+    <relationshipLabel>Facility BDX</relationshipLabel>
+    <relationshipName>SOAByFacilityParticipant</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

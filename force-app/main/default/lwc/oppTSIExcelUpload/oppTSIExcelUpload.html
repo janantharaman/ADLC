@@ -1,0 +1,114 @@
+<!--
+ * @filename       : oppTSIExcelUpload.html
+ * @project-name  : LK보험중계_신규계약관리시스템 구축
+ * @author        : i2max
+ * @date          : 2026-1-16 (금)
+ * @group         :
+ * @group-content :
+ * @description   : TSI By Location 데이터를 Excel 파일로 업로드·검증·저장하는 LWC 모달 컴포넌트
+ * @reference     :
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2026-1-16        i2max             Create
+-->
+
+<!-- Opp Tsi Excel Upload -->
+<template>
+    <div class="excel-container">
+        <div class="slds-grid slds-grid_vertical-align-center slds-m-bottom_small">
+
+            <div class="slds-col_bump-left">
+                <p class="slds-text-body_small slds-text-color_weak" style="display: inline-block;">
+                    <lightning-icon icon-name="utility:info" size="x-small"></lightning-icon>
+                    Click any cell to edit. Hover over red cells to see error details.
+                </p>
+            </div>
+        </div>
+
+        <!-- Excel 스타일 테이블 -->
+        <div class="table-container" onscroll={handleScroll}>
+            <table class="excel-table">
+                <!-- 헤더 -->
+                <thead>
+                    <tr>
+                        <th class="row-number-header">#</th>
+                            <template for:each={headers} for:item="header">
+                                <th key={header.apiName} class="excel-header">{header.label}</th>
+                            </template>
+                    </tr>
+                </thead>
+
+                <!-- 데이터 (가상 스크롤) -->
+                <tbody>
+                <!-- 위쪽 스페이서 -->
+                <tr class="spacer-row">
+                    <td colspan={columnSpan} style={topSpacerStyle}></td>
+                </tr>
+
+                <!-- 보이는 행만 렌더 -->
+                <template for:each={visibleRows} for:item="vrow">
+                    <tr key={vrow.index} class="excel-row">
+                        <td class="row-number">{vrow.rowNumber}</td>
+                        <template for:each={vrow.cells} for:item="cell" for:index="colIndex">
+                            <td key={cell.fieldName} class="excel-cell">
+                                <div class="cell-wrapper">
+                                    <input
+                                            type="text"
+                                            class={cell.cellInputClass}
+                                            value={cell.displayValue}
+                                            data-row={vrow.index}
+                                            data-col={colIndex}
+                                            data-field-name={cell.fieldName}
+                                            onchange={handleCellChange}
+                                    />
+                                    <!-- Error Tooltip -->
+                                    <template if:true={cell.hasError}>
+                                        <div class="error-tooltip">
+                                            <lightning-icon
+                                                    icon-name="utility:error"
+                                                    size="x-small"
+                                                    variant="error"
+                                                    class="error-icon">
+                                            </lightning-icon>
+                                            <span class="tooltip-text">{cell.error}</span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </td>
+                        </template>
+                    </tr>
+                </template>
+
+                <!-- 아래쪽 스페이서 -->
+                <tr class="spacer-row">
+                    <td colspan={columnSpan} style={bottomSpacerStyle}></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="slds-m-top_medium slds-grid slds-grid_align-end">
+            <lightning-button
+                    label="Cancel"
+                    onclick={handleCancel}
+                    disabled={isSaving}
+                    class="slds-m-right_x-small">
+            </lightning-button>
+            <lightning-button
+                    variant="brand"
+                    label={save_label}
+                    onclick={handleSave}
+                    disabled={disableSave}>
+            </lightning-button>
+        </div>
+    </div>
+
+        <!-- 로딩 스피너 -->
+    <template if:true={isSaving}>
+        <lightning-spinner alternative-text="Saving..." size="medium"></lightning-spinner>
+    </template>
+</template>

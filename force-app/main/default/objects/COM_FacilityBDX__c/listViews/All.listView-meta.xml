@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>BDXType__c</columns>
+    <columns>Facility_lk__c</columns>
+    <columns>FacilityParticipant_lk__c</columns>
+    <columns>BDXPeriod__c</columns>
+    <columns>IssueFrom__c</columns>
+    <columns>IssueTo__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+</ListView>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <available>true</available>
+    <description>PLA/SOC 문서 다건생성 배치 완료이메일 템플릿(내부 발송용)</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>[SAMPLE] DocGen Batch Result Email Template  (vf)</name>
+    <style>none</style>
+    <type>visualforce</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

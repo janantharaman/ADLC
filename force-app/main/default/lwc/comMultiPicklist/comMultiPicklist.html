@@ -1,0 +1,90 @@
+<!--
+ * @filename      : ComMultiPicklist.html
+ * @project-name  : LK보험중계_신규계약관리시스템 구축
+ * @author        : i2max
+ * @date          : 2026-03-15 (일)
+ * @group         :
+ * @group-content :
+ * @description   :
+ * @reference     :
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2026-03-15      i2max        Create
+-->
+<template>
+    <div class="slds-combobox_container slds-is-relative">
+        <div class={comboboxClass} style="position: relative; width: 100%">
+            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                <input
+                        class="slds-input slds-combobox__input"
+                        type="text"
+                        placeholder={placeholder}
+                        value={keyword}
+                        disabled={disabled}
+                        oninput={handleInput}
+                        onclick={toggleDropdown}
+                        onblur={handleBlur}
+                        role="combobox"
+                        aria-expanded={isOpen}
+                        aria-haspopup="listbox"
+                />
+                <lightning-icon
+                        class="slds-input__icon slds-input__icon_right"
+                        icon-name="utility:down"
+                        size="x-small">
+                </lightning-icon>
+            </div>
+
+            <!-- Dropdown -->
+            <template if:true={isOpen}>
+                <div class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid"
+                     role="listbox"
+                     style="z-index: 9999;"
+                     onmousedown={handleDropdownMouseDown}>
+                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                        <template for:each={optionList} for:item="o">
+                            <li key={o.value} class="slds-listbox__item" role="presentation">
+                                <div class={o.itemClass}
+                                     role="option"
+                                     data-value={o.value}
+                                     onclick={handleOptionClick}>
+                                      <span class="slds-media__figure slds-listbox__option-icon">
+                                          <template if:true={o.selected}>
+                                              <lightning-icon
+                                                      icon-name="utility:check"
+                                                      size="x-small">
+                                              </lightning-icon>
+                                          </template>
+                                      </span>
+                                    <span class="slds-media__body">
+                                          <span class="slds-truncate">{o.label}</span>
+                                      </span>
+                                </div>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </template>
+        </div>
+
+        <!-- Pills -->
+        <template if:true={hasSelection}>
+            <div class="slds-listbox_selection-group slds-p-top_xxx-small">
+                <ul class="slds-listbox slds-listbox_horizontal" role="listbox">
+                    <template for:each={selectedOptions} for:item="pill">
+                        <li key={pill.value} class="slds-listbox-item" role="presentation">
+                            <lightning-pill
+                                    label={pill.label}
+                                    name={pill.value}
+                                    onremove={handlePillRemove}>
+                            </lightning-pill>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+        </template>
+    </div>
+</template>

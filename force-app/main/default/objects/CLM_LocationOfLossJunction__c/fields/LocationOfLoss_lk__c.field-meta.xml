@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LocationOfLoss_lk__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Location of Loss</label>
+    <referenceTo>CLM_LocationOfLoss__c</referenceTo>
+    <relationshipLabel>Claim and Location of Loss</relationshipLabel>
+    <relationshipName>ClaimLocationOfLossJunctions</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RiskSurveyCompactLayout</fullName>
+    <fields>Name</fields>
+    <fields>Opportunity_lk__c</fields>
+    <fields>PolicyHolder_lk__c</fields>
+    <fields>ApprovalStatus__c</fields>
+    <label>Risk Survey Compact Layout</label>
+</CompactLayout>

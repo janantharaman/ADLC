@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>AccountName__c</columns>
+    <columns>Depositor__c</columns>
+    <columns>TransactionDate__c</columns>
+    <columns>SettlementCurrency__c</columns>
+    <columns>OriginAmount__c</columns>
+    <columns>ReconciledAMT__c</columns>
+    <columns>NotReconciledAMT__c</columns>
+    <columns>Status__c</columns>
+    <columns>BizRegion__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+</ListView>

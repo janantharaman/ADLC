@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Report Type --></label>
+    <name>ReportType__c</name>
+    <picklistValues>
+        <masterLabel>계약자 안내용 국문보고서</masterLabel>
+        <translation><!-- 계약자 안내용 국문보고서 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>영문 마켓보고서</masterLabel>
+        <translation><!-- 영문 마켓보고서 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>협의</masterLabel>
+        <translation><!-- 협의 --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

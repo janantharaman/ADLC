@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insured__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Insured</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Insurance Policy Line Items (Insured)</relationshipLabel>
+    <relationshipName>Insurance_Policy_Line_Items1</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

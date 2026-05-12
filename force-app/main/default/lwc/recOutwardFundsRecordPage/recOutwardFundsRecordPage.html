@@ -1,0 +1,237 @@
+<!--
+  @description       : 
+  @author            : Akrom Saidkamolov
+  @last modified on  : 2026-04-09
+  @last modified by  : Akrom Saidkamolov
+-->
+<template>
+    <div class="container">
+        <div lwc:if={_isLoading} class="spinner">
+            <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+        </div>
+
+        <!-- ═══ Outward Funds ═══ -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-title">Outward Funds</span>
+            </div>
+            <div class="section-body">
+                <div class="table-wrapper">
+                    <c-rec-table
+                        lwc:ref="outwardFundsTable"
+                        key-field="Id"
+                        columns={outwardFundsColumns}
+                        data={outwardFundsData}
+                        hide-checkbox-column
+                    ></c-rec-table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══ Select Items ═══ -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-title">Select Items</span>
+            </div>
+            <div class="section-body">
+                <lightning-tabset active-tab-value={_activeTab} onactive={handleTabChange}>
+                    <!-- Tab: Settlement Line Item -->
+                    <lightning-tab label="Settlement Line Item" value="sli" onactive={handleTabChange}>
+                        <div class="filter-wrapper slds-box slds-box_xx-small slds-var-m-vertical_medium">
+                            <c-rec-filter-bar filter-defs={sliFilterDefs} filter-width="9" lwc:ref="sliFilter">
+                                <lightning-button-group slot="actions">
+                                    <lightning-button
+                                        name="action_Inquiry"
+                                        label="Inquiry"
+                                        icon-name="utility:search"
+                                        variant="brand"
+                                        onclick={handleSliInquiryClick}
+                                    ></lightning-button>
+                                    <lightning-button
+                                        name="action_Reset"
+                                        label="Reset"
+                                        icon-name="utility:undo"
+                                        variant="neutral"
+                                        onclick={handleSliResetClick}
+                                    ></lightning-button>
+                                </lightning-button-group>
+                            </c-rec-filter-bar>
+                        </div>
+
+                        <div class="table-summary">
+                            <span>Rows: {displayRowCount} / Selected: {displaySelectedCount}</span>
+                            <div class="table-actions">
+                                <lightning-button-group>
+                                    <lightning-button-icon
+                                        name="action_ExpandAll"
+                                        label="Expand All"
+                                        title="Expand All"
+                                        alternative-text="Expand All"
+                                        icon-name="utility:add"
+                                        variant="neutral"
+                                        onclick={handleSliExpandAllClick}
+                                    ></lightning-button-icon>
+                                    <lightning-button-icon
+                                        name="action_CollapseAll"
+                                        label="Collapse All"
+                                        title="Collapse All"
+                                        alternative-text="Collapse All"
+                                        icon-name="utility:dash"
+                                        variant="neutral"
+                                        onclick={handleSliCollapseAllClick}
+                                    ></lightning-button-icon>
+                                </lightning-button-group>
+
+                                <lightning-button
+                                    name="action_Select"
+                                    label="Select"
+                                    title="Select"
+                                    class="slds-var-m-left_small"
+                                    variant="brand"
+                                    onclick={handleSliSelect}
+                                    disabled={isRecordLocked}
+                                ></lightning-button>
+                            </div>
+                        </div>
+
+                        <div class="table-wrapper inquiry-table">
+                            <c-rec-table
+                                lwc:ref="sliTable"
+                                key-field="Id"
+                                columns={sliColumns}
+                                data={sliData}
+                                disabled-row-ids={sliDisabledRowIds}
+                                onrowselection={handleSliRowSelection}
+                                ongroupcollapse={handleSliGroupCollapse}
+                            ></c-rec-table>
+                        </div>
+                    </lightning-tab>
+
+                    <!-- Tab: Note -->
+                    <lightning-tab label="Note" value="note" onactive={handleTabChange}>
+                        <div class="filter-wrapper slds-box slds-box_xx-small slds-var-m-vertical_medium">
+                            <c-rec-filter-bar
+                                filter-defs={noteFilterDefs}
+                                filter-width="9"
+                                lwc:ref="noteFilter"
+                                data-id="noteFilter"
+                            >
+                                <lightning-button-group slot="actions">
+                                    <lightning-button
+                                        name="action_Inquiry"
+                                        label="Inquiry"
+                                        icon-name="utility:search"
+                                        variant="brand"
+                                        onclick={handleNoteInquiryClick}
+                                    ></lightning-button>
+                                    <lightning-button
+                                        name="action_Reset"
+                                        label="Reset"
+                                        icon-name="utility:undo"
+                                        variant="neutral"
+                                        onclick={handleNoteResetClick}
+                                    ></lightning-button>
+                                </lightning-button-group>
+                            </c-rec-filter-bar>
+                        </div>
+
+                        <div class="table-summary">
+                            <span>Rows: {displayNoteRowCount} / Selected: {displayNoteSelectedCount}</span>
+                            <div class="table-actions">
+                                <lightning-button-group>
+                                    <lightning-button-icon
+                                        name="action_ExpandAll"
+                                        label="Expand All"
+                                        title="Expand All"
+                                        alternative-text="Expand All"
+                                        icon-name="utility:add"
+                                        variant="neutral"
+                                        onclick={handleNoteExpandAllClick}
+                                    ></lightning-button-icon>
+                                    <lightning-button-icon
+                                        name="action_CollapseAll"
+                                        label="Collapse All"
+                                        title="Collapse All"
+                                        alternative-text="Collapse All"
+                                        icon-name="utility:dash"
+                                        variant="neutral"
+                                        onclick={handleNoteCollapseAllClick}
+                                    ></lightning-button-icon>
+                                </lightning-button-group>
+
+                                <lightning-button
+                                    name="action_Select"
+                                    label="Select"
+                                    title="Select"
+                                    class="slds-var-m-left_small"
+                                    variant="brand"
+                                    onclick={handleNoteSelect}
+                                    disabled={isRecordLocked}
+                                ></lightning-button>
+                            </div>
+                        </div>
+
+                        <div class="table-wrapper inquiry-table">
+                            <c-rec-table
+                                lwc:ref="noteTable"
+                                key-field="Id"
+                                columns={noteColumns}
+                                data={noteData}
+                                disabled-row-ids={noteDisabledRowIds}
+                                onrowselection={handleNoteRowSelection}
+                            ></c-rec-table>
+                        </div>
+                    </lightning-tab>
+                </lightning-tabset>
+
+                <!-- Selected Items -->
+                <div class="table-summary">
+                    <span class="table-meta">
+                        Rows: {displaySelectedItemRowCount} / Selected: {displaySelectedItemSelectedCount}
+                    </span>
+                    <div class="table-actions">
+                        <lightning-button-group>
+                            <lightning-button
+                                label="Delete"
+                                icon-name="utility:delete"
+                                variant="destructive-text"
+                                onclick={handleSelectedItemDelete}
+                                disabled={isRecordLocked}
+                            ></lightning-button>
+                            <!-- <lightning-button
+                                label="Reset"
+                                icon-name="utility:undo"
+                                onclick={handleSelectedItemReset}
+                            ></lightning-button> -->
+                            <lightning-button
+                                label="Save"
+                                icon-name="utility:save"
+                                variant="brand-outline"
+                                onclick={handleSaveClick}
+                                disabled={isRecordLocked}
+                            ></lightning-button>
+                            <!-- <lightning-button
+                                label="Confirm"
+                                icon-name="utility:check"
+                                variant="brand"
+                                onclick={handleConfirmClick}
+                                disabled={isConfirmed}
+                            ></lightning-button> -->
+                        </lightning-button-group>
+                    </div>
+                </div>
+
+                <div class="table-wrapper selected-items-table">
+                    <c-rec-table
+                        lwc:ref="selectedTable"
+                        key-field="Id"
+                        columns={selectedSliColumns}
+                        data={selectedItems}
+                        onrowselection={handleSelectedItemRowSelection}
+                        oncellchange={handleSelectedSliCellChange}
+                    ></c-rec-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

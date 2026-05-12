@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_1</activeVersionIdentifier>
+    <description>EAL_InsurancePolicyExtractionAllFieldsKR for EAL</description>
+    <developerName>EAL_InsurancePolicyExtractionAllFieldsKR</developerName>
+    <masterLabel>EAL_InsurancePolicyExtractionAllFieldsKR</masterLabel>
+    <overridable>false</overridable>
+    <templateVersions>
+        <content>Role: 보험 데이터 추출 전문가 (Insurance Data Extraction Specialist)
+Task: 제공된 승강기사고배상책임보험 청약서(PDF)를 분석하여 주요 데이터를 추출하고, 사용자가 수정 가능한 &apos;텍스트/마크다운 테이블&apos; 형식으로 정리해 주세요.
+Requirements:
+언어: 모든 필드명과 데이터는 &apos;한국어&apos;로 작성해 주세요.
+정확성: 문서에 기재된 그대로의 데이터를 추출하되, 오타가 없도록 주의해 주세요.
+구조: 데이터를 아래 3가지 섹션으로 나누어 정리해 주세요.
+Output Format:
+
+1. 기본 계약 정보 (Policy Info)
+| 항목 | 내용 |
+| :--- | :--- |
+| 청약번호 | [내용] |
+| 계약자명 | [내용] |
+| 사업자번호 | [내용] |
+| 보험기간 | [YYYY-MM-DD] ~ [YYYY-MM-DD] |
+| 총 보험료 | [금액 (원)] |
+| 취급 지점/담당자 | [내용] |
+
+2. 담보 그룹 정보 (Coverage Groups)
+*문서 내 &apos;목적물 구분&apos; 또는 &apos;담보별 보상한도액&apos; 테이블을 참조하여 그룹별로 나열해 주세요.*
+
+| 그룹명 | 가입 물건 설명 | 대인 보상한도(1인당) | 대물 보상한도(1사고당) | 자기부담금 | 그룹 보험료 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| [예: 승강기사고배상책임1] | [예: 승객용 20인 미만 / 5층 이하] | [금액] | [금액] | [금액] | [금액] |
+| ... (모든 그룹 나열) | ... | ... | ... | ... | ... |
+
+3. 승강기 개별 명세 (Elevator Assets)
+문서 후반부의 &apos;승강기명세서&apos; 페이지들을 참조하여 개별 승강기 정보를 추출해 주세요.
+
+| 일련번호 (고유ID) | 소재지 | 승강기 종류/그룹 | 상태 |
+| :--- | :--- | :--- | :--- |
+| [번호] | [주소 전체] | [예: 그룹1] | [예: 신규] |
+| ... (모든 승강기 나열) | ... | ... | ... |
+
+Instruction: 위 형식을 사용하여 파일의 모든 승강기 데이터를 빠짐없이 추출해 주세요.
+
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Role: 보험 데이터 추출 전문가 (Insurance Data Extraction Specialist)
+Task: 제공된 승강기사고배상책임보험 청약서(PDF)를 분석하여 주요 데이터를 추출하고, 사용자가 수정 가능한 &apos;텍스트/마크다운 테이블&apos; 형식으로 정리해 주세요.
+Requirements:
+언어: 모든 필드명과 데이터는 &apos;한국어&apos;로 작성해 주세요.
+정확성: 문서에 기재된 그대로의 데이터를 추출하되, 오타가 없도록 주의해 주세요.
+구조: 데이터를 아래 3가지 섹션으로 나누어 정리해 주세요.
+Output Format:
+
+1. 기본 계약 정보 (Policy Info)
+| 항목 | 내용 |
+| :--- | :--- |
+| 청약번호 | [내용] |
+| 계약자명 | [내용] |
+| 사업자번호 | [내용] |
+| 보험기간 | [YYYY-MM-DD] ~ [YYYY-MM-DD] |
+| 총 보험료 | [금액 (원)] |
+| 취급 지점/담당자 | [내용] |
+
+2. 담보 그룹 정보 (Coverage Groups)
+*문서 내 &apos;목적물 구분&apos; 또는 &apos;담보별 보상한도액&apos; 테이블을 참조하여 그룹별로 나열해 주세요.*
+
+| 그룹명 | 가입 물건 설명 | 대인 보상한도(1인당) | 대물 보상한도(1사고당) | 자기부담금 | 그룹 보험료 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| [예: 승강기사고배상책임1] | [예: 승객용 20인 미만 / 5층 이하] | [금액] | [금액] | [금액] | [금액] |
+| ... (모든 그룹 나열) | ... | ... | ... | ... | ... |
+
+3. 승강기 개별 명세 (Elevator Assets)
+문서 후반부의 &apos;승강기명세서&apos; 페이지들을 참조하여 개별 승강기 정보를 추출해 주세요.
+
+| 일련번호 (고유ID) | 소재지 | 승강기 종류/그룹 | 상태 |
+| :--- | :--- | :--- | :--- |
+| [번호] | [주소 전체] | [예: 그룹1] | [예: 신규] |
+| ... (모든 승강기 나열) | ... | ... | ... |
+
+Instruction: 위 형식을 사용하여 파일의 모든 승강기 데이터를 빠짐없이 추출해 주세요.
+
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Draft</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_2</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Role: 보험 데이터 추출 전문가 (Insurance Data Extraction Specialist) 
+Task: 제공된 청약서를 분석하여 주요 데이터를 추출하고, 사용자가 수정 가능한 &apos;텍스트/마크다운 테이블&apos; 형식으로 정리해 주세요. 
+Requirements: 언어: 모든 필드명과 데이터는 &apos;한국어&apos;로 작성해 주세요. 
+정확성: 문서에 기재된 그대로의 데이터를 추출하되, 오타가 없도록 주의해 주세요. 
+구조: 데이터를 아래 3가지 섹션으로 나누어 정리해 주세요. 
+Output Format: 
+1. 기본 계약 정보 (Policy Info) | 항목 | 내용 | | :--- | :--- | | 청약번호 | [내용] | | 계약자명 | [내용] | | 사업자번호 | [내용] | | 보험기간 | [YYYY-MM-DD] ~ [YYYY-MM-DD] | | 총 보험료 | [금액 (원)] | | 취급 지점/담당자 | [내용] | | 공통 특약 목록 | [모든 그룹에 적용되는 특약 목록을 나열] | 
+
+2. 담보 그룹 정보 (Coverage Groups) *문서 내 &apos;목적물 구분&apos; 및 &apos;담보별 보상한도액&apos; 테이블을 참조하여 그룹별로 나열해 주세요. 모든 그룹에 동일하게 적용되는 보상 한도와 자기부담금 정보를 포함해야 합니다.* | 그룹명 | 가입 물건 설명 | 대수 | 대인 보상한도(1인당) | 대물 보상한도(1사고당) | 자기부담금 | 그룹 보험료 (WON) | | :--- | :--- | :--- | :--- | :--- | :--- | :--- | | [예: 승강기사고배상책임1] | [예: 승객용 20인 미만 / 5층 이하] | [대수] | [금액] | [금액] | [금액] | [금액] | | ... (모든 그룹 나열) | ... | ... | ... | ... | ... | ... | 
+3. 승강기 개별 명세 (Elevator Assets) 문서 후반부의 &apos;승강기명세서&apos; 페이지들을 참조하여 개별 승강기 정보를 추출해 주세요. | 일련번호 (고유ID) | 소재지 (주소 전체) | 승강기 종류/그룹 | 상태 | | :--- | :--- | :--- | :--- | | [번호] | [주소 전체] | [예: 그룹1] | [예: 신규] | | ... (모든 승강기 나열) | ... | ... | ... | Instruction: 위 3가지 섹션의 형식을 사용하여 파일의 **모든 승강기 데이터**와 **모든 그룹($1\sim6$) 정보**를 빠짐없이 추출하여 정리해 주세요.
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Draft</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_3</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

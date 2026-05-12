@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>마지막 계약번호(숫자 5자리) 관리</description>
+    <enableFeeds>false</enableFeeds>
+    <label>Latest Contract Num Mgmt</label>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -1,0 +1,1234 @@
+<template>
+    <lightning-card title="Create Insurance Policy Line Item" icon-name="standard:product">
+        <!-- Loading Spinner -->
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+        </template>
+
+        <!-- Progress Indicator (step1 이상에서만 표시) -->
+        <template if:true={showProgressIndicator}>
+            <div class="slds-var-p-horizontal_medium slds-var-p-top_medium">
+                <lightning-progress-indicator current-step={currentProgressStep} type="base" has-error={hasStepError}>
+                    <lightning-progress-step label="" value="step1"></lightning-progress-step>
+                    <lightning-progress-step label="" value="step2"></lightning-progress-step>
+                    <lightning-progress-step label="" value="step3"></lightning-progress-step>
+                </lightning-progress-indicator>
+            </div>
+        </template>
+
+        <div class="slds-var-p-around_medium">
+            <!-- ── Step 0: Action 선택 ── -->
+            <template if:true={isStep0}>
+                <!-- Action 선택 -->
+                <div class="slds-var-p-around_medium action-radio-group">
+                    <lightning-radio-group
+                        name="createAction"
+                        label="Select Action"
+                        options={actionOptions}
+                        value={selectedAction}
+                        type="radio"
+                        onchange={handleActionChange}
+                        class="slds-var-m-around_x-small"
+                    ></lightning-radio-group>
+                </div>
+
+                <!-- Policy 기본 정보 편집 -->
+                <div class="section-header slds-theme_shade slds-text-heading_small slds-var-p-vertical_small slds-var-p-horizontal_small slds-var-m-top_small">Insurance Policy Information</div>
+                <div class="slds-grid slds-gutters_small slds-var-p-around_small slds-wrap">
+                    <div class="slds-col slds-size_1-of-3 slds-var-p-around_x-small">
+                        <lightning-combobox
+                            label={labelIncomeClass}
+                            value={policyForm.incomeClass}
+                            options={incomeClassOptions}
+                            data-field="incomeClass"
+                            onchange={handlePolicyFormChange}
+                            required
+                        ></lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3 slds-var-p-around_x-small">
+                        <lightning-input label={labelInsurerPolicyNo} value={policyForm.insurerPolicyNo} type="text" data-field="insurerPolicyNo" onchange={handlePolicyFormChange}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3 slds-var-p-around_x-small">
+                        <lightning-input
+                            label={labelIdentificationValue}
+                            value={policyForm.identificationValue}
+                            type="text"
+                            data-field="identificationValue"
+                            onchange={handlePolicyFormChange}
+                        ></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3 slds-var-p-around_x-small">
+                        <lightning-input
+                            label={labelTotalPremiumAmount}
+                            value={policyForm.totalPremiumAmount}
+                            type="number"
+                            step={currencyStep}
+                            data-field="totalPremiumAmount"
+                            onchange={handlePolicyFormChange}
+                            required
+                            class="cus-lk-input-num-right"
+                        ></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3 slds-var-p-around_x-small">
+                        <lightning-combobox label={labelCurrency} value={policyForm.curr} options={currencyOptions} data-field="curr" onchange={handlePolicyFormChange} required></lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3 slds-var-p-around_x-small">
+                        <lightning-input
+                            label={labelExchangeRate}
+                            value={policyForm.exchangeRate}
+                            type="number"
+                            step="0.0001"
+                            min="0"
+                            data-field="exchangeRate"
+                            onchange={handlePolicyFormChange}
+                            class="cus-lk-input-num-right"
+                        ></lightning-input>
+                        <p class="slds-text-body_small slds-text-color_weak slds-var-m-top_xx-small">{labels.exchangeRate}</p>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3 slds-var-p-around_x-small">
+                        <lightning-input
+                            label="Installment"
+                            value={policyForm.totalInstalment}
+                            type="number"
+                            step="1"
+                            min="1"
+                            data-field="totalInstalment"
+                            onchange={handlePolicyFormChange}
+                            required
+                            class="cus-lk-input-num-right"
+                        ></lightning-input>
+                    </div>
+                </div>
+                <div class="slds-grid slds-grid_align-end slds-var-p-around_small">
+                    <lightning-button label={labels.next} variant="brand" onclick={handleNextFromStep0} disabled={isNextDisabled}></lightning-button>
+                </div>
+            </template>
+
+            <!-- ── Step 1 (Premium): Create by Premium ── -->
+            <template if:true={isStep1Premium}>
+                <!-- Insurance Policy Information -->
+                <div class="section-header slds-theme_shade slds-text-heading_small slds-var-p-vertical_small slds-var-p-horizontal_small">Insurance Policy Information</div>
+                <div class="slds-grid slds-gutters_small slds-var-p-around_small slds-var-m-bottom_small slds-grid_vertical-align-end">
+                    <div class="slds-col slds-size_1-of-4">
+                        <p class="slds-text-color_weak slds-text-body_small">Premium</p>
+                        <p class="slds-text-body_regular">
+                            <lightning-formatted-number value={policyTotalPremium} format-style="decimal" minimum-fraction-digits="2" maximum-fraction-digits="2"></lightning-formatted-number>
+                        </p>
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <p class="slds-text-color_weak slds-text-body_small">Installment</p>
+                        <p class="slds-text-body_regular">
+                            <lightning-formatted-number value={policyTotalInstalment} format-style="decimal" maximum-fraction-digits="0"></lightning-formatted-number>
+                        </p>
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <p class="slds-text-color_weak slds-text-body_small">Insurer</p>
+                        <p class="slds-text-body_regular">{policyWritingCarrierName}</p>
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <lightning-input
+                            label={labelBrokerageRate}
+                            value={insurerCommission}
+                            type="number"
+                            step="0.01"
+                            min="0"
+                            max="100"
+                            onchange={handleInsurerCommissionChange}
+                            class="cus-lk-input-num-right"
+                        ></lightning-input>
+                    </div>
+                </div>
+
+                <!-- Premium Installment 테이블 -->
+                <div class="section-header slds-theme_shade slds-text-heading_small slds-var-p-vertical_small slds-var-p-horizontal_small slds-var-m-bottom_large">Premium Installment</div>
+                <template if:true={scheduleRateErrorMessage}>
+                    <p class="slds-text-color_error slds-text-body_small slds-var-m-bottom_x-small">{scheduleRateErrorMessage}</p>
+                </template>
+                <template if:true={schedulePremiumErrorMessage}>
+                    <p class="slds-text-color_error slds-text-body_small slds-var-m-bottom_x-small">{schedulePremiumErrorMessage}</p>
+                </template>
+                <div class="slds-scrollable_x pol-table-container">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" aria-label="Premium Installment">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th scope="col" style="min-width: 120px">
+                                    <div class="slds-truncate slds-text-align_center" title={labelInstallRate}>{labelInstallRate}</div>
+                                </th>
+                                <th scope="col" style="min-width: 170px">
+                                    <div class="slds-truncate slds-text-align_center" title={labelInstallPremium}>{labelInstallPremium}</div>
+                                </th>
+                                <th scope="col" style="min-width: 170px">
+                                    <div class="slds-truncate slds-text-align_center" title={labelInstallBrokerage}>{labelInstallBrokerage}</div>
+                                </th>
+                                <th scope="col" style="min-width: 170px">
+                                    <div class="slds-truncate slds-text-align_center" title={labelExpPaymentDate}>
+                                        <abbr class="slds-required" title="required">*</abbr> {labelExpPaymentDate}(YYMMDD)
+                                    </div>
+                                </th>
+                                <th scope="col" style="min-width: 140px">
+                                    <div class="slds-truncate slds-text-align_center" title={labelPaymentDueDate}>
+                                        <abbr class="slds-required" title="required">*</abbr> {labelPaymentDueDate}(YYMMDD)
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={scheduleRows} for:item="row">
+                                <tr key={row._key}>
+                                    <td>
+                                        <lightning-input
+                                            label=""
+                                            variant="label-hidden"
+                                            type="number"
+                                            value={row.CRSInstallmentRate__c}
+                                            min="0.01"
+                                            max="100"
+                                            step="0.01"
+                                            data-rowkey={row._key}
+                                            data-field="CRSInstallmentRate__c"
+                                            onchange={handleScheduleChange}
+                                            class="cus-lk-input-num-right"
+                                        ></lightning-input>
+                                    </td>
+                                    <td>
+                                        <lightning-input
+                                            label=""
+                                            variant="label-hidden"
+                                            type="number"
+                                            value={row.CRSInstallPremium__c}
+                                            step={currencyStep}
+                                            data-rowkey={row._key}
+                                            data-field="CRSInstallPremium__c"
+                                            onchange={handleScheduleChange}
+                                            class="cus-lk-input-num-right"
+                                        ></lightning-input>
+                                    </td>
+                                    <td>
+                                        <lightning-input
+                                            label=""
+                                            variant="label-hidden"
+                                            type="number"
+                                            value={row.CRSInstallBrokerage__c}
+                                            step={currencyStep}
+                                            data-rowkey={row._key}
+                                            data-field="CRSInstallBrokerage__c"
+                                            onchange={handleScheduleChange}
+                                            class="cus-lk-input-num-right"
+                                        ></lightning-input>
+                                    </td>
+                                    <td class={row.expPaymentDateClass}>
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <input
+                                                    type="text"
+                                                    class="slds-input"
+                                                    aria-label="Exp. Payment Date"
+                                                    placeholder="YY/MM/DD"
+                                                    maxlength="8"
+                                                    value={row.expPaymentDateDisplay}
+                                                    data-rowkey={row._key}
+                                                    data-field="CRSExpPaymentDateNum__c"
+                                                    oninput={handleDateInput}
+                                                />
+                                            </div>
+                                            <template if:true={row.expPaymentDateError}>
+                                                <p class="slds-form-element__help slds-text-color_error">{row.expPaymentDateError}</p>
+                                            </template>
+                                        </div>
+                                    </td>
+                                    <td class={row.paymentDueDateClass}>
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <input
+                                                    type="text"
+                                                    class="slds-input"
+                                                    aria-label={labelPaymentDueDate}
+                                                    placeholder="YY/MM/DD"
+                                                    maxlength="8"
+                                                    value={row.paymentDueDateDisplay}
+                                                    data-rowkey={row._key}
+                                                    data-field="CRSPaymentDueDateNum__c"
+                                                    oninput={handleDateInput}
+                                                />
+                                            </div>
+                                            <template if:true={row.paymentDueDateError}>
+                                                <p class="slds-form-element__help slds-text-color_error">{row.paymentDueDateError}</p>
+                                            </template>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                            <!-- Total 행 -->
+                            <template if:true={hasScheduleRows}>
+                                <tr class="total-row">
+                                    <td class="slds-text-align_right" style="padding-right: 0.75rem">
+                                        <span class="slds-text-title_bold">
+                                            <lightning-formatted-number
+                                                value={totalScheduleRate}
+                                                format-style="decimal"
+                                                minimum-fraction-digits="2"
+                                                maximum-fraction-digits="2"
+                                            ></lightning-formatted-number>
+                                        </span>
+                                    </td>
+                                    <td class="slds-text-align_right" style="padding-right: 0.75rem">
+                                        <span class="slds-text-title_bold">
+                                            <lightning-formatted-number
+                                                value={totalSchedulePremium}
+                                                format-style="decimal"
+                                                minimum-fraction-digits={_currencyScale}
+                                                maximum-fraction-digits={_currencyScale}
+                                            ></lightning-formatted-number>
+                                        </span>
+                                    </td>
+                                    <td class="slds-text-align_right" style="padding-right: 0.75rem">
+                                        <span class="slds-text-title_bold">
+                                            <lightning-formatted-number
+                                                value={totalScheduleBrokerage}
+                                                format-style="decimal"
+                                                minimum-fraction-digits={_currencyScale}
+                                                maximum-fraction-digits={_currencyScale}
+                                            ></lightning-formatted-number>
+                                        </span>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="slds-text-align_right slds-var-m-top_small">
+                    <lightning-button label={labels.createLineItem} variant="neutral" onclick={handleCreateLineItemsPremium} disabled={isCreateLineItemsPremiumDisabled}></lightning-button>
+                </div>
+            </template>
+
+            <!-- ── Step 1: Participants ── -->
+            <template if:true={isStep1}>
+                <!-- Add / Refresh / Save 버튼 (테이블 우측 상단) -->
+                <div class="slds-grid slds-grid_vertical-align-center slds-var-m-bottom_x-small">
+                    <div class="slds-col">
+                        <template if:true={signedLineErrorMessage}>
+                            <p class="slds-text-color_error slds-text-body_small">{signedLineErrorMessage}</p>
+                        </template>
+                    </div>
+                    <div class="slds-col slds-no-flex slds-text-align_right">
+                        <template if:true={isEditingOrDirty}>
+                            <lightning-button label={labels.save} variant="brand" onclick={handleSaveRows} disabled={isSaveDisabled} class="slds-var-m-right_x-small"></lightning-button>
+                        </template>
+                        <lightning-button label={labels.add} variant="neutral" onclick={handleAddRow}></lightning-button>
+                    </div>
+                </div>
+
+                <!-- Participants 테이블 -->
+                <div class="slds-scrollable_x pol-table-container">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" aria-label="Participants">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th scope="col" style="min-width: 200px">
+                                    <div class="slds-truncate slds-text-align_center" title={labelInsurer}>{labelInsurer}</div>
+                                </th>
+                                <th scope="col" style="min-width: 130px">
+                                    <div class="slds-truncate slds-text-align_center" title={labelSignedLine}>{labelSignedLine}</div>
+                                </th>
+                                <th scope="col" style="width: 100px">
+                                    <div class="slds-truncate slds-text-align_center" title={labelLeadInsurer}>{labelLeadInsurer}</div>
+                                </th>
+                                <th scope="col" style="width: 3rem"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={allRows} for:item="row">
+                                <tr key={row._key} data-rowkey={row._key} class="slds-hint-parent">
+                                    <!-- Insurer (Lookup) -->
+                                    <td data-label="Insurer" class={row.insurerClass}>
+                                        <template if:true={row.isEditMode}>
+                                            <c-com-lookup
+                                                data-rowkey={row._key}
+                                                field-name="Insurer__c"
+                                                config={insurerLookupConfig}
+                                                value={row.Insurer__c}
+                                                onlookupchange={handleInsurerLookupChange}
+                                            ></c-com-lookup>
+                                        </template>
+                                        <template if:false={row.isEditMode}>
+                                            <div class="view-mode-cell">
+                                                <div class="slds-truncate">{row.insurerName}</div>
+                                                <lightning-button-icon
+                                                    icon-name="utility:edit"
+                                                    variant="bare"
+                                                    alternative-text="Edit"
+                                                    data-rowkey={row._key}
+                                                    onclick={handleFieldEdit}
+                                                    class="edit-icon"
+                                                ></lightning-button-icon>
+                                            </div>
+                                        </template>
+                                    </td>
+
+                                    <!-- Signed Line(%) -->
+                                    <td data-label="Signed Line(%)" class={row.signedLineClass}>
+                                        <template if:true={row.isEditMode}>
+                                            <lightning-input
+                                                label=""
+                                                variant="label-hidden"
+                                                type="number"
+                                                value={row.SignedLine__c}
+                                                min="0.01"
+                                                max="100"
+                                                step="0.01"
+                                                data-rowkey={row._key}
+                                                data-field="SignedLine__c"
+                                                onchange={handleRowChange}
+                                                class="cus-lk-input-num-right"
+                                            ></lightning-input>
+                                        </template>
+                                        <template if:false={row.isEditMode}>
+                                            <div class="view-mode-cell">
+                                                <div class="view-cell-right">
+                                                    <span class="slds-truncate" title={row.formattedSignedLine}>{row.formattedSignedLine}%</span>
+                                                </div>
+                                                <lightning-button-icon
+                                                    icon-name="utility:edit"
+                                                    variant="bare"
+                                                    alternative-text="Edit"
+                                                    data-rowkey={row._key}
+                                                    onclick={handleFieldEdit}
+                                                    class="edit-icon"
+                                                ></lightning-button-icon>
+                                            </div>
+                                        </template>
+                                    </td>
+
+                                    <!-- Lead Insurer (라디오: 전체에서 1개만 선택 가능) -->
+                                    <td data-label="Lead Insurer">
+                                        <div class="slds-align_absolute-center">
+                                            <lightning-input
+                                                label=""
+                                                variant="label-hidden"
+                                                type="radio"
+                                                name="leadInsurer"
+                                                checked={row.LeadInsurer__c}
+                                                data-rowkey={row._key}
+                                                data-field="LeadInsurer__c"
+                                                onchange={handleRowChange}
+                                            ></lightning-input>
+                                        </div>
+                                    </td>
+
+                                    <!-- Action: 항상 삭제 버튼 표시 -->
+                                    <td class="slds-text-align_center">
+                                        <lightning-button-icon
+                                            icon-name="utility:delete"
+                                            variant="bare"
+                                            alternative-text="Delete"
+                                            data-rowkey={row._key}
+                                            onclick={handleDeleteRow}
+                                        ></lightning-button-icon>
+                                    </td>
+                                </tr>
+                            </template>
+
+                            <!-- 데이터 없음 -->
+                            <template if:false={hasAnyRows}>
+                                <c-com-no-records colspan="4"></c-com-no-records>
+                            </template>
+
+                            <!-- Total 행 -->
+                            <template if:true={hasAnyRows}>
+                                <tr class="total-row">
+                                    <td><span class="slds-text-title_bold">Total</span></td>
+                                    <td class="slds-text-align_right">
+                                        <span class="slds-text-title_bold">
+                                            <lightning-formatted-number
+                                                value={totalSignedLine}
+                                                format-style="decimal"
+                                                minimum-fraction-digits="2"
+                                                maximum-fraction-digits="2"
+                                            ></lightning-formatted-number>
+                                        </span>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Add Installments 버튼 (Save 완료 후 활성화) -->
+                <div class="slds-text-align_right slds-var-m-top_x-small">
+                    <lightning-button label={labels.addInstallment} variant="neutral" onclick={handleAddInstallments} disabled={isAddInstallmentsDisabled}></lightning-button>
+                </div>
+            </template>
+
+            <!-- ── Step 1 (CoBroking): Co-Broking Participants ── -->
+            <template if:true={isStep1CoBroking}>
+                <!-- Add / Save 버튼 (테이블 우측 상단) -->
+                <div class="slds-grid slds-grid_vertical-align-center slds-var-m-bottom_x-small">
+                    <div class="slds-col"></div>
+                    <div class="slds-col slds-no-flex slds-text-align_right">
+                        <template if:true={isCoBrokingDirty}>
+                            <lightning-button label={labels.save} variant="brand" onclick={handleSaveCoBrokingRows} class="slds-var-m-right_x-small" disabled={isLoading}></lightning-button>
+                        </template>
+                        <lightning-button label={labels.add} variant="neutral" onclick={handleAddCoBrokingRow} disabled={isLoading}></lightning-button>
+                    </div>
+                </div>
+
+                <!-- CoBroking 테이블 -->
+                <div class="slds-scrollable_x pol-table-container">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" aria-label="Co-Broking Participants">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th scope="col" style="min-width: 180px">
+                                    <div class="slds-truncate slds-text-align_center">Insurer</div>
+                                </th>
+                                <th scope="col" style="min-width: 210px">
+                                    <div class="slds-truncate slds-text-align_center"><abbr class="slds-required" title="required">*</abbr> Co-Broker</div>
+                                </th>
+                                <th scope="col" style="min-width: 160px">
+                                    <div class="slds-truncate slds-text-align_center"><abbr class="slds-required" title="required">*</abbr> Co-Broking Type</div>
+                                </th>
+                                <th scope="col" style="min-width: 140px">
+                                    <div class="slds-truncate slds-text-align_center"><abbr class="slds-required" title="required">*</abbr> Currency</div>
+                                </th>
+                                <th scope="col" style="width: 3rem"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={coBrokingRows} for:item="row">
+                                <tr key={row._key} class="slds-hint-parent">
+                                    <!-- Insurer (required when CoBrokingType = None) -->
+                                    <td class={row.insurerClass}>
+                                        <c-com-lookup
+                                            data-rowkey={row._key}
+                                            field-name="Insurer__c"
+                                            config={coBrokingInsurerLookupConfig}
+                                            value={row.Insurer__c}
+                                            required={row.isCoBrokingNone}
+                                            onlookupchange={handleCoBrokingInsurerLookupChange}
+                                        ></c-com-lookup>
+                                    </td>
+                                    <!-- Co-Broker (lookup, required when not None type) -->
+                                    <td class={row.coBrokerClass}>
+                                        <c-com-lookup
+                                            data-rowkey={row._key}
+                                            field-name="TBD__c"
+                                            config={coBrokerLookupConfig}
+                                            value={row.TBD__c}
+                                            disabled={row.isCoBrokingNone}
+                                            onlookupchange={handleCoBrokerLookupChange}
+                                        ></c-com-lookup>
+                                    </td>
+                                    <!-- Co-Broking Type (required picklist) -->
+                                    <td class={row.coBrokingTypeClass}>
+                                        <lightning-combobox
+                                            label=""
+                                            variant="label-hidden"
+                                            value={row.CoBrokingType__c}
+                                            options={coBrokingTypeOptions}
+                                            data-rowkey={row._key}
+                                            data-field="CoBrokingType__c"
+                                            onchange={handleCoBrokingRowChange}
+                                        ></lightning-combobox>
+                                    </td>
+                                    <!-- Currency (required picklist) -->
+                                    <td class={row.currencyClass}>
+                                        <lightning-combobox
+                                            label=""
+                                            variant="label-hidden"
+                                            value={row.Currency__c}
+                                            options={coBrokingCurrencyOptions}
+                                            data-rowkey={row._key}
+                                            data-field="Currency__c"
+                                            onchange={handleCoBrokingRowChange}
+                                        ></lightning-combobox>
+                                    </td>
+                                    <!-- Delete -->
+                                    <td class="slds-text-align_center">
+                                        <lightning-button-icon
+                                            icon-name="utility:delete"
+                                            variant="bare"
+                                            alternative-text="Delete"
+                                            data-rowkey={row._key}
+                                            onclick={handleDeleteCoBrokingRow}
+                                        ></lightning-button-icon>
+                                    </td>
+                                </tr>
+                            </template>
+                            <!-- 데이터 없음 -->
+                            <template if:false={hasCoBrokingRows}>
+                                <c-com-no-records colspan="5"></c-com-no-records>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Add Installments 버튼 -->
+                <div class="slds-text-align_right slds-var-m-top_x-small">
+                    <lightning-button label={labels.addInstallment} variant="neutral" onclick={handleAddCoBrokingInstallments} disabled={isAddCoBrokingInstallmentsDisabled}></lightning-button>
+                </div>
+            </template>
+
+            <!-- ── Step 2: Premium Installment ── -->
+            <template if:true={isStep2}>
+                <!-- Insurance Policy Information -->
+                <div class="section-header slds-theme_shade slds-text-heading_small slds-var-p-vertical_small slds-var-p-horizontal_small">Insurance Policy Information</div>
+                <div class="slds-grid slds-gutters_small slds-var-p-around_small slds-var-m-bottom_small">
+                    <div class="slds-col slds-size_1-of-4">
+                        <p class="slds-text-color_weak slds-text-body_small">Premium</p>
+                        <p class="slds-text-body_regular">
+                            <lightning-formatted-number
+                                value={policyTotalPremium}
+                                format-style="decimal"
+                                minimum-fraction-digits={_currencyScale}
+                                maximum-fraction-digits={_currencyScale}
+                            ></lightning-formatted-number>
+                        </p>
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <p class="slds-text-color_weak slds-text-body_small">Installment</p>
+                        <p class="slds-text-body_regular">
+                            <lightning-formatted-number value={policyTotalInstalment} format-style="decimal" maximum-fraction-digits="0"></lightning-formatted-number>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Premium Installment 테이블 -->
+                <div class="section-header slds-theme_shade slds-text-heading_small slds-var-p-vertical_small slds-var-p-horizontal_small slds-var-m-bottom_large">Premium Installment</div>
+                <!-- 에러 메시지 영역 -->
+                <template if:true={scheduleRateErrorMessage}>
+                    <p class="slds-text-color_error slds-text-body_small slds-var-m-bottom_x-small">{scheduleRateErrorMessage}</p>
+                </template>
+                <template if:true={schedulePremiumErrorMessage}>
+                    <p class="slds-text-color_error slds-text-body_small slds-var-m-bottom_x-small">{schedulePremiumErrorMessage}</p>
+                </template>
+                <div class="slds-scrollable_x pol-table-container">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" aria-label="Premium Installment">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th scope="col" style="min-width: 120px">
+                                    <div class="slds-truncate slds-text-align_center" title={labelInstallRate}>{labelInstallRate}</div>
+                                </th>
+                                <th scope="col" style="min-width: 170px">
+                                    <div class="slds-truncate slds-text-align_center" title={labelInstallPremium}>{labelInstallPremium}</div>
+                                </th>
+                                <th scope="col" style="min-width: 170px">
+                                    <div class="slds-truncate slds-text-align_center" title={labelExpPaymentDate}>{labelExpPaymentDate}(YYMMDD)</div>
+                                </th>
+                                <th scope="col" style="min-width: 140px">
+                                    <div class="slds-truncate slds-text-align_center" title={labelPaymentDueDate}>{labelPaymentDueDate}(YYMMDD)</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={scheduleRows} for:item="row">
+                                <tr key={row._key}>
+                                    <!-- Install Rate(%) -->
+                                    <td>
+                                        <lightning-input
+                                            label=""
+                                            variant="label-hidden"
+                                            type="number"
+                                            value={row.CRSInstallmentRate__c}
+                                            min="0.01"
+                                            max="100"
+                                            step="0.01"
+                                            data-rowkey={row._key}
+                                            data-field="CRSInstallmentRate__c"
+                                            onchange={handleScheduleChange}
+                                            class="cus-lk-input-num-right"
+                                        ></lightning-input>
+                                    </td>
+                                    <!-- Install Premium (직접 입력 가능, Rate 변경 시 자동 계산) -->
+                                    <td>
+                                        <lightning-input
+                                            label=""
+                                            variant="label-hidden"
+                                            type="number"
+                                            value={row.CRSInstallPremium__c}
+                                            step={currencyStep}
+                                            data-rowkey={row._key}
+                                            data-field="CRSInstallPremium__c"
+                                            onchange={handleScheduleChange}
+                                            class="cus-lk-input-num-right"
+                                        ></lightning-input>
+                                    </td>
+                                    <!-- Exp. Payment Date (YYMMDD) -->
+                                    <td class={row.expPaymentDateClass}>
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <input
+                                                    type="text"
+                                                    class="slds-input"
+                                                    aria-label="Exp. Payment Date"
+                                                    placeholder="YY/MM/DD"
+                                                    maxlength="8"
+                                                    value={row.expPaymentDateDisplay}
+                                                    data-rowkey={row._key}
+                                                    data-field="CRSExpPaymentDateNum__c"
+                                                    oninput={handleDateInput}
+                                                />
+                                            </div>
+                                            <template if:true={row.expPaymentDateError}>
+                                                <p class="slds-form-element__help slds-text-color_error">{row.expPaymentDateError}</p>
+                                            </template>
+                                        </div>
+                                    </td>
+                                    <!-- Payment Due Date (YYMMDD) -->
+                                    <td class={row.paymentDueDateClass}>
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <input
+                                                    type="text"
+                                                    class="slds-input"
+                                                    aria-label="Payment Due Date"
+                                                    placeholder="YY/MM/DD"
+                                                    maxlength="8"
+                                                    value={row.paymentDueDateDisplay}
+                                                    data-rowkey={row._key}
+                                                    data-field="CRSPaymentDueDateNum__c"
+                                                    oninput={handleDateInput}
+                                                />
+                                            </div>
+                                            <template if:true={row.paymentDueDateError}>
+                                                <p class="slds-form-element__help slds-text-color_error">{row.paymentDueDateError}</p>
+                                            </template>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                            <!-- Total 행 -->
+                            <template if:true={hasScheduleRows}>
+                                <tr class="total-row">
+                                    <td class="slds-text-align_right" style="padding-right: 0.75rem">
+                                        <span class="slds-text-title_bold">
+                                            <lightning-formatted-number
+                                                value={totalScheduleRate}
+                                                format-style="decimal"
+                                                minimum-fraction-digits="2"
+                                                maximum-fraction-digits="2"
+                                            ></lightning-formatted-number>
+                                        </span>
+                                    </td>
+                                    <td class="slds-text-align_right" style="padding-right: 0.75rem">
+                                        <span class="slds-text-title_bold">
+                                            <lightning-formatted-number
+                                                value={totalSchedulePremium}
+                                                format-style="decimal"
+                                                minimum-fraction-digits={_currencyScale}
+                                                maximum-fraction-digits={_currencyScale}
+                                            ></lightning-formatted-number>
+                                        </span>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Create LineItems 버튼 (테이블 우측 하단) -->
+                <div class="slds-text-align_right slds-var-m-top_small">
+                    <lightning-button label={labels.createLineItem} variant="neutral" onclick={handleCreateLineItems} disabled={isCreateLineItemsDisabled}></lightning-button>
+                </div>
+            </template>
+
+            <!-- ── Step 3: 검토 ── -->
+            <template if:true={isStep3}>
+                <!-- Action 1 (premium): 완료 메시지만 표시 -->
+                <template if:true={isPremiumAction}>
+                    <div class="slds-illustration slds-illustration_small slds-var-p-around_large slds-text-align_center">
+                        <lightning-icon icon-name="action:approval" size="large" class="slds-var-m-bottom_medium"></lightning-icon>
+                        <p class="slds-text-heading_medium slds-var-m-top_small">Line Item Created Successfully.</p>
+                    </div>
+                </template>
+
+                <!-- Action 2 (coinsurer / SignedLine): 검토 화면 -->
+                <template if:true={isSignedLineAction}>
+                    <!-- Policy 요약 -->
+                    <div class="section-header slds-theme_shade slds-text-heading_small slds-var-p-vertical_small slds-var-p-horizontal_small">Insurance Policy Information</div>
+                    <div class="slds-grid slds-gutters_small slds-var-p-around_small slds-var-m-bottom_medium">
+                        <div class="slds-col slds-size_1-of-4">
+                            <p class="slds-text-color_weak slds-text-body_small">Premium</p>
+                            <p class="slds-text-body_regular">
+                                <lightning-formatted-number
+                                    value={reviewPolicyInfo.totalPremiumAmount}
+                                    format-style="decimal"
+                                    minimum-fraction-digits={_currencyScale}
+                                    maximum-fraction-digits={_currencyScale}
+                                ></lightning-formatted-number>
+                            </p>
+                        </div>
+                        <div class="slds-col slds-size_1-of-4">
+                            <p class="slds-text-color_weak slds-text-body_small">Installment</p>
+                            <p class="slds-text-body_regular">
+                                <lightning-formatted-number value={reviewPolicyInfo.totalInstalment} format-style="decimal" maximum-fraction-digits="0"></lightning-formatted-number>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Schedule 섹션 목록 -->
+                    <template for:each={reviewSections} for:item="sec">
+                        <div key={sec._key} class="slds-var-m-bottom_large">
+                            <!-- Schedule 헤더: 카드형 key-value 레이아웃 -->
+                            <div class="slds-grid slds-gutters slds-var-p-around_small slds-theme_shade slds-var-m-bottom_small" style="border-left: 4px solid #0176d3">
+                                <div class="slds-col slds-size_1-of-3">
+                                    <p class="slds-text-color_weak slds-text-body_small">#Installments</p>
+                                    <p class="slds-text-body_regular slds-text-title_bold">
+                                        <lightning-formatted-number value={sec.installmentNum} format-style="decimal" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </p>
+                                </div>
+                                <div class="slds-col slds-size_1-of-3">
+                                    <p class="slds-text-color_weak slds-text-body_small">Install Rate(%)</p>
+                                    <p class="slds-text-body_regular slds-text-title_bold">
+                                        <lightning-formatted-number
+                                            value={sec.installmentRate}
+                                            format-style="decimal"
+                                            minimum-fraction-digits={currencyFractionDigits}
+                                            maximum-fraction-digits={currencyFractionDigits}
+                                        ></lightning-formatted-number>
+                                    </p>
+                                </div>
+                                <div class="slds-col slds-size_1-of-3">
+                                    <p class="slds-text-color_weak slds-text-body_small">Install Premium</p>
+                                    <p class="slds-text-body_regular slds-text-title_bold">
+                                        <lightning-formatted-number
+                                            value={sec.installPremium}
+                                            format-style="decimal"
+                                            minimum-fraction-digits={currencyFractionDigits}
+                                            maximum-fraction-digits={currencyFractionDigits}
+                                        ></lightning-formatted-number>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- 에러 메시지 -->
+                            <template if:true={sec.premiumErrorMessage}>
+                                <p class="slds-text-color_error slds-text-body_small slds-var-m-bottom_x-small">{sec.premiumErrorMessage}</p>
+                            </template>
+
+                            <!-- Line Item 테이블 -->
+                            <div class="review-table-container">
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                    <thead>
+                                        <tr class="slds-line-height_reset">
+                                            <th scope="col" style="min-width: 180px"><div class="slds-truncate slds-text-align_center">Insurer</div></th>
+                                            <th scope="col" style="min-width: 130px"><div class="slds-truncate slds-text-align_center">Signed Line(%)</div></th>
+                                            <th scope="col" style="min-width: 180px"><div class="slds-truncate slds-text-align_center">Install Premium</div></th>
+                                            <th scope="col" style="min-width: 170px"><div class="slds-truncate slds-text-align_center">Brokerage Rate(%)</div></th>
+                                            <th scope="col" style="min-width: 180px"><div class="slds-truncate slds-text-align_center">Brokerage Amount</div></th>
+                                            <th scope="col" style="min-width: 160px">
+                                                <div class="slds-truncate slds-text-align_center">{labelExpPaymentDate}<br />(YYMMDD)</div>
+                                            </th>
+                                            <th scope="col" style="min-width: 160px">
+                                                <div class="slds-truncate slds-text-align_center">{labelPaymentDueDate}<br />(YYMMDD)</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template for:each={sec.lineItems} for:item="li">
+                                            <tr key={li._key}>
+                                                <td><div class="slds-truncate">{li.insurerName}</div></td>
+                                                <td class="slds-text-align_right">
+                                                    <lightning-formatted-number
+                                                        value={li.SignedLine__c}
+                                                        format-style="decimal"
+                                                        minimum-fraction-digits="2"
+                                                        maximum-fraction-digits="2"
+                                                    ></lightning-formatted-number>
+                                                </td>
+                                                <td>
+                                                    <lightning-input
+                                                        label=""
+                                                        variant="label-hidden"
+                                                        type="number"
+                                                        value={li.Premium__c}
+                                                        step={currencyStep}
+                                                        data-seckey={sec._key}
+                                                        data-likey={li._key}
+                                                        data-field="Premium__c"
+                                                        onchange={handleReviewLineItemChange}
+                                                        class="cus-lk-input-num-right"
+                                                    >
+                                                    </lightning-input>
+                                                </td>
+                                                <td>
+                                                    <lightning-input
+                                                        label=""
+                                                        variant="label-hidden"
+                                                        type="number"
+                                                        value={li.InsurerCommission__c}
+                                                        step="0.01"
+                                                        min="0"
+                                                        max="100"
+                                                        data-seckey={sec._key}
+                                                        data-likey={li._key}
+                                                        data-field="InsurerCommission__c"
+                                                        onchange={handleReviewLineItemChange}
+                                                        class="cus-lk-input-num-right"
+                                                    >
+                                                    </lightning-input>
+                                                </td>
+                                                <td>
+                                                    <lightning-input
+                                                        label=""
+                                                        variant="label-hidden"
+                                                        type="number"
+                                                        value={li.BrokerageAmt__c}
+                                                        step={currencyStep}
+                                                        data-seckey={sec._key}
+                                                        data-likey={li._key}
+                                                        data-field="BrokerageAmt__c"
+                                                        onchange={handleReviewLineItemChange}
+                                                        class="cus-lk-input-num-right"
+                                                    >
+                                                    </lightning-input>
+                                                </td>
+                                                <td class={li.expPaymentDateClass}>
+                                                    <div class="slds-form-element">
+                                                        <div class="slds-form-element__control">
+                                                            <input
+                                                                type="text"
+                                                                class="slds-input"
+                                                                aria-label="Exp. Payment Date"
+                                                                placeholder="YY/MM/DD"
+                                                                maxlength="8"
+                                                                value={li.expPaymentDateDisplay}
+                                                                data-seckey={sec._key}
+                                                                data-likey={li._key}
+                                                                data-field="expPaymentDate"
+                                                                oninput={handleReviewDateInput}
+                                                            />
+                                                        </div>
+                                                        <template if:true={li.expPaymentDateError}>
+                                                            <p class="slds-form-element__help slds-text-color_error">{li.expPaymentDateError}</p>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                                <td class={li.paymentDueDateClass}>
+                                                    <div class="slds-form-element">
+                                                        <div class="slds-form-element__control">
+                                                            <input
+                                                                type="text"
+                                                                class="slds-input"
+                                                                aria-label={labelPaymentDueDate}
+                                                                placeholder="YY/MM/DD"
+                                                                maxlength="8"
+                                                                value={li.paymentDueDateDisplay}
+                                                                data-seckey={sec._key}
+                                                                data-likey={li._key}
+                                                                data-field="paymentDueDate"
+                                                                oninput={handleReviewDateInput}
+                                                            />
+                                                        </div>
+                                                        <template if:true={li.paymentDueDateError}>
+                                                            <p class="slds-form-element__help slds-text-color_error">{li.paymentDueDateError}</p>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                        <!-- Total 행 -->
+                                        <tr class="total-row">
+                                            <td><span class="slds-text-title_bold">Total</span></td>
+                                            <td class="slds-text-align_right">
+                                                <span class="slds-text-title_bold">
+                                                    <lightning-formatted-number
+                                                        value={sec.totalSignedLine}
+                                                        format-style="decimal"
+                                                        minimum-fraction-digits="2"
+                                                        maximum-fraction-digits="2"
+                                                    ></lightning-formatted-number>
+                                                </span>
+                                            </td>
+                                            <td class="slds-text-align_right" style="padding-right: 0.75rem">
+                                                <span class="slds-text-title_bold">
+                                                    <lightning-formatted-number
+                                                        value={sec.totalPremium}
+                                                        format-style="decimal"
+                                                        minimum-fraction-digits={_currencyScale}
+                                                        maximum-fraction-digits={_currencyScale}
+                                                    ></lightning-formatted-number>
+                                                </span>
+                                            </td>
+                                            <td></td>
+                                            <td class="slds-text-align_right" style="padding-right: 0.75rem">
+                                                <span class="slds-text-title_bold">
+                                                    <lightning-formatted-number
+                                                        value={sec.totalBrokerage}
+                                                        format-style="decimal"
+                                                        minimum-fraction-digits={_currencyScale}
+                                                        maximum-fraction-digits={_currencyScale}
+                                                    ></lightning-formatted-number>
+                                                </span>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+
+                <!-- Action 3 (CoBroking): CoBroking 검토 화면 -->
+                <template if:true={isCoBrokingAction}>
+                    <!-- Policy 요약 -->
+                    <div class="section-header slds-theme_shade slds-text-heading_small slds-var-p-vertical_small slds-var-p-horizontal_small">Insurance Policy Information</div>
+                    <div class="slds-grid slds-gutters_small slds-var-p-around_small slds-var-m-bottom_medium">
+                        <div class="slds-col slds-size_1-of-4">
+                            <p class="slds-text-color_weak slds-text-body_small">Premium</p>
+                            <p class="slds-text-body_regular">
+                                <lightning-formatted-number
+                                    value={reviewPolicyInfo.totalPremiumAmount}
+                                    format-style="decimal"
+                                    minimum-fraction-digits={_currencyScale}
+                                    maximum-fraction-digits={_currencyScale}
+                                ></lightning-formatted-number>
+                            </p>
+                        </div>
+                        <div class="slds-col slds-size_1-of-4">
+                            <p class="slds-text-color_weak slds-text-body_small">Installment</p>
+                            <p class="slds-text-body_regular">
+                                <lightning-formatted-number value={reviewPolicyInfo.totalInstalment} format-style="decimal" maximum-fraction-digits="0"></lightning-formatted-number>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- CoBroking Schedule 섹션 목록 -->
+                    <template for:each={coBrokingReviewSections} for:item="sec">
+                        <div key={sec._key} class="slds-var-m-bottom_large">
+                            <!-- 섹션 헤더 -->
+                            <div class="slds-grid slds-gutters slds-var-p-around_small slds-theme_shade slds-var-m-bottom_small" style="border-left: 4px solid #0176d3">
+                                <div class="slds-col slds-size_1-of-3">
+                                    <p class="slds-text-color_weak slds-text-body_small">#Installments</p>
+                                    <p class="slds-text-body_regular slds-text-title_bold">
+                                        <lightning-formatted-number value={sec.installmentNum} format-style="decimal" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </p>
+                                </div>
+                                <div class="slds-col slds-size_1-of-3">
+                                    <p class="slds-text-color_weak slds-text-body_small">Install Rate(%)</p>
+                                    <p class="slds-text-body_regular slds-text-title_bold">
+                                        <lightning-formatted-number
+                                            value={sec.installmentRate}
+                                            format-style="decimal"
+                                            minimum-fraction-digits="2"
+                                            maximum-fraction-digits="2"
+                                        ></lightning-formatted-number>
+                                    </p>
+                                </div>
+                                <div class="slds-col slds-size_1-of-3">
+                                    <p class="slds-text-color_weak slds-text-body_small">Install Premium</p>
+                                    <p class="slds-text-body_regular slds-text-title_bold">
+                                        <lightning-formatted-number
+                                            value={sec.installPremium}
+                                            format-style="decimal"
+                                            minimum-fraction-digits={currencyFractionDigits}
+                                            maximum-fraction-digits={currencyFractionDigits}
+                                        ></lightning-formatted-number>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- LineItem 테이블 -->
+                            <div class="review-table-container">
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                    <thead>
+                                        <tr class="slds-line-height_reset">
+                                            <th scope="col" style="min-width: 160px"><div class="slds-truncate slds-text-align_center">Insurer</div></th>
+                                            <th scope="col" style="min-width: 180px"><div class="slds-truncate slds-text-align_center">Co-Broker</div></th>
+                                            <th scope="col" style="min-width: 140px"><div class="slds-truncate slds-text-align_center">Co-Broking Type</div></th>
+                                            <th scope="col" style="min-width: 120px"><div class="slds-truncate slds-text-align_center">Currency</div></th>
+                                            <th scope="col" style="min-width: 150px"><div class="slds-truncate slds-text-align_center">Brokerage Rate(%)</div></th>
+                                            <th scope="col" style="min-width: 160px"><div class="slds-truncate slds-text-align_center">Brokerage Amt</div></th>
+                                            <th scope="col" style="min-width: 150px">
+                                                <div class="slds-truncate slds-text-align_center">{labelExpPaymentDate}<br />(YYMMDD)</div>
+                                            </th>
+                                            <th scope="col" style="min-width: 150px">
+                                                <div class="slds-truncate slds-text-align_center">{labelPaymentDueDate}<br />(YYMMDD)</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template for:each={sec.lineItems} for:item="li">
+                                            <tr key={li._key}>
+                                                <!-- Insurer (read-only) -->
+                                                <td><div class="slds-truncate">{li.insurerName}</div></td>
+                                                <!-- Co-Broker (read-only) -->
+                                                <td><div class="slds-truncate">{li.coBrokerName}</div></td>
+                                                <!-- Co-Broking Type (read-only) -->
+                                                <td><div class="slds-truncate">{li.CoBrokingType__c}</div></td>
+                                                <!-- Currency (read-only) -->
+                                                <td><div class="slds-truncate">{li.Currency__c}</div></td>
+                                                <!-- Brokerage Rate(%) (editable) -->
+                                                <td>
+                                                    <lightning-input
+                                                        label=""
+                                                        variant="label-hidden"
+                                                        type="number"
+                                                        value={li.BrokerageRate__c}
+                                                        step="0.01"
+                                                        min="0"
+                                                        max="100"
+                                                        data-seckey={sec._key}
+                                                        data-likey={li._key}
+                                                        data-field="BrokerageRate__c"
+                                                        onchange={handleCoBrokingReviewLineItemChange}
+                                                        class="cus-lk-input-num-right"
+                                                    >
+                                                    </lightning-input>
+                                                </td>
+                                                <!-- Brokerage Amt (editable) -->
+                                                <td>
+                                                    <lightning-input
+                                                        label=""
+                                                        variant="label-hidden"
+                                                        type="number"
+                                                        value={li.BrokerageAmt__c}
+                                                        step={currencyStep}
+                                                        data-seckey={sec._key}
+                                                        data-likey={li._key}
+                                                        data-field="BrokerageAmt__c"
+                                                        onchange={handleCoBrokingReviewLineItemChange}
+                                                        class="cus-lk-input-num-right"
+                                                    >
+                                                    </lightning-input>
+                                                </td>
+                                                <!-- Exp. Payment Date (editable) -->
+                                                <td class={li.expPaymentDateClass}>
+                                                    <div class="slds-form-element">
+                                                        <div class="slds-form-element__control">
+                                                            <input
+                                                                type="text"
+                                                                class="slds-input"
+                                                                placeholder="YY/MM/DD"
+                                                                maxlength="8"
+                                                                value={li.expPaymentDateDisplay}
+                                                                data-seckey={sec._key}
+                                                                data-likey={li._key}
+                                                                data-field="expPaymentDate"
+                                                                oninput={handleCoBrokingReviewDateInput}
+                                                            />
+                                                        </div>
+                                                        <template if:true={li.expPaymentDateError}>
+                                                            <p class="slds-form-element__help slds-text-color_error">{li.expPaymentDateError}</p>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                                <!-- Payment Due Date (editable) -->
+                                                <td class={li.paymentDueDateClass}>
+                                                    <div class="slds-form-element">
+                                                        <div class="slds-form-element__control">
+                                                            <input
+                                                                type="text"
+                                                                class="slds-input"
+                                                                placeholder="YY/MM/DD"
+                                                                maxlength="8"
+                                                                value={li.paymentDueDateDisplay}
+                                                                data-seckey={sec._key}
+                                                                data-likey={li._key}
+                                                                data-field="paymentDueDate"
+                                                                oninput={handleCoBrokingReviewDateInput}
+                                                            />
+                                                        </div>
+                                                        <template if:true={li.paymentDueDateError}>
+                                                            <p class="slds-form-element__help slds-text-color_error">{li.paymentDueDateError}</p>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                        <!-- Total 행 -->
+                                        <tr class="total-row">
+                                            <td><span class="slds-text-title_bold">Total</span></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="slds-text-align_right" style="padding-right: 0.75rem">
+                                                <span class="slds-text-title_bold">
+                                                    <lightning-formatted-number
+                                                        value={sec.totalBrokerage}
+                                                        format-style="decimal"
+                                                        minimum-fraction-digits={_currencyScale}
+                                                        maximum-fraction-digits={_currencyScale}
+                                                    ></lightning-formatted-number>
+                                                </span>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+            </template>
+        </div>
+
+        <!-- ── Footer ── -->
+        <template if:true={isStep0}>
+            <div slot="footer" class="slds-grid slds-grid_align-spread">
+                <div>
+                    <lightning-button label={labels.cancel} onclick={handleCancel}></lightning-button>
+                </div>
+            </div>
+        </template>
+        <template if:true={isStep1Premium}>
+            <div slot="footer" class="slds-grid slds-grid_align-spread">
+                <div>
+                    <lightning-button label={labels.previous} variant="brand" onclick={handlePrev}></lightning-button>
+                </div>
+                <div>
+                    <lightning-button label={labels.cancel} onclick={handleCancel}></lightning-button>
+                </div>
+            </div>
+        </template>
+        <template if:true={isStep1}>
+            <div slot="footer" class="slds-grid slds-grid_align-spread">
+                <div>
+                    <lightning-button label={labels.previous} variant="brand" onclick={handlePrev} disabled={isLoading}></lightning-button>
+                </div>
+                <div>
+                    <lightning-button label={labels.cancel} onclick={handleCancel} disabled={isLoading}></lightning-button>
+                </div>
+            </div>
+        </template>
+        <template if:true={isStep1CoBroking}>
+            <div slot="footer" class="slds-grid slds-grid_align-spread">
+                <div>
+                    <lightning-button label={labels.previous} variant="brand" onclick={handlePrev} disabled={isLoading}></lightning-button>
+                </div>
+                <div>
+                    <lightning-button label={labels.cancel} onclick={handleCancel} disabled={isLoading}></lightning-button>
+                </div>
+            </div>
+        </template>
+        <template if:true={isStep2}>
+            <div slot="footer" class="slds-grid slds-grid_align-spread">
+                <div>
+                    <lightning-button label={labels.previous} variant="brand" onclick={handlePrev} disabled={isLoading}></lightning-button>
+                </div>
+                <div>
+                    <lightning-button label={labels.cancel} onclick={handleCancel} disabled={isLoading}></lightning-button>
+                </div>
+            </div>
+        </template>
+        <template if:true={isStep3}>
+            <div slot="footer" class="slds-grid slds-grid_align-end">
+                <div>
+                    <template if:true={isCoBrokingAction}>
+                        <lightning-button label={labels.save} variant="brand" onclick={handleSaveAllCoBrokingLineItems} disabled={isSaveAllDisabled}></lightning-button>
+                    </template>
+                    <template if:true={isSignedLineAction}>
+                        <lightning-button label={labels.save} variant="brand" onclick={handleSaveAllLineItems} disabled={isSaveAllDisabled}></lightning-button>
+                    </template>
+                </div>
+            </div>
+        </template>
+    </lightning-card>
+</template>

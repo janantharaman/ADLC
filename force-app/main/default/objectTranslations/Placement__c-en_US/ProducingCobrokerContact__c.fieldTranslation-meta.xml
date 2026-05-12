@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Producing Co-broker Contact --></label>
+    <name>ProducingCobrokerContact__c</name>
+    <relationshipLabel><!-- Placements (Producing Co-broker Contact) --></relationshipLabel>
+</CustomFieldTranslation>

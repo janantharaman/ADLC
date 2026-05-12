@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AccountAddress_fm__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(ISBLANK(Account_lk__r.Address__City__s), &quot;&quot;, Account_lk__r.Address__City__s &amp; &quot;, &quot;) &amp;
+IF(ISBLANK(TEXT(Account_lk__r.Address__CountryCode__s)), &quot;&quot;, TEXT(Account_lk__r.Address__CountryCode__s) &amp; &quot;, &quot;) &amp;
+IF(ISBLANK(TEXT(Account_lk__r.Address__StateCode__s)), &quot;&quot;, TEXT(Account_lk__r.Address__StateCode__s) &amp; &quot;, &quot;) &amp;
+IF(ISBLANK(Account_lk__r.Address__Street__s), &quot;&quot;, Account_lk__r.Address__Street__s &amp; &quot; &quot;) &amp;
+IF(ISBLANK(Account_lk__r.Address__PostalCode__s), &quot;&quot;, &quot;(&quot; &amp; Account_lk__r.Address__PostalCode__s &amp; &quot;)&quot;)</formula>
+    <label>Account Address</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

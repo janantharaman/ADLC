@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- 검색 키워드 (네이버 연산자 사용 가능) --></help>
+    <label><!-- Keyword --></label>
+    <name>Keyword__c</name>
+</CustomFieldTranslation>

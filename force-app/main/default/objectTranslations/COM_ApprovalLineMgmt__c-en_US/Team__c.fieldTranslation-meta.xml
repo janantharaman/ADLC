@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Team --></label>
+    <name>Team__c</name>
+    <picklistValues>
+        <masterLabel>Biz Admin</masterLabel>
+        <translation><!-- Biz Admin --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CRS11팀</masterLabel>
+        <translation><!-- CRS11팀 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CRS1팀</masterLabel>
+        <translation><!-- CRS1팀 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CRS2팀</masterLabel>
+        <translation><!-- CRS2팀 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CRS3팀</masterLabel>
+        <translation><!-- CRS3팀 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CRS4팀</masterLabel>
+        <translation><!-- CRS4팀 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CRS5팀</masterLabel>
+        <translation><!-- CRS5팀 --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Prj</fullName>
+    <columns>NAME</columns>
+    <columns>fm_Progress__c</columns>
+    <columns>ru_TotalTask__c</columns>
+    <columns>ru_EndTaskActual__c</columns>
+    <columns>ru_InProgressTask__c</columns>
+    <columns>PlanStart__c</columns>
+    <columns>PlanEnd__c</columns>
+    <columns>Stage__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Project__c</field>
+        <operation>equals</operation>
+        <value>LK보험중개 글로벌 계약관리 시스템 구축(4월)</value>
+    </filters>
+    <label>LK보험중개 글로벌 계약관리 시스템 구축(4월)</label>
+</ListView>

@@ -1,0 +1,68 @@
+<template>
+    <!-- Input / Selected display -->
+    <div class="lkp-wrap">
+        <template if:false={hasSelection}>
+            <span class="lkp-icon-left">
+                <lightning-icon icon-name="utility:search" size="x-small"></lightning-icon>
+            </span>
+            <input
+                class="lkp-input"
+                type="text"
+                placeholder={placeholder}
+                value={keyword}
+                disabled={disabled}
+                oninput={handleInput}
+                onfocus={handleFocus}
+                onkeydown={handleKeydown}
+            />
+        </template>
+
+        <template if:true={hasSelection}>
+            <a
+                class="lkp-selected slds-truncate lkp-selected--link"
+                href={recordUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={selectedLabel}
+                onclick={handleLinkClick}
+                >{selectedLabel}</a
+            >
+            <template if:false={disabled}>
+                <button class="lkp-clear" title="Clear" onclick={handleClear}>
+                    <lightning-icon icon-name="utility:close" size="x-small"></lightning-icon>
+                </button>
+            </template>
+        </template>
+    </div>
+
+    <!-- Dropdown (position:fixed — escapes overflow containers) -->
+    <template if:true={isOpen}>
+        <div class="lkp-backdrop" onclick={handleClose}></div>
+        <ul class="lkp-dropdown" style={dropdownStyle} role="listbox">
+            <template if:true={showNoResults}>
+                <li class="lkp-opt lkp-opt--empty">No results found</li>
+            </template>
+            <template for:each={options} for:item="opt">
+                <li
+                    key={opt.value}
+                    class="lkp-opt"
+                    role="option"
+                    data-id={opt.value}
+                    data-label={opt.label}
+                    onclick={handleSelect}
+                >
+                    <lightning-icon icon-name="utility:record" size="x-small" class="lkp-opt__icon"></lightning-icon>
+                    <span class="lkp-opt__body">
+                        <span class="lkp-opt__label slds-truncate">{opt.label}</span>
+                        <template if:true={opt.subLabel}>
+                            <span class="lkp-opt__sub slds-truncate">{opt.subLabel}</span>
+                        </template>
+                    </span>
+                </li>
+            </template>
+            <template if:true={hasMore}>
+                <li class="lkp-opt lkp-opt--more" onclick={handleLoadMore}>Load more…</li>
+            </template>
+        </ul>
+    </template>
+</template>

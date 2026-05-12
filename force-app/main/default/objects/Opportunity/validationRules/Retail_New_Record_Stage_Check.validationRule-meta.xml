@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Retail_New_Record_Stage_Check</fullName>
+    <active>true</active>
+    <description>Retail 영업기회 등록 시, Closed Won 또는 Closed Lost 로 지정한 경우</description>
+    <errorConditionFormula>ISNEW() = TRUE &amp;&amp; RecordType.Name &lt;&gt; &quot;Reinsurance&quot; &amp;&amp; (Text(StageName) = &quot;Closed Won&quot;  || Text(StageName) = &quot;Closed Lost&quot; )</errorConditionFormula>
+    <errorMessage>When registering a new opportunity, the stage cannot be specified as Closed Won or Closed Lost.</errorMessage>
+</ValidationRule>

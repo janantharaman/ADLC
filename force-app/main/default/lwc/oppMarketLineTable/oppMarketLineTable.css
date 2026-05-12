@@ -1,0 +1,69 @@
+:host {
+    --checkbox-w: 40px;
+    --rowno-w: 40px;
+    display: block; /* 부모 컨테이너에 맞춰 크기 조절 */
+}
+
+/* 스크롤을 담당하는 단일 컨테이너 */
+.table-container {
+    overflow: auto; /* 가로/세로 스크롤 모두 담당 */
+    position: relative;
+}
+
+.data-table {
+    width: max-content;
+    min-width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* --- 헤더 고정 (Sticky Header) --- */
+.data-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1; /* 다른 셀 위에 표시 */
+    background: #ffffff; /* 헤더 배경색을 흰색으로 변경 */
+    box-shadow: 0 1px 0 0 var(--lwc-colorBorder, rgb(221, 219, 218));
+    text-align: center;
+}
+
+/* 1단 헤더 */
+.data-table thead .header1 th {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    text-align: center;
+    height: 45px;
+}
+
+/* 2단 헤더 */
+.data-table thead .header2 th {
+    position: sticky;
+    top: 45px;      /* 1단 헤더 높이와 일치시킴 */
+    z-index: 99;
+    height: 50px;
+    border-left: 1px solid #ccc !important;
+}
+
+.data-table .slds-truncate {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    /* line-height: 1.25;  // 필요 시 줄 간격 조정 */
+}
+
+/* --- 컬럼 너비 고정 --- */
+.checkbox-col {
+    width: var(--checkbox-w, 40px);
+}
+.rowno-col {
+    width: var(--rowno-w, 40px);
+}
+
+.cell-error {
+    box-shadow: inset 0 0 0 2px #ea001e;
+    background: rgba(234, 0, 30, 0.06);
+}
+
+.cus-lk-input-currency { color: red !important; text-align: center !important; font-weight: bold !important; }

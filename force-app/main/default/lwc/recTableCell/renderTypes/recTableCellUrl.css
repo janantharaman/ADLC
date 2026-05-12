@@ -1,0 +1,12 @@
+/* ── URL cell ────────────────────────────────────────────────────────────── */
+.rec-table__cell-url {
+    color: var(--slds-g-color-brand-base-50, #0070d2);
+    text-decoration: none;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.rec-table__cell-url:hover {
+    text-decoration: underline;
+}

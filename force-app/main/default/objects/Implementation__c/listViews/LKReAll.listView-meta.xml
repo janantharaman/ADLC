@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LKReAll</fullName>
+    <columns>fm_Implementation__c</columns>
+    <columns>fm_Timeline__c</columns>
+    <columns>fm_ImplementationOwnerLink__c</columns>
+    <columns>Stage__c</columns>
+    <columns>PlanStart__c</columns>
+    <columns>PlanEnd__c</columns>
+    <columns>ActualStart__c</columns>
+    <columns>Progress__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>i2maxDevIs_fm__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>재보험_개발</label>
+</ListView>

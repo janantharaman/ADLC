@@ -1,0 +1,118 @@
+<!--
+ * @filename      : clmSocPlaAllocationSummary.html
+ * @project-name  : LK보험중계_신규계약관리시스템 구축
+ * @author        : i2max
+ * @date          : 2026-01-26 (월)
+ * @group         :
+ * @group-content :
+ * @description   : 
+ * @reference     : 
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2026-01-26      i2max        Create
+-->
+<template>
+    <template for:each={displayRecords} for:item="table">
+        <div key={table.type} class="slds-card slds-m-bottom_small">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__body">
+                        <!-- Meta Info (Currency & Type) -->
+                        <div class="slds-grid slds-grid_vertical-align-center">
+                            <div class="slds-m-right_large">
+                                <span class="slds-text-title_bold slds-m-right_xx-small">{labelCurrency}:&nbsp;</span>
+                                <lightning-formatted-text value={table.claimCurrency}></lightning-formatted-text>
+                            </div>
+                            <div>
+                                <span class="slds-text-title_bold slds-m-right_xx-small">{labelType}:&nbsp;</span>
+                                <lightning-formatted-text value={table.type}></lightning-formatted-text>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+            </div>
+            <div class="slds-card__body slds-card__body_inner">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered" aria-label={table.type}>
+                    <colgroup>
+                        <col style="width:20%" />
+                        <col style="width:20%" />
+                        <col style="width:20%" />
+                        <col style="width:20%" />
+                        <col style="width:20%" />
+                    </colgroup>
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th scope="col">
+<!--                                <div class="slds-truncate" title={labelType}>{labelType}</div>-->
+                                <div class="slds-truncate" title="">&nbsp;</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate slds-text-align_right" title={labelLoss}>{labelLoss}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate slds-text-align_right" title={labelExpense}>{labelExpense}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate slds-text-align_right" title={labelTotal}>{labelTotal}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate slds-text-align_right slds-text-color_error slds-text-title_bold" title={labelTotalLk}>{labelTotalLk}</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={table.items} for:item="item">
+                            <tr key={item.type} class="slds-hint-parent">
+                                <td data-label="Type">
+                                    <div class="slds-truncate slds-text-color_error slds-text-title_bold" title={item.type}>{item.type}</div>
+                                </td>
+                                <td data-label="Loss Amount">
+                                    <div class="slds-truncate slds-text-align_right">
+                                        <lightning-formatted-number value={item.lossAmt} format-style="decimal" minimum-fraction-digits={currencyScale}></lightning-formatted-number>
+                                    </div>
+                                </td>
+                                <td data-label="Expense Amount">
+                                    <div class="slds-truncate slds-text-align_right">
+                                        <lightning-formatted-number value={item.expAmt} format-style="decimal" minimum-fraction-digits={currencyScale}></lightning-formatted-number>
+                                    </div>
+                                </td>
+                                <td data-label="Total Amount">
+                                    <div class="slds-truncate slds-text-align_right">
+                                        <lightning-formatted-number value={item.totalAmt} format-style="decimal" minimum-fraction-digits={currencyScale}></lightning-formatted-number>
+                                    </div>
+                                </td>
+                                <td data-label="Total Amount (LK)">
+                                    <div class="slds-truncate slds-text-align_right slds-text-color_error slds-text-title_bold">
+                                        <lightning-formatted-number value={item.TotalAmtLk} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number>
+                                   </div>
+                                </td>
+                            </tr>
+                        </template>
+                        <!-- Error Row -->
+                        <template if:true={table.error}>
+                            <tr class="slds-text-color_error slds-text-align_center">
+                                <th scope="row">
+                                    <div class="slds-truncate" title="Error"><strong>Error</strong></div>
+                                </th>
+                                <td>&nbsp;
+<!--                                    <div class="slds-truncate slds-text-align_right">{table.error.loss}</div>-->
+                                </td>
+                                <td>&nbsp;
+<!--                                    <div class="slds-truncate slds-text-align_right">{table.error.expense}</div>-->
+                                </td>
+                                <td>&nbsp;</td>
+                                <td>
+                                    <div class="slds-truncate slds-text-align_right">{table.error.totalLK}</div>
+                                </td>
+                            </tr>
+                        </template>
+                        <!-- Error Row End -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </template>
+</template>

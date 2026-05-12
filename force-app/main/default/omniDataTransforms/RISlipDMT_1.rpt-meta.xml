@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OmniDataTransform xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>false</active>
+    <assignmentRulesUsed>false</assignmentRulesUsed>
+    <deletedOnSuccess>false</deletedOnSuccess>
+    <description>RI Slip DMT</description>
+    <errorIgnored>false</errorIgnored>
+    <fieldLevelSecurityEnabled>true</fieldLevelSecurityEnabled>
+    <inputType>JSON</inputType>
+    <isManagedUsingStdDesigner>false</isManagedUsingStdDesigner>
+    <name>RISlipDMT</name>
+    <nullInputsIncludedInOutput>false</nullInputsIncludedInOutput>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>c98c6588-6719-4d60-932d-24e96cef5f53</globalKey>
+        <inputFieldName>OPP_SlipInfo:Form</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>Form</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>212ac2d3-373d-48ad-a256-37d90694cec0</globalKey>
+        <inputFieldName>OPP_SlipInfo:TaxPayable</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>TaxPayable</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>4d1711f6-5747-49b9-9dce-9f58c1b35ae0</globalKey>
+        <inputFieldName>OPP_SlipInfo:PremPaymentClause</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>PremPaymentClause</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>01b62bb1-0ec0-4ae4-ae52-c9bad30f5423</globalKey>
+        <inputFieldName>OPP_SlipInfo:DepositPrem</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>DepositPrem</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>62e0f87a-0cff-493f-bc94-8f23f2b2d586</globalKey>
+        <inputFieldName>OPP_SlipInfo:PeriodFrom</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldFormat>Date(MM/dd/yyyy)</outputFieldFormat>
+        <outputFieldName>PeriodFrom</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>bc50bb53-f83e-4dd3-b8a5-5bc0d7681a02</globalKey>
+        <inputFieldName>OPP_SlipInfo:Insured</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>Insured</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>b5ff70c4-49ff-49e3-8a56-5555c61026bd</globalKey>
+        <inputFieldName>OPP_SlipInfo:Interest</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>Interest</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>9413efe7-e4bb-46b3-aed8-26cf8c48e69e</globalKey>
+        <inputFieldName>OPP_SlipInfo:OrderHereon</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>OrderHereon</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>a43db5e0-711a-4a23-9383-36f4f1128c79</globalKey>
+        <inputFieldName>FullDocName</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>FinalDocName</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>7a399c92-c3c9-4bfe-a9e5-d6a1b0e97ad5</globalKey>
+        <inputFieldName>OPP_SlipInfo:TorLsw</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>TorLsw</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>310f9237-a6d5-49eb-b963-d51e98460d7b</globalKey>
+        <inputFieldName>OPP_SlipInfo:Deductible</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>Deductible</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>d828bc1a-6165-458a-be3e-5a54f27004bc</globalKey>
+        <inputFieldName>OPP_SlipInfo:TermsConds</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>TermsConds</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>552e6d66-a554-4167-a1da-a5a60d963fe2</globalKey>
+        <inputFieldName>OPP_SlipInfo:PremiumPaymentTermDays</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>PremiumPaymentTermDays</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>df8fba0e-52b8-4802-8bd9-6fb790d85c2f</globalKey>
+        <inputFieldName>OPP_SlipInfo:OccupancyBiz</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>OccupancyBiz</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>d24239a3-07de-4f83-bf0d-dcf2c9f1d297</globalKey>
+        <inputFieldName>OPP_SlipInfo:BasisWritten</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>BasisWritten</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>e6e4db71-b5ab-418f-b34b-8d16253cb1f7</globalKey>
+        <inputFieldName>OPP_SlipInfo:PremiumPaymentTerms</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>PremiumPaymentTerms</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>37ee004c-e2c4-4340-9884-02e54f3aa59b</globalKey>
+        <inputFieldName>OPP_SlipInfo:Prem100</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>Prem100</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>a8059bc7-89f6-44b3-80df-61bd2bd45318</globalKey>
+        <inputFieldName>OPP_SlipInfo:TerritoryScope</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>TerritoryScope</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>baee29c0-1a9e-4a0c-b05b-98ba828758c5</globalKey>
+        <inputFieldName>OPP_SlipInfo:TotalDeduction</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>TotalDeduction</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>712838b4-f973-417d-90c7-7c1c9a5a5d01</globalKey>
+        <inputFieldName>OPP_SlipInfo:LossRecord</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>LossRecord</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>972fcbb9-8e71-4299-ac32-c1d79897a373</globalKey>
+        <inputFieldName>OPP_SlipInfo:LimitofLiability</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>LimitofLiability</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>7feee448-01e4-4df5-94bf-069228cd9e71</globalKey>
+        <inputFieldName>OPP_SlipInfo:PeriodTo</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldFormat>Date(MM/dd/yyyy)</outputFieldFormat>
+        <outputFieldName>PeriodTo</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>8db30966-8861-4796-8c9b-bbb900e6eb31</globalKey>
+        <inputFieldName>OPP_SlipInfo:Reinsured</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>Reinsured</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>81a5daad-0bb9-48f1-81a6-46b1cc391937</globalKey>
+        <inputFieldName>OPP_SlipInfo:AddPhrase</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>AddPhrase</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>f9394e50-6f87-496b-ac65-6ed4eb279425</globalKey>
+        <inputFieldName>OPP_SlipInfo:AddInfo</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>AddInfo</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>dfc7bf6b-bf7e-4931-8800-49c1c37991f6</globalKey>
+        <inputFieldName>OPP_SlipInfo:OtherDeduction</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>OtherDeduction</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>037d1eaf-4eec-4357-9617-90fb2d3d469b</globalKey>
+        <inputFieldName>OPP_SlipInfo:RIType</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>RIType</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>b6746202-7467-43a5-98b7-ddc9de243722</globalKey>
+        <inputFieldName>OPP_SlipInfo:Location</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>Location</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>da7ebb62-f24a-446d-bac1-d03923d7ae15</globalKey>
+        <inputFieldName>OPP_SlipInfo:CoveredRisk</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>CoveredRisk</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>b214d02d-7211-4a6b-9f79-4fa7b0697e42</globalKey>
+        <inputFieldName>OPP_SlipInfo:CountryOrigin</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>CountryOrigin</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <formulaConverted>| var:CedantName &quot;_RI/\/\/Offer/\/\/Slip&quot; CONCAT</formulaConverted>
+        <formulaExpression>CONCAT(%CedantName%, &quot;_RI Offer Slip&quot;)</formulaExpression>
+        <formulaResultPath>FullDocName</formulaResultPath>
+        <formulaSequence>1.0</formulaSequence>
+        <globalKey>aa89d5b8-3ca1-428f-8c9b-b0ed0f505c7a</globalKey>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>0.0</outputCreationSequence>
+        <outputFieldName>Formula</outputFieldName>
+        <outputObjectName>Formula</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>9eae299c-ecd1-435b-b28f-b07dbf83016e</globalKey>
+        <inputFieldName>OPP_SlipInfo:GoverningLaw</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>GoverningLaw</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>ad0bb8ac-dfa2-407c-ad2c-ae66be2968b4</globalKey>
+        <inputFieldName>OPP_SlipInfo:RiskReference</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>RiskReference</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>e3a29836-11ae-4145-9527-07966ebb88df</globalKey>
+        <inputFieldName>OPP_SlipInfo:TSI</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>TSI</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <omniDataTransformItem>
+        <disabled>false</disabled>
+        <filterGroup>0.0</filterGroup>
+        <globalKey>ac1141dc-5214-4e0d-9e38-2c9d0b0ced27</globalKey>
+        <inputFieldName>OPP_SlipInfo:BasisSinged</inputFieldName>
+        <inputObjectQuerySequence>0.0</inputObjectQuerySequence>
+        <linkedObjectSequence>0.0</linkedObjectSequence>
+        <name>RISlipDMT</name>
+        <outputCreationSequence>1.0</outputCreationSequence>
+        <outputFieldName>BasisSinged</outputFieldName>
+        <outputObjectName>json</outputObjectName>
+        <requiredForUpsert>false</requiredForUpsert>
+        <transformValuesMappings>{ }</transformValuesMappings>
+        <upsertKey>false</upsertKey>
+    </omniDataTransformItem>
+    <outputType>JSON</outputType>
+    <previewJsonData>{
+  &quot;OPP_SlipInfo&quot; : {
+    &quot;Deductible&quot; : &quot;Section 1: Marine Cargo Physical Damage: Others: USD 10,000.- each and every loss; Barging: USD 25,000.- each and every loss. Section 2: Marine Delay in Start-Up: Time Excess: 30 days in the aggregate&quot;,
+    &quot;BasisSinged&quot; : &quot;Percentage of Whole&quot;,
+    &quot;Form&quot; : &quot;Marine Cargo Insurance Facultative Reinsurance Offer&quot;,
+    &quot;Reinsured&quot; : &quot;KB Insurance Co., Ltd. KB Insurance Bldg., 117, Teheran-ro, Gangnam-gu, Seoul 06137, Korea&quot;,
+    &quot;RIType&quot; : &quot;Facultative Proportional Reinsurance&quot;,
+    &quot;PeriodTo&quot; : &quot;12th March 2026 (08:10)&quot;,
+    &quot;TSI&quot; : &quot;255,200,000,000&quot;,
+    &quot;Insured&quot; : &quot;The Principal: GS Power Co., Ltd., The Shareholders, The EPC Contractors: DL E&amp;C, The Suppliers: General Electric Company, Deawoo E&amp;C, Doosan Enability, BHI Col., Ltd., Hitachi, Ltd., Any other contractors and/or sub-contractors and/or their affiliated company related to the execution of the project of any tier; Professional consultants to the above for their site activities only; Directors and/or officer and/or employee of the insureds whilst acting within their authority or on their behalf; The other concerned parties related to the insured project works for their respective right and interest whether named or not hereunder; But excluding in all cases shipowners and/or vessel owners and/or barge owners and/or ship charterers and/or vessel charterers and/or barge charterers and freight forwarders. All for their respective rights and interests. Section 2: Marine Delay in Start-Up i. The Principal: GS Power Co., Ltd. ii. The Project lenders/finance parties and their Security Agents. All for their respective rights and interests&quot;,
+    &quot;TermsConds&quot; : &quot;Section 1: Marine Cargo Physical Damage: 1) Institute Cargo Clauses (A) CL 382 dated 1/1/09, 2) Institute Cargo Clauses (Air) (excluding sendings by Post) CL 387 dated 1/1/09, 3) Institute War Clauses (Cargo) CL 385 dated 1/1/09, 4) Institute War Clauses (Air Cargo) (excluding sendings by Post) CL 388 dated 1/1/09, 5) Institute Strike Clauses (Cargo) CL 386 dated 1/1/09, 6) Institute Strike Clauses (Air Cargo) CL 398 dated 1/1/09, 7) Institute Classification Clauses CL 354 1/1/01, 8) Institute War Cancellation Clause (Cargo), 9) Institute Extended Radioactive Contamination Exclusion Clauses, 10) Institute Replacement Clause CL 372 1/12/08, 11) Institute Radioactive Contamination, Chemical, Biological, Bio-Chemical and Electromagnetic Weapons Exclusion Clause CL 370 10/11/03, 12) Institute Cyber Attack Exclusion Clause CL 380, 13) Five Powers War Exclusion Clause JC2023-024 6th Jan 2023, 14) Cargo ISM Endorsement (JC 98/019 1 May 1998), 15) Cargo ISM Forwarding Charges Clause (Amended), 16) Cargo ISPS Endorsement, 17) Communicable Disease Exclusion (Cargo) JC2020/011 17 April 2020, 18) Termination of Transit Clause (Terrorism) 1/1/09 JC2009/056. Section 2: Marine Delay Start Up (MDSU): JC2009/020 (amended). General Policy Conditions applicable to Section 1 and 2: 1) Critical Items Separation Clause, 2) Joint Assured, 3) Lenders&apos;s Clause, 4) Non Vitiation, 5) Other Insurance, 6) Professional Fees and Claims Preparation Clause, 7) Survey Warranty, 8) CLAIMS CO OPERATION CLAUSE, 9) CLAIMS CONTROL CLAUSE&quot;,
+    &quot;AddPhrase&quot; : true,
+    &quot;Interest&quot; : &quot;Project Cargo being materials, Equipment and Supplies required for the construction and erection of Modernization Project of GS Power Bucheon (Unit #2-1) at 21, Samjak-ro, Bucheon-si, Gyeonggi-do, Korea. Excluding Contractors Plant and Equipment unless otherwise agreed by the Lead Reinsurer at rates, terms and conditions to be advised. All interest is deemed to be new (or held covered at rates and conditions to be agreed). Section 2: Marine Delay in Start-Up: Loss of or reduction in Gross Profit due to delay in commencement of commercial production of the above project arising from loss of or damage to the property in transit and/or temporary storage, resulting from a peril insured hereunder covered in Section 1.&quot;,
+    &quot;AddInfo&quot; : &quot;Co-Insurance Clause (KB 60%, DB 17%, MI 16%, HM 4%, HW 3%)&quot;,
+    &quot;TaxPayable&quot; : &quot;None&quot;,
+    &quot;OccupancyBiz&quot; : &quot;Modernization Project of GS Power Bucheon (Unit #2-1) Power Plant Construction&quot;,
+    &quot;BasisWritten&quot; : &quot;Percentage of Whole&quot;,
+    &quot;OtherDeduction&quot; : &quot;Risk Management Fees estimated to be USD 50,000&quot;,
+    &quot;CoveredRisk&quot; : &quot;Section 1: Marine Cargo Physical Damage, Section 2: Marine Delay In Strat-Up (MDSU)&quot;,
+    &quot;LimitofLiability&quot; : &quot;Section 1: Marine Cargo Physical Damage: USD 40,000,000 Per any one conveyance/occurrence/location. * Estimated Total amount: KRW 255,200,000,000. Section 2: Marine Delay in Start-Up: Gross Profit: KRW 254,300,000,000.- (Indemnity Period: 18 months)&quot;,
+    &quot;CountryOrigin&quot; : &quot;KR&quot;,
+    &quot;PremPaymentClause&quot; : &quot;Notwithstanding any provision to the contrary within this contract or any endorsement hereto, in respect of non- payment of premium only the following clause will apply.&lt;br&gt;&lt;br&gt;The (Re)Insured undertakes that premium will be paid in full to (Re)Insurers within days of inception of this contract (or, in respect of instalment premiums, when due).&lt;br&gt;&lt;br&gt;If the premium due under this contract has not been so paid to (Re)Insurers by the th day from the inception of this contract (and, in respect of instalment premiums, by the date they are due) (Re)Insurers shall have the right to cancel this contract by notifying the (Re)Insured via the broker in writing. In the event of cancellation, premium is due to (Re)Insurers on a pro rata basis for the period that (Re)Insurers are on risk but the full contract premium shall be payable to (Re)Insurers in the event of a loss or occurrence prior to the date of termination which gives rise to a valid claim under this contract.&lt;br&gt;&lt;br&gt;It is agreed that (Re)Insurers shall give not less than 30 days prior notice of cancellation to the (Re)Insured via the broker.  If premium due is paid in full to (Re)Insurers before the notice period expires, notice of cancellation shall automatically be revoked. If no&quot;,
+    &quot;PeriodFrom&quot; : &quot;12th March 2026 (08:10)&quot;,
+    &quot;Location&quot; : &quot;21, Samjak-ro, Bucheon-si, Gyeonggi-do, Korea&quot;
+  },
+  &quot;CedantName&quot; : &quot;I2Max&quot;
+}</previewJsonData>
+    <processSuperBulk>false</processSuperBulk>
+    <responseCacheTtlMinutes>0.0</responseCacheTtlMinutes>
+    <rollbackOnError>false</rollbackOnError>
+    <sourceObjectDefault>false</sourceObjectDefault>
+    <synchronousProcessThreshold>0.0</synchronousProcessThreshold>
+    <targetOutputFileName>RISlip_Template(Version 1)</targetOutputFileName>
+    <type>Transform</type>
+    <uniqueName>RISlipDMT_1</uniqueName>
+    <versionNumber>1.0</versionNumber>
+    <xmlDeclarationRemoved>false</xmlDeclarationRemoved>
+</OmniDataTransform>

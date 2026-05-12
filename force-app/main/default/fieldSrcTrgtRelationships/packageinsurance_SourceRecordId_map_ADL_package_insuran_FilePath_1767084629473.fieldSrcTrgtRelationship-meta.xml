@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FieldSrcTrgtRelationship xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <definitionCreationType>Standard</definitionCreationType>
+    <lookupFieldName>packageinsurance__dlm.rel_1767084629473_end__c</lookupFieldName>
+    <masterLabel>packageinsurance_SourceRecordId_map_ADL_package_insuran_FilePath_1767084629473</masterLabel>
+    <owner>DataCloud</owner>
+    <relationshipCardinality>OneToOne</relationshipCardinality>
+    <sourceFieldName>packageinsurance__dlm.SourceRecordId__c</sourceFieldName>
+    <targetEntity xsi:nil="true"/>
+    <targetFieldName>ADL_package_insuran__dlm.FilePath__c</targetFieldName>
+</FieldSrcTrgtRelationship>

@@ -1,0 +1,27 @@
+<template>
+    <!-- Trigger -->
+    <div
+        class={cmbTriggerClass}
+        tabindex={cmbTabIndex}
+        role="combobox"
+        aria-haspopup="listbox"
+        aria-expanded={cmbIsOpen}
+        onclick={handleComboboxToggle}
+        onkeydown={handleComboboxKeydown}
+    >
+        <span class="cmb-trigger__text">{cmbSelectedLabel}</span>
+        <lightning-icon icon-name="utility:chevrondown" size="x-small" class="cmb-trigger__icon"></lightning-icon>
+    </div>
+
+    <!-- Dropdown (position:fixed — escapes overflow containers) -->
+    <template if:true={cmbIsOpen}>
+        <div class="cmb-backdrop" onclick={handleComboboxClose}></div>
+        <ul class="cmb-dropdown" style={cmbDropdownStyle} role="listbox">
+            <template for:each={cmbItems} for:item="opt">
+                <li key={opt.value} class={opt.cls} role="option" data-value={opt.value} onclick={handleComboboxSelect}>
+                    <span class="cmb-opt__label">{opt.label}</span>
+                </li>
+            </template>
+        </ul>
+    </template>
+</template>

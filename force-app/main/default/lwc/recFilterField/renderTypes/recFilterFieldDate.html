@@ -1,0 +1,19 @@
+<template>
+    <lightning-layout vertical-align="center" multiple-rows>
+        <lightning-layout-item size={labelSize} class={labelClass}>
+            <span class="slds-text-body_small slds-text-color_weak">
+                <template if:true={isRequired}><abbr class="slds-required" title="required">*</abbr></template
+                >{label}
+            </span>
+        </lightning-layout-item>
+        <lightning-layout-item size={contentSize} class="slds-p-horizontal_x-small">
+            <lightning-input
+                type="date"
+                variant="label-hidden"
+                value={inputValue}
+                disabled={isDisabled}
+                onchange={handleDateChange}
+            ></lightning-input>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

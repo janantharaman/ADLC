@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>LK Re Symbol 로고를 메일 발송에서 사용하기 위함.</description>
+    <internalUseOnly>false</internalUseOnly>
+    <name>LK_Re-Symbol</name>
+    <public>true</public>
+</Document>

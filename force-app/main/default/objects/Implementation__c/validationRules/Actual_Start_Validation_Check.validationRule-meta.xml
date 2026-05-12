@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Actual_Start_Validation_Check</fullName>
+    <active>true</active>
+    <errorConditionFormula>( 
+NOT ( ISBLANK ( ActualStart__c )) &amp;&amp; 
+NOT ( ISBLANK ( ActualEnd__c )) &amp;&amp;
+( ActualStart__c &gt; ActualEnd__c )
+)</errorConditionFormula>
+    <errorMessage>착수일이 완료일 보다 미래일이 지정되었습니다.</errorMessage>
+</ValidationRule>

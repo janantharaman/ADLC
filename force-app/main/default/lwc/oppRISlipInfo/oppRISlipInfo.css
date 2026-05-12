@@ -1,0 +1,88 @@
+/**
+ * Created by janghyemin on 2026. 1. 28..
+ */
+
+.content-70 {
+    width: 70%;
+    margin-left: 0;     /* 왼쪽 기준 */
+}
+
+/* edit 모드 input 공통 */
+.form-row lightning-input,
+.form-row lightning-textarea {
+    --slds-c-input-height: 2.25rem;
+}
+
+/* textarea는 조금 더 */
+.form-row lightning-textarea {
+    min-height: 2.5rem;
+}
+
+.full-width-input,
+.full-width-input .slds-form-element,
+.full-width-input .slds-form-element__control,
+.full-width-input .slds-input {
+    width: 100%;
+}
+
+/* Row wrapper */
+.form-row {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+/* Field + tooltip 정렬 */
+.field-wrapper {
+    display: inline-flex;
+    align-items: center;
+}
+
+.tooltip-icon {
+    margin-left: 6px;
+}
+
+.cell-wrap {
+    padding: 0.4rem 0.5rem;
+    border-radius: 0.375rem;
+    white-space: normal;
+}
+
+/* 현재 커서가 있는 셀 */
+.cell-editing {
+    background-color: #fff4ce;
+    box-shadow: inset 4px 0 0 #1b96ff;
+}
+
+/* 수정 완료 (저장 전까지 유지됨) */
+.cell-edited {
+    background-color: #eef4ff;
+    box-shadow: inset 4px 0 0 #0176d3;
+}
+
+/* 이전 Slip 과 다른 값 */
+.cell-diff {
+    background-color: #fff4ce;
+}
+
+.stretch {
+    width: 100% !important;
+    min-width: 100%;
+}
+
+/* (View 모드) \n을 실제 줄바꿈으로 + 긴 단어도 줄바꿈 */
+.cell-wrap .view-text {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.clause-line {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.label-col {
+    padding-left: 0.5rem;
+}

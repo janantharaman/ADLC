@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>fm_TimelineActual__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <formula>IF(ISBLANK(ActualStart__c),&apos;None&apos;,
+IF(NOT(ISBLANK(ActualStart__c)) &amp;&amp; ISBLANK(ActualEnd__c), 
+   RIGHT(TEXT(YEAR(ActualStart__c)),2) &amp; &apos;/&apos; &amp; TEXT(MONTH(ActualStart__c)) &amp; &apos;/&apos; &amp; TEXT(DAY(ActualStart__c))
+						&amp; &apos; ~ None&apos;,
+						RIGHT(TEXT(YEAR(ActualStart__c)),2) &amp; &apos;/&apos; &amp; TEXT(MONTH(ActualStart__c)) &amp; &apos;/&apos; &amp; TEXT(DAY(ActualStart__c))
+      &amp; &apos; ~ &apos; &amp;
+      RIGHT(TEXT(YEAR(ActualEnd__c)),2) &amp; &apos;/&apos; &amp; TEXT(MONTH(ActualEnd__c)) &amp; &apos;/&apos; &amp; TEXT(DAY(ActualEnd__c))
+))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Timeline(Actual)</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

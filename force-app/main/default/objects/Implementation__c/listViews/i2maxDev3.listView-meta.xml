@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>i2maxDev3</fullName>
+    <columns>fm_Implementation__c</columns>
+    <columns>fm_Timeline__c</columns>
+    <columns>Stage__c</columns>
+    <columns>Progress__c</columns>
+    <columns>PlanStart__c</columns>
+    <columns>PlanEnd__c</columns>
+    <columns>ActualStart__c</columns>
+    <columns>ActualEnd__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>ImplementationOwner__c</field>
+        <operation>contains</operation>
+        <value>이원주</value>
+    </filters>
+    <filters>
+        <field>Task_Cancel__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <label>i2max_이원주</label>
+</ListView>

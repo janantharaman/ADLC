@@ -1,0 +1,54 @@
+<!--
+ * @filename      : COM_EmailFooter.component
+ * @project-name  : LK보험중계_신규계약관리시스템 구축
+ * @author        : i2max
+ * @date          : 2026-02-02 (월)
+ * @group         :
+ * @group-content :
+ * @description   :
+ * @reference     :
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2026-02-02      i2max        Create
+-->
+<apex:component access="global">
+    <!-- 푸터 디자인 -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; margin:0 auto; max-width:100%; padding-top:40px;">
+        <tbody>
+            <tr>
+                <td>
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; margin:0 auto; max-width:100%; padding-top:24px; padding-left:20px; padding-right:20px; padding-bottom:24px; background:#FAFAFA;">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <!--푸터 텍스트 영역-->
+                                <table width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; margin:0 auto; max-width:100%;">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <p style="padding:0; margin:0; font-size:12px; color:#55595B; line-height:18px;">
+                                                <apex:outputText value="{!$Label.COM_MSG_EMAIL_FOOTER}" escape="false" />
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <!--푸터 텍스트 영역 종료-->
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+<!--    <tr>-->
+<!--        <td style="background:#f0f9f5; padding:15px 30px; font-size:12px; color:#666;">-->
+            <!-- 다국어 지원 및 HTML 태그 허용 -->
+<!--            <apex:outputText value="{!$Label.COM_MSG_EMAIL_FOOTER}" escape="false" />-->
+<!--        </td>-->
+<!--    </tr>-->
+</apex:component>

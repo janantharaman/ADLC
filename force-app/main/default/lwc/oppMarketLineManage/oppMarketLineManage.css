@@ -1,0 +1,87 @@
+.wrap {
+    padding: 12px;
+}
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.state {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.fsRoot {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    min-height: 360px;
+    background: #fff;
+}
+
+.content {
+    padding: 16px;
+}
+
+.fsRoot:fullscreen {
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background: #fff;
+}
+
+.fsRoot:-webkit-full-screen {
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background: #fff;
+}
+
+.fsRoot.pseudo-fs {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: #fff;
+    overflow: auto;
+    padding: 12px;
+}
+
+
+/* 슬라이드 토글 버튼 */
+.slide-toggle-btn {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #0176d3;
+    color: white;
+    padding: 1rem 0.75rem;
+    cursor: pointer;
+    border-radius: 0.5rem 0 0 0.5rem;
+    z-index: 100;
+    box-shadow: -3px 0 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+}
+
+.slide-toggle-btn:hover {
+    background-color: #014486;
+    padding-right: 1rem;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.4);
+}
+
+.slide-toggle-btn span {
+    font-weight: 600;
+    font-size: 0.875rem;
+    letter-spacing: 1px;
+}
+
+.is-hidden {
+    display: none;
+}

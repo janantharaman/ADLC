@@ -1,0 +1,309 @@
+/* ── Host ────────────────────────────────────────────────────────────────── */
+:host {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* ── Scroll container ─────────────────────────────────────────────────────── */
+.rec-table-scroll {
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    max-height: var(--rec-table-max-height, none);
+}
+
+/* ── Table base ───────────────────────────────────────────────────────────── */
+.rec-table {
+    table-layout: auto;
+    white-space: nowrap;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* ── Header ───────────────────────────────────────────────────────────────── */
+.rec-table__th {
+    background-color: var(--slds-g-color-neutral-base-95, #f3f3f3);
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: none;
+    border-left: 1px solid var(--slds-g-color-border-base-1, #dddbda);
+    box-shadow: inset 0 -1px 0 var(--slds-g-color-border-base-1, #dddbda);
+    position: sticky;
+    top: var(--rec-hrow-top, 0);
+    z-index: 1;
+}
+
+.rec-table thead tr th:first-child {
+    border-left: none;
+}
+
+.rec-table thead tr + tr th:first-child {
+    border-left: 1px solid var(--slds-g-color-border-base-1, #dddbda);
+}
+
+.rec-table__th-label {
+    padding: 0 0.5rem;
+    text-align: center;
+    white-space: pre;
+}
+
+/* ── Group header (collapsible) ───────────────────────────────────────────── */
+.rec-table__th-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0 0.25rem;
+}
+
+.rec-table__collapse-btn {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    padding: 0;
+    border: 1px solid var(--slds-g-color-border-base-1, #dddbda);
+    border-radius: 2px;
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+}
+
+.rec-table__collapse-btn:hover {
+    background: var(--slds-g-color-neutral-base-90, #e5e5e5);
+}
+
+/* ── Sortable header ──────────────────────────────────────────────────────── */
+.rec-table__th-sortable {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.15rem;
+    padding: 0 0.5rem;
+    cursor: pointer;
+    user-select: none;
+    white-space: pre;
+}
+
+.rec-table__th-sortable:hover {
+    background: var(--slds-g-color-neutral-base-90, #e5e5e5);
+}
+
+.rec-table__sort-icon {
+    opacity: 0;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.rec-table__th-sortable:hover .rec-table__sort-icon,
+.rec-table__th-sortable_active .rec-table__sort-icon {
+    opacity: 1;
+}
+
+.rec-table__th-sortable_active .rec-table__sort-icon {
+    color: var(--slds-g-color-brand-base-50, #0070d2);
+}
+
+/* ── Body cells ───────────────────────────────────────────────────────────── */
+.rec-table__td {
+    vertical-align: middle;
+    text-align: center;
+    max-width: 12rem;
+    overflow: hidden;
+    border-bottom: 1px solid var(--slds-g-color-border-base-1, #dddbda);
+    border-left: 1px solid var(--slds-g-color-border-base-1, #dddbda);
+}
+
+.rec-table__td:first-child {
+    border-left: none;
+}
+
+.rec-table__td_chk {
+    text-align: center;
+    width: 2.5rem;
+    min-width: 2.5rem;
+}
+
+.rec-table__td_disabled {
+    background-color: var(--slds-g-color-neutral-base-95, #f3f3f3);
+    color: var(--slds-g-color-neutral-base-50, #969492);
+    cursor: not-allowed;
+}
+
+.rec-table__tr_disabled {
+    pointer-events: none;
+}
+.rec-table__tr_disabled > td:not(.rec-table__td_linkable) {
+    opacity: 0.5;
+}
+/* Allow link clicks (url, record-picker label) even in disabled rows */
+.rec-table__tr_disabled .rec-table__td_linkable {
+    pointer-events: auto;
+}
+
+.rec-table__td_editable {
+    cursor: pointer;
+}
+
+.rec-table__td_input {
+    padding: 0.1rem 0.25rem;
+}
+
+.rec-table__td_button {
+    text-align: center;
+    padding: 0.2rem 0.25rem;
+}
+
+/* ── URL cell ────────────────────────────────────────────────────────────── */
+.rec-table__cell-url {
+    color: var(--slds-g-color-brand-base-50, #0070d2);
+    text-decoration: none;
+    display: block;
+}
+.rec-table__cell-url:hover {
+    text-decoration: underline;
+}
+
+/* currency TD: padding 유지, flex는 c-rec-table-cell 내부에서 직접 제어 */
+.rec-table__td_currency {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* ── Row hover ───────────────────────────────────────────────────────────── */
+.rec-table tbody tr:hover > td {
+    background-color: var(--slds-g-color-neutral-base-95, #f3f3f3);
+}
+
+/* ── Selected row ─────────────────────────────────────────────────────────── */
+.rec-table tbody tr.slds-is-selected > td {
+    background-color: #ddeeff;
+    box-shadow: none;
+    border-color: var(--slds-g-color-border-base-1, #e5e5e5);
+    border-left-color: transparent;
+}
+
+.rec-table tbody tr.slds-is-selected + tr > td {
+    border-color: var(--slds-g-color-border-base-1, #e5e5e5);
+}
+
+.rec-table tbody tr.slds-is-selected:hover > td {
+    background-color: #c8e0f8;
+    box-shadow: none;
+    border-left-color: transparent;
+}
+
+/* ── Row click ────────────────────────────────────────────────────────────── */
+.rec-table__tr_clickable {
+    cursor: pointer;
+}
+
+/* ── Empty state ──────────────────────────────────────────────────────────── */
+.rec-table__empty-cell {
+    text-align: center;
+}
+
+.rec-table__empty-msg {
+    color: var(--slds-g-color-neutral-base-50, #969492);
+    font-style: italic;
+}
+
+/* ── Column highlight (opt-in via column.highlight=true) ─────────────────────── */
+.rec-table__td_highlight {
+    background-color: #fff9c4;
+}
+
+.rec-table tbody tr:hover > .rec-table__td_highlight {
+    background-color: #fff9c4;
+}
+
+/* ── Dirty cell highlight ────────────────────────────────────────────────────── */
+.rec-table__td_dirty {
+    background-color: #fff9c4;
+}
+
+.rec-table tbody tr:hover > .rec-table__td_dirty {
+    background-color: #fff176;
+}
+
+/* ── Error cell + indicator ──────────────────────────────────────────────────── */
+.rec-table__td_error {
+    position: relative;
+    border: 1px solid #ea001e;
+}
+
+.rec-table__error-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 10px 0 0;
+    border-color: #ea001e transparent transparent transparent;
+    cursor: pointer;
+    z-index: 2;
+}
+
+/* Tooltip styles moved to recTableErrorTooltip/recTableErrorTooltip.css */
+
+/* ── Tree grid ────────────────────────────────────────────────────────────── */
+.rec-table__td_tree {
+    padding: 0 0.25rem;
+}
+
+.rec-table__tree-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+    white-space: nowrap;
+}
+
+.rec-table__tree-toggle {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    transition: background 0.15s;
+}
+
+.rec-table__tree-toggle:hover {
+    background: var(--slds-g-color-neutral-base-90, #e5e5e5);
+}
+
+.rec-table__tree-toggle-placeholder {
+    display: inline-block;
+    width: 1.25rem;
+    flex-shrink: 0;
+}
+
+.rec-table__tr_child > td:first-child {
+    border-left: 2px solid var(--slds-g-color-brand-base-50, #0070d2);
+}
+
+/* ── Virtual scroll spacer rows ───────────────────────────────────────────── */
+.rec-table__spacer {
+    border: none;
+    padding: 0;
+    margin: 0;
+    visibility: hidden;
+}
+
+.rec-table__spacer > td {
+    border: none;
+    padding: 0;
+    line-height: 0;
+}

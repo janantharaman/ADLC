@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Layer Type --></label>
+    <name>LayerType__c</name>
+    <picklistValues>
+        <masterLabel>Excess</masterLabel>
+        <translation><!-- Excess --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Primary</masterLabel>
+        <translation><!-- Primary --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>QS</masterLabel>
+        <translation><!-- QS --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>SL</masterLabel>
+        <translation><!-- SL --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Umbrella</masterLabel>
+        <translation><!-- Umbrella --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>XOL</masterLabel>
+        <translation><!-- XOL --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

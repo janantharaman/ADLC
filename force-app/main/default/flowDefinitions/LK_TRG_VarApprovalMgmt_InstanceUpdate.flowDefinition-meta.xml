@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlowDefinition xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Various Approval Mgmt 를 통한 승인 진행 시, 해당 Approval 의 Update 정보를 반영</description>
+    <masterLabel>(X)LK_TRG_VarApprovalMgmt_InstanceUpdate</masterLabel>
+</FlowDefinition>

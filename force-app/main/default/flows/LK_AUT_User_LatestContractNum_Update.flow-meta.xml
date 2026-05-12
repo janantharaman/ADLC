@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Assign_1</name>
+        <label>Assign 1++</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>var_LatestContractNo</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_AddedContractNo</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_LatestContractNo</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Settings_Latest_Contract_Number</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_LK_Ref_No</name>
+        <label>Assign LK Ref No</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>var_LKRefNo</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>fm_LKRefNoNew</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <description>신규 Biz 에서만 채번</description>
+        <name>Check_Biz_Type_is_New</name>
+        <label>Check Biz Type is New</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Assign_LK_Ref_No</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>is_New_Biz</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>fm_CheckNewBiz</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>New</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Latest_Contact_No</targetReference>
+            </connector>
+            <label>is New Biz</label>
+        </rules>
+    </decisions>
+    <description>LK Ref No. 에 사용할 계약번호(숫자5자리)를 갱신
+(예) SF(LK Re, Faculty)-Sequence 5자리 - YYYYMM (Inception)
+
+ 
+
+- S: LK Re_Singapore / K: LK Ins_Korea / V: LK Vietnam
+
+- T: Treaty / F: Faculty
+
+- Sequence: 계약별로 채번. 갱신 시, 동일 Sequence 사용
+
+- YYYYMM: Inception Date 년월
+
+ 
+
+참고로, 기존 LK Ref No 기준 채번 부여 후,  시스템 오픈 후 신규 생성되는 계약에 대해 이어서 번호 생성할수 있을까요?</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>원보험-IncomeClass</description>
+        <name>fm_BizIncomeClass</name>
+        <dataType>String</dataType>
+        <expression>TEXT ({!Get_Opportunity_Info.IncomeClass__c})</expression>
+    </formulas>
+    <formulas>
+        <description>- S: LK Re_Singapore / K: LK Ins_Korea / V: LK Vietnam / A: LK A&amp;G</description>
+        <name>fm_BizRegion</name>
+        <dataType>String</dataType>
+        <expression>CASE( TEXT({!Get_Opportunity_Info.BizRegion__c}) ,
+&quot;LK_KR&quot;, &quot;K&quot;,
+&quot;LK_Re&quot;, &quot;S&quot;,
+&quot;LK_VN&quot;, &quot;V&quot;,
+&quot;LK_A&amp;G&quot;, &quot;A&quot;,
+&quot;None&quot;
+)</expression>
+    </formulas>
+    <formulas>
+        <description>신규 사업기회-채번된 5자리 숫자, 재계약 사업기회-기존 계약 Seq</description>
+        <name>fm_BizSeqNo</name>
+        <dataType>String</dataType>
+        <expression>IF ( {!fm_CheckNewBiz} = &apos;New&apos;, TEXT( {!var_AddedContractNo} ), 
+   IF ( ISNUMBER( LEFT ({!Get_Opportunity_Info.RenewalInsurancePolicy_lk__r.LKRefNoh__c}, 1 ) ), RIGHT ( {!Get_Opportunity_Info.RenewalInsurancePolicy_lk__r.LKRefNoh__c}, 5),
+MID({!Get_Opportunity_Info.RenewalInsurancePolicy_lk__r.LKRefNoh__c}, 4, 5) )
+)</expression>
+    </formulas>
+    <formulas>
+        <description>재보험-TransactionType</description>
+        <name>fm_BizTransactionType</name>
+        <dataType>String</dataType>
+        <expression>TEXT ( {!Get_Opportunity_Info.TransactionType__c} )</expression>
+    </formulas>
+    <formulas>
+        <description>- T: Treaty / F: Faculty / R: Retail</description>
+        <name>fm_BizType</name>
+        <dataType>String</dataType>
+        <expression>IF ( ISBLANK( TEXT({!Get_Opportunity_Info.CedingType1__c})), &apos;R&apos;,
+      IF ( TEXT({!Get_Opportunity_Info.CedingType1__c}) = &apos;Treaty&apos;, &apos;T&apos;, &apos;F&apos; )
+)</expression>
+    </formulas>
+    <formulas>
+        <description>신규 사업기회 인지 체크</description>
+        <name>fm_CheckNewBiz</name>
+        <dataType>String</dataType>
+        <expression>IF ( NOT ( ISBLANK ( {!fm_BizIncomeClass} ) ) &amp;&amp;  {!fm_BizIncomeClass} &lt;&gt; &apos;Renew&apos;, &apos;New&apos;,
+    IF ( NOT ( ISBLANK ( {!fm_BizTransactionType} ) ) &amp;&amp;  {!fm_BizTransactionType} &lt;&gt; &apos;Renew&apos;, &apos;New&apos;, &apos;&apos; )
+)</expression>
+    </formulas>
+    <formulas>
+        <name>fm_LKRefNo</name>
+        <dataType>String</dataType>
+        <expression>{!var_Random4Char} &amp; &quot;_&quot; &amp; TEXT ({!var_AddedContractNo} )</expression>
+    </formulas>
+    <formulas>
+        <description>출처 : 박찬주 수석님(26/3/25)
+(예) SF(LK Re, Faculty)-Sequence 5자리 - YYYYMM (Inception)
+- S: LK Re_Singapore / K: LK Ins_Korea / V: LK Vietnam / A: LK A&amp;G
+- T: Treaty / F: Faculty / R: Retail
+- Sequence: 계약별로 채번. 갱신 시, 동일 Sequence 사용, 신규 계약에서만 채번
+- YYYYMM: Inception Date 년월</description>
+        <name>fm_LKRefNoNew</name>
+        <dataType>String</dataType>
+        <expression>{!fm_BizRegion} &amp; {!fm_BizType} &amp; &apos;-&apos; &amp; {!fm_BizSeqNo} &amp; &apos;-&apos; &amp; {!v_InceptionDateYear} &amp; {!v_IncpetionDataMonth}</expression>
+    </formulas>
+    <interviewLabel>LK_AUT_User_LatestContractNum_Update {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>LK_AUT_LatestContractNum_Update</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_Latest_Contact_No</name>
+        <label>Get Latest Contact No</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_1</targetReference>
+        </connector>
+        <object>LatestContractNumMgmt__c</object>
+        <outputAssignments>
+            <assignToReference>var_LatestContractNo</assignToReference>
+            <field>Latest_Number__c</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Opportunity_Info</name>
+        <label>Get Opportunity Info</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Biz_Type_is_New</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>v_BizRecordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Opportunity</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Settings_Latest_Contract_Number</name>
+        <label>Update Settings Latest Contract Number</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Assign_LK_Ref_No</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Latest_Number__c</field>
+            <value>
+                <elementReference>var_AddedContractNo</elementReference>
+            </value>
+        </inputAssignments>
+        <object>LatestContractNumMgmt__c</object>
+    </recordUpdates>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Opportunity_Info</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>기회 레코드 Id</description>
+        <name>v_BizRecordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>v_InceptionDateYear</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>v_IncpetionDataMonth</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>var_AddedContractNo</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <name>var_CustomSettingLockCheckResult</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>var_CustomSettingRecordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>var_LatestContractNo</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <name>var_LKRefNo</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>var_Random4Char</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

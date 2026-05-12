@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Co-Broking Type --></label>
+    <name>CobrokingType__c</name>
+    <picklistValues>
+        <masterLabel>CI</masterLabel>
+        <translation><!-- CI --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CO</masterLabel>
+        <translation><!-- CO --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CPO</masterLabel>
+        <translation><!-- CPO --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CPS</masterLabel>
+        <translation><!-- CPS --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CPT</masterLabel>
+        <translation><!-- CPT --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CPT-CPO</masterLabel>
+        <translation><!-- CPT-CPO --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>None</masterLabel>
+        <translation><!-- None --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

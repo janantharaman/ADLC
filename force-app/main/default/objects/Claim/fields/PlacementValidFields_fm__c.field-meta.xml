@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PlacementValidFields_fm__c</fullName>
+    <description>Claim과 Placement 간 불일치한 필드를 표시하는 수식 필드.</description>
+    <externalId>false</externalId>
+    <formula>MID(
+    IF(
+        CedantPolicyNo__c &lt;&gt; Placement_lk__r.PolicyNo__c,
+        &quot;, Cedant Policy No.&quot;,
+        &quot;&quot;
+    ) &amp;
+    IF(
+        OR(
+            AND(ISBLANK(InceptionDate__c), NOT(ISBLANK(Placement_lk__r.InceptionDate__c))),
+            AND(NOT(ISBLANK(InceptionDate__c)), ISBLANK(Placement_lk__r.InceptionDate__c)),
+            InceptionDate__c &lt;&gt; Placement_lk__r.InceptionDate__c
+        ),
+        &quot;, Inception Date&quot;,
+        &quot;&quot;
+    ) &amp;
+    IF(
+        OR(
+            AND(ISBLANK(ExpirationDate__c), NOT(ISBLANK(Placement_lk__r.ExpirationDate__c))),
+            AND(NOT(ISBLANK(ExpirationDate__c)), ISBLANK(Placement_lk__r.ExpirationDate__c)),
+            ExpirationDate__c &lt;&gt; Placement_lk__r.ExpirationDate__c
+        ),
+        &quot;, Expiration Date&quot;,
+        &quot;&quot;
+    ) &amp;
+    IF(
+        OR(
+            AND(
+                ISBLANK(LKShare__c),
+                NOT(ISBLANK(Placement_lk__r.TotalOrderPct__c))
+            ),
+            AND(
+                NOT(ISBLANK(LKShare__c)),
+                ISBLANK(Placement_lk__r.TotalOrderPct__c)
+            ),
+            AND(
+                NOT(ISBLANK(LKShare__c)),
+                NOT(ISBLANK(Placement_lk__r.TotalOrderPct__c)),
+                ROUND(LKShare__c, 6) &lt;&gt; ROUND(Placement_lk__r.TotalOrderPct__c / 100, 6)
+            )
+        ),
+        &quot;, LK Share(%)&quot;,
+        &quot;&quot;
+    ),
+    3,
+    9999
+)</formula>
+    <label>Placement Valid Fields</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

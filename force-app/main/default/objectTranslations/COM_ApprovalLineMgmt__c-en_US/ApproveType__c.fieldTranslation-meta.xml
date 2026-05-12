@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Approve Type --></label>
+    <name>ApproveType__c</name>
+    <picklistValues>
+        <masterLabel>Acc_Activation</masterLabel>
+        <translation><!-- Acc_Activation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Acc_KYC</masterLabel>
+        <translation><!-- Acc_KYC --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Acc_New</masterLabel>
+        <translation><!-- Acc_New --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IPL_Posting</masterLabel>
+        <translation><!-- IPL_Posting --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

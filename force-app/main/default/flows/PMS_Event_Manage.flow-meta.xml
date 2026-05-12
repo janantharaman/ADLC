@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Check_Active_Flag_Value</name>
+        <label>Check Active Flag Value</label>
+        <locationX>314</locationX>
+        <locationY>578</locationY>
+        <defaultConnector>
+            <targetReference>Check_Code_M4</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>is_Active</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.isActive__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Activated_Group_Member</targetReference>
+            </connector>
+            <label>is Active</label>
+        </rules>
+        <rules>
+            <name>is_inActive</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.isActive__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Delete_inActivated_Group_Member</targetReference>
+            </connector>
+            <label>is inActive</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>M1 : Member 생성 시, 해당 Project Group 에 Member 추가 처리</description>
+        <name>Check_Code_M1</name>
+        <label>Check Code M1</label>
+        <locationX>534</locationX>
+        <locationY>170</locationY>
+        <defaultConnector>
+            <targetReference>Check_Code_M2</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>is_M1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Code__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>M1</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_New_Group_Member</targetReference>
+            </connector>
+            <label>is M1</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>M2 : Member Active/InActive 시, Project Group 에 Member 추가/삭제 처리</description>
+        <name>Check_Code_M2</name>
+        <label>Check Code M2</label>
+        <locationX>534</locationX>
+        <locationY>470</locationY>
+        <defaultConnector>
+            <targetReference>Check_Code_M4</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>is_M2</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Code__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>M2</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_Active_Flag_Value</targetReference>
+            </connector>
+            <label>is M2</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>M3 : Member 삭제 시, 해당 Project Group 에서 Member 삭제 처리</description>
+        <name>Check_Code_M3</name>
+        <label>Check Code M3</label>
+        <locationX>534</locationX>
+        <locationY>1262</locationY>
+        <defaultConnector>
+            <targetReference>Check_Code_M5</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>is_M3</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Code__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>M3</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Delete_Group_Member</targetReference>
+            </connector>
+            <label>is M3</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>M4 : Project 삭제 시, Project Group 삭제 처리</description>
+        <name>Check_Code_M4</name>
+        <label>Check Code M4</label>
+        <locationX>534</locationX>
+        <locationY>962</locationY>
+        <defaultConnector>
+            <targetReference>Check_Code_M3</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>is_M4</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Code__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>M4</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Delete_Group</targetReference>
+            </connector>
+            <label>is M4</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Code_M5</name>
+        <label>Check Code M5</label>
+        <locationX>534</locationX>
+        <locationY>1562</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>is_M5</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Code__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>M5</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Project_Record_Owner</targetReference>
+            </connector>
+            <label>is M5</label>
+        </rules>
+    </decisions>
+    <description>Code
+M1 : Member 생성 시, 해당 Project Group 에 Member 추가 처리
+M2 : Member Active/InActive 시, Project Group 에 Member 추가/삭제 처리
+M3 : Member 삭제 시, 해당 Project Group 에서 Member 삭제 처리
+M4 : Project 삭제 시, Project Group 삭제 처리
+M5 : Project Record Owner 와 Project Manager 가 다른 경우, Project Manager 로 Owner 변경
+M6 : Dashboard, Report Folder Share Apex 호출 (Project Group Id 기준)</description>
+    <environments>Default</environments>
+    <interviewLabel>PMS Event Manage {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>PMS Event Manage</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Create_Activated_Group_Member</name>
+        <label>Create Activated Group Member</label>
+        <locationX>50</locationX>
+        <locationY>686</locationY>
+        <connector>
+            <targetReference>Check_Code_M4</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>GroupId</field>
+            <value>
+                <elementReference>$Record.Group_Id__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>UserOrGroupId</field>
+            <value>
+                <elementReference>$Record.User_Id__c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>GroupMember</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_New_Group_Member</name>
+        <label>Create New Group Member</label>
+        <locationX>402</locationX>
+        <locationY>278</locationY>
+        <connector>
+            <targetReference>Check_Code_M2</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>GroupId</field>
+            <value>
+                <elementReference>$Record.Group_Id__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>UserOrGroupId</field>
+            <value>
+                <elementReference>$Record.User_Id__c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>GroupMember</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordDeletes>
+        <name>Delete_Group</name>
+        <label>Delete Group</label>
+        <locationX>402</locationX>
+        <locationY>1070</locationY>
+        <connector>
+            <targetReference>Check_Code_M3</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Group_Id__c</elementReference>
+            </value>
+        </filters>
+        <object>Group</object>
+    </recordDeletes>
+    <recordDeletes>
+        <name>Delete_Group_Member</name>
+        <label>Delete Group Member</label>
+        <locationX>402</locationX>
+        <locationY>1370</locationY>
+        <connector>
+            <targetReference>Check_Code_M5</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>GroupId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Group_Id__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>UserOrGroupId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.User_Id__c</elementReference>
+            </value>
+        </filters>
+        <object>GroupMember</object>
+    </recordDeletes>
+    <recordDeletes>
+        <name>Delete_inActivated_Group_Member</name>
+        <label>Delete inActivated Group Member</label>
+        <locationX>314</locationX>
+        <locationY>686</locationY>
+        <connector>
+            <targetReference>Check_Code_M4</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>GroupId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Group_Id__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>UserOrGroupId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.User_Id__c</elementReference>
+            </value>
+        </filters>
+        <object>GroupMember</object>
+    </recordDeletes>
+    <recordUpdates>
+        <name>Update_Project_Record_Owner</name>
+        <label>Update Project Record Owner</label>
+        <locationX>402</locationX>
+        <locationY>1670</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Project_Id__c</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>$Record.Project_Owner_Id_New__c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Project__c</object>
+    </recordUpdates>
+    <start>
+        <locationX>408</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Code_M1</targetReference>
+        </connector>
+        <flowRunAsUser>TriggeringUser</flowRunAsUser>
+        <object>PMS_Event_Manager__e</object>
+        <triggerType>PlatformEvent</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

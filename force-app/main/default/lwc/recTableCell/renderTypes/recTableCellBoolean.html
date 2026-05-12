@@ -1,0 +1,16 @@
+<template>
+    <div style={boolWrapperStyle}>
+        <div class="slds-checkbox">
+            <label class="slds-checkbox__label">
+                <input
+                    type="checkbox"
+                    class="slds-assistive-text"
+                    checked={boolChecked}
+                    disabled={isDisabled}
+                    onchange={handleBooleanChange}
+                />
+                <span class="slds-checkbox_faux"></span>
+            </label>
+        </div>
+    </div>
+</template>

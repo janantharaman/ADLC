@@ -1,0 +1,399 @@
+<template>
+    <lightning-card>
+        <lightning-accordion active-section-name={activeSectionName} allow-multiple-sections-open>
+            <lightning-accordion-section name="producingCoBroking" label="Producing Co-broking">
+                <div class="slds-p-horizontal_large">
+                    <!-- Action 버튼들 - Edit 권한 있을 때만 표시 -->
+                    <template if:true={hasEditPermission}>
+                        <template if:false={isClosed}>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-1">
+                                    <div class="slds-float_right">
+                                        <lightning-button-group class="slds-m-vertical_x-small">
+                                            <lightning-button
+                                                label={labels.refresh}
+                                                title={labels.refresh}
+                                                onclick={handleRefresh}
+                                                variant="neutral"
+                                                icon-name="utility:refresh"
+                                            >
+                                            </lightning-button>
+
+                                            <lightning-button label={labels.add} onclick={handleAdd} variant="neutral">
+                                            </lightning-button>
+
+                                            <lightning-button
+                                                label={labels.delete}
+                                                onclick={handleDelete}
+                                                variant="neutral"
+                                                disabled={isDeleteDisabled}
+                                            >
+                                            </lightning-button>
+
+                                            <lightning-button
+                                                label={labels.save}
+                                                onclick={handleSave}
+                                                variant="brand"
+                                                disabled={isSaveDisabled}
+                                            >
+                                            </lightning-button>
+                                        </lightning-button-group>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+
+                    <!-- 테이블 -->
+                    <div class="slds-scrollable_x table-container slds-m-top_medium">
+                        <table
+                            class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout"
+                            role="grid"
+                        >
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <!-- Checkbox - Edit 권한 있을 때만 표시 -->
+                                    <template if:true={hasEditPermission}>
+                                        <template if:false={isClosed}>
+                                            <th class="slds-text-align_center" scope="col" style="width: 3%">
+                                                <div class="slds-truncate slds-text-align_center" title="Select All">
+                                                    <lightning-input
+                                                        label=""
+                                                        type="checkbox"
+                                                        checked={allSelected}
+                                                        onchange={handleSelectAll}
+                                                        variant="label-hidden"
+                                                    >
+                                                    </lightning-input>
+                                                </div>
+                                            </th>
+                                        </template>
+                                    </template>
+                                    <th scope="col" style="width: 5%">
+                                        <div class="slds-truncate" title="No.">No.</div>
+                                    </th>
+                                    <th scope="col" style="width: 18%">
+                                        <div class="slds-truncate" title={coBrokerNameLabel}>{coBrokerNameLabel}</div>
+                                    </th>
+                                    <th scope="col" style="width: 18%">
+                                        <div class="slds-truncate" title={coBrokerContactLabel}>
+                                            {coBrokerContactLabel}
+                                        </div>
+                                    </th>
+                                    <th scope="col" style="width: 12%">
+                                        <div class="slds-truncate" title={sharingPctLabel}>{sharingPctLabel}</div>
+                                    </th>
+                                    <th scope="col" style="width: 15%">
+                                        <div class="slds-truncate" title={settlementTypeLabel}>
+                                            {settlementTypeLabel}
+                                        </div>
+                                    </th>
+                                    <th scope="col" style="width: 10%">
+                                        <div class="slds-truncate" title={clientLabel}>{clientLabel}</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template if:true={hasRecords}>
+                                    <template for:each={coBrokerList} for:item="row">
+                                        <tr key={row.key} class="slds-hint-parent">
+                                            <!-- Checkbox Column -->
+                                            <template if:true={hasEditPermission}>
+                                                <template if:false={isClosed}>
+                                                    <td class="slds-text-align_center" role="gridcell">
+                                                        <lightning-input
+                                                            label=""
+                                                            type="checkbox"
+                                                            checked={row.isChecked}
+                                                            data-key={row.key}
+                                                            onchange={handleCheckboxChange}
+                                                            variant="label-hidden"
+                                                        >
+                                                        </lightning-input>
+                                                    </td>
+                                                </template>
+                                            </template>
+
+                                            <!-- No Column -->
+                                            <td class="slds-text-align_center" role="gridcell">
+                                                <span class="slds-truncate">{row.rowNumber}</span>
+                                            </td>
+
+                                            <!-- Co-broker name -->
+                                            <td
+                                                role="gridcell"
+                                                data-key={row.key}
+                                                data-field="CobrokerName_lk__c"
+                                                class={row.CobrokerName_lk__cClass}
+                                            >
+                                                <div class="cell-with-edit">
+                                                    <template if:true={row.isEditMode}>
+                                                        <c-com-lookup
+                                                            field-name="CobrokerName_lk__c"
+                                                            icon-name="standard:account"
+                                                            placeholder="Search Accounts..."
+                                                            data-key={row.key}
+                                                            value={row.CobrokerName_lk__c}
+                                                            config={accountLookupConfig}
+                                                            onlookupchange={handleLookupChange}
+                                                        >
+                                                        </c-com-lookup>
+                                                    </template>
+                                                    <template if:false={row.isEditMode}>
+                                                        <div class="view-mode-cell">
+                                                            <template if:true={row.CobrokerName_lk__c}>
+                                                                <a
+                                                                    class="slds-truncate record-link"
+                                                                    data-record-id={row.CobrokerName_lk__c}
+                                                                    onclick={handleNavigateToRecord}
+                                                                    title={row.CobrokerNameLabel}
+                                                                    data-object-api-name="Account"
+                                                                >
+                                                                    {row.CobrokerNameLabel}
+                                                                </a>
+                                                            </template>
+                                                            <template if:false={row.CobrokerName_lk__c}>
+                                                                <span class="slds-truncate"></span>
+                                                            </template>
+                                                            <template if:true={hasEditPermission}>
+                                                                <template if:false={isClosed}>
+                                                                    <lightning-button-icon
+                                                                        icon-name="utility:edit"
+                                                                        alternative-text="Edit"
+                                                                        variant="bare"
+                                                                        data-key={row.key}
+                                                                        onclick={handleFieldEdit}
+                                                                        class="edit-icon"
+                                                                    >
+                                                                    </lightning-button-icon>
+                                                                </template>
+                                                            </template>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </td>
+
+                                            <!-- Co-broker contact -->
+                                            <td
+                                                role="gridcell"
+                                                data-key={row.key}
+                                                data-field="CobrokerContact_lk__c"
+                                                class={row.CobrokerContact_lk__cClass}
+                                            >
+                                                <div class="cell-with-edit">
+                                                    <template if:true={row.isEditMode}>
+                                                        <c-com-lookup
+                                                            field-name="CobrokerContact_lk__c"
+                                                            icon-name="standard:contact"
+                                                            placeholder="Search Contacts..."
+                                                            data-key={row.key}
+                                                            parent-id={row.CobrokerName_lk__c}
+                                                            value={row.CobrokerContact_lk__c}
+                                                            config={contactLookupConfig}
+                                                            onlookupchange={handleLookupChange}
+                                                        >
+                                                        </c-com-lookup>
+                                                    </template>
+                                                    <template if:false={row.isEditMode}>
+                                                        <div class="view-mode-cell">
+                                                            <template if:true={row.CobrokerContact_lk__c}>
+                                                                <a
+                                                                    class="slds-truncate record-link"
+                                                                    data-record-id={row.CobrokerContact_lk__c}
+                                                                    onclick={handleNavigateToRecord}
+                                                                    title={row.CobrokerContactLabel}
+                                                                    data-object-api-name="Contact"
+                                                                >
+                                                                    {row.CobrokerContactLabel}
+                                                                </a>
+                                                            </template>
+                                                            <template if:false={row.CobrokerContact_lk__c}>
+                                                                <span class="slds-truncate"></span>
+                                                            </template>
+                                                            <template if:true={hasEditPermission}>
+                                                                <template if:false={isClosed}>
+                                                                    <lightning-button-icon
+                                                                        icon-name="utility:edit"
+                                                                        alternative-text="Edit"
+                                                                        variant="bare"
+                                                                        data-key={row.key}
+                                                                        onclick={handleFieldEdit}
+                                                                        class="edit-icon"
+                                                                    >
+                                                                    </lightning-button-icon>
+                                                                </template>
+                                                            </template>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </td>
+
+                                            <!-- Sharing % -->
+                                            <td
+                                                role="gridcell"
+                                                data-key={row.key}
+                                                data-field="SharingPct__c"
+                                                class={row.SharingPct__cClass}
+                                            >
+                                                <div class="cell-with-edit">
+                                                    <template if:true={row.isEditMode}>
+                                                        <lightning-input
+                                                            type="number"
+                                                            value={row.SharingPct__c}
+                                                            label=""
+                                                            data-key={row.key}
+                                                            data-field="SharingPct__c"
+                                                            onchange={handleInputChange}
+                                                            variant="label-hidden"
+                                                            formatter="decimal"
+                                                            step="0.01"
+                                                            min="0"
+                                                            max="100"
+                                                            message-when-range-overflow="Value must be between 0 and 100"
+                                                            message-when-range-underflow="Value must be between 0 and 100"
+                                                            class="cus-lk-input-num-right"
+                                                        >
+                                                        </lightning-input>
+                                                    </template>
+                                                    <template if:false={row.isEditMode}>
+                                                        <div class="view-mode-cell">
+                                                            <div class="view-cell-right">
+                                                                <span class="slds-truncate" title={row.SharingPct__c}
+                                                                    >{row.SharingPct__c}%</span
+                                                                >
+                                                            </div>
+                                                            <template if:true={hasEditPermission}>
+                                                                <template if:false={isClosed}>
+                                                                    <lightning-button-icon
+                                                                        icon-name="utility:edit"
+                                                                        alternative-text="Edit"
+                                                                        variant="bare"
+                                                                        data-key={row.key}
+                                                                        onclick={handleFieldEdit}
+                                                                        class="edit-icon"
+                                                                    >
+                                                                    </lightning-button-icon>
+                                                                </template>
+                                                            </template>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </td>
+
+                                            <!-- Settlement Type -->
+                                            <td
+                                                role="gridcell"
+                                                data-key={row.key}
+                                                data-field="SettlementType__c"
+                                                class={row.SettlementType__cClass}
+                                            >
+                                                <div class="cell-with-edit">
+                                                    <template if:true={row.isEditMode}>
+                                                        <lightning-combobox
+                                                            value={row.SettlementType__c}
+                                                            options={settlementTypeOptions}
+                                                            data-key={row.key}
+                                                            data-field="SettlementType__c"
+                                                            onchange={handleComboboxChange}
+                                                            variant="label-hidden"
+                                                        >
+                                                        </lightning-combobox>
+                                                    </template>
+                                                    <template if:false={row.isEditMode}>
+                                                        <div class="view-mode-cell">
+                                                            <div class="view-cell-center">
+                                                                <span
+                                                                    class="slds-truncate"
+                                                                    title={row.SettlementType__c}
+                                                                    >{row.SettlementType__c}</span
+                                                                >
+                                                            </div>
+                                                            <template if:true={hasEditPermission}>
+                                                                <template if:false={isClosed}>
+                                                                    <lightning-button-icon
+                                                                        icon-name="utility:edit"
+                                                                        alternative-text="Edit"
+                                                                        variant="bare"
+                                                                        data-key={row.key}
+                                                                        onclick={handleFieldEdit}
+                                                                        class="edit-icon"
+                                                                    >
+                                                                    </lightning-button-icon>
+                                                                </template>
+                                                            </template>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </td>
+
+                                            <!-- Client -->
+                                            <td
+                                                role="gridcell"
+                                                data-key={row.key}
+                                                data-field="Client__c"
+                                                class={row.Client__cClass}
+                                            >
+                                                <div class="cell-with-edit">
+                                                    <template if:true={row.isEditMode}>
+                                                        <div class="client-edit-container-always">
+                                                            <lightning-input
+                                                                type="checkbox"
+                                                                checked={row.Client__c}
+                                                                data-key={row.key}
+                                                                onchange={handleCheckboxFieldChange}
+                                                                variant="label-hidden"
+                                                            >
+                                                            </lightning-input>
+                                                        </div>
+                                                    </template>
+                                                    <template if:false={row.isEditMode}>
+                                                        <div class="view-mode-cell">
+                                                            <div class="client-checkbox-container">
+                                                                <lightning-input
+                                                                    type="checkbox"
+                                                                    checked={row.Client__c}
+                                                                    disabled
+                                                                    variant="label-hidden"
+                                                                >
+                                                                </lightning-input>
+                                                            </div>
+                                                            <template if:true={hasEditPermission}>
+                                                                <template if:false={isClosed}>
+                                                                    <lightning-button-icon
+                                                                        icon-name="utility:edit"
+                                                                        alternative-text="Edit"
+                                                                        variant="bare"
+                                                                        data-key={row.key}
+                                                                        onclick={handleFieldEdit}
+                                                                        class="edit-icon"
+                                                                    >
+                                                                    </lightning-button-icon>
+                                                                </template>
+                                                            </template>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </template>
+                                <template if:false={hasRecords}>
+                                    <tr>
+                                        <td colspan="7" class="slds-p-around_medium">
+                                            <div
+                                                class="slds-grid slds-grid_vertical-align-center slds-grid_align-center"
+                                            >
+                                                <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
+                                                <p class="slds-m-left_small slds-m-bottom_none">{labels.noRecords}</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </lightning-accordion-section>
+        </lightning-accordion>
+    </lightning-card>
+</template>

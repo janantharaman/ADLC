@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Business_Number_Format_Check</fullName>
+    <active>true</active>
+    <description>Country(Republic of Korea) 인 Account 등록시 사업자등록번호 숫자 10자리 기입, 하이픈 기입 불가 설정</description>
+    <errorConditionFormula>AND(
+TEXT(Country__c) = &quot;Republic of Korea&quot;,
+
+OR(
+NOT(ISNUMBER(BizTaxNo__c)),
+LEN(BizTaxNo__c) &lt;&gt; 10
+)
+)</errorConditionFormula>
+    <errorDisplayField>BizTaxNo__c</errorDisplayField>
+    <errorMessage>사업자 등록 번호, 하이픈 제외하고 숫자만 입력하세요. e.g., 1231312345 (10자리)</errorMessage>
+</ValidationRule>

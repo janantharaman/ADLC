@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Update_is__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>트리거에서 Update 반영 여부 체크하는 필드</description>
+    <label>Update(Y/N)</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Checkbox</type>
+</CustomField>

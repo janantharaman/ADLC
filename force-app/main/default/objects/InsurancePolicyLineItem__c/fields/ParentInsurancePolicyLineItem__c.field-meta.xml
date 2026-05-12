@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ParentInsurancePolicyLineItem__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>END Target InsurancePolicy Details</label>
+    <referenceTo>InsurancePolicyLineItem__c</referenceTo>
+    <relationshipLabel>Insurance Policy Line Items (END Target InsurancePolicy Details)</relationshipLabel>
+    <relationshipName>InsurancePolicyLineItems_Parent</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,20 @@
+<template>
+    <lightning-layout vertical-align="center" multiple-rows>
+        <lightning-layout-item size={labelSize} class={labelClass}>
+            <span class="slds-text-body_small slds-text-color_weak">
+                <template if:true={isRequired}><abbr class="slds-required" title="required">*</abbr></template
+                >{label}
+            </span>
+        </lightning-layout-item>
+        <lightning-layout-item size={contentSize} class="slds-p-horizontal_x-small">
+            <c-rec-lookup
+                config={lookupConfig}
+                value={inputValue}
+                placeholder={lookupPlaceholder}
+                disabled={isDisabled}
+                match-input
+                onlookupchange={handleLookupChange}
+            ></c-rec-lookup>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

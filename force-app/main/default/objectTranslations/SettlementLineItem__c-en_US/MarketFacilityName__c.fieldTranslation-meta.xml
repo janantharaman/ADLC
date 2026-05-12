@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Market Facility Name --></label>
+    <name>MarketFacilityName__c</name>
+    <relationshipLabel><!-- Settlement Line Items (Market Facility Name) --></relationshipLabel>
+</CustomFieldTranslation>

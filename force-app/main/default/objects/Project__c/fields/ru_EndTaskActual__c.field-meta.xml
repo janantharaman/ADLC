@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ru_EndTaskActual__c</fullName>
+    <deprecated>false</deprecated>
+    <description>하위 Milestone - End Task(Actual) 의 Sum</description>
+    <label>End Task(Actual)</label>
+    <summarizedField>Milestone__c.ru_EndTaskActual__c</summarizedField>
+    <summaryForeignKey>Milestone__c.Project__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

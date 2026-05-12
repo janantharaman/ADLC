@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>hiotest</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>hiotest</value>
+    </caseValues>
+    <layouts>
+        <layout>hiotest Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- test hio --></label>
+        <name>test_hio</name>
+    </quickActions>
+    <startsWith>Consonant</startsWith>
+    <webLinks>
+        <label><!-- hio_test --></label>
+        <name>hio_test</name>
+    </webLinks>
+</CustomObjectTranslation>

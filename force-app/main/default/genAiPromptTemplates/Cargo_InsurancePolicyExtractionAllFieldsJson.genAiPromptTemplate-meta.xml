@@ -1,0 +1,1002 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_7</activeVersionIdentifier>
+    <developerName>Cargo_InsurancePolicyExtractionAllFieldsJson</developerName>
+    <masterLabel>Cargo_InsurancePolicyExtractionAllFieldsJson</masterLabel>
+    <overridable>false</overridable>
+    <templateVersions>
+        <content>Role
+Marine Insurance Data Specialist
+Task
+Precisely analyze the provided Marine Cargo and Stock Throughput (STPI) insurance proposal PDFs to extract key data and organize it into the designated format.
+Analysis Guidelines
+Insurance Type Classification: Clearly specify whether the contract is a simple Marine Cargo policy or a Stock Throughput (STPI) policy that covers storage risks.
+Structured Data Extraction:
+[1. Basic Policy Info]: Policyholder, period, currency, etc.
+[2. Conditions &amp; Limits]: Separate Transit and Storage risks, mapping the Limit of Liability and Deductible for each.
+[3. Clauses &amp; Interest]: Organize the applied Institute Cargo Clauses (ICC), rates by item, and Valuation basis.
+Currency &amp; English Terminology: Explicitly state the currency (KRW, USD, EUR, etc.) as written in the document. Keep clause names in their original English.
+Handling Missing Info: If details are omitted (e.g., labeled as &quot;Refer to separate notice&quot;), clearly mark it as &quot;No information in document (Refer separately)&quot;.
+Output Format
+{
+ &quot;1_basic_policy_info&quot;: {
+  &quot;description&quot;: &quot;General contract details&quot;,
+  &quot;fields&quot;: {
+   &quot;insurer&quot;: &quot;[Content]&quot;,
+   &quot;product_type&quot;: &quot;[Cargo/STPI]&quot;,
+   &quot;policy_proposal_number&quot;: &quot;[Content]&quot;,
+   &quot;policyholder&quot;: &quot;[Content]&quot;,
+   &quot;insurance_period&quot;: &quot;[YYYY-MM-DD ~ YYYY-MM-DD]&quot;,
+   &quot;estimated_confirmed_premium&quot;: &quot;[Amount]&quot;,
+   &quot;currency&quot;: &quot;[USD/KRW/EUR]&quot;
+  }
+ },
+ &quot;2_conditions_and_limits&quot;: {
+  &quot;description&quot;: &quot;Map limits and deductibles. Separate Transit and Storage scopes if applicable.&quot;,
+  &quot;items&quot;: [
+   {
+    &quot;policyholder&quot;: &quot;[e.g., LG Energy Solution]&quot;,
+    &quot;scope&quot;: &quot;[e.g., Transit (Worldwide)]&quot;,
+    &quot;limit_of_liability&quot;: &quot;[e.g., USD 50,000,000 / Shipment]&quot;,
+    &quot;deductible&quot;: &quot;[e.g., USD 1,000 / Shipment]&quot;,
+    &quot;valuation&quot;: &quot;[e.g., Invoice + 10%]&quot;
+   },
+   {
+    &quot;policyholder&quot;: &quot;[e.g., LG Energy Solution]&quot;,
+    &quot;scope&quot;: &quot;[e.g., Storage (Named Loc)]&quot;,
+    &quot;limit_of_liability&quot;: &quot;[e.g., USD 50,000,000 / Location]&quot;,
+    &quot;deductible&quot;: &quot;[e.g., USD 20,000 / Loss]&quot;,
+    &quot;valuation&quot;: &quot;[e.g., Replacement Cost]&quot;
+   }
+  ]
+ },
+ &quot;3_clauses_and_interest&quot;: {
+  &quot;description&quot;: &quot;Details on subject matter, rates, and applicable clauses.&quot;,
+  &quot;fields&quot;: {
+   &quot;interest_subject_matter&quot;: &quot;[e.g., Battery, Tires, Rubber]&quot;,
+   &quot;major_rates&quot;: &quot;[e.g., Tire 0.009%, Rubber 0.014%]&quot;,
+   &quot;major_clauses&quot;: [
+    &quot;[e.g., Institute Cargo Clauses (A)]&quot;,
+    &quot;[e.g., War &amp; Strikes Clauses]&quot;,
+    &quot;[e.g., Sanction Limitation and Exclusion Clause]&quot;
+   ]
+  }
+ }
+}
+Instruction: Extract information from the file without omission according to the format above.
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Draft</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Prompt
+You are a Marine Cargo Insurance (STPI) Data Analysis and Extraction Specialist. Analyze the input insurance policy text and extract structured data to create Salesforce records. Your task is to process the attached Marine Cargo &amp; Stock Throughput (STPI) insurance application and return the data as a single, valid JSON object.
+Input Text: {!$RecordSnapshot:ContentDocument.Snapshot}
+INSTRUCTIONS:
+Extract All Key Information from the &apos;Basic Policy Info&apos;, &apos;Insured Subject Matter&apos;, &apos;Voyage/Transit&apos;, &apos;Limit of Liability&apos;, and &apos;Clauses&apos; sections.
+Strict JSON Format: The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory, descriptive, or concluding text.
+Data Cleansing: Remove ALL currency symbols (WON, KRW, USD, EUR) and commas (,) from numeric values (e.g., &quot;10,000,000&quot; becomes 10000000.00).
+Date Formatting: Dates must be returned in &apos;YYYY-MM-DD&apos; format.
+Handling Missing Data: If a number is explicitly non-numeric or missing, return the value as 0 or null.
+Asset Mapping (STPI Context):
+In Marine/STPI insurance, an &quot;Asset&quot; represents the Subject Matter Insured (e.g., &quot;Tires, Rubber&quot;) or a specific Storage Location.
+Use AssetDescription to capture specific details like &quot;Transit (Worldwide)&quot; or &quot;Storage (Named Location)&quot;.
+Coverage Classification:
+Transit Risks: Covers goods while in transit (e.g., Vessel, Air, Truck).
+Storage Risks: Covers goods while in storage (e.g., Warehouse).
+General Cargo: Standard marine cargo coverage.
+Task: Extract data for the following objects and map them to the JSON structure provided below:
+InsurancePolicy: Basic policy info (Policy No, Dates, Totals, Currency).
+InsurancePolicyParticipant: Co-insurance parties (Insurer, Share %).
+InsurancePolicyAsset: Map the Subject Matter Insured (e.g., Tires) or Locations.
+InsurancePolicyProductClause: Special clauses (e.g., &quot;Institute Cargo Clauses (A)&quot;, &quot;Sanction Limitation&quot;).
+InsurancePolicyCoverage: High-level coverage groupings (e.g., &quot;Transit Risks&quot;, &quot;Storage Risks&quot;).
+InsurancePolicyCoverageLineitem: Specific limits and deductibles for each coverage scope.
+Rules:
+Currency: Identify the currency from the document (e.g., KRW, USD, EUR).
+Links: For &quot;LinkedAssetName&quot; in Coverages, use the exact name of the Asset listed in the &quot;assets&quot; array.
+Limits:
+&quot;Limit of Liability&quot; -&gt; Risk_Insured_Amount
+&quot;Deductible&quot; -&gt; Risk_Deductible
+
+JSON Output Schema:
+
+{
+ &quot;Name&quot;: &quot;OP20250079&quot;, 
+ &quot;NameContractor&quot;: &quot;Model Solution Co., Ltd.&quot;,
+ &quot;EffectiveDate&quot;: &quot;2025-06-18&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;2025-07-01&quot;,
+ &quot;EffectiveToDate&quot;: &quot;2026-07-01&quot;,
+ &quot;TotalSumInsured&quot;: 32105771599.00,
+ &quot;PremiumAmount&quot;: 6260625.00,
+ &quot;CurrencyVal&quot;: &quot;KRW&quot;,
+ &quot;Facility_lk&quot;: &quot;Worldwide Transit &amp; Storage&quot;,
+ &quot;participants&quot;: [
+ {
+  &quot;ParticipantName&quot;: &quot;DB Insurance&quot;,
+  &quot;IsPolicyholder&quot;: true,
+  &quot;BeneficiarySharePercentage&quot;: 100
+ }
+ ],
+ &quot;assets&quot;: [
+ {
+  &quot;AssetName&quot;: &quot;General Merchandise / Model Solutions Products&quot;,
+  &quot;AssetLocation&quot;: &quot;Worldwide&quot;,
+  &quot;HeadCount&quot;: 0, 
+  &quot;JobClass&quot;: &quot;Cargo / Stock&quot;,
+  &quot;AssetDescription&quot;: &quot;Tires, Rubber, Chemicals, Machinery, etc.&quot;
+ }
+ ],
+ &quot;productClauses&quot;: [
+ {
+  &quot;Name&quot;: &quot;Institute Cargo Clauses (A)&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;Sanction Limitation and Exclusion Clause&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;War &amp; Strikes Clauses&quot;,
+  &quot;Details&quot;: &quot;Applied to Tires&quot;
+ }
+ ],
+ &quot;coverages&quot;: [
+ {
+  &quot;CategoryGroup&quot;: &quot;I. Transit Risks&quot;,
+  &quot;CoverageSumInsured&quot;: 1000000000.00, 
+  &quot;SectionSumInsured&quot;: 0.00,
+  &quot;CoveragePremiumAmount&quot;: 0.00, 
+  &quot;SectionPremiumAmount&quot;: 0.00, 
+  &quot;CoverageDeductibleAmount&quot;: 0.00,
+  &quot;Description&quot;: &quot;Coverage for goods in transit worldwide&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;General Merchandise / Model Solutions Products&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Transit - All Risks&quot;,
+   &quot;Risk_Type&quot;: &quot;Limit per Shipment&quot;,
+   &quot;Risk_Details&quot;: &quot;Per any one conveyance/location&quot;,
+   &quot;Risk_Insured_Amount&quot;: 1000000000.00, 
+   &quot;Risk_Premium_Amount&quot;: 0.00,
+   &quot;Risk_Deductible&quot;: 0.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;I. Transit Risks&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Marine Cargo&quot;,
+   &quot;PerPersonLimit&quot;: 0.00,
+   &quot;AggregateLimit&quot;: 0.00
+  }
+  ]
+ },
+ {
+  &quot;CategoryGroup&quot;: &quot;II. Storage Risks&quot;,
+  &quot;CoverageSumInsured&quot;: 0.00, 
+  &quot;SectionSumInsured&quot;: 0.00,
+  &quot;CoveragePremiumAmount&quot;: 0.00, 
+  &quot;SectionPremiumAmount&quot;: 0.00, 
+  &quot;CoverageDeductibleAmount&quot;: 0.00,
+  &quot;Description&quot;: &quot;Coverage for goods in storage&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;General Merchandise / Model Solutions Products&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Storage - Named Location&quot;,
+   &quot;Risk_Type&quot;: &quot;Limit per Location&quot;,
+   &quot;Risk_Details&quot;: &quot;If applicable in document&quot;,
+   &quot;Risk_Insured_Amount&quot;: 0.00, 
+   &quot;Risk_Premium_Amount&quot;: 0.00,
+   &quot;Risk_Deductible&quot;: 0.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;II. Storage Risks&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Stock Throughput&quot;,
+   &quot;PerPersonLimit&quot;: 0.00,
+   &quot;AggregateLimit&quot;: 0.00
+  }
+  ]
+ }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:ContentDocument.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:ContentDocument</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_2</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Prompt
+You are a Marine Cargo Insurance (STPI) Data Analysis and Extraction Specialist. Analyze the input insurance policy text and extract structured data to create Salesforce records. Your task is to process the attached Marine Cargo &amp; Stock Throughput (STPI) insurance application and return the data as a single, valid JSON object.
+Input Text: {!$RecordSnapshot:ContentDocument.Snapshot}
+INSTRUCTIONS:
+Extract All Key Information from the &apos;Basic Policy Info&apos;, &apos;Insured Subject Matter&apos;, &apos;Voyage/Transit&apos;, &apos;Limit of Liability&apos;, and &apos;Clauses&apos; sections.
+Strict JSON Format: The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory, descriptive, or concluding text.
+Data Cleansing: Remove ALL currency symbols (WON, KRW, USD, EUR) and commas (,) from numeric values (e.g., &quot;10,000,000&quot; becomes 10000000.00).
+Date Formatting: Dates must be returned in &apos;YYYY-MM-DD&apos; format.
+Handling Missing Data: If a number is explicitly non-numeric or missing, return the value as 0 or null.
+Asset Mapping (STPI Context):
+In Marine/STPI insurance, an &quot;Asset&quot; represents the Subject Matter Insured (e.g., &quot;Tires, Rubber&quot;) or a specific Storage Location.
+Use AssetDescription to capture specific details like &quot;Transit (Worldwide)&quot; or &quot;Storage (Named Location)&quot;.
+Coverage Classification:
+Transit Risks: Covers goods while in transit (e.g., Vessel, Air, Truck).
+Storage Risks: Covers goods while in storage (e.g., Warehouse).
+General Cargo: Standard marine cargo coverage.
+Task: Extract data for the following objects and map them to the JSON structure provided below:
+InsurancePolicy: Basic policy info (Policy No, Dates, Totals, Currency).
+InsurancePolicyParticipant: Co-insurance parties (Insurer, Share %).
+InsurancePolicyAsset: Map the Subject Matter Insured (e.g., Tires) or Locations.
+InsurancePolicyProductClause: Special clauses (e.g., &quot;Institute Cargo Clauses (A)&quot;, &quot;Sanction Limitation&quot;).
+InsurancePolicyCoverage: High-level coverage groupings (e.g., &quot;Transit Risks&quot;, &quot;Storage Risks&quot;).
+InsurancePolicyCoverageLineitem: Specific limits and deductibles for each coverage scope.
+Rules:
+Currency: Identify the currency from the document (e.g., KRW, USD, EUR).
+Links: For &quot;LinkedAssetName&quot; in Coverages, use the exact name of the Asset listed in the &quot;assets&quot; array.
+Limits:
+&quot;Limit of Liability&quot; -&gt; Risk_Insured_Amount
+&quot;Deductible&quot; -&gt; Risk_Deductible
+
+JSON Output Schema:
+
+{
+ &quot;Name&quot;: &quot;OP20250079&quot;, 
+ &quot;NameContractor&quot;: &quot;Model Solution Co., Ltd.&quot;,
+ &quot;EffectiveDate&quot;: &quot;2025-06-18&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;2025-07-01&quot;,
+ &quot;EffectiveToDate&quot;: &quot;2026-07-01&quot;,
+ &quot;TotalSumInsured&quot;: 32105771599.00,
+ &quot;PremiumAmount&quot;: 6260625.00,
+ &quot;CurrencyVal&quot;: &quot;KRW&quot;,
+ &quot;Facility_lk&quot;: &quot;Worldwide Transit &amp; Storage&quot;,
+ &quot;participants&quot;: [
+ {
+  &quot;ParticipantName&quot;: &quot;DB Insurance&quot;,
+  &quot;IsPolicyholder&quot;: true,
+  &quot;BeneficiarySharePercentage&quot;: 100
+ }
+ ],
+ &quot;assets&quot;: [
+ {
+  &quot;AssetName&quot;: &quot;General Merchandise / Model Solutions Products&quot;,
+  &quot;AssetLocation&quot;: &quot;Worldwide&quot;,
+  &quot;HeadCount&quot;: 0, 
+  &quot;JobClass&quot;: &quot;Cargo / Stock&quot;,
+  &quot;AssetDescription&quot;: &quot;Tires, Rubber, Chemicals, Machinery, etc.&quot;
+ }
+ ],
+ &quot;productClauses&quot;: [
+ {
+  &quot;Name&quot;: &quot;Institute Cargo Clauses (A)&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;Sanction Limitation and Exclusion Clause&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;War &amp; Strikes Clauses&quot;,
+  &quot;Details&quot;: &quot;Applied to Tires&quot;
+ }
+ ],
+ &quot;coverages&quot;: [
+ {
+  &quot;CategoryGroup&quot;: &quot;I. Transit Risks&quot;,
+  &quot;CoverageSumInsured&quot;: 1000000000.00, 
+  &quot;SectionSumInsured&quot;: 0.00,
+  &quot;CoveragePremiumAmount&quot;: 0.00, 
+  &quot;SectionPremiumAmount&quot;: 0.00, 
+  &quot;CoverageDeductibleAmount&quot;: 0.00,
+  &quot;Description&quot;: &quot;Coverage for goods in transit worldwide&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;General Merchandise / Model Solutions Products&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Transit - All Risks&quot;,
+   &quot;Risk_Type&quot;: &quot;Limit per Shipment&quot;,
+   &quot;Risk_Details&quot;: &quot;Per any one conveyance/location&quot;,
+   &quot;Risk_Insured_Amount&quot;: 1000000000.00, 
+   &quot;Risk_Premium_Amount&quot;: 0.00,
+   &quot;Risk_Deductible&quot;: 0.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;I. Transit Risks&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Marine Cargo&quot;,
+   &quot;PerPersonLimit&quot;: 0.00,
+   &quot;AggregateLimit&quot;: 0.00
+  }
+  ]
+ },
+ {
+  &quot;CategoryGroup&quot;: &quot;II. Storage Risks&quot;,
+  &quot;CoverageSumInsured&quot;: 0.00, 
+  &quot;SectionSumInsured&quot;: 0.00,
+  &quot;CoveragePremiumAmount&quot;: 0.00, 
+  &quot;SectionPremiumAmount&quot;: 0.00, 
+  &quot;CoverageDeductibleAmount&quot;: 0.00,
+  &quot;Description&quot;: &quot;Coverage for goods in storage&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;General Merchandise / Model Solutions Products&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Storage - Named Location&quot;,
+   &quot;Risk_Type&quot;: &quot;Limit per Location&quot;,
+   &quot;Risk_Details&quot;: &quot;If applicable in document&quot;,
+   &quot;Risk_Insured_Amount&quot;: 0.00, 
+   &quot;Risk_Premium_Amount&quot;: 0.00,
+   &quot;Risk_Deductible&quot;: 0.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;II. Storage Risks&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Stock Throughput&quot;,
+   &quot;PerPersonLimit&quot;: 0.00,
+   &quot;AggregateLimit&quot;: 0.00
+  }
+  ]
+ }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:ContentDocument.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:ContentDocument</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_3</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>
+You are a Marine Cargo Insurance (STPI) Data Analysis and Extraction Specialist. 
+Analyze the input insurance policy text and extract structured data to create Salesforce records. 
+Your task is to process the attached Marine Cargo &amp; Stock Throughput (STPI) insurance application and return the data as a single, valid JSON object.
+
+Input Text: {!$RecordSnapshot:ContentDocument.Snapshot}
+
+INSTRUCTIONS:
+- Extract All Key Information from the &apos;Basic Policy Info&apos;, &apos;Insured Subject Matter&apos;, &apos;Voyage/Transit&apos;, &apos;Limit of Liability&apos;, and &apos;Clauses&apos; sections.
+- Strict JSON Format: The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory, descriptive, or concluding text.
+- Data Cleansing: Remove ALL currency symbols (WON, KRW, USD, EUR) and commas (,) from numeric values (e.g., &quot;10,000,000&quot; becomes 10000000.00).
+- Date Formatting: Dates must be returned in &apos;YYYY-MM-DD&apos; format.
+- Handling Missing Data: If a number is explicitly non-numeric or missing, return the value as 0 or null.
+- Asset Mapping (STPI Context):
+    In Marine/STPI insurance, an &quot;Asset&quot; represents the Subject Matter Insured (e.g., &quot;Tires, Rubber&quot;) or a specific Storage Location.
+    Use AssetDescription to capture specific details like &quot;Transit (Worldwide)&quot; or &quot;Storage (Named Location)&quot;.
+- Coverage Classification:
+- Transit Risks: Covers goods while in transit (e.g., Vessel, Air, Truck).
+- Storage Risks: Covers goods while in storage (e.g., Warehouse).
+- General Cargo: Standard marine cargo coverage.
+
+TASKS: 
+Extract data for the following objects and map them to the JSON structure provided below in its original language exactly as written :
+    1. InsurancePolicy: Basic policy info (Policy No, Dates, Totals, Currency).
+    2. InsurancePolicyParticipant: Co-insurance parties (Insurer, Share %).
+    3. InsurancePolicyAsset: Map the Subject Matter Insured (e.g., Tires) or Locations.
+    4. InsurancePolicyProductClause: General Terms and Conditions
+    5. InsurancePolicyCoverage: High-level coverage groupings (e.g., &quot;Transit Risks&quot;, &quot;Storage Risks&quot;).
+    6. InsurancePolicyCoverageLineitem: Specific limits and deductibles for each coverage scope.
+
+RULES:
+Dates: Format as YYYY-MM-DD.
+Numbers: Remove commas and currency symbols.
+Links: For &quot;LinkedAssetName&quot; in Coverages, use the exact name of the Group listed in the &quot;assets&quot; array (e.g., &quot;Group 1 - Executives&quot;) so the system can link them.
+
+JSON Output Schema:
+
+{
+ &quot;Name&quot;: &quot;OP20250079&quot;, 
+ &quot;NameContractor&quot;: &quot;Model Solution Co., Ltd.&quot;,
+ &quot;EffectiveDate&quot;: &quot;2025-06-18&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;2025-07-01&quot;,
+ &quot;EffectiveToDate&quot;: &quot;2026-07-01&quot;,
+ &quot;TotalSumInsured&quot;: 32105771599.00,
+ &quot;PremiumAmount&quot;: 6260625.00,
+ &quot;CurrencyVal&quot;: &quot;KRW&quot;,
+ &quot;Facility_lk&quot;: &quot;Worldwide Transit &amp; Storage&quot;,
+ &quot;participants&quot;: [
+ {
+  &quot;ParticipantName&quot;: &quot;DB Insurance&quot;,
+  &quot;IsPolicyholder&quot;: true,
+  &quot;BeneficiarySharePercentage&quot;: 100
+ }
+ ],
+ &quot;assets&quot;: [
+ {
+  &quot;AssetName&quot;: &quot;General Merchandise / Model Solutions Products&quot;,
+  &quot;AssetLocation&quot;: &quot;Worldwide&quot;,
+  &quot;HeadCount&quot;: 0, 
+  &quot;JobClass&quot;: &quot;Cargo / Stock&quot;,
+  &quot;AssetDescription&quot;: &quot;Tires, Rubber, Chemicals, Machinery, etc.&quot;
+ }
+ ],
+ &quot;productClauses&quot;: [
+ {
+  &quot;Name&quot;: &quot;Institute Cargo Clauses (A)&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;Sanction Limitation and Exclusion Clause&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;War &amp; Strikes Clauses&quot;,
+  &quot;Details&quot;: &quot;Applied to Tires&quot;
+ }
+ ],
+ &quot;coverages&quot;: [
+ {
+  &quot;CategoryGroup&quot;: &quot;I. Transit Risks&quot;,
+  &quot;CoverageSumInsured&quot;: 1000000000.00, 
+  &quot;SectionSumInsured&quot;: 0.00,
+  &quot;CoveragePremiumAmount&quot;: 0.00, 
+  &quot;SectionPremiumAmount&quot;: 0.00, 
+  &quot;CoverageDeductibleAmount&quot;: 0.00,
+  &quot;Description&quot;: &quot;Coverage for goods in transit worldwide&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;General Merchandise / Model Solutions Products&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Transit - All Risks&quot;,
+   &quot;Risk_Type&quot;: &quot;Limit per Shipment&quot;,
+   &quot;Risk_Details&quot;: &quot;Per any one conveyance/location&quot;,
+   &quot;Risk_Insured_Amount&quot;: 1000000000.00, 
+   &quot;Risk_Premium_Amount&quot;: 0.00,
+   &quot;Risk_Deductible&quot;: 0.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;I. Transit Risks&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Marine Cargo&quot;,
+   &quot;PerPersonLimit&quot;: 0.00,
+   &quot;AggregateLimit&quot;: 0.00
+  }
+  ]
+ },
+ {
+  &quot;CategoryGroup&quot;: &quot;II. Storage Risks&quot;,
+  &quot;CoverageSumInsured&quot;: 0.00, 
+  &quot;SectionSumInsured&quot;: 0.00,
+  &quot;CoveragePremiumAmount&quot;: 0.00, 
+  &quot;SectionPremiumAmount&quot;: 0.00, 
+  &quot;CoverageDeductibleAmount&quot;: 0.00,
+  &quot;Description&quot;: &quot;Coverage for goods in storage&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;General Merchandise / Model Solutions Products&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Storage - Named Location&quot;,
+   &quot;Risk_Type&quot;: &quot;Limit per Location&quot;,
+   &quot;Risk_Details&quot;: &quot;If applicable in document&quot;,
+   &quot;Risk_Insured_Amount&quot;: 0.00, 
+   &quot;Risk_Premium_Amount&quot;: 0.00,
+   &quot;Risk_Deductible&quot;: 0.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;II. Storage Risks&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Stock Throughput&quot;,
+   &quot;PerPersonLimit&quot;: 0.00,
+   &quot;AggregateLimit&quot;: 0.00
+  }
+  ]
+ }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:ContentDocument.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:ContentDocument</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_4</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>
+You are a Marine Cargo Insurance (STPI) Data Analysis and Extraction Specialist. 
+Analyze the input insurance policy text and extract structured data to create Salesforce records. 
+Your task is to process the attached Marine Cargo &amp; Stock Throughput (STPI) insurance application and return the data as a single, valid JSON object.
+
+Input Text: {!$RecordSnapshot:ContentDocument.Snapshot}
+
+INSTRUCTIONS:
+- Extract All Key Information from the &apos;Basic Policy Info&apos;, &apos;Insured Subject Matter&apos;, &apos;Voyage/Transit&apos;, &apos;Limit of Liability&apos;, and &apos;Clauses&apos; sections.
+- Strict JSON Format: The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory, descriptive, or concluding text.
+- Data Cleansing: Remove ALL currency symbols (WON, KRW, USD, EUR) and commas (,) from numeric values (e.g., &quot;10,000,000&quot; becomes 10000000.00).
+- Date Formatting: Dates must be returned in &apos;YYYY-MM-DD&apos; format.
+- Handling Missing Data: If a number is explicitly non-numeric or missing, return the value as 0 or null.
+- Asset Mapping (STPI Context):
+    In Marine/STPI insurance, an &quot;Asset&quot; represents the Subject Matter Insured (e.g., &quot;Tires, Rubber&quot;) or a specific Storage Location.
+    Use AssetDescription to capture specific details like &quot;Transit (Worldwide)&quot; or &quot;Storage (Named Location)&quot;.
+- Coverage Classification:
+- Transit Risks: Covers goods while in transit (e.g., Vessel, Air, Truck).
+- Storage Risks: Covers goods while in storage (e.g., Warehouse).
+- General Cargo: Standard marine cargo coverage.
+
+TASKS: 
+Extract data for the following objects and map them to the JSON structure provided below in its original language exactly as written and Do not translate the content:
+    1. InsurancePolicy: Basic policy info (Policy No, Dates, Totals, Currency).
+    2. InsurancePolicyParticipant: Co-insurance parties (Insurer, Share %).
+    3. InsurancePolicyAsset: Map the Subject Matter Insured (e.g., Tires) or Locations.
+    4. InsurancePolicyProductClause: General Terms and Conditions
+    5. InsurancePolicyCoverage: High-level coverage groupings (e.g., &quot;Transit Risks&quot;, &quot;Storage Risks&quot;).
+    6. InsurancePolicyCoverageLineitem: Specific limits and deductibles for each coverage scope.
+
+RULES:
+Dates: Format as YYYY-MM-DD.
+Numbers: Remove commas and currency symbols.
+Links: For &quot;LinkedAssetName&quot; in Coverages, use the exact name of the Group listed in the &quot;assets&quot; array (e.g., &quot;Group 1 - Executives&quot;) so the system can link them.
+
+JSON Output Schema:
+
+{
+ &quot;Name&quot;: &quot;OP20250079&quot;, 
+ &quot;NameContractor&quot;: &quot;Model Solution Co., Ltd.&quot;,
+ &quot;EffectiveDate&quot;: &quot;2025-06-18&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;2025-07-01&quot;,
+ &quot;EffectiveToDate&quot;: &quot;2026-07-01&quot;,
+ &quot;TotalSumInsured&quot;: 32105771599.00,
+ &quot;PremiumAmount&quot;: 6260625.00,
+ &quot;CurrencyVal&quot;: &quot;KRW&quot;,
+ &quot;Facility_lk&quot;: &quot;Worldwide Transit &amp; Storage&quot;,
+ &quot;participants&quot;: [
+ {
+  &quot;ParticipantName&quot;: &quot;DB Insurance&quot;,
+  &quot;IsPolicyholder&quot;: true,
+  &quot;BeneficiarySharePercentage&quot;: 100
+ }
+ ],
+ &quot;assets&quot;: [
+ {
+  &quot;AssetName&quot;: &quot;General Merchandise / Model Solutions Products&quot;,
+  &quot;AssetLocation&quot;: &quot;Worldwide&quot;,
+  &quot;HeadCount&quot;: 0, 
+  &quot;JobClass&quot;: &quot;Cargo / Stock&quot;,
+  &quot;AssetDescription&quot;: &quot;Tires, Rubber, Chemicals, Machinery, etc.&quot;
+ }
+ ],
+ &quot;productClauses&quot;: [
+ {
+  &quot;Name&quot;: &quot;Institute Cargo Clauses (A)&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;Sanction Limitation and Exclusion Clause&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;War &amp; Strikes Clauses&quot;,
+  &quot;Details&quot;: &quot;Applied to Tires&quot;
+ }
+ ],
+ &quot;coverages&quot;: [
+ {
+  &quot;CategoryGroup&quot;: &quot;I. Transit Risks&quot;,
+  &quot;CoverageSumInsured&quot;: 1000000000.00, 
+  &quot;SectionSumInsured&quot;: 0.00,
+  &quot;CoveragePremiumAmount&quot;: 0.00, 
+  &quot;SectionPremiumAmount&quot;: 0.00, 
+  &quot;CoverageDeductibleAmount&quot;: 0.00,
+  &quot;Description&quot;: &quot;Coverage for goods in transit worldwide&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;General Merchandise / Model Solutions Products&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Transit - All Risks&quot;,
+   &quot;Risk_Type&quot;: &quot;Limit per Shipment&quot;,
+   &quot;Risk_Details&quot;: &quot;Per any one conveyance/location&quot;,
+   &quot;Risk_Insured_Amount&quot;: 1000000000.00, 
+   &quot;Risk_Premium_Amount&quot;: 0.00,
+   &quot;Risk_Deductible&quot;: 0.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;I. Transit Risks&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Marine Cargo&quot;,
+   &quot;PerPersonLimit&quot;: 0.00,
+   &quot;AggregateLimit&quot;: 0.00
+  }
+  ]
+ },
+ {
+  &quot;CategoryGroup&quot;: &quot;II. Storage Risks&quot;,
+  &quot;CoverageSumInsured&quot;: 0.00, 
+  &quot;SectionSumInsured&quot;: 0.00,
+  &quot;CoveragePremiumAmount&quot;: 0.00, 
+  &quot;SectionPremiumAmount&quot;: 0.00, 
+  &quot;CoverageDeductibleAmount&quot;: 0.00,
+  &quot;Description&quot;: &quot;Coverage for goods in storage&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;General Merchandise / Model Solutions Products&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Storage - Named Location&quot;,
+   &quot;Risk_Type&quot;: &quot;Limit per Location&quot;,
+   &quot;Risk_Details&quot;: &quot;If applicable in document&quot;,
+   &quot;Risk_Insured_Amount&quot;: 0.00, 
+   &quot;Risk_Premium_Amount&quot;: 0.00,
+   &quot;Risk_Deductible&quot;: 0.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;II. Storage Risks&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Stock Throughput&quot;,
+   &quot;PerPersonLimit&quot;: 0.00,
+   &quot;AggregateLimit&quot;: 0.00
+  }
+  ]
+ }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:ContentDocument.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:ContentDocument</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_5</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>
+You are a Marine Cargo Insurance (STPI) Data Analysis and Extraction Specialist. 
+Analyze the input insurance policy text and extract structured data to create Salesforce records. 
+Your task is to process the attached Marine Cargo &amp; Stock Throughput (STPI) insurance application and return the data as a single, valid JSON object.
+
+Input Text: {!$RecordSnapshot:ContentDocument.Snapshot}
+
+INSTRUCTIONS:
+- Extract All Key Information from the &apos;Basic Policy Info&apos;, &apos;Insured Subject Matter&apos;, &apos;Voyage/Transit&apos;, &apos;Limit of Liability&apos;, and &apos;Clauses&apos; sections.
+- Strict JSON Format: The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory, descriptive, or concluding text.
+- Data Cleansing: Remove ALL currency symbols (WON, KRW, USD, EUR) and commas (,) from numeric values (e.g., &quot;10,000,000&quot; becomes 10000000.00).
+- Date Formatting: Dates must be returned in &apos;YYYY-MM-DD&apos; format.
+- Handling Missing Data: If a number is explicitly non-numeric or missing, return the value as 0 or null.
+- Asset Mapping (STPI Context):
+    In Marine/STPI insurance, an &quot;Asset&quot; represents the Subject Matter Insured (e.g., &quot;Tires, Rubber&quot;) or a specific Storage Location.
+    Use AssetDescription to capture specific details like &quot;Transit (Worldwide)&quot; or &quot;Storage (Named Location)&quot;.
+- Coverage Classification:
+- Transit Risks: Covers goods while in transit (e.g., Vessel, Air, Truck).
+- Storage Risks: Covers goods while in storage (e.g., Warehouse).
+- General Cargo: Standard marine cargo coverage.
+
+TASKS: 
+Extract data for the following objects and map them to the JSON structure provided below in its original language exactly as written and Do not translate the content:
+    1. InsurancePolicy: Basic policy info (Policy No, Dates, Totals, Currency).
+    2. InsurancePolicyParticipant: Co-insurance parties (Insurer, Share %).
+    3. InsurancePolicyAsset: Map the Subject Matter Insured (e.g., Tires) or Locations.
+    4. InsurancePolicyProductClause: General Terms and Conditions
+    5. InsurancePolicyCoverage: High-level coverage groupings (e.g., &quot;Transit Risks&quot;, &quot;Storage Risks&quot;).
+    6. InsurancePolicyCoverageLineitem: Specific limits and deductibles for each coverage scope.
+
+RULES:
+Dates: Format as YYYY-MM-DD.
+Numbers: Remove commas and currency symbols.
+Links: For &quot;LinkedAssetName&quot; in Coverages, use the exact name of the Group listed in the &quot;assets&quot; array (e.g., &quot;Group 1 - Executives&quot;) so the system can link them.
+
+JSON Output Schema:
+
+{
+ &quot;Name&quot;: &quot;OP20250079&quot;, 
+ &quot;NameContractor&quot;: &quot;Model Solution Co., Ltd.&quot;,
+ &quot;EffectiveDate&quot;: &quot;2025-06-18&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;2025-07-01&quot;,
+ &quot;EffectiveToDate&quot;: &quot;2026-07-01&quot;,
+ &quot;TotalSumInsured&quot;: 32105771599.00,
+ &quot;PremiumAmount&quot;: 6260625.00,
+ &quot;CurrencyVal&quot;: (Currency),
+ &quot;Facility_lk&quot;: &quot;Worldwide Transit &amp; Storage&quot;,
+ &quot;participants&quot;: [
+ {
+  &quot;ParticipantName&quot;: &quot;DB Insurance&quot;,
+  &quot;IsPolicyholder&quot;: true,
+  &quot;BeneficiarySharePercentage&quot;: 100
+ }
+ ],
+ &quot;assets&quot;: [
+ {
+  &quot;AssetName&quot;: &quot;General Merchandise / Model Solutions Products&quot;,
+  &quot;AssetLocation&quot;: &quot;Worldwide&quot;,
+  &quot;HeadCount&quot;: 0, 
+  &quot;JobClass&quot;: &quot;Cargo / Stock&quot;,
+  &quot;AssetDescription&quot;: &quot;Tires, Rubber, Chemicals, Machinery, etc.&quot;
+ }
+ ],
+ &quot;productClauses&quot;: [
+ {
+  &quot;Name&quot;: &quot;Institute Cargo Clauses (A)&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;Sanction Limitation and Exclusion Clause&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;War &amp; Strikes Clauses&quot;,
+  &quot;Details&quot;: &quot;Applied to Tires&quot;
+ }
+ ],
+ &quot;coverages&quot;: [
+ {
+  &quot;CategoryGroup&quot;: &quot;I. Transit Risks&quot;,
+  &quot;CoverageSumInsured&quot;: 1000000000.00, 
+  &quot;SectionSumInsured&quot;: 0.00,
+  &quot;CoveragePremiumAmount&quot;: 0.00, 
+  &quot;SectionPremiumAmount&quot;: 0.00, 
+  &quot;CoverageDeductibleAmount&quot;: 0.00,
+  &quot;Description&quot;: &quot;Coverage for goods in transit worldwide&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;General Merchandise / Model Solutions Products&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Transit - All Risks&quot;,
+   &quot;Risk_Type&quot;: &quot;Limit per Shipment&quot;,
+   &quot;Risk_Details&quot;: &quot;Per any one conveyance/location&quot;,
+   &quot;Risk_Insured_Amount&quot;: 1000000000.00, 
+   &quot;Risk_Premium_Amount&quot;: 0.00,
+   &quot;Risk_Deductible&quot;: 0.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;I. Transit Risks&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Marine Cargo&quot;,
+   &quot;PerPersonLimit&quot;: 0.00,
+   &quot;AggregateLimit&quot;: 0.00
+  }
+  ]
+ },
+ {
+  &quot;CategoryGroup&quot;: &quot;II. Storage Risks&quot;,
+  &quot;CoverageSumInsured&quot;: 0.00, 
+  &quot;SectionSumInsured&quot;: 0.00,
+  &quot;CoveragePremiumAmount&quot;: 0.00, 
+  &quot;SectionPremiumAmount&quot;: 0.00, 
+  &quot;CoverageDeductibleAmount&quot;: 0.00,
+  &quot;Description&quot;: &quot;Coverage for goods in storage&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;General Merchandise / Model Solutions Products&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Storage - Named Location&quot;,
+   &quot;Risk_Type&quot;: &quot;Limit per Location&quot;,
+   &quot;Risk_Details&quot;: &quot;If applicable in document&quot;,
+   &quot;Risk_Insured_Amount&quot;: 0.00, 
+   &quot;Risk_Premium_Amount&quot;: 0.00,
+   &quot;Risk_Deductible&quot;: 0.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;II. Storage Risks&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Stock Throughput&quot;,
+   &quot;PerPersonLimit&quot;: 0.00,
+   &quot;AggregateLimit&quot;: 0.00
+  }
+  ]
+ }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:ContentDocument.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:ContentDocument</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_6</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>
+You are a Marine Cargo Insurance (STPI) Data Analysis and Extraction Specialist. 
+Analyze the input insurance policy text and extract structured data to create Salesforce records. 
+Your task is to process the attached Marine Cargo &amp; Stock Throughput (STPI) insurance application and return the data as a single, valid JSON object.
+
+Input Text: {!$RecordSnapshot:ContentDocument.Snapshot}
+
+INSTRUCTIONS:
+- Extract All Key Information from the &apos;Basic Policy Info&apos;, &apos;Insured Subject Matter&apos;, &apos;Voyage/Transit&apos;, &apos;Limit of Liability&apos;, and &apos;Clauses&apos; sections.
+- Strict JSON Format: The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory, descriptive, or concluding text.
+- Data Cleansing: Remove ALL currency symbols (WON, KRW, USD, EUR) and commas (,) from numeric values (e.g., &quot;10,000,000&quot; becomes 10000000.00).
+- Date Formatting: Dates must be returned in &apos;YYYY-MM-DD&apos; format.
+- Handling Missing Data: If a number is explicitly non-numeric or missing, return the value as 0 or null.
+- Asset Mapping (STPI Context):
+    In Marine/STPI insurance, an &quot;Asset&quot; represents the Subject Matter Insured (e.g., &quot;Tires, Rubber&quot;) or a specific Storage Location.
+    Use AssetDescription to capture specific details like &quot;Transit (Worldwide)&quot; or &quot;Storage (Named Location)&quot;.
+- Coverage Classification:
+- Transit Risks: Covers goods while in transit (e.g., Vessel, Air, Truck).
+- Storage Risks: Covers goods while in storage (e.g., Warehouse).
+- General Cargo: Standard marine cargo coverage.
+
+TASKS: 
+Extract data for the following objects and map them to the JSON structure provided below in its original language exactly as written and Do not translate the content:
+    1. InsurancePolicy: Basic policy info (Policy No, Dates, Totals, Currency).
+    2. InsurancePolicyParticipant: Co-insurance parties (Insurer, Share %).
+    3. InsurancePolicyAsset: Map the Subject Matter Insured (e.g., Tires) or Locations.
+    4. InsurancePolicyProductClause: General Terms and Conditions
+    5. InsurancePolicyCoverage: High-level coverage groupings (e.g., &quot;Transit Risks&quot;, &quot;Storage Risks&quot;).
+    6. InsurancePolicyCoverageLineitem: Specific limits and deductibles for each coverage scope.
+
+RULES:
+Dates: Format as YYYY-MM-DD.
+Numbers: Remove commas and currency symbols.
+Links: For &quot;LinkedAssetName&quot; in Coverages, use the exact name of the Group listed in the &quot;assets&quot; array (e.g., &quot;Group 1 - Executives&quot;) so the system can link them.
+
+JSON Output Schema:
+
+{
+ &quot;Name&quot;: (Contractual References),
+ &quot;NameContractor&quot;: (Insured Parties),
+ &quot;EffectiveDate&quot;: &quot;2025-06-18&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;2025-07-01&quot;,
+ &quot;EffectiveToDate&quot;: &quot;2026-07-01&quot;,
+ &quot;TotalSumInsured&quot;: 32105771599.00,
+ &quot;PremiumAmount&quot;: 6260625.00,
+ &quot;CurrencyVal&quot;: (Currency),
+ &quot;Facility_lk&quot;: (Head Office and Field Sites)_,
+ &quot;participants&quot;: [
+ {
+  &quot;ParticipantName&quot;: &quot;DB Insurance&quot;,
+  &quot;IsPolicyholder&quot;: true,
+  &quot;BeneficiarySharePercentage&quot;: 100
+ }
+ ],
+ &quot;assets&quot;: [
+ {
+  &quot;AssetName&quot;: &quot;General Merchandise / Model Solutions Products&quot;,
+  &quot;AssetLocation&quot;: &quot;Worldwide&quot;,
+  &quot;HeadCount&quot;: 0, 
+  &quot;JobClass&quot;: &quot;Cargo / Stock&quot;,
+  &quot;AssetDescription&quot;: &quot;Tires, Rubber, Chemicals, Machinery, etc.&quot;
+ }
+ ],
+ &quot;productClauses&quot;: [
+ {
+  &quot;Name&quot;: &quot;Institute Cargo Clauses (A)&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;Sanction Limitation and Exclusion Clause&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;War &amp; Strikes Clauses&quot;,
+  &quot;Details&quot;: &quot;Applied to Tires&quot;
+ }
+ ],
+ &quot;coverages&quot;: [
+ {
+  &quot;CategoryGroup&quot;: &quot;I. Transit Risks&quot;,
+  &quot;CoverageSumInsured&quot;: 1000000000.00, 
+  &quot;SectionSumInsured&quot;: 0.00,
+  &quot;CoveragePremiumAmount&quot;: 0.00, 
+  &quot;SectionPremiumAmount&quot;: 0.00, 
+  &quot;CoverageDeductibleAmount&quot;: 0.00,
+  &quot;Description&quot;: &quot;Coverage for goods in transit worldwide&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;General Merchandise / Model Solutions Products&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Transit - All Risks&quot;,
+   &quot;Risk_Type&quot;: &quot;Limit per Shipment&quot;,
+   &quot;Risk_Details&quot;: &quot;Per any one conveyance/location&quot;,
+   &quot;Risk_Insured_Amount&quot;: 1000000000.00, 
+   &quot;Risk_Premium_Amount&quot;: 0.00,
+   &quot;Risk_Deductible&quot;: 0.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;I. Transit Risks&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Marine Cargo&quot;,
+   &quot;PerPersonLimit&quot;: 0.00,
+   &quot;AggregateLimit&quot;: 0.00
+  }
+  ]
+ },
+ {
+  &quot;CategoryGroup&quot;: &quot;II. Storage Risks&quot;,
+  &quot;CoverageSumInsured&quot;: 0.00, 
+  &quot;SectionSumInsured&quot;: 0.00,
+  &quot;CoveragePremiumAmount&quot;: 0.00, 
+  &quot;SectionPremiumAmount&quot;: 0.00, 
+  &quot;CoverageDeductibleAmount&quot;: 0.00,
+  &quot;Description&quot;: &quot;Coverage for goods in storage&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;General Merchandise / Model Solutions Products&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Storage - Named Location&quot;,
+   &quot;Risk_Type&quot;: &quot;Limit per Location&quot;,
+   &quot;Risk_Details&quot;: &quot;If applicable in document&quot;,
+   &quot;Risk_Insured_Amount&quot;: 0.00, 
+   &quot;Risk_Premium_Amount&quot;: 0.00,
+   &quot;Risk_Deductible&quot;: 0.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;II. Storage Risks&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Stock Throughput&quot;,
+   &quot;PerPersonLimit&quot;: 0.00,
+   &quot;AggregateLimit&quot;: 0.00
+  }
+  ]
+ }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:ContentDocument.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:ContentDocument</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_7</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

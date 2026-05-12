@@ -1,0 +1,91 @@
+.modal-content {
+    min-height: 200px;
+}
+
+/* 헤더 스타일 */
+.header-content {
+    text-align: center;
+    padding: 0.75rem;
+}
+
+.header-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #3e3e3c;
+}
+
+/* 테이블 스타일 */
+.custom-table {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.custom-table th,
+.custom-table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+}
+
+.th-no {
+    width: 10%;
+}
+
+.th-layer {
+    width: 45%;
+}
+
+.th-signed {
+    width: 45%;
+}
+
+/* 상태별 스타일 */
+.status-shortfall,
+.status-done,
+.status-overplaced {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 4px;
+    min-height: 60px;
+    justify-content: center;
+}
+
+.status-shortfall {
+    background-color: #fef8e7;
+    border: 1px solid #f9ca24;
+}
+
+.status-done {
+    background-color: #e8f5e9;
+    border: 1px solid #4caf50;
+}
+
+.status-overplaced {
+    background-color: #cdcee8;
+    border: 1px solid #4815df;
+}
+
+.status-text {
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+}
+
+.status-shortfall .status-text {
+    color: #f39c12;
+}
+
+.status-done .status-text {
+    color: #27ae60;
+}
+
+.status-overplaced .status-text {
+    color: #4050bb;
+}
+
+.signed-amount {
+    font-size: 0.875rem;
+    color: #3e3e3c;
+    font-weight: 500;
+}

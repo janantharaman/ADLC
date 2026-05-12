@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ENDYN_fm__c</fullName>
+    <formula>IF ( ENDNo__c = 0 &amp;&amp; ( TODAY() &gt; DATEVALUE(InceptionDate__c) ), TRUE,  
+     IF ( ENDNo__c &gt;= 1 &amp;&amp; ( TODAY() &gt; EffectiveDateEND__c ), TRUE, FALSE
+     )
+ )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>ENDYN</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

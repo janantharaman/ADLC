@@ -1,0 +1,1764 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_12</activeVersionIdentifier>
+    <developerName>PA_InsurancePolicyExtractionAllFieldsJson</developerName>
+    <masterLabel>PA_ InsurancePolicyExtractionAllFieldsJson</masterLabel>
+    <overridable>false</overridable>
+    <templateVersions>
+        <content>Role: Insurance Data Structuring Expert
+
+Task: Precisely analyze the provided &apos;Group Personal Accident Insurance&apos; proposals from various insurers (KB, Samsung, Meritz, Hanwha, Hyundai) to extract key data and convert it into a standardized table format for easy comparative analysis.
+
+Critical Guidelines:
+1. Hierarchical Separation: Clearly distinguish and extract data separately for the &apos;Basic Contract Info (Header)&apos; found at the top and the &apos;Detailed Coverage by Group (Body)&apos; found in the middle/bottom of the document.
+2. Unification of Coverage Group Key: Standardize different group notations used across documents (e.g., Group 1, Type A, Condition 01, Type 1, By Rank, etc.) into a single reference key called [Coverage Group Name].
+3. Specification of Composite Coverage: When extracting coverage details, explicitly distinguish whether the coverage is a [Fixed Benefit] (e.g., Death Benefit, Diagnosis Fee) or [Indemnity/Actual Loss Medical Expense] (e.g., 4th Gen Indemnity, Hospitalization).
+4. Aggregation of Unstructured Data: For documents like Samsung Life where the insured list is provided as a raw list of names, do not extract individual names. Instead, aggregate the &apos;Total Count&apos; for each coverage condition (group) and summarize.
+5. Data Cleaning: Format amounts as numbers including the &apos;Won&apos; unit (e.g., 100,000,000) and dates in &apos;YYYY-MM-DD&apos; format.
+
+Output Format:
+
+{
+ &quot;1_contract_summary&quot;: {
+  &quot;description&quot;: &quot;Summary of header information from all documents&quot;,
+  &quot;fields&quot;: {
+   &quot;insurer&quot;: &quot;[e.g., KB Insurance]&quot;,
+   &quot;policyholder_name&quot;: &quot;[e.g., GS E&amp;C Corp.]&quot;,
+   &quot;policy_proposal_number&quot;: &quot;[Number]&quot;,
+   &quot;insurance_period&quot;: &quot;[YYYY-MM-DD ~ YYYY-MM-DD]&quot;,
+   &quot;total_insured_count&quot;: &quot;[Count]&quot;,
+   &quot;total_premium_lump_sum&quot;: &quot;[Amount]&quot;
+  }
+ },
+ &quot;2_group_summary&quot;: {
+  &quot;description&quot;: &quot;Summary by group based on &apos;Group Summary&apos;, &apos;Insured Details&apos;, or &apos;Headcount Breakdown&apos; sections.&quot;,
+  &quot;items&quot;: [
+   {
+    &quot;group_id&quot;: &quot;[e.g., 1]&quot;,
+    &quot;group_name&quot;: &quot;[e.g., Group 1-Executives/Indemnity]&quot;,
+    &quot;target_description&quot;: &quot;[e.g., Executives &amp; Advisors / Injury Class 1]&quot;,
+    &quot;headcount&quot;: &quot;[Count]&quot;,
+    &quot;group_total_premium&quot;: &quot;[Amount]&quot;
+   }
+  ]
+ },
+ &quot;3_detailed_coverage_by_group&quot;: {
+  &quot;description&quot;: &quot;Detailed coverage items applied to each group. Must distinguish between Indemnity and Fixed Benefit types.&quot;,
+  &quot;groups&quot;: [
+   {
+    &quot;group_name&quot;: &quot;[e.g., Group 1-Executives/Indemnity]&quot;,
+    &quot;coverages&quot;: [
+     {
+      &quot;coverage_name&quot;: &quot;[e.g., Accidental Death]&quot;,
+      &quot;coverage_type&quot;: &quot;[Fixed Benefit]&quot;,
+      &quot;sum_insured_limit&quot;: &quot;[e.g., 100,000,000]&quot;,
+      &quot;deductible_remarks&quot;: &quot;-&quot;
+     },
+     {
+      &quot;coverage_name&quot;: &quot;[e.g., Cancer Diagnosis]&quot;,
+      &quot;coverage_type&quot;: &quot;[Fixed Benefit]&quot;,
+      &quot;sum_insured_limit&quot;: &quot;[e.g., 20,000,000]&quot;,
+      &quot;deductible_remarks&quot;: &quot;Check for 90-day waiting period&quot;
+     },
+     {
+      &quot;coverage_name&quot;: &quot;[e.g., Injury Inpatient Medical Expense (National Health)]&quot;,
+      &quot;coverage_type&quot;: &quot;[Indemnity (4th Gen)]&quot;,
+      &quot;sum_insured_limit&quot;: &quot;[e.g., 30,000,000]&quot;,
+      &quot;deductible_remarks&quot;: &quot;20% Co-payment&quot;
+     }
+    ]
+   }
+  ]
+ },
+ &quot;4_remarks&quot;: {
+  &quot;description&quot;: &quot;Summary of major notes such as special terms, premium settlement conditions, proportional compensation for duplicate enrollment, etc.&quot;,
+  &quot;content&quot;: [
+   &quot;...&quot;
+  ]
+ }
+}
+
+*Instruction: Please extract all core data from the provided files without omission using the format above.
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Draft</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Group Personal Accident Insurance Data Analysis and Extraction Specialist. Analyze the input insurance policy text (Group Accident/Health Insurance) and extract structured data to create Salesforce records. Your task is to process the attached commercial insurance application and return the data as a single, valid JSON object.
+
+Input Text: Attached PDF
+
+INSTRUCTIONS:
+1. Extract All Key Information from the &apos;ContExtract All Key Information from the &apos;Contract Essentials&apos;, &apos;Premium Details&apos;, &apos;Insured Group Details&apos;, and &apos;Coverage Details&apos; tables.
+2. Strict JSON Format: The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory, descriptive, or concluding text.
+3. Data Cleansing: Remove ALL currency symbols (WON, KRW) and commas (,) from from numeric values (e.g., &quot;1,072,950&quot; becomes 1072950.00).
+4. Date Formatting: Dates must be returned inDate Formatting: Dates must be returned in &apos;YYYY-MM-DD&apos; format.
+5. Handling Missing Data: If a number is explicitly non-numeric or missing, return the value as 0.
+6. Asset Mapping: In Group Insurance, an &quot;Asset&quot; represents an &quot;Insured Group&quot; (e.g., &quot;Group 1 - Executives&quot;, &quot;Group 2 - Office Workers&quot;).
+7. Section Classification (Adapted for Group Insurance):
+Section I (Injury): Accidental Death, DisaSection I (Injury): Accidental Death, Disability, Injury Daily Indemnity.
+Section II (Disease): Disease Death, Diagnosis (Cancer, AMI, Stroke).
+Section III (Medical): Real Loss Medical Expenses (Silson), Hospitalization.
+Section IV (Special): Traffic Injury, SpecSection IV (Special): Traffic Injury, Special Activities, etc.
+
+Task: Extract data for the following objects and map them to the JSON structure provided below:
+1. InsurancePolicy: Basic policy info (PolicyInsurancePolicy: Basic policy info (Policy No, Dates, Totals, TotalSumInsured).
+2. InsurancePolicyParticipant: Parties involved (Co-Insurance company).
+3. InsurancePolicyAsset: Map &quot;Insured Groups&quot; here. (e.g., Name: &quot;Group 1&quot;, Location: &quot;Head Office Address&quot;). Added HeadCount and JobClass.
+4. InsurancePolicyProductClause: Special clauses or warranties mentioned.
+5. InsurancePolicyCoverage: High-level coverage groupings linked to each &quot;Asset&quot; (Insured Group).
+6. InsurancePolicyCoverageLineitem: Specific benefits under each group (e.g., Injury Death, Cancer Diagnosis, Medical Expense).
+Rules:
+Dates: Format as YYYY-MM-DD.
+Numbers: Remove commas and currency symbols.
+Links: For &quot;LinkedAssetName&quot; in Coverages, use the exact name of the Group listed in the &quot;assets&quot; array (e.g., &quot;Group 1 - Executives&quot;) so the system can link them.
+Premiums: If the document lists a &quot;Group Total Premium&quot;, assign it to SectionPremiumAmount. If it lists individual premiums, sum them up.
+
+JSON Output Schema:
+{
+ &quot;Name&quot;: &quot;RQ25-20143031&quot;, 
+ &quot;NameContractor&quot;: &quot;GS Construction Co., Ltd.&quot;,
+ &quot;EffectiveDate&quot;: &quot;2025-03-25&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;2025-04-01&quot;,
+ &quot;EffectiveToDate&quot;: &quot;2026-04-01&quot;,
+ &quot;TotalSumInsured&quot;: 6440422600000.00,
+ &quot;PremiumAmount&quot;: 2384634530.00,
+ &quot;CurrencyVal&quot;: &quot;WON&quot;,
+ &quot;Facility_lk&quot;: &quot;Head Office and Field Sites&quot;,
+ &quot;participants&quot;: [
+ {
+  &quot;ParticipantName&quot;: &quot;KB Insurance&quot;,
+  &quot;IsPolicyholder&quot;: true,
+  &quot;BeneficiarySharePercentage&quot;: 60
+ },
+ {
+  &quot;ParticipantName&quot;: &quot;Samsung Fire &amp; Marine&quot;,
+  &quot;IsPolicyholder&quot;: false,
+  &quot;BeneficiarySharePercentage&quot;: 40
+ }
+ ],
+ &quot;assets&quot;: [
+ {
+  &quot;AssetName&quot;: &quot;Group 1 - Executives&quot;,
+  &quot;AssetLocation&quot;: &quot;Seoul Jongno-gu Cheongjin-dong&quot;,
+  &quot;HeadCount&quot;: 45,
+  &quot;JobClass&quot;: &quot;Grade 1 (Office)&quot;
+ },
+ {
+  &quot;AssetName&quot;: &quot;Group 2 - Site Workers&quot;,
+  &quot;AssetLocation&quot;: &quot;Seoul Jongno-gu Cheongjin-dong&quot;,
+  &quot;HeadCount&quot;: 1200,
+  &quot;JobClass&quot;: &quot;Grade 2 (Field)&quot;
+ }
+ ],
+ &quot;productClauses&quot;: [
+ {
+  &quot;Name&quot;: &quot;24 Hour Coverage&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;Traffic Accident Extension&quot;,
+  &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+  &quot;Name&quot;: &quot;Medical Expense 4th Gen&quot;,
+  &quot;Details&quot;: &quot;Applied | Deductible 20%/30%&quot;
+ }
+ ],
+ &quot;coverages&quot;: [
+ {
+  &quot;CategoryGroup&quot;: &quot;I. General Injury&quot;,
+  &quot;CoverageSumInsured&quot;: 5000000000.00, 
+  &quot;SectionSumInsured&quot;: 5000000000.00,
+  &quot;CoveragePremiumAmount&quot;: 15000000.00, 
+  &quot;SectionPremiumAmount&quot;: 15000000.00, 
+  &quot;CoverageDeductibleAmount&quot;: 0.00,
+  &quot;Description&quot;: &quot;Injury Death &amp; Disability Coverage for Executives&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;Group 1 - Executives&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Accidental Death&quot;,
+   &quot;Risk_Type&quot;: &quot;Fixed Benefit&quot;,
+   &quot;Risk_Details&quot;: &quot;Payout upon accidental death&quot;,
+   &quot;Risk_Insured_Amount&quot;: 100000000.00, 
+   &quot;Risk_Premium_Amount&quot;: 50000.00,
+   &quot;Risk_Deductible&quot;: 0.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;I. General Injury&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Fixed Benefit&quot;,
+   &quot;PerPersonLimit&quot;: 100000000.00
+  },
+  {
+   &quot;Risk_Name&quot;: &quot;General Injury Disability&quot;,
+   &quot;Risk_Type&quot;: &quot;Fixed Benefit&quot;,
+   &quot;Risk_Details&quot;: &quot;3%~100% Disability&quot;,
+   &quot;Risk_Insured_Amount&quot;: 100000000.00,
+   &quot;Risk_Premium_Amount&quot;: 30000.00,
+   &quot;Risk_Deductible&quot;: 0.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;I. General Injury&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Fixed Benefit&quot;,
+   &quot;PerPersonLimit&quot;: 100000000.00
+  }
+  ]
+ },
+ {
+  &quot;CategoryGroup&quot;: &quot;III. Medical Expenses&quot;,
+  &quot;CoverageSumInsured&quot;: 30000000.00,
+  &quot;SectionSumInsured&quot;: 30000000.00,
+  &quot;CoveragePremiumAmount&quot;: 20000000.00,
+  &quot;SectionPremiumAmount&quot;: 20000000.00,
+  &quot;CoverageDeductibleAmount&quot;: 0.00,
+  &quot;Description&quot;: &quot;Silson Medical Coverage for Executives&quot;, 
+  &quot;LinkedAssetName&quot;: &quot;Group 1 - Executives&quot;,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;Injury Inpatient (National Health)&quot;,
+   &quot;Risk_Type&quot;: &quot;Indemnity&quot;,
+   &quot;Risk_Details&quot;: &quot;80% Coverage&quot;,
+   &quot;Risk_Insured_Amount&quot;: 30000000.00,
+   &quot;Risk_Premium_Amount&quot;: 100000.00,
+   &quot;Risk_Deductible&quot;: 0.00,
+   &quot;Risk_Rate&quot;: 0.00,  
+   &quot;Category_Group&quot;: &quot;III. Medical Expenses&quot;,
+   &quot;Category_Group_Type&quot;: &quot;Indemnity&quot;,
+   &quot;PerPersonLimit&quot;: 30000000.00
+  }
+  ]
+ }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_2</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Group Personal Accident Insurance Data Analysis and Extraction Specialist. Analyze the input insurance policy text (Group Accident/Health Insurance) and extract structured data to create Salesforce records. Your task is to process the attached commercial insurance application and return the data as a single, valid JSON object.
+
+Input Text: Attached PDF
+
+INSTRUCTIONS:
+1. Extract All Key Information from the &apos;ContExtract All Key Information from the &apos;Contract Essentials&apos;, &apos;Premium Details&apos;, &apos;Insured Group Details&apos;, and &apos;Coverage Details&apos; tables.
+2. Strict JSON Format: The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory, descriptive, or concluding text.
+3. Data Cleansing: Remove ALL currency symbols (WON, KRW) and commas (,) from from numeric values (e.g., &quot;1,072,950&quot; becomes 1072950.00).
+4. Date Formatting: Dates must be returned inDate Formatting: Dates must be returned in &apos;YYYY-MM-DD&apos; format.
+5. Handling Missing Data: If a number is explicitly non-numeric or missing, return the value as 0.
+6. Asset Mapping: In Group Insurance, an &quot;Asset&quot; represents an &quot;Insured Group&quot; (e.g., &quot;Group 1 - Executives&quot;, &quot;Group 2 - Office Workers&quot;).
+7. Section Classification (Adapted for Group Insurance):
+Section I (Injury): Accidental Death, DisaSection I (Injury): Accidental Death, Disability, Injury Daily Indemnity.
+Section II (Disease): Disease Death, Diagnosis (Cancer, AMI, Stroke).
+Section III (Medical): Real Loss Medical Expenses (Silson), Hospitalization.
+Section IV (Special): Traffic Injury, SpecSection IV (Special): Traffic Injury, Special Activities, etc.
+
+Task: Extract data for the following objects and map them to the JSON structure provided below:
+1. InsurancePolicy: Basic policy info (PolicyInsurancePolicy: Basic policy info (Policy No, Dates, Totals, TotalSumInsured).
+2. InsurancePolicyParticipant: Parties involved (Co-Insurance company).
+3. InsurancePolicyAsset: Map &quot;Insured Groups&quot; here. (e.g., Name: &quot;Group 1&quot;, Location: &quot;Head Office Address&quot;). Added HeadCount and JobClass.
+4. InsurancePolicyProductClause: Special clauses or warranties mentioned.
+5. InsurancePolicyCoverage: High-level coverage groupings linked to each &quot;Asset&quot; (Insured Group).
+6. InsurancePolicyCoverageLineitem: Specific benefits under each group (e.g., Injury Death, Cancer Diagnosis, Medical Expense).
+Rules:
+Dates: Format as YYYY-MM-DD.
+Numbers: Remove commas and currency symbols.
+Links: For &quot;LinkedAssetName&quot; in Coverages, use the exact name of the Group listed in the &quot;assets&quot; array (e.g., &quot;Group 1 - Executives&quot;) so the system can link them.
+Premiums: If the document lists a &quot;Group Total Premium&quot;, assign it to SectionPremiumAmount. If it lists individual premiums, sum them up.
+
+JSON Output Schema:
+{
+ &quot;Name&quot;: &quot;RQ25-20143031&quot;, 
+ &quot;NameContractor&quot;: &quot;GS Construction Co., Ltd.&quot;,
+ &quot;EffectiveDate&quot;: &quot;2025-03-25&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;2025-04-01&quot;,
+ &quot;EffectiveToDate&quot;: &quot;2026-04-01&quot;,
+ &quot;TotalSumInsured&quot;: 6440422600000.00,
+ &quot;PremiumAmount&quot;: 2384634530.00,
+ &quot;CurrencyVal&quot;: &quot;WON&quot;,
+ &quot;Facility_lk&quot;: &quot;Head Office and Field Sites&quot;,
+ &quot;participants&quot;: [
+ {
+ &quot;ParticipantName&quot;: &quot;KB Insurance&quot;,
+ &quot;IsPolicyholder&quot;: true,
+ &quot;BeneficiarySharePercentage&quot;: 60
+ },
+ {
+ &quot;ParticipantName&quot;: &quot;Samsung Fire &amp; Marine&quot;,
+ &quot;IsPolicyholder&quot;: false,
+ &quot;BeneficiarySharePercentage&quot;: 40
+ }
+ ],
+ &quot;assets&quot;: [
+ {
+ &quot;AssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;AssetLocation&quot;: &quot;Seoul Jongno-gu Cheongjin-dong&quot;,
+ &quot;HeadCount&quot;: 45,
+ &quot;JobClass&quot;: &quot;Grade 1 (Office)&quot;
+ },
+ {
+ &quot;AssetName&quot;: &quot;Group 2 - Site Workers&quot;,
+ &quot;AssetLocation&quot;: &quot;Seoul Jongno-gu Cheongjin-dong&quot;,
+ &quot;HeadCount&quot;: 1200,
+ &quot;JobClass&quot;: &quot;Grade 2 (Field)&quot;
+ }
+ ],
+ &quot;productClauses&quot;: [
+ {
+ &quot;Name&quot;: &quot;24 Hour Coverage&quot;,
+ &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+ &quot;Name&quot;: &quot;Traffic Accident Extension&quot;,
+ &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+ &quot;Name&quot;: &quot;Medical Expense 4th Gen&quot;,
+ &quot;Details&quot;: &quot;Applied | Deductible 20%/30%&quot;
+ }
+ ],
+ &quot;coverages&quot;: [
+ {
+ &quot;CategoryGroup&quot;: &quot;I. General Injury&quot;,
+ &quot;CoverageSumInsured&quot;: 5000000000.00, 
+ &quot;SectionSumInsured&quot;: 5000000000.00,
+ &quot;CoveragePremiumAmount&quot;: 15000000.00, 
+ &quot;SectionPremiumAmount&quot;: 15000000.00, 
+ &quot;CoverageDeductibleAmount&quot;: 0.00,
+ &quot;Description&quot;: &quot;Injury Death &amp; Disability Coverage for Executives&quot;, 
+ &quot;LinkedAssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;coverageLineItems&quot;: [
+ {
+  &quot;Risk_Name&quot;: &quot;Accidental Death&quot;,
+  &quot;Risk_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;Risk_Details&quot;: &quot;Payout upon accidental death&quot;,
+  &quot;Risk_Insured_Amount&quot;: 100000000.00, 
+  &quot;Risk_Premium_Amount&quot;: 50000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;I. General Injury&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;PerPersonLimit&quot;: 100000000.00
+ },
+ {
+  &quot;Risk_Name&quot;: &quot;General Injury Disability&quot;,
+  &quot;Risk_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;Risk_Details&quot;: &quot;3%~100% Disability&quot;,
+  &quot;Risk_Insured_Amount&quot;: 100000000.00,
+  &quot;Risk_Premium_Amount&quot;: 30000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;I. General Injury&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;PerPersonLimit&quot;: 100000000.00
+ }
+ ]
+ },
+ {
+ &quot;CategoryGroup&quot;: &quot;III. Medical Expenses&quot;,
+ &quot;CoverageSumInsured&quot;: 30000000.00,
+ &quot;SectionSumInsured&quot;: 30000000.00,
+ &quot;CoveragePremiumAmount&quot;: 20000000.00,
+ &quot;SectionPremiumAmount&quot;: 20000000.00,
+ &quot;CoverageDeductibleAmount&quot;: 0.00,
+ &quot;Description&quot;: &quot;Silson Medical Coverage for Executives&quot;, 
+ &quot;LinkedAssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;coverageLineItems&quot;: [
+ {
+  &quot;Risk_Name&quot;: &quot;Injury Inpatient (National Health)&quot;,
+  &quot;Risk_Type&quot;: &quot;Indemnity&quot;,
+  &quot;Risk_Details&quot;: &quot;80% Coverage&quot;,
+  &quot;Risk_Insured_Amount&quot;: 30000000.00,
+  &quot;Risk_Premium_Amount&quot;: 100000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;III. Medical Expenses&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Indemnity&quot;,
+  &quot;PerPersonLimit&quot;: 30000000.00
+ }
+ ]
+ }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_3</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Group Personal Accident Insurance Data Analysis and Extraction Specialist. Analyze the input insurance policy text (Group Accident/Health Insurance) and extract structured data to create Salesforce records. Your task is to process the attached commercial insurance application and return the data as a single, valid JSON object.
+
+Input Text: Attached PDF
+
+INSTRUCTIONS:
+1. Extract All Key Information from the &apos;ContExtract All Key Information from the &apos;Contract Essentials&apos;, &apos;Premium Details&apos;, &apos;Insured Group Details&apos;, and &apos;Coverage Details&apos; tables.
+2. Strict JSON Format: The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory, descriptive, or concluding text.
+3. Data Cleansing: Remove ALL currency symbols (WON, KRW) and commas (,) from from numeric values (e.g., &quot;1,072,950&quot; becomes 1072950.00).
+4. Date Formatting: Dates must be returned inDate Formatting: Dates must be returned in &apos;YYYY-MM-DD&apos; format.
+5. Handling Missing Data: If a number is explicitly non-numeric or missing, return the value as 0.
+6. Asset Mapping: In Group Insurance, an &quot;Asset&quot; represents an &quot;Insured Group&quot; (e.g., &quot;Group 1 - Executives&quot;, &quot;Group 2 - Office Workers&quot;).
+7. Section Classification (Adapted for Group Insurance):
+Section I (Injury): Accidental Death, DisaSection I (Injury): Accidental Death, Disability, Injury Daily Indemnity.
+Section II (Disease): Disease Death, Diagnosis (Cancer, AMI, Stroke).
+Section III (Medical): Real Loss Medical Expenses (Silson), Hospitalization.
+Section IV (Special): Traffic Injury, SpecSection IV (Special): Traffic Injury, Special Activities, etc.
+
+Task: Extract data for the following objects and map them to the JSON structure provided below:
+1. InsurancePolicy: Basic policy info (PolicyInsurancePolicy: Basic policy info (Policy No, Dates, Totals, TotalSumInsured).
+2. InsurancePolicyParticipant: Parties involved (Co-Insurance company).
+3. InsurancePolicyAsset: Map &quot;Insured Groups&quot; here. (e.g., Name: &quot;Group 1&quot;, Location: &quot;Head Office Address&quot;). Added HeadCount and JobClass.
+4. InsurancePolicyProductClause: Special clauses or warranties mentioned.
+5. InsurancePolicyCoverage: High-level coverage groupings linked to each &quot;Asset&quot; (Insured Group).
+6. InsurancePolicyCoverageLineitem: Specific benefits under each group (e.g., Injury Death, Cancer Diagnosis, Medical Expense).
+Rules:
+Dates: Format as YYYY-MM-DD.
+Numbers: Remove commas and currency symbols.
+Links: For &quot;LinkedAssetName&quot; in Coverages, use the exact name of the Group listed in the &quot;assets&quot; array (e.g., &quot;Group 1 - Executives&quot;) so the system can link them.
+Premiums: If the document lists a &quot;Group Total Premium&quot;, assign it to SectionPremiumAmount. If it lists individual premiums, sum them up.
+
+JSON Output Schema:
+{
+ &quot;Name&quot;: &quot;RQ25-20143031&quot;, 
+ &quot;NameContractor&quot;: &quot;GS Construction Co., Ltd.&quot;,
+ &quot;EffectiveDate&quot;: &quot;2025-03-25&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;2025-04-01&quot;,
+ &quot;EffectiveToDate&quot;: &quot;2026-04-01&quot;,
+ &quot;TotalSumInsured&quot;: 6440422600000.00,
+ &quot;PremiumAmount&quot;: 2384634530.00,
+ &quot;CurrencyVal&quot;: &quot;WON&quot;,
+ &quot;Facility_lk&quot;: &quot;Head Office and Field Sites&quot;,
+ &quot;participants&quot;: [
+ {
+ &quot;ParticipantName&quot;: &quot;KB Insurance&quot;,
+ &quot;IsPolicyholder&quot;: true,
+ &quot;BeneficiarySharePercentage&quot;: 60
+ },
+ {
+ &quot;ParticipantName&quot;: &quot;Samsung Fire &amp; Marine&quot;,
+ &quot;IsPolicyholder&quot;: false,
+ &quot;BeneficiarySharePercentage&quot;: 40
+ }
+ ],
+ &quot;assets&quot;: [
+ {
+ &quot;AssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;AssetLocation&quot;: &quot;Seoul Jongno-gu Cheongjin-dong&quot;,
+ &quot;HeadCount&quot;: 45,
+ &quot;JobClass&quot;: &quot;Grade 1 (Office)&quot;
+ },
+ {
+ &quot;AssetName&quot;: &quot;Group 2 - Site Workers&quot;,
+ &quot;AssetLocation&quot;: &quot;Seoul Jongno-gu Cheongjin-dong&quot;,
+ &quot;HeadCount&quot;: 1200,
+ &quot;JobClass&quot;: &quot;Grade 2 (Field)&quot;
+ }
+ ],
+ &quot;productClauses&quot;: [
+ {
+ &quot;Name&quot;: &quot;24 Hour Coverage&quot;,
+ &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+ &quot;Name&quot;: &quot;Traffic Accident Extension&quot;,
+ &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+ &quot;Name&quot;: &quot;Medical Expense 4th Gen&quot;,
+ &quot;Details&quot;: &quot;Applied | Deductible 20%/30%&quot;
+ }
+ ],
+ &quot;coverages&quot;: [
+ {
+ &quot;CategoryGroup&quot;: &quot;I. General Injury&quot;,
+ &quot;CoverageSumInsured&quot;: 5000000000.00, 
+ &quot;SectionSumInsured&quot;: 5000000000.00,
+ &quot;CoveragePremiumAmount&quot;: 15000000.00, 
+ &quot;SectionPremiumAmount&quot;: 15000000.00, 
+ &quot;CoverageDeductibleAmount&quot;: 0.00,
+ &quot;Description&quot;: &quot;Injury Death &amp; Disability Coverage for Executives&quot;, 
+ &quot;LinkedAssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;coverageLineItems&quot;: [
+ {
+  &quot;Risk_Name&quot;: &quot;Accidental Death&quot;,
+  &quot;Risk_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;Risk_Details&quot;: &quot;Payout upon accidental death&quot;,
+  &quot;Risk_Insured_Amount&quot;: 100000000.00, 
+  &quot;Risk_Premium_Amount&quot;: 50000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;I. General Injury&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;PerPersonLimit&quot;: 100000000.00
+ },
+ {
+  &quot;Risk_Name&quot;: &quot;General Injury Disability&quot;,
+  &quot;Risk_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;Risk_Details&quot;: &quot;3%~100% Disability&quot;,
+  &quot;Risk_Insured_Amount&quot;: 100000000.00,
+  &quot;Risk_Premium_Amount&quot;: 30000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;I. General Injury&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;PerPersonLimit&quot;: 100000000.00
+ }
+ ]
+ },
+ {
+ &quot;CategoryGroup&quot;: &quot;III. Medical Expenses&quot;,
+ &quot;CoverageSumInsured&quot;: 30000000.00,
+ &quot;SectionSumInsured&quot;: 30000000.00,
+ &quot;CoveragePremiumAmount&quot;: 20000000.00,
+ &quot;SectionPremiumAmount&quot;: 20000000.00,
+ &quot;CoverageDeductibleAmount&quot;: 0.00,
+ &quot;Description&quot;: &quot;Silson Medical Coverage for Executives&quot;, 
+ &quot;LinkedAssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;coverageLineItems&quot;: [
+ {
+  &quot;Risk_Name&quot;: &quot;Injury Inpatient (National Health)&quot;,
+  &quot;Risk_Type&quot;: &quot;Indemnity&quot;,
+  &quot;Risk_Details&quot;: &quot;80% Coverage&quot;,
+  &quot;Risk_Insured_Amount&quot;: 30000000.00,
+  &quot;Risk_Premium_Amount&quot;: 100000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;III. Medical Expenses&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Indemnity&quot;,
+  &quot;PerPersonLimit&quot;: 30000000.00
+ }
+ ]
+ }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_4</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Group Personal Accident Insurance Data Analysis and Extraction Specialist. 
+Analyze the input insurance policy text (Group Accident/Health Insurance) and extract structured data to create Salesforce records. 
+Your task is to process the attached commercial insurance application and return the data as a single, valid JSON object.
+
+Input Text: Attached PDF 
+
+INSTRUCTIONS:
+1. Extract the text exactly as written without any translation or language modification.
+2. Extract All Key Information from the &apos;ContExtract All Key Information from the &apos;Contract Essentials&apos;, &apos;Premium Details&apos;, &apos;Insured Group Details&apos;, and &apos;Coverage Details&apos; tables.
+3. Strict JSON Format: The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory, descriptive, or concluding text.
+4. Data Cleansing: Remove ALL currency symbols (WON, KRW) and commas (,) from from numeric values (e.g., &quot;1,072,950&quot; becomes 1072950.00).
+5. Date Formatting: Dates must be returned inDate Formatting: Dates must be returned in &apos;YYYY-MM-DD&apos; format.
+6. Handling Missing Data: If a number is explicitly non-numeric or missing, return the value as 0.
+7. Asset Mapping: In Group Insurance, an &quot;Asset&quot; represents an &quot;Insured Group&quot; (e.g., &quot;Group 1 - Executives&quot;, &quot;Group 2 - Office Workers&quot;).
+8. Section Classification (Adapted for Group Insurance):
+Section I (Injury): Accidental Death, DisaSection I (Injury): Accidental Death, Disability, Injury Daily Indemnity.
+Section II (Disease): Disease Death, Diagnosis (Cancer, AMI, Stroke).
+Section III (Medical): Real Loss Medical Expenses (Silson), Hospitalization.
+Section IV (Special): Traffic Injury, SpecSection IV (Special): Traffic Injury, Special Activities, etc.
+
+Task: Extract data for the following objects and map them to the JSON structure provided below:
+1. InsurancePolicy: Basic policy info (PolicyInsurancePolicy: Basic policy info (Policy No, Dates, Totals, TotalSumInsured).
+2. InsurancePolicyParticipant: Parties involved (Co-Insurance company).
+3. InsurancePolicyAsset: Map &quot;Insured Groups&quot; here. (e.g., Name: &quot;Group 1&quot;, Location: &quot;Head Office Address&quot;). Added HeadCount and JobClass.
+4. InsurancePolicyProductClause: General Terms &amp; Conditions and additionally Special clauses or warranties mentioned.
+5. InsurancePolicyCoverage: High-level coverage groupings linked to each &quot;Asset&quot; (Insured Group).
+6. InsurancePolicyCoverageLineitem: Specific benefits under each group (e.g., Injury Death, Cancer Diagnosis, Medical Expense).
+Rules:
+Dates: Format as YYYY-MM-DD.
+Numbers: Remove commas and currency symbols.
+Links: For &quot;LinkedAssetName&quot; in Coverages, use the exact name of the Group listed in the &quot;assets&quot; array (e.g., &quot;Group 1 - Executives&quot;) so the system can link them.
+Premiums: If the document lists a &quot;Group Total Premium&quot;, assign it to SectionPremiumAmount. If it lists individual premiums, sum them up.
+
+JSON Output Schema:
+{
+ &quot;Name&quot;: &quot;RQ25-20143031&quot;, 
+ &quot;NameContractor&quot;: &quot;GS Construction Co., Ltd.&quot;,
+ &quot;EffectiveDate&quot;: &quot;2025-03-25&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;2025-04-01&quot;,
+ &quot;EffectiveToDate&quot;: &quot;2026-04-01&quot;,
+ &quot;TotalSumInsured&quot;: 6440422600000.00,
+ &quot;PremiumAmount&quot;: 2384634530.00,
+ &quot;CurrencyVal&quot;: &quot;WON&quot;,
+ &quot;Facility_lk&quot;: &quot;Head Office and Field Sites&quot;,
+ &quot;participants&quot;: [
+ {
+ &quot;ParticipantName&quot;: &quot;KB Insurance&quot;,
+ &quot;IsPolicyholder&quot;: true,
+ &quot;BeneficiarySharePercentage&quot;: 60
+ },
+ {
+ &quot;ParticipantName&quot;: &quot;Samsung Fire &amp; Marine&quot;,
+ &quot;IsPolicyholder&quot;: false,
+ &quot;BeneficiarySharePercentage&quot;: 40
+ }
+ ],
+ &quot;assets&quot;: [
+ {
+ &quot;AssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;AssetLocation&quot;: &quot;Seoul Jongno-gu Cheongjin-dong&quot;,
+ &quot;HeadCount&quot;: 45,
+ &quot;JobClass&quot;: &quot;Grade 1 (Office)&quot;
+ },
+ {
+ &quot;AssetName&quot;: &quot;Group 2 - Site Workers&quot;,
+ &quot;AssetLocation&quot;: &quot;Seoul Jongno-gu Cheongjin-dong&quot;,
+ &quot;HeadCount&quot;: 1200,
+ &quot;JobClass&quot;: &quot;Grade 2 (Field)&quot;
+ }
+ ],
+ &quot;productClauses&quot;: [
+ {
+ &quot;Name&quot;: &quot;24 Hour Coverage&quot;,
+ &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+ &quot;Name&quot;: &quot;Traffic Accident Extension&quot;,
+ &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+ &quot;Name&quot;: &quot;Medical Expense 4th Gen&quot;,
+ &quot;Details&quot;: &quot;Applied | Deductible 20%/30%&quot;
+ }
+ ],
+ &quot;coverages&quot;: [
+ {
+ &quot;CategoryGroup&quot;: &quot;I. General Injury&quot;,
+ &quot;CoverageSumInsured&quot;: 5000000000.00, 
+ &quot;SectionSumInsured&quot;: 5000000000.00,
+ &quot;CoveragePremiumAmount&quot;: 15000000.00, 
+ &quot;SectionPremiumAmount&quot;: 15000000.00, 
+ &quot;CoverageDeductibleAmount&quot;: 0.00,
+ &quot;Description&quot;: &quot;Injury Death &amp; Disability Coverage for Executives&quot;, 
+ &quot;LinkedAssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;coverageLineItems&quot;: [
+ {
+  &quot;Risk_Name&quot;: &quot;Accidental Death&quot;,
+  &quot;Risk_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;Risk_Details&quot;: &quot;Payout upon accidental death&quot;,
+  &quot;Risk_Insured_Amount&quot;: 100000000.00, 
+  &quot;Risk_Premium_Amount&quot;: 50000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;I. General Injury&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;PerPersonLimit&quot;: 100000000.00
+ },
+ {
+  &quot;Risk_Name&quot;: &quot;General Injury Disability&quot;,
+  &quot;Risk_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;Risk_Details&quot;: &quot;3%~100% Disability&quot;,
+  &quot;Risk_Insured_Amount&quot;: 100000000.00,
+  &quot;Risk_Premium_Amount&quot;: 30000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;I. General Injury&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;PerPersonLimit&quot;: 100000000.00
+ }
+ ]
+ },
+ {
+ &quot;CategoryGroup&quot;: &quot;III. Medical Expenses&quot;,
+ &quot;CoverageSumInsured&quot;: 30000000.00,
+ &quot;SectionSumInsured&quot;: 30000000.00,
+ &quot;CoveragePremiumAmount&quot;: 20000000.00,
+ &quot;SectionPremiumAmount&quot;: 20000000.00,
+ &quot;CoverageDeductibleAmount&quot;: 0.00,
+ &quot;Description&quot;: &quot;Silson Medical Coverage for Executives&quot;, 
+ &quot;LinkedAssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;coverageLineItems&quot;: [
+ {
+  &quot;Risk_Name&quot;: &quot;Injury Inpatient (National Health)&quot;,
+  &quot;Risk_Type&quot;: &quot;Indemnity&quot;,
+  &quot;Risk_Details&quot;: &quot;80% Coverage&quot;,
+  &quot;Risk_Insured_Amount&quot;: 30000000.00,
+  &quot;Risk_Premium_Amount&quot;: 100000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;III. Medical Expenses&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Indemnity&quot;,
+  &quot;PerPersonLimit&quot;: 30000000.00
+ }
+ ]
+ }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Draft</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_5</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Group Personal Accident Insurance Data Analysis and Extraction Specialist. Analyze the input insurance policy text (Group Accident/Health Insurance) and extract structured data to create Salesforce records. Your task is to process the attached commercial insurance application and return the data as a single, valid JSON object.
+
+Input Text: Attached PDF
+
+INSTRUCTIONS:
+1. Extract All Key Information from the &apos;ContExtract All Key Information from the &apos;Contract Essentials&apos;, &apos;Premium Details&apos;, &apos;Insured Group Details&apos;, and &apos;Coverage Details&apos; tables.
+2. Strict JSON Format: The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory, descriptive, or concluding text.
+3. Data Cleansing: Remove ALL currency symbols (WON, KRW) and commas (,) from from numeric values (e.g., &quot;1,072,950&quot; becomes 1072950.00).
+4. Date Formatting: Dates must be returned inDate Formatting: Dates must be returned in &apos;YYYY-MM-DD&apos; format.
+5. Handling Missing Data: If a number is explicitly non-numeric or missing, return the value as 0.
+6. Asset Mapping: In Group Insurance, an &quot;Asset&quot; represents an &quot;Insured Group&quot; (e.g., &quot;Group 1 - Executives&quot;, &quot;Group 2 - Office Workers&quot;).
+7. Section Classification (Adapted for Group Insurance):
+Section I (Injury): Accidental Death, DisaSection I (Injury): Accidental Death, Disability, Injury Daily Indemnity.
+Section II (Disease): Disease Death, Diagnosis (Cancer, AMI, Stroke).
+Section III (Medical): Real Loss Medical Expenses (Silson), Hospitalization.
+Section IV (Special): Traffic Injury, SpecSection IV (Special): Traffic Injury, Special Activities, etc.
+
+Task: Extract data for the following objects and map them to the JSON structure provided below:
+1. InsurancePolicy: Basic policy info (PolicyInsurancePolicy: Basic policy info (Policy No, Dates, Totals, TotalSumInsured).
+2. InsurancePolicyParticipant: Parties involved (Co-Insurance company).
+3. InsurancePolicyAsset: Map &quot;Insured Groups&quot; here. (e.g., Name: &quot;Group 1&quot;, Location: &quot;Head Office Address&quot;). Added HeadCount and JobClass.
+4. InsurancePolicyProductClause: General Terms and Conditions
+  (1) The categories are consisted that
+    - General Terms and Conditions
+    - PAR or Property All Risks (Section 1) 
+    - MB or Machinery Breakdown (Section 2) 
+    - BI or Business Interruption (Section 3-1) 
+    - MLOP or Machinery Loss of Profits (Section 3-2) 
+    - GL or General Liability (Section 4) 
+    with Special Clauses for each section
+  (2) The root key of the JSON should be &quot;productClauses&quot;
+  (3) Note that the items in each category span two consecutive pages.
+  (4) Please scan both consecutive pages and merge the information separated by each section into one continuous list without omission.
+  (5) For each clause or item found in the document, use the following keys:
+     &quot;Name&quot;: The title of the clause or provision (e.g., &quot;72 Hours Clause&quot;, &quot;Deductible&quot;, &quot;Limit of Liability&quot;).
+     &quot;Section&quot;: Include Name of the categories
+     &quot;Details&quot;: Include specific limits (e.g., KRW 3,000,000,000), time excesses (e.g., 10 days), sub-limits, and any other relevant conditions or descriptions.
+  (6) Those might be written in English or/and Korean.
+5. InsurancePolicyCoverage: High-level coverage groupings linked to each &quot;Asset&quot; (Insured Group).
+6. InsurancePolicyCoverageLineitem: Specific benefits under each group (e.g., Injury Death, Cancer Diagnosis, Medical Expense).
+Rules:
+Dates: Format as YYYY-MM-DD.
+Numbers: Remove commas and currency symbols.
+Links: For &quot;LinkedAssetName&quot; in Coverages, use the exact name of the Group listed in the &quot;assets&quot; array (e.g., &quot;Group 1 - Executives&quot;) so the system can link them.
+Premiums: If the document lists a &quot;Group Total Premium&quot;, assign it to SectionPremiumAmount. If it lists individual premiums, sum them up.
+
+JSON Output Schema:
+{
+ &quot;Name&quot;: &quot;RQ25-20143031&quot;, 
+ &quot;NameContractor&quot;: &quot;GS Construction Co., Ltd.&quot;,
+ &quot;EffectiveDate&quot;: &quot;2025-03-25&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;2025-04-01&quot;,
+ &quot;EffectiveToDate&quot;: &quot;2026-04-01&quot;,
+ &quot;TotalSumInsured&quot;: 6440422600000.00,
+ &quot;PremiumAmount&quot;: 2384634530.00,
+ &quot;CurrencyVal&quot;: &quot;WON&quot;,
+ &quot;Facility_lk&quot;: &quot;Head Office and Field Sites&quot;,
+ &quot;participants&quot;: [
+ {
+ &quot;ParticipantName&quot;: &quot;KB Insurance&quot;,
+ &quot;IsPolicyholder&quot;: true,
+ &quot;BeneficiarySharePercentage&quot;: 60
+ },
+ {
+ &quot;ParticipantName&quot;: &quot;Samsung Fire &amp; Marine&quot;,
+ &quot;IsPolicyholder&quot;: false,
+ &quot;BeneficiarySharePercentage&quot;: 40
+ }
+ ],
+ &quot;assets&quot;: [
+ {
+ &quot;AssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;AssetLocation&quot;: &quot;Seoul Jongno-gu Cheongjin-dong&quot;,
+ &quot;HeadCount&quot;: 45,
+ &quot;JobClass&quot;: &quot;Grade 1 (Office)&quot;
+ },
+ {
+ &quot;AssetName&quot;: &quot;Group 2 - Site Workers&quot;,
+ &quot;AssetLocation&quot;: &quot;Seoul Jongno-gu Cheongjin-dong&quot;,
+ &quot;HeadCount&quot;: 1200,
+ &quot;JobClass&quot;: &quot;Grade 2 (Field)&quot;
+ }
+ ],
+ &quot;productClauses&quot;: [
+ {
+ &quot;Name&quot;: &quot;24 Hour Coverage&quot;,
+ &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+ &quot;Name&quot;: &quot;Traffic Accident Extension&quot;,
+ &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+ &quot;Name&quot;: &quot;Medical Expense 4th Gen&quot;,
+ &quot;Details&quot;: &quot;Applied | Deductible 20%/30%&quot;
+ }
+ ],
+ &quot;coverages&quot;: [
+ {
+ &quot;CategoryGroup&quot;: &quot;I. General Injury&quot;,
+ &quot;CoverageSumInsured&quot;: 5000000000.00, 
+ &quot;SectionSumInsured&quot;: 5000000000.00,
+ &quot;CoveragePremiumAmount&quot;: 15000000.00, 
+ &quot;SectionPremiumAmount&quot;: 15000000.00, 
+ &quot;CoverageDeductibleAmount&quot;: 0.00,
+ &quot;Description&quot;: &quot;Injury Death &amp; Disability Coverage for Executives&quot;, 
+ &quot;LinkedAssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;coverageLineItems&quot;: [
+ {
+  &quot;Risk_Name&quot;: &quot;Accidental Death&quot;,
+  &quot;Risk_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;Risk_Details&quot;: &quot;Payout upon accidental death&quot;,
+  &quot;Risk_Insured_Amount&quot;: 100000000.00, 
+  &quot;Risk_Premium_Amount&quot;: 50000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;I. General Injury&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;PerPersonLimit&quot;: 100000000.00
+ },
+ {
+  &quot;Risk_Name&quot;: &quot;General Injury Disability&quot;,
+  &quot;Risk_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;Risk_Details&quot;: &quot;3%~100% Disability&quot;,
+  &quot;Risk_Insured_Amount&quot;: 100000000.00,
+  &quot;Risk_Premium_Amount&quot;: 30000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;I. General Injury&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;PerPersonLimit&quot;: 100000000.00
+ }
+ ]
+ },
+ {
+ &quot;CategoryGroup&quot;: &quot;III. Medical Expenses&quot;,
+ &quot;CoverageSumInsured&quot;: 30000000.00,
+ &quot;SectionSumInsured&quot;: 30000000.00,
+ &quot;CoveragePremiumAmount&quot;: 20000000.00,
+ &quot;SectionPremiumAmount&quot;: 20000000.00,
+ &quot;CoverageDeductibleAmount&quot;: 0.00,
+ &quot;Description&quot;: &quot;Silson Medical Coverage for Executives&quot;, 
+ &quot;LinkedAssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;coverageLineItems&quot;: [
+ {
+  &quot;Risk_Name&quot;: &quot;Injury Inpatient (National Health)&quot;,
+  &quot;Risk_Type&quot;: &quot;Indemnity&quot;,
+  &quot;Risk_Details&quot;: &quot;80% Coverage&quot;,
+  &quot;Risk_Insured_Amount&quot;: 30000000.00,
+  &quot;Risk_Premium_Amount&quot;: 100000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;III. Medical Expenses&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Indemnity&quot;,
+  &quot;PerPersonLimit&quot;: 30000000.00
+ }
+ ]
+ }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_6</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Group Personal Accident Insurance Data Analysis and Extraction Specialist. Analyze the input insurance policy text (Group Accident/Health Insurance) and extract structured data to create Salesforce records. Your task is to process the attached commercial insurance application and return the data as a single, valid JSON object.
+
+Input Text: Attached PDF
+
+INSTRUCTIONS:
+1. Extract All Key Information from the &apos;ContExtract All Key Information from the &apos;Contract Essentials&apos;, &apos;Premium Details&apos;, &apos;Insured Group Details&apos;, and &apos;Coverage Details&apos; tables.
+2. Strict JSON Format: The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory, descriptive, or concluding text.
+3. Data Cleansing: Remove ALL currency symbols (WON, KRW) and commas (,) from from numeric values (e.g., &quot;1,072,950&quot; becomes 1072950.00).
+4. Date Formatting: Dates must be returned inDate Formatting: Dates must be returned in &apos;YYYY-MM-DD&apos; format.
+5. Handling Missing Data: If a number is explicitly non-numeric or missing, return the value as 0.
+6. Asset Mapping: In Group Insurance, an &quot;Asset&quot; represents an &quot;Insured Group&quot; (e.g., &quot;Group 1 - Executives&quot;, &quot;Group 2 - Office Workers&quot;).
+7. Section Classification (Adapted for Group Insurance):
+Section I (Injury): Accidental Death, DisaSection I (Injury): Accidental Death, Disability, Injury Daily Indemnity.
+Section II (Disease): Disease Death, Diagnosis (Cancer, AMI, Stroke).
+Section III (Medical): Real Loss Medical Expenses (Silson), Hospitalization.
+Section IV (Special): Traffic Injury, SpecSection IV (Special): Traffic Injury, Special Activities, etc.
+
+Task: Extract data for the following objects and map them to the JSON structure provided below:
+1. InsurancePolicy: Basic policy info (PolicyInsurancePolicy: Basic policy info (Policy No, Dates, Totals, TotalSumInsured).
+2. InsurancePolicyParticipant: Parties involved (Co-Insurance company).
+3. InsurancePolicyAsset: Map &quot;Insured Groups&quot; here. (e.g., Name: &quot;Group 1&quot;, Location: &quot;Head Office Address&quot;). Added HeadCount and JobClass.
+4. InsurancePolicyProductClause: 
+Please perform a targeted extraction of general terms, conditions, and regulatory clauses from the attached document. 
+Follow these instructions strictly:
+    [1] Scope of Extraction: Focus on the following sections and extract the standard clauses verbatim:
+        *  &apos;Key Information for Group Insurance&apos; : All clauses regarding &apos;Eligibility of the Insured&apos; and &apos;Procedures for Changing the Insured.&apos;   
+            * &apos;Premium Settlement Rider Agreement&apos; 
+            * &apos;Duty of Disclosure Before Contracting&apos;: General principles regarding the consequences of failing to disclose important information. 
+            * &apos;Consumer Protection Confirmation&apos; : Standard selling principles and duty of disclosure for solicitors.
+    [2] Formatting: Present the extracted text clearly, organized by the section titles mentioned above. Ensure that the legal terminology remains intact to preserve the original meaning of the conditions.&quot;
+  (2) The root key of the JSON should be &quot;productClauses&quot;
+  (3) Note that the items in each category span two consecutive pages.
+  (4) Please scan both consecutive pages and merge the information separated by each section into one continuous list without omission.
+  (5) For each clause or item found in the document, use the following keys:
+     &quot;Name&quot;: The title of the clause or provision (e.g., &quot;72 Hours Clause&quot;, &quot;Deductible&quot;, &quot;Limit of Liability&quot;).
+     &quot;Section&quot;: Include Name of the categories
+     &quot;Details&quot;: Include specific limits (e.g., KRW 3,000,000,000), time excesses (e.g., 10 days), sub-limits, and any other relevant conditions or descriptions.
+  (6) Those might be written in English or/and Korean.
+5. InsurancePolicyCoverage: High-level coverage groupings linked to each &quot;Asset&quot; (Insured Group).
+6. InsurancePolicyCoverageLineitem: Specific benefits under each group (e.g., Injury Death, Cancer Diagnosis, Medical Expense).
+Rules:
+Dates: Format as YYYY-MM-DD.
+Numbers: Remove commas and currency symbols.
+Links: For &quot;LinkedAssetName&quot; in Coverages, use the exact name of the Group listed in the &quot;assets&quot; array (e.g., &quot;Group 1 - Executives&quot;) so the system can link them.
+Premiums: If the document lists a &quot;Group Total Premium&quot;, assign it to SectionPremiumAmount. If it lists individual premiums, sum them up.
+
+JSON Output Schema:
+{
+ &quot;Name&quot;: &quot;RQ25-20143031&quot;, 
+ &quot;NameContractor&quot;: &quot;GS Construction Co., Ltd.&quot;,
+ &quot;EffectiveDate&quot;: &quot;2025-03-25&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;2025-04-01&quot;,
+ &quot;EffectiveToDate&quot;: &quot;2026-04-01&quot;,
+ &quot;TotalSumInsured&quot;: 6440422600000.00,
+ &quot;PremiumAmount&quot;: 2384634530.00,
+ &quot;CurrencyVal&quot;: &quot;WON&quot;,
+ &quot;Facility_lk&quot;: &quot;Head Office and Field Sites&quot;,
+ &quot;participants&quot;: [
+ {
+ &quot;ParticipantName&quot;: &quot;KB Insurance&quot;,
+ &quot;IsPolicyholder&quot;: true,
+ &quot;BeneficiarySharePercentage&quot;: 60
+ },
+ {
+ &quot;ParticipantName&quot;: &quot;Samsung Fire &amp; Marine&quot;,
+ &quot;IsPolicyholder&quot;: false,
+ &quot;BeneficiarySharePercentage&quot;: 40
+ }
+ ],
+ &quot;assets&quot;: [
+ {
+ &quot;AssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;AssetLocation&quot;: &quot;Seoul Jongno-gu Cheongjin-dong&quot;,
+ &quot;HeadCount&quot;: 45,
+ &quot;JobClass&quot;: &quot;Grade 1 (Office)&quot;
+ },
+ {
+ &quot;AssetName&quot;: &quot;Group 2 - Site Workers&quot;,
+ &quot;AssetLocation&quot;: &quot;Seoul Jongno-gu Cheongjin-dong&quot;,
+ &quot;HeadCount&quot;: 1200,
+ &quot;JobClass&quot;: &quot;Grade 2 (Field)&quot;
+ }
+ ],
+ &quot;productClauses&quot;: [
+ {
+ &quot;Name&quot;: &quot;24 Hour Coverage&quot;,
+ &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+ &quot;Name&quot;: &quot;Traffic Accident Extension&quot;,
+ &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+ &quot;Name&quot;: &quot;Medical Expense 4th Gen&quot;,
+ &quot;Details&quot;: &quot;Applied | Deductible 20%/30%&quot;
+ }
+ ],
+ &quot;coverages&quot;: [
+ {
+ &quot;CategoryGroup&quot;: &quot;I. General Injury&quot;,
+ &quot;CoverageSumInsured&quot;: 5000000000.00, 
+ &quot;SectionSumInsured&quot;: 5000000000.00,
+ &quot;CoveragePremiumAmount&quot;: 15000000.00, 
+ &quot;SectionPremiumAmount&quot;: 15000000.00, 
+ &quot;CoverageDeductibleAmount&quot;: 0.00,
+ &quot;Description&quot;: &quot;Injury Death &amp; Disability Coverage for Executives&quot;, 
+ &quot;LinkedAssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;coverageLineItems&quot;: [
+ {
+  &quot;Risk_Name&quot;: &quot;Accidental Death&quot;,
+  &quot;Risk_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;Risk_Details&quot;: &quot;Payout upon accidental death&quot;,
+  &quot;Risk_Insured_Amount&quot;: 100000000.00, 
+  &quot;Risk_Premium_Amount&quot;: 50000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;I. General Injury&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;PerPersonLimit&quot;: 100000000.00
+ },
+ {
+  &quot;Risk_Name&quot;: &quot;General Injury Disability&quot;,
+  &quot;Risk_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;Risk_Details&quot;: &quot;3%~100% Disability&quot;,
+  &quot;Risk_Insured_Amount&quot;: 100000000.00,
+  &quot;Risk_Premium_Amount&quot;: 30000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;I. General Injury&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;PerPersonLimit&quot;: 100000000.00
+ }
+ ]
+ },
+ {
+ &quot;CategoryGroup&quot;: &quot;III. Medical Expenses&quot;,
+ &quot;CoverageSumInsured&quot;: 30000000.00,
+ &quot;SectionSumInsured&quot;: 30000000.00,
+ &quot;CoveragePremiumAmount&quot;: 20000000.00,
+ &quot;SectionPremiumAmount&quot;: 20000000.00,
+ &quot;CoverageDeductibleAmount&quot;: 0.00,
+ &quot;Description&quot;: &quot;Silson Medical Coverage for Executives&quot;, 
+ &quot;LinkedAssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;coverageLineItems&quot;: [
+ {
+  &quot;Risk_Name&quot;: &quot;Injury Inpatient (National Health)&quot;,
+  &quot;Risk_Type&quot;: &quot;Indemnity&quot;,
+  &quot;Risk_Details&quot;: &quot;80% Coverage&quot;,
+  &quot;Risk_Insured_Amount&quot;: 30000000.00,
+  &quot;Risk_Premium_Amount&quot;: 100000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;III. Medical Expenses&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Indemnity&quot;,
+  &quot;PerPersonLimit&quot;: 30000000.00
+ }
+ ]
+ }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_7</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Group Personal Accident Insurance Data Analysis and Extraction Specialist. Analyze the input insurance policy text (Group Accident/Health Insurance) and extract structured data to create Salesforce records. Your task is to process the attached commercial insurance application and return the data as a single, valid JSON object.
+
+Input Text: Attached PDF
+
+INSTRUCTIONS:
+1. Extract All Key Information from the &apos;ContExtract All Key Information from the &apos;Contract Essentials&apos;, &apos;Premium Details&apos;, &apos;Insured Group Details&apos;, and &apos;Coverage Details&apos; tables.
+2. Strict JSON Format: The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory, descriptive, or concluding text.
+3. Data Cleansing: Remove ALL currency symbols (WON, KRW) and commas (,) from from numeric values (e.g., &quot;1,072,950&quot; becomes 1072950.00).
+4. Date Formatting: Dates must be returned inDate Formatting: Dates must be returned in &apos;YYYY-MM-DD&apos; format.
+5. Handling Missing Data: If a number is explicitly non-numeric or missing, return the value as 0.
+6. Asset Mapping: In Group Insurance, an &quot;Asset&quot; represents an &quot;Insured Group&quot; (e.g., &quot;Group 1 - Executives&quot;, &quot;Group 2 - Office Workers&quot;).
+7. Section Classification (Adapted for Group Insurance):
+Section I (Injury): Accidental Death, DisaSection I (Injury): Accidental Death, Disability, Injury Daily Indemnity.
+Section II (Disease): Disease Death, Diagnosis (Cancer, AMI, Stroke).
+Section III (Medical): Real Loss Medical Expenses (Silson), Hospitalization.
+Section IV (Special): Traffic Injury, SpecSection IV (Special): Traffic Injury, Special Activities, etc.
+
+Task: Extract data for the following objects and map them to the JSON structure provided below:
+1. InsurancePolicy: Basic policy info (PolicyInsurancePolicy: Basic policy info (Policy No, Dates, Totals, TotalSumInsured).
+2. InsurancePolicyParticipant: Parties involved (Co-Insurance company).
+3. InsurancePolicyAsset: Map &quot;Insured Groups&quot; here. (e.g., Name: &quot;Group 1&quot;, Location: &quot;Head Office Address&quot;). Added HeadCount and JobClass.
+4. InsurancePolicyProductClause: 
+Please perform a targeted extraction of general terms, conditions, and regulatory clauses from the attached document. 
+Follow these instructions strictly:
+    [1] Scope of Extraction: Focus on the following sections and extract the standard clauses verbatim:
+        *  &apos;Key Information for Group Insurance&apos; : All clauses regarding &apos;Eligibility of the Insured&apos; and &apos;Procedures for Changing the Insured.&apos;   
+            * &apos;Premium Settlement Rider Agreement&apos; 
+            * &apos;Duty of Disclosure Before Contracting&apos;: General principles regarding the consequences of failing to disclose important information. 
+            * &apos;Consumer Protection Confirmation&apos; : Standard selling principles and duty of disclosure for solicitors.
+    [2] Formatting: Present the extracted text clearly, organized by the section titles mentioned above. Ensure that the legal terminology remains intact to preserve the original meaning of the conditions.&quot;
+  (2) The root key of the JSON should be &quot;productClauses&quot;
+  (3) Note that the items in each category span two consecutive pages.
+  (4) Please scan both consecutive pages and merge the information separated by each section into one continuous list without omission.
+  (5) For each clause or item found in the document, use the following keys:
+     &quot;Name&quot;: The title of the clause or provision (e.g., &quot;72 Hours Clause&quot;, &quot;Deductible&quot;, &quot;Limit of Liability&quot;).
+     &quot;Section&quot;: Include Name of the categories
+     &quot;Details&quot;: Include specific limits (e.g., KRW 3,000,000,000), time excesses (e.g., 10 days), sub-limits, and any other relevant conditions or descriptions.
+  (6) Those might be written in English or/and Korean.
+5. InsurancePolicyCoverage: High-level coverage groupings linked to each &quot;Asset&quot; (Insured Group).
+6. InsurancePolicyCoverageLineitem: Specific benefits under each group (e.g., Injury Death, Cancer Diagnosis, Medical Expense).
+
+Rules:
+Language : Please extract the text in its original language exactly as it appears in the document. Do not translate the content.
+Dates: Format as YYYY-MM-DD.
+Numbers: Remove commas and currency symbols.
+Links: For &quot;LinkedAssetName&quot; in Coverages, use the exact name of the Group listed in the &quot;assets&quot; array (e.g., &quot;Group 1 - Executives&quot;) so the system can link them.
+Premiums: If the document lists a &quot;Group Total Premium&quot;, assign it to SectionPremiumAmount. If it lists individual premiums, sum them up.
+
+JSON Output Schema:
+{
+ &quot;Name&quot;: &quot;RQ25-20143031&quot;, 
+ &quot;NameContractor&quot;: &quot;GS Construction Co., Ltd.&quot;,
+ &quot;EffectiveDate&quot;: &quot;2025-03-25&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;2025-04-01&quot;,
+ &quot;EffectiveToDate&quot;: &quot;2026-04-01&quot;,
+ &quot;TotalSumInsured&quot;: 6440422600000.00,
+ &quot;PremiumAmount&quot;: 2384634530.00,
+ &quot;CurrencyVal&quot;: &quot;WON&quot;,
+ &quot;Facility_lk&quot;: &quot;Head Office and Field Sites&quot;,
+ &quot;participants&quot;: [
+ {
+ &quot;ParticipantName&quot;: &quot;KB Insurance&quot;,
+ &quot;IsPolicyholder&quot;: true,
+ &quot;BeneficiarySharePercentage&quot;: 60
+ },
+ {
+ &quot;ParticipantName&quot;: &quot;Samsung Fire &amp; Marine&quot;,
+ &quot;IsPolicyholder&quot;: false,
+ &quot;BeneficiarySharePercentage&quot;: 40
+ }
+ ],
+ &quot;assets&quot;: [
+ {
+ &quot;AssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;AssetLocation&quot;: &quot;Seoul Jongno-gu Cheongjin-dong&quot;,
+ &quot;HeadCount&quot;: 45,
+ &quot;JobClass&quot;: &quot;Grade 1 (Office)&quot;
+ },
+ {
+ &quot;AssetName&quot;: &quot;Group 2 - Site Workers&quot;,
+ &quot;AssetLocation&quot;: &quot;Seoul Jongno-gu Cheongjin-dong&quot;,
+ &quot;HeadCount&quot;: 1200,
+ &quot;JobClass&quot;: &quot;Grade 2 (Field)&quot;
+ }
+ ],
+ &quot;productClauses&quot;: [
+ {
+ &quot;Name&quot;: &quot;24 Hour Coverage&quot;,
+ &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+ &quot;Name&quot;: &quot;Traffic Accident Extension&quot;,
+ &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+ &quot;Name&quot;: &quot;Medical Expense 4th Gen&quot;,
+ &quot;Details&quot;: &quot;Applied | Deductible 20%/30%&quot;
+ }
+ ],
+ &quot;coverages&quot;: [
+ {
+ &quot;CategoryGroup&quot;: &quot;I. General Injury&quot;,
+ &quot;CoverageSumInsured&quot;: 5000000000.00, 
+ &quot;SectionSumInsured&quot;: 5000000000.00,
+ &quot;CoveragePremiumAmount&quot;: 15000000.00, 
+ &quot;SectionPremiumAmount&quot;: 15000000.00, 
+ &quot;CoverageDeductibleAmount&quot;: 0.00,
+ &quot;Description&quot;: &quot;Injury Death &amp; Disability Coverage for Executives&quot;, 
+ &quot;LinkedAssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;coverageLineItems&quot;: [
+ {
+  &quot;Risk_Name&quot;: &quot;Accidental Death&quot;,
+  &quot;Risk_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;Risk_Details&quot;: &quot;Payout upon accidental death&quot;,
+  &quot;Risk_Insured_Amount&quot;: 100000000.00, 
+  &quot;Risk_Premium_Amount&quot;: 50000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;I. General Injury&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;PerPersonLimit&quot;: 100000000.00
+ },
+ {
+  &quot;Risk_Name&quot;: &quot;General Injury Disability&quot;,
+  &quot;Risk_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;Risk_Details&quot;: &quot;3%~100% Disability&quot;,
+  &quot;Risk_Insured_Amount&quot;: 100000000.00,
+  &quot;Risk_Premium_Amount&quot;: 30000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;I. General Injury&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;PerPersonLimit&quot;: 100000000.00
+ }
+ ]
+ },
+ {
+ &quot;CategoryGroup&quot;: &quot;III. Medical Expenses&quot;,
+ &quot;CoverageSumInsured&quot;: 30000000.00,
+ &quot;SectionSumInsured&quot;: 30000000.00,
+ &quot;CoveragePremiumAmount&quot;: 20000000.00,
+ &quot;SectionPremiumAmount&quot;: 20000000.00,
+ &quot;CoverageDeductibleAmount&quot;: 0.00,
+ &quot;Description&quot;: &quot;Silson Medical Coverage for Executives&quot;, 
+ &quot;LinkedAssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;coverageLineItems&quot;: [
+ {
+  &quot;Risk_Name&quot;: &quot;Injury Inpatient (National Health)&quot;,
+  &quot;Risk_Type&quot;: &quot;Indemnity&quot;,
+  &quot;Risk_Details&quot;: &quot;80% Coverage&quot;,
+  &quot;Risk_Insured_Amount&quot;: 30000000.00,
+  &quot;Risk_Premium_Amount&quot;: 100000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;III. Medical Expenses&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Indemnity&quot;,
+  &quot;PerPersonLimit&quot;: 30000000.00
+ }
+ ]
+ }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_8</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Group Personal Accident Insurance Data Analysis and Extraction Specialist. Analyze the input insurance policy text (Group Accident/Health Insurance) and extract structured data to create Salesforce records. Your task is to process the attached commercial insurance application and return the data as a single, valid JSON object.
+
+Input Text: Attached PDF
+
+INSTRUCTIONS:
+1. Extract All Key Information from the &apos;ContExtract All Key Information from the &apos;Contract Essentials&apos;, &apos;Premium Details&apos;, &apos;Insured Group Details&apos;, and &apos;Coverage Details&apos; tables.
+2. Strict JSON Format: The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory, descriptive, or concluding text.
+3. Data Cleansing: Remove ALL currency symbols (WON, KRW) and commas (,) from from numeric values (e.g., &quot;1,072,950&quot; becomes 1072950.00).
+4. Date Formatting: Dates must be returned inDate Formatting: Dates must be returned in &apos;YYYY-MM-DD&apos; format.
+5. Handling Missing Data: If a number is explicitly non-numeric or missing, return the value as 0.
+6. Asset Mapping: In Group Insurance, an &quot;Asset&quot; represents an &quot;Insured Group&quot; (e.g., &quot;Group 1 - Executives&quot;, &quot;Group 2 - Office Workers&quot;).
+7. Section Classification (Adapted for Group Insurance):
+Section I (Injury): Accidental Death, DisaSection I (Injury): Accidental Death, Disability, Injury Daily Indemnity.
+Section II (Disease): Disease Death, Diagnosis (Cancer, AMI, Stroke).
+Section III (Medical): Real Loss Medical Expenses (Silson), Hospitalization.
+Section IV (Special): Traffic Injury, SpecSection IV (Special): Traffic Injury, Special Activities, etc.
+
+TASKS: 
+Extract data for the following objects and map them to the JSON structure provided below in its original language exactly as written :
+1. InsurancePolicy: Basic policy info (PolicyInsurancePolicy: Basic policy info (Policy No, Dates, Totals, TotalSumInsured).
+2. InsurancePolicyParticipant: Parties involved (Co-Insurance company).
+3. InsurancePolicyAsset: Map &quot;Insured Groups&quot; here. (e.g., Name: &quot;Group 1&quot;, Location: &quot;Head Office Address&quot;). Added HeadCount and JobClass.
+4. InsurancePolicyProductClause: 
+Please perform a targeted extraction of general terms, conditions, and regulatory clauses from the attached document. 
+Follow these instructions strictly:
+    [1] Scope of Extraction: Focus on the following sections and extract the standard clauses verbatim:
+        *  &apos;Key Information for Group Insurance&apos; : All clauses regarding &apos;Eligibility of the Insured&apos; and &apos;Procedures for Changing the Insured.&apos;   
+            * &apos;Premium Settlement Rider Agreement&apos; 
+            * &apos;Duty of Disclosure Before Contracting&apos;: General principles regarding the consequences of failing to disclose important information. 
+            * &apos;Consumer Protection Confirmation&apos; : Standard selling principles and duty of disclosure for solicitors.
+    [2] Formatting: Present the extracted text clearly, organized by the section titles mentioned above. Ensure that the legal terminology remains intact to preserve the original meaning of the conditions.&quot;
+  (2) The root key of the JSON should be &quot;productClauses&quot;
+  (3) Note that the items in each category span two consecutive pages.
+  (4) Please scan both consecutive pages and merge the information separated by each section into one continuous list without omission.
+  (5) For each clause or item found in the document, use the following keys:
+     &quot;Name&quot;: The title of the clause or provision (e.g., &quot;72 Hours Clause&quot;, &quot;Deductible&quot;, &quot;Limit of Liability&quot;).
+     &quot;Section&quot;: Include Name of the categories
+     &quot;Details&quot;: Include specific limits (e.g., KRW 3,000,000,000), time excesses (e.g., 10 days), sub-limits, and any other relevant conditions or descriptions.
+  (6) Those might be written in English or/and Korean.
+5. InsurancePolicyCoverage: High-level coverage groupings linked to each &quot;Asset&quot; (Insured Group).
+6. InsurancePolicyCoverageLineitem: Specific benefits under each group (e.g., Injury Death, Cancer Diagnosis, Medical Expense).
+
+RULES:
+Dates: Format as YYYY-MM-DD.
+Numbers: Remove commas and currency symbols.
+Links: For &quot;LinkedAssetName&quot; in Coverages, use the exact name of the Group listed in the &quot;assets&quot; array (e.g., &quot;Group 1 - Executives&quot;) so the system can link them.
+Premiums: If the document lists a &quot;Group Total Premium&quot;, assign it to SectionPremiumAmount. If it lists individual premiums, sum them up.
+
+JSON Output Schema:
+{
+ &quot;Name&quot;: &quot;RQ25-20143031&quot;, 
+ &quot;NameContractor&quot;: &quot;GS Construction Co., Ltd.&quot;,
+ &quot;EffectiveDate&quot;: &quot;2025-03-25&quot;,
+ &quot;EffectiveFromDate&quot;: &quot;2025-04-01&quot;,
+ &quot;EffectiveToDate&quot;: &quot;2026-04-01&quot;,
+ &quot;TotalSumInsured&quot;: 6440422600000.00,
+ &quot;PremiumAmount&quot;: 2384634530.00,
+ &quot;CurrencyVal&quot;: &quot;WON&quot;,
+ &quot;Facility_lk&quot;: &quot;Head Office and Field Sites&quot;,
+ &quot;participants&quot;: [
+ {
+ &quot;ParticipantName&quot;: &quot;KB Insurance&quot;,
+ &quot;IsPolicyholder&quot;: true,
+ &quot;BeneficiarySharePercentage&quot;: 60
+ },
+ {
+ &quot;ParticipantName&quot;: &quot;Samsung Fire &amp; Marine&quot;,
+ &quot;IsPolicyholder&quot;: false,
+ &quot;BeneficiarySharePercentage&quot;: 40
+ }
+ ],
+ &quot;assets&quot;: [
+ {
+ &quot;AssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;AssetLocation&quot;: &quot;Seoul Jongno-gu Cheongjin-dong&quot;,
+ &quot;HeadCount&quot;: 45,
+ &quot;JobClass&quot;: &quot;Grade 1 (Office)&quot;
+ },
+ {
+ &quot;AssetName&quot;: &quot;Group 2 - Site Workers&quot;,
+ &quot;AssetLocation&quot;: &quot;Seoul Jongno-gu Cheongjin-dong&quot;,
+ &quot;HeadCount&quot;: 1200,
+ &quot;JobClass&quot;: &quot;Grade 2 (Field)&quot;
+ }
+ ],
+ &quot;productClauses&quot;: [
+ {
+ &quot;Name&quot;: &quot;24 Hour Coverage&quot;,
+ &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+ &quot;Name&quot;: &quot;Traffic Accident Extension&quot;,
+ &quot;Details&quot;: &quot;Applied&quot;
+ },
+ {
+ &quot;Name&quot;: &quot;Medical Expense 4th Gen&quot;,
+ &quot;Details&quot;: &quot;Applied | Deductible 20%/30%&quot;
+ }
+ ],
+ &quot;coverages&quot;: [
+ {
+ &quot;CategoryGroup&quot;: &quot;I. General Injury&quot;,
+ &quot;CoverageSumInsured&quot;: 5000000000.00, 
+ &quot;SectionSumInsured&quot;: 5000000000.00,
+ &quot;CoveragePremiumAmount&quot;: 15000000.00, 
+ &quot;SectionPremiumAmount&quot;: 15000000.00, 
+ &quot;CoverageDeductibleAmount&quot;: 0.00,
+ &quot;Description&quot;: &quot;Injury Death &amp; Disability Coverage for Executives&quot;, 
+ &quot;LinkedAssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;coverageLineItems&quot;: [
+ {
+  &quot;Risk_Name&quot;: &quot;Accidental Death&quot;,
+  &quot;Risk_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;Risk_Details&quot;: &quot;Payout upon accidental death&quot;,
+  &quot;Risk_Insured_Amount&quot;: 100000000.00, 
+  &quot;Risk_Premium_Amount&quot;: 50000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;I. General Injury&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;PerPersonLimit&quot;: 100000000.00
+ },
+ {
+  &quot;Risk_Name&quot;: &quot;General Injury Disability&quot;,
+  &quot;Risk_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;Risk_Details&quot;: &quot;3%~100% Disability&quot;,
+  &quot;Risk_Insured_Amount&quot;: 100000000.00,
+  &quot;Risk_Premium_Amount&quot;: 30000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;I. General Injury&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Fixed Benefit&quot;,
+  &quot;PerPersonLimit&quot;: 100000000.00
+ }
+ ]
+ },
+ {
+ &quot;CategoryGroup&quot;: &quot;III. Medical Expenses&quot;,
+ &quot;CoverageSumInsured&quot;: 30000000.00,
+ &quot;SectionSumInsured&quot;: 30000000.00,
+ &quot;CoveragePremiumAmount&quot;: 20000000.00,
+ &quot;SectionPremiumAmount&quot;: 20000000.00,
+ &quot;CoverageDeductibleAmount&quot;: 0.00,
+ &quot;Description&quot;: &quot;Silson Medical Coverage for Executives&quot;, 
+ &quot;LinkedAssetName&quot;: &quot;Group 1 - Executives&quot;,
+ &quot;coverageLineItems&quot;: [
+ {
+  &quot;Risk_Name&quot;: &quot;Injury Inpatient (National Health)&quot;,
+  &quot;Risk_Type&quot;: &quot;Indemnity&quot;,
+  &quot;Risk_Details&quot;: &quot;80% Coverage&quot;,
+  &quot;Risk_Insured_Amount&quot;: 30000000.00,
+  &quot;Risk_Premium_Amount&quot;: 100000.00,
+  &quot;Risk_Deductible&quot;: 0.00,
+  &quot;Risk_Rate&quot;: 0.00,  
+  &quot;Category_Group&quot;: &quot;III. Medical Expenses&quot;,
+  &quot;Category_Group_Type&quot;: &quot;Indemnity&quot;,
+  &quot;PerPersonLimit&quot;: 30000000.00
+ }
+ ]
+ }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_9</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Group Insurance (단체보험) Data Analysis and Extraction Specialist. Analyze the input insurance policy text and extract structured data to create Salesforce records.
+Your task is to process the attached group insurance coverage table and return the data as a single, valid JSON object.
+
+**Input Text:**
+
+
+INSTRUCTIONS:
+1. **Extract All Key Information** from the coverage tables, grouping them by Insured Group (e.g., 그룹 1, 그룹 2) and Insurance Carrier (e.g., 현대해상, KB손보, 한화생명, 교보생명).
+2. **Strict JSON Format:** The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory, descriptive, or concluding text.
+3. **Data Cleansing:** Remove ALL currency symbols (WON, KRW) and commas (,) from numeric values (e.g., &quot;126,000,000&quot; becomes 126000000.00).
+4. **Handling Missing Data:** If a number is explicitly empty, non-numeric, or marked as unavailable (e.g., &quot;=&quot;, &quot; &quot;, null), return the value as 0.00.
+5. **Section Classification:** Organize the coverage items (보장항목) strictly under their respective Insured Group (그룹) and Insurance Company (보험사).
+
+**Task:**
+Extract data for the following objects and map them to the JSON structure provided below:
+1. **InsurancePolicy:** Basic policy info (Total Premium, Total Commission).
+2. **InsurancePolicyParticipant:** Insurance companies involved (e.g., 현대해상, KB손보, 한화생명, 교보생명).
+3. **InsurancePolicyGroup:** Groups of insured employees (e.g., 그룹 1, 그룹 2).
+4. **InsurancePolicyCoverage:** High-level coverage details and totals per Group and per Carrier (Premium, Commission Rate, Commission).
+5. **InsurancePolicyCoverageLineitem:** Specific risk details (보장항목, e.g., 상해사망, 암사망) and insured amounts (가입금액).
+
+**Rules:**
+* **Numbers:** Remove commas and convert to decimal format (e.g., 126000000.00).
+* **Links:** For &quot;LinkedGroupName&quot; and &quot;LinkedParticipantName&quot; in Coverages, use the exact names listed in the &quot;groups&quot; and &quot;participants&quot; arrays so the system can link them properly.
+
+**JSON Output:**
+{
+ &quot;Name&quot;: &quot;Salesforce 단체보험계약&quot;,
+ &quot;CurrencyVal&quot;: &quot;KRW&quot;,
+ &quot;participants&quot;: [
+ {
+ &quot;ParticipantName&quot;: &quot;현대해상&quot;,
+ &quot;Role&quot;: &quot;Carrier&quot;
+ },
+ {
+ &quot;ParticipantName&quot;: &quot;KB손보&quot;,
+ &quot;Role&quot;: &quot;Carrier&quot;
+ },
+ {
+ &quot;ParticipantName&quot;: &quot;한화생명&quot;,
+ &quot;Role&quot;: &quot;Carrier&quot;
+ },
+ {
+ &quot;ParticipantName&quot;: &quot;교보생명&quot;,
+ &quot;Role&quot;: &quot;Carrier&quot;
+ }
+ ],
+ &quot;groups&quot;: [
+ {
+ &quot;GroupName&quot;: &quot;그룹 1&quot;
+ },
+ {
+ &quot;GroupName&quot;: &quot;그룹 2&quot;
+ }
+ ],
+ &quot;coverages&quot;: [
+ {
+ &quot;LinkedGroupName&quot;: &quot;그룹 1&quot;,
+ &quot;LinkedParticipantName&quot;: &quot;현대해상&quot;,
+ &quot;CoveragePremiumAmount&quot;: 9.00,
+ &quot;CommissionRate&quot;: 5.00,
+ &quot;CommissionAmount&quot;: 8.00,
+ &quot;coverageLineItems&quot;: [
+ {
+  &quot;Risk_Name&quot;: &quot;상해(재해)사망&quot;,
+  &quot;Risk_Insured_Amount&quot;: 126000000.00
+ },
+ {
+  &quot;Risk_Name&quot;: &quot;상해후유장해&quot;,
+  &quot;Risk_Insured_Amount&quot;: 30000000.00
+ },
+ {
+  &quot;Risk_Name&quot;: &quot;과로사&quot;,
+  &quot;Risk_Insured_Amount&quot;: 50000000.00
+ },
+ {
+  &quot;Risk_Name&quot;: &quot;암사망&quot;,
+  &quot;Risk_Insured_Amount&quot;: 100000000.00
+ }
+ ]
+ },
+ {
+ &quot;LinkedGroupName&quot;: &quot;그룹 1&quot;,
+ &quot;LinkedParticipantName&quot;: &quot;KB손보&quot;,
+ &quot;CoveragePremiumAmount&quot;: 99.00,
+ &quot;CommissionRate&quot;: 3.00,
+ &quot;CommissionAmount&quot;: 88.00,
+ &quot;coverageLineItems&quot;: [
+ {
+  &quot;Risk_Name&quot;: &quot;상해(재해)사망&quot;,
+  &quot;Risk_Insured_Amount&quot;: 20000000.00
+ },
+ {
+  &quot;Risk_Name&quot;: &quot;상해후유장해&quot;,
+  &quot;Risk_Insured_Amount&quot;: 20000000.00
+ }
+ ]
+ }
+ ]
+}
+
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_10</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Group Insurance (단체보험) Data Analysis and Extraction Specialist. Analyze the input insurance policy text and extract structured data to create Salesforce records.
+Your task is to process the attached complex group insurance table (Consortium) and return the data as a single, valid JSON object.
+
+**Input Text:**
+[여기에 텍스트 입력]
+
+**INSTRUCTIONS:**
+1. **Master Policy Extraction:** - Extract &quot;LK Ref No.&quot; and map it to `LKRefNo`.
+  - Extract &quot;비고&quot; (Notes) and map it to `Notes`.
+  - Create a single, unique list of all &quot;보장항목&quot; (Coverage Risks) found in the first column and map it to `MasterCoverageList` (Array of Strings).
+2. **Matrix Mapping (Crucial):** The table has groups (e.g., 그룹 1, 그룹 2) and multiple carriers (현대해상, 한화생명, 교보생명, KB손보) per group. You MUST accurately map the columns to extract:
+  - &quot;증권 번호&quot; (Policy Number) for each carrier.
+  - &quot;모험 기간&quot; or &quot;보험 기간&quot; (Policy Period) for each carrier. **SPLIT this period into two fields: `EffectiveFromDate` (Start Date) and `EffectiveToDate` (End Date). Format them strictly as &quot;YYYY-MM-DD&quot; (e.g., &quot;2026-01-30&quot;).**
+  - &quot;보험료&quot; (Premium), &quot;수수료율&quot; (Commission Rate), and &quot;수수료&quot; (Commission) located at the bottom of the table for each carrier.
+3. **Strict JSON Format:** The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory or concluding text.
+4. **Data Cleansing:** Remove ALL currency symbols (WON, KRW) and commas (,) from numeric values. Convert them to valid JSON numbers (e.g., &quot;126,000,000&quot; becomes 126000000.00).
+5. **Handling Missing Data:** If a number is explicitly empty, non-numeric, or marked as unavailable (e.g., &quot;=&quot;, &quot; &quot;, null), return 0.00.
+
+**JSON Output Schema &amp; Example:**
+{
+ &quot;Name&quot;: &quot;Salesforce 단체보험계약&quot;,
+ &quot;CurrencyVal&quot;: &quot;KRW&quot;,
+ &quot;LKRefNo&quot;: &quot;202603: CXD3 19186&quot;,
+ &quot;Notes&quot;: &quot;테스트 다수그룹 다수 보험사 컨소시엄&quot;,
+ &quot;MasterCoverageList&quot;: [
+  &quot;상해(재해)사망&quot;,
+  &quot;상해후유장해&quot;,
+  &quot;과로사&quot;,
+  &quot;암사망&quot;,
+  &quot;질병사망&quot;
+ ],
+ &quot;participants&quot;: [
+  {
+   &quot;ParticipantName&quot;: &quot;현대해상&quot;,
+   &quot;Role&quot;: &quot;Carrier&quot;
+  },
+  {
+   &quot;ParticipantName&quot;: &quot;KB손보&quot;,
+   &quot;Role&quot;: &quot;Carrier&quot;
+  },
+  {
+   &quot;ParticipantName&quot;: &quot;한화생명&quot;,
+   &quot;Role&quot;: &quot;Carrier&quot;
+  },
+  {
+   &quot;ParticipantName&quot;: &quot;교보생명&quot;,
+   &quot;Role&quot;: &quot;Carrier&quot;
+  }
+ ],
+ &quot;groups&quot;: [
+  {
+   &quot;GroupName&quot;: &quot;그룹 1&quot;
+  },
+  {
+   &quot;GroupName&quot;: &quot;그룹 2&quot;
+  }
+ ],
+ &quot;coverages&quot;: [
+  {
+   &quot;LinkedGroupName&quot;: &quot;그룹 1&quot;,
+   &quot;LinkedParticipantName&quot;: &quot;현대해상&quot;,
+   &quot;PolicyNumber&quot;: &quot;SA534-039048&quot;,
+   &quot;EffectiveFromDate&quot;: &quot;2026-01-30&quot;,
+   &quot;EffectiveToDate&quot;: &quot;2027-01-29&quot;,
+   &quot;CoveragePremiumAmount&quot;: 9.00,
+   &quot;CommissionRate&quot;: 5.00,
+   &quot;CommissionAmount&quot;: 8.00,
+   &quot;coverageLineItems&quot;: [
+    {
+     &quot;Risk_Name&quot;: &quot;상해(재해)사망&quot;,
+     &quot;Risk_Insured_Amount&quot;: 126000000.00
+    },
+    {
+     &quot;Risk_Name&quot;: &quot;상해후유장해&quot;,
+     &quot;Risk_Insured_Amount&quot;: 30000000.00
+    }
+   ]
+  },
+  {
+   &quot;LinkedGroupName&quot;: &quot;그룹 1&quot;,
+   &quot;LinkedParticipantName&quot;: &quot;한화생명&quot;,
+   &quot;PolicyNumber&quot;: &quot;LE-WEL23040&quot;,
+   &quot;EffectiveFromDate&quot;: &quot;2026-04-30&quot;,
+   &quot;EffectiveToDate&quot;: &quot;2027-05-30&quot;,
+   &quot;CoveragePremiumAmount&quot;: 9999.00,
+   &quot;CommissionRate&quot;: 2.00,
+   &quot;CommissionAmount&quot;: 88.00,
+   &quot;coverageLineItems&quot;: [
+    {
+     &quot;Risk_Name&quot;: &quot;상해(재해)사망&quot;,
+     &quot;Risk_Insured_Amount&quot;: 20000000.00
+    }
+   ]
+  }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_11</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Group Insurance (단체보험) Data Analysis and Extraction Specialist. Analyze the input insurance policy text and extract structured data to create Salesforce records.
+Your task is to process the attached complex group insurance table (Consortium) and return the data as a single, valid JSON object.
+
+**Input Text:**
+[여기에 텍스트 입력]
+
+**INSTRUCTIONS:**
+1. **Master Policy Extraction:** - Extract &quot;LK Ref No.&quot; and map it to `LKRefNo`.
+  - Extract &quot;비고&quot; (Notes) and map it to `Notes`.
+  - Create a single, unique list of all &quot;보장항목&quot; (Coverage Risks) found in the first column and map it to `MasterCoverageList` (Array of Strings).
+2. **Matrix Mapping (Crucial):** The table has groups (e.g., 그룹 1, 그룹 2) and multiple carriers (현대해상, 한화생명, 교보생명, KB손보) per group. You MUST accurately map the columns to extract:
+  - &quot;증권 번호&quot; (Policy Number) for each carrier.
+  - &quot;모험 기간&quot; or &quot;보험 기간&quot; (Policy Period) for each carrier. **SPLIT this period into two fields: `EffectiveFromDate` (Start Date) and `EffectiveToDate` (End Date). Format them strictly as &quot;YYYY-MM-DD&quot; (e.g., &quot;2026-01-30&quot;).**
+  - &quot;보험료&quot; (Premium), &quot;수수료율&quot; (Commission Rate), and &quot;수수료&quot; (Commission) located at the bottom of the table for each carrier.
+3. **Strict JSON Format:** The entire output must be ONLY a single JSON object matching the SCHEMA below. Do not add any introductory or concluding text.
+4. **Data Cleansing:** Remove ALL currency symbols (WON, KRW) and commas (,) from numeric values. Convert them to valid JSON numbers (e.g., &quot;126,000,000&quot; becomes 126000000.00).
+5. **Handling Missing Data:** If a number is explicitly empty, non-numeric, or marked as unavailable (e.g., &quot;=&quot;, &quot; &quot;, null), return 0.00.
+
+**JSON Output Schema &amp; Example:**
+{
+ &quot;Name&quot;: &quot;Salesforce 단체보험계약&quot;,
+ &quot;CurrencyVal&quot;: &quot;KRW&quot;,
+ &quot;LKRefNo&quot;: &quot;202603: CXD3 19186&quot;,
+ &quot;Notes&quot;: &quot;테스트 다수그룹 다수 보험사 컨소시엄&quot;,
+ &quot;MasterCoverageList&quot;: [
+ &quot;상해(재해)사망&quot;,
+ &quot;상해후유장해&quot;,
+ &quot;과로사&quot;,
+ &quot;암사망&quot;,
+ &quot;질병사망&quot;
+ ],
+ &quot;participants&quot;: [
+ {
+  &quot;ParticipantName&quot;: &quot;[KR]Hyundai Insurance&quot;,
+  &quot;Role&quot;: &quot;Carrier&quot;
+ },
+ {
+  &quot;ParticipantName&quot;: &quot;[KR]KB Insurance&quot;,
+  &quot;Role&quot;: &quot;Carrier&quot;
+ },
+ {
+  &quot;ParticipantName&quot;: &quot;[KR]Hanwha General Insurance&quot;,
+  &quot;Role&quot;: &quot;Carrier&quot;
+ },
+ {
+  &quot;ParticipantName&quot;: &quot;[KR]Kyobo Life Insurance&quot;,
+  &quot;Role&quot;: &quot;Carrier&quot;
+ }
+ ],
+ &quot;groups&quot;: [
+ {
+  &quot;GroupName&quot;: &quot;그룹 1&quot;
+ },
+ {
+  &quot;GroupName&quot;: &quot;그룹 2&quot;
+ }
+ ],
+ &quot;coverages&quot;: [
+ {
+  &quot;LinkedGroupName&quot;: &quot;그룹 1&quot;,
+  &quot;LinkedParticipantName&quot;: &quot;[KR]Hyundai Insurance&quot;,
+  &quot;PolicyNumber&quot;: &quot;SA534-039048&quot;,
+  &quot;EffectiveFromDate&quot;: &quot;2026-01-30&quot;,
+  &quot;EffectiveToDate&quot;: &quot;2027-01-29&quot;,
+  &quot;CoveragePremiumAmount&quot;: 9.00,
+  &quot;CommissionRate&quot;: 5.00,
+  &quot;CommissionAmount&quot;: 8.00,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;상해(재해)사망&quot;,
+   &quot;Risk_Insured_Amount&quot;: 126000000.00
+  },
+  {
+   &quot;Risk_Name&quot;: &quot;상해후유장해&quot;,
+   &quot;Risk_Insured_Amount&quot;: 30000000.00
+  }
+  ]
+ },
+ {
+  &quot;LinkedGroupName&quot;: &quot;그룹 1&quot;,
+  &quot;LinkedParticipantName&quot;: &quot;[KR]Hanwha General Insurance&quot;,
+  &quot;PolicyNumber&quot;: &quot;LE-WEL23040&quot;,
+  &quot;EffectiveFromDate&quot;: &quot;2026-04-30&quot;,
+  &quot;EffectiveToDate&quot;: &quot;2027-05-30&quot;,
+  &quot;CoveragePremiumAmount&quot;: 9999.00,
+  &quot;CommissionRate&quot;: 2.00,
+  &quot;CommissionAmount&quot;: 88.00,
+  &quot;coverageLineItems&quot;: [
+  {
+   &quot;Risk_Name&quot;: &quot;상해(재해)사망&quot;,
+   &quot;Risk_Insured_Amount&quot;: 20000000.00
+  }
+  ]
+ }
+ ]
+}
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_12</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

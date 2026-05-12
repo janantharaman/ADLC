@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_4</activeVersionIdentifier>
+    <description>CGL_InsurancePolicyExtractionAllFieldsKR for CGL</description>
+    <developerName>CGL_InsurancePolicyExtractionAllFieldsKR</developerName>
+    <masterLabel>CGL_InsurancePolicyExtractionAllFieldsKR</masterLabel>
+    <overridable>false</overridable>
+    <templateVersions>
+        <content>Role: 보험 데이터 추출 전문가 (Insurance Data Extraction Specialist)
+Task: 제공된 &apos;영업배상책임보험(CGL) 및 도급/운영배상책임보험&apos; 문서를 분석하여 주요 데이터를 추출하고, 사용자가 검증 가능한 &apos;텍스트/마크다운 테이블&apos; 형식으로 정리해 주세요.
+Requirements:
+언어: 모든 필드명과 데이터는 &apos;한국어&apos;로 작성해 주세요. (영문 Policy인 경우 내용은 원문 유지 가능)
+다중 통화 처리: 문서에 기재된 통화(KRW, USD 등)를 명확히 표기해 주세요.
+구조: [기본 계약 정보], [담보 소재지/목적물 정보], [담보별 보상한도]로 나누어 정리해 주세요.
+Output Format:
+1. 기본 계약 정보 (Policy Info)
+
+2. 담보 소재지 및 목적물 (Risk Locations)
+문서 내 &apos;목적물 사항&apos;, &apos;소재지&apos;, &apos;Risk 1, 2...&apos; 등으로 구분된 내용을 추출해 주세요.
+
+3. 담보별 보상한도 및 공제금액 (Coverage Limits)
+각 Risk 별 또는 전체 증권의 보상한도를 추출해 주세요.
+
+Instruction: 위 형식을 사용하여 파일의 데이터를 추출해 주세요.
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Reinsurance Slip Data Analysis Specialist. Your goal is to extract data from the input &quot;Reinsurance Closing/Offer Slip&quot; and map it strictly to the fields defined in the provided schema.
+
+**Input Text:**
+{!$RecordSnapshot:ContentDocument.Snapshot}
+
+**INSTRUCTIONS:**
+1. **Field Mapping Logic (Based on Excel Definition):**
+  - **Reinsured:** Extract the Cedant name (e.g., Samsung Fire &amp; Marine, KB Insurance). Look for &quot;From&quot; or headers.
+  - **Insured:** Extract the Project Owner or Main Contractor. Check &quot;The Insured&quot;, &quot;Insured Project&quot;, or &quot;Named Insured&quot;.
+  - **Policy_No:** Extract the Policy Number. If not explicitly present, infer from &quot;Ref No&quot; or leave null.
+  - **Period:** Extract the full duration. Format: &quot;YYYY-MM-DD ~ YYYY-MM-DD&quot;. Remove time (00:01).
+  - **Location:** Extract the Project Site address or Risk Location.
+  - **Total_Sum_Insured:** Extract the total value (TSI). If split by sections, provide the total sum.
+  - **Gross_Prem_100:** Extract the &quot;Gross Premium&quot;, &quot;Total Premium&quot;, or &quot;Gross Layer Prem&quot;.
+  - **RI_Cession_Reins_Percent:** Extract the Cession % or Reinsurance portion if stated.
+  - **RI_Comm_Percent:** Extract &quot;RI Commission&quot;, &quot;R/I Comm&quot;, or &quot;Commission&quot;.
+  - **Terms_and_Conditions:** Extract the list of General Conditions/Clauses (e.g., Munich Re Form, Exclusion of Terrorism).
+  - **Extension_Clauses:** Extract specific Special Clauses or Endorsements (e.g., 72 Hours Clause, MR 001).
+
+2. **Data Cleansing:**
+  - **Currency:** Remove &quot;KRW&quot;, &quot;WON&quot;, &quot;$&quot;, and commas from numeric fields. Return pure numbers for amount fields.
+  - **Dates:** Convert to &apos;YYYY-MM-DD&apos;.
+  - **Nulls:** If a field is not found, return `null`. Do not invent data.
+
+3. **Output Format:**
+  - Return **ONLY** a single valid JSON object.
+  - The JSON keys must match the **Excel Field Names** exactly (spaces replaced by underscores `_`).
+
+**JSON Output Schema:**
+{
+ &quot;Form&quot;: &quot;String | e.g., K.P.I Policy Form or Munich Re Form&quot;,
+ &quot;Reinsured&quot;: &quot;String | Cedant Name&quot;,
+ &quot;Insured&quot;: &quot;String | Main Insured Name&quot;,
+ &quot;Policy_Holder&quot;: &quot;String | If different from Insured&quot;,
+ &quot;Policy_No&quot;: &quot;String&quot;,
+ &quot;Period&quot;: &quot;String | YYYY-MM-DD ~ YYYY-MM-DD&quot;,
+ &quot;Location&quot;: &quot;String | Full Address&quot;,
+ &quot;Territory_Scope&quot;: &quot;String | e.g., Worldwide or Korea&quot;,
+ &quot;Choice_of_Law_and_Jurisdiction&quot;: &quot;String&quot;,
+ &quot;Occupancy_Business&quot;: &quot;String | e.g., Mfg of Semiconductor or Construction Project&quot;,
+ &quot;Covered_Risk&quot;: &quot;String | e.g., Material Damage, TPL&quot;,
+ &quot;Interest&quot;: &quot;String | Detailed subject matter insured&quot;,
+ &quot;Total_Sum_Insured&quot;: &quot;Number | Raw number&quot;,
+ &quot;Gross_Prem_100&quot;: &quot;Number | Raw number&quot;,
+ &quot;Gross_Prem_DP_Applied&quot;: &quot;Number | Deposit Premium if applicable&quot;,
+ &quot;RI_Cession_Reins_Percent&quot;: &quot;Number | e.g., 0.2 for 20%&quot;,
+ &quot;RI_Comm_Percent&quot;: &quot;Number | e.g., 0.2 for 20%&quot;,
+ &quot;Other_Deduction&quot;: &quot;String | Any other fees&quot;,
+ &quot;Limit_of_Liability&quot;: &quot;String | Summary of limits&quot;,
+ &quot;Deductible&quot;: &quot;String | Summary of deductibles&quot;,
+ &quot;Terms_and_Conditions&quot;: &quot;String | List of main terms&quot;,
+ &quot;Extension_Clauses&quot;: &quot;String | List of special extension clauses&quot;,
+ &quot;Loss_Record&quot;: &quot;String | If mentioned&quot;,
+ &quot;Additional_Information&quot;: &quot;String | Any other remarks&quot;
+}
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:ContentDocument.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:ContentDocument</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_2</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Reinsurance Slip Data Analysis Specialist. Your goal is to extract data from the input &quot;Reinsurance Closing/Offer Slip&quot; and map it strictly to the fields defined in the provided schema.
+
+**Input Text:**
+{!$RecordSnapshot:ContentDocument.Snapshot}
+
+**INSTRUCTIONS:**
+1. **Field Mapping Logic (Based on Excel Definition):**
+  - **Reinsured:** Extract the Cedant name (e.g., Samsung Fire &amp; Marine, KB Insurance). Look for &quot;From&quot; or headers.
+  - **Insured:** Extract the Project Owner or Main Contractor. Check &quot;The Insured&quot;, &quot;Insured Project&quot;, or &quot;Named Insured&quot;.
+  - **Policy_No:** Extract the Policy Number. If not explicitly present, infer from &quot;Ref No&quot; or leave null.
+  - **Period:** Extract the full duration. Format: &quot;YYYY-MM-DD ~ YYYY-MM-DD&quot;. Remove time (00:01).
+  - **Location:** Extract the Project Site address or Risk Location.
+  - **Total_Sum_Insured:** Extract the total value (TSI). If split by sections, provide the total sum.
+  - **Gross_Prem_100:** Extract the &quot;Gross Premium&quot;, &quot;Total Premium&quot;, or &quot;Gross Layer Prem&quot;.
+  - **RI_Cession_Reins_Percent:** Extract the Cession % or Reinsurance portion if stated.
+  - **RI_Comm_Percent:** Extract &quot;RI Commission&quot;, &quot;R/I Comm&quot;, or &quot;Commission&quot;.
+  - **Terms_and_Conditions:** Extract the list of General Conditions/Clauses (e.g., Munich Re Form, Exclusion of Terrorism).
+  - **Extension_Clauses:** Extract specific Special Clauses or Endorsements (e.g., 72 Hours Clause, MR 001).
+
+2. **Data Cleansing:**
+  - **Currency:** Remove &quot;KRW&quot;, &quot;WON&quot;, &quot;$&quot;, and commas from numeric fields. Return pure numbers for amount fields.
+  - **Dates:** Convert to &apos;YYYY-MM-DD&apos;.
+  - **Nulls:** If a field is not found, return `null`. Do not invent data.
+
+3. **Output Format:**
+  - Return **ONLY** a single valid JSON object.
+  - The JSON keys must match the **Excel Field Names** exactly (spaces replaced by underscores `_`).
+
+**JSON Output Schema:**
+{
+ &quot;Form&quot;: &quot;String | e.g., K.P.I Policy Form or Munich Re Form&quot;,
+ &quot;Reinsured&quot;: &quot;String | Cedant Name&quot;,
+ &quot;Insured&quot;: &quot;String | Main Insured Name&quot;,
+ &quot;Policy_Holder&quot;: &quot;String | If different from Insured&quot;,
+ &quot;Policy_No&quot;: &quot;String&quot;,
+ &quot;Period&quot;: &quot;String | YYYY-MM-DD ~ YYYY-MM-DD&quot;,
+ &quot;Location&quot;: &quot;String | Full Address&quot;,
+ &quot;Territory_Scope&quot;: &quot;String | e.g., Worldwide or Korea&quot;,
+ &quot;Choice_of_Law_and_Jurisdiction&quot;: &quot;String&quot;,
+ &quot;Occupancy_Business&quot;: &quot;String | e.g., Mfg of Semiconductor or Construction Project&quot;,
+ &quot;Covered_Risk&quot;: &quot;String | e.g., Material Damage, TPL&quot;,
+ &quot;Interest&quot;: &quot;String | Detailed subject matter insured&quot;,
+ &quot;Total_Sum_Insured&quot;: &quot;Number | Raw number&quot;,
+ &quot;Gross_Prem_100&quot;: &quot;Number | Raw number&quot;,
+ &quot;Gross_Prem_DP_Applied&quot;: &quot;Number | Deposit Premium if applicable&quot;,
+ &quot;RI_Cession_Reins_Percent&quot;: &quot;Number | e.g., 0.2 for 20%&quot;,
+ &quot;RI_Comm_Percent&quot;: &quot;Number | e.g., 0.2 for 20%&quot;,
+ &quot;Other_Deduction&quot;: &quot;String | Any other fees&quot;,
+ &quot;Limit_of_Liability&quot;: &quot;String | Summary of limits&quot;,
+ &quot;Deductible&quot;: &quot;String | Summary of deductibles&quot;,
+ &quot;Terms_and_Conditions&quot;: &quot;String | List of main terms&quot;,
+ &quot;Extension_Clauses&quot;: &quot;String | List of special extension clauses&quot;,
+ &quot;Loss_Record&quot;: &quot;String | If mentioned&quot;,
+ &quot;Additional_Information&quot;: &quot;String | Any other remarks&quot;
+}
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:ContentDocument.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:ContentDocument</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_3</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Reinsurance Slip Data Analysis Specialist. Your goal is to extract data from the input &quot;Reinsurance Closing/Offer Slip&quot; and map it strictly to the fields defined in the provided schema.
+
+**Input Text:**
+{!$RecordSnapshot:ContentDocument.Snapshot}
+
+**INSTRUCTIONS:**
+1. **Field Mapping Logic (Based on Excel Definition):**
+  - **Reinsured:** Extract the Cedant name (e.g., Samsung Fire &amp; Marine, KB Insurance). Look for &quot;From&quot; or headers.
+  - **Insured:** Extract the Project Owner or Main Contractor. Check &quot;The Insured&quot;, &quot;Insured Project&quot;, or &quot;Named Insured&quot;.
+  - **Policy_No:** Extract the Policy Number. If not explicitly present, infer from &quot;Ref No&quot; or leave null.
+  - **Period:** Extract the full duration. Format: &quot;YYYY-MM-DD ~ YYYY-MM-DD&quot;. Remove time (00:01).
+  - **Location:** Extract the Project Site address or Risk Location.
+  - **Total_Sum_Insured:** Extract the total value (TSI). If split by sections, provide the total sum.
+  - **Gross_Prem_100:** Extract the &quot;Gross Premium&quot;, &quot;Total Premium&quot;, or &quot;Gross Layer Prem&quot;.
+  - **RI_Cession_Reins_Percent:** Extract the Cession % or Reinsurance portion if stated.
+  - **RI_Comm_Percent:** Extract &quot;RI Commission&quot;, &quot;R/I Comm&quot;, or &quot;Commission&quot;.
+  - **Terms_and_Conditions:** Extract the list of General Conditions/Clauses (e.g., Munich Re Form, Exclusion of Terrorism).
+  - **Extension_Clauses:** Extract specific Special Clauses or Endorsements (e.g., 72 Hours Clause, MR 001).
+
+2. **Data Cleansing:**
+  - **Currency:** Remove &quot;KRW&quot;, &quot;WON&quot;, &quot;$&quot;, and commas from numeric fields. Return pure numbers for amount fields.
+  - **Dates:** Convert to &apos;YYYY-MM-DD&apos;.
+  - **Nulls:** If a field is not found, return `null`. Do not invent data.
+
+3. **Output Format:**
+  - Return **ONLY** a single valid JSON object.
+  - The JSON keys must match the **Excel Field Names** exactly (spaces replaced by underscores `_`).
+
+**JSON Output Schema:**
+{
+ &quot;Form&quot;: &quot;String | e.g., K.P.I Policy Form or Munich Re Form&quot;,
+ &quot;Reinsured&quot;: &quot;String | Cedant Name&quot;,
+ &quot;Insured&quot;: &quot;String | Main Insured Name&quot;,
+ &quot;Policy_Holder&quot;: &quot;String | If different from Insured&quot;,
+ &quot;Policy_No&quot;: &quot;String&quot;,
+ &quot;Period&quot;: &quot;String | YYYY-MM-DD ~ YYYY-MM-DD&quot;,
+ &quot;Location&quot;: &quot;String | Full Address&quot;,
+ &quot;Territory_Scope&quot;: &quot;String | e.g., Worldwide or Korea&quot;,
+ &quot;Choice_of_Law_and_Jurisdiction&quot;: &quot;String&quot;,
+ &quot;Occupancy_Business&quot;: &quot;String | e.g., Mfg of Semiconductor or Construction Project&quot;,
+ &quot;Covered_Risk&quot;: &quot;String | e.g., Material Damage, TPL&quot;,
+ &quot;Interest&quot;: &quot;String | Detailed subject matter insured&quot;,
+ &quot;Total_Sum_Insured&quot;: &quot;String&quot;,
+ &quot;Gross_Prem_100&quot;: &quot;Number | Raw number&quot;,
+ &quot;Gross_Prem_DP_Applied&quot;: &quot;Number | Deposit Premium if applicable&quot;,
+ &quot;RI_Cession_Reins_Percent&quot;: &quot;Number | e.g., 0.2 for 20%&quot;,
+ &quot;RI_Comm_Percent&quot;: &quot;Number | e.g., 0.2 for 20%&quot;,
+ &quot;Other_Deduction&quot;: &quot;String | Any other fees&quot;,
+ &quot;Limit_of_Liability&quot;: &quot;String | Summary of limits&quot;,
+ &quot;Deductible&quot;: &quot;String | Summary of deductibles&quot;,
+ &quot;Terms_and_Conditions&quot;: &quot;String | List of main terms&quot;,
+ &quot;Extension_Clauses&quot;: &quot;String | List of special extension clauses&quot;,
+ &quot;Loss_Record&quot;: &quot;String | If mentioned&quot;,
+ &quot;Additional_Information&quot;: &quot;String | Any other remarks&quot;
+}
+</content>
+        <inputs>
+            <apiName>ContentDocument</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>ContentDocument</masterLabel>
+            <referenceName>Input:ContentDocument</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:ContentDocument.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:ContentDocument</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_4</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

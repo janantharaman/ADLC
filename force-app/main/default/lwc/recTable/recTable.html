@@ -1,0 +1,196 @@
+<template>
+    <div class="rec-table-scroll" onscroll={handleTableScroll}>
+        <table class="slds-table slds-table_cell-buffer slds-no-row-hover rec-table">
+            <!-- ── Header ─────────────────────────────────────────────────── -->
+            <thead>
+                <template for:each={processedHeaders} for:item="headerRow">
+                    <tr key={headerRow.key} class="slds-line-height_reset">
+                        <template for:each={headerRow.cells} for:item="cell">
+                            <th
+                                key={cell.key}
+                                scope="col"
+                                colspan={cell.colspan}
+                                rowspan={cell.rowspan}
+                                class="rec-table__th"
+                                style={cell.style}
+                            >
+                                <!-- Checkbox column header -->
+                                <template if:true={cell.isCheckbox}>
+                                    <template if:true={cell.showCheckbox}>
+                                        <div class="slds-th__action slds-th__action_form">
+                                            <div class="slds-checkbox">
+                                                <label class="slds-checkbox__label">
+                                                    <input
+                                                        type="checkbox"
+                                                        class="slds-assistive-text rec-table__header-chk"
+                                                        checked={isAllSelected}
+                                                        onchange={handleHeaderCheckboxChange}
+                                                    />
+                                                    <span class="slds-checkbox_faux"></span>
+                                                    <span class="slds-form-element__label slds-assistive-text"
+                                                        >Select All</span
+                                                    >
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </template>
+
+                                <!-- Group header (has collapse toggle) -->
+                                <template if:true={cell.isGroup}>
+                                    <div class="rec-table__th-group">
+                                        <span class="rec-table__th-label" title={cell.label}>{cell.label}</span>
+                                        <button
+                                            class="rec-table__collapse-btn slds-button slds-button_icon"
+                                            title={cell.isCollapsed}
+                                            data-group-name={cell.groupName}
+                                            onclick={handleGroupToggle}
+                                        >
+                                            <lightning-icon icon-name={cell.toggleIconName} size="xx-small"></lightning-icon>
+                                        </button>
+                                    </div>
+                                </template>
+
+                                <!-- Regular leaf header -->
+                                <template if:false={cell.isGroup}>
+                                    <template if:false={cell.isCheckbox}>
+                                        <template if:true={cell.isSortable}>
+                                            <div
+                                                class={cell.sortHeaderClass}
+                                                data-field-name={cell.fieldName}
+                                                onclick={handleSortClick}
+                                            >
+                                                <span class="rec-table__th-label" title={cell.label}>{cell.label}</span>
+                                                <span class="rec-table__sort-icon">
+                                                    <lightning-icon
+                                                        icon-name={cell.sortIconName}
+                                                        size="xx-small"
+                                                    ></lightning-icon>
+                                                </span>
+                                            </div>
+                                        </template>
+                                        <template if:false={cell.isSortable}>
+                                            <div class="rec-table__th-label" title={cell.label}>{cell.label}</div>
+                                        </template>
+                                    </template>
+                                </template>
+                            </th>
+                        </template>
+                    </tr>
+                </template>
+            </thead>
+
+            <!-- ── Body ───────────────────────────────────────────────────── -->
+            <tbody>
+                <!-- Data rows -->
+                <template if:true={hasData}>
+                    <!-- Virtual scroll: top spacer -->
+                    <tr class="rec-table__spacer" style={_vsTopSpacerStyle} aria-hidden="true">
+                        <td></td>
+                    </tr>
+
+                    <template for:each={visibleRows} for:item="row">
+                        <tr key={row.id} class={row.rowClass} data-row-id={row.id} onclick={handleRowClick}>
+                            <!-- Checkbox / tree-toggle cell (row-level, outside cells loop) -->
+                            <template if:true={row.showChkColumn}>
+                                <td key={row.id} class={row.chkCellClass}>
+                                    <div class="rec-table__tree-cell" style={row.treePadStyle}>
+                                        <!-- Tree toggle button -->
+                                        <template if:true={row.isTreeGrid}>
+                                            <template if:true={row.hasChildren}>
+                                                <button
+                                                    class="rec-table__tree-toggle slds-button slds-button_icon"
+                                                    data-row-id={row.id}
+                                                    onclick={handleTreeToggle}
+                                                >
+                                                    <lightning-icon
+                                                        icon-name={row.treeToggleIcon}
+                                                        size="xx-small"
+                                                    ></lightning-icon>
+                                                </button>
+                                            </template>
+                                            <template if:false={row.hasChildren}>
+                                                <span class="rec-table__tree-toggle-placeholder"></span>
+                                            </template>
+                                        </template>
+                                        <!-- Checkbox -->
+                                        <template if:true={row.showCheckbox}>
+                                            <div class="slds-checkbox">
+                                                <label class="slds-checkbox__label">
+                                                    <input
+                                                        type="checkbox"
+                                                        class="slds-assistive-text"
+                                                        checked={row.checked}
+                                                        data-row-id={row.id}
+                                                        onchange={handleRowCheckboxChange}
+                                                    />
+                                                    <span class="slds-checkbox_faux"></span>
+                                                </label>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </td>
+                            </template>
+
+                            <!-- Data cells -->
+                            <template for:each={row.cells} for:item="cell">
+                                <td key={cell.key} class={cell.cellClass} style={cell.cellAlignStyle}>
+                                    <!-- Error indicator -->
+                                    <template if:true={cell.hasError}>
+                                        <div
+                                            class="rec-table__error-indicator"
+                                            data-error-message={cell.errorMessage}
+                                            onmouseenter={handleErrorMouseEnter}
+                                            onmouseleave={handleErrorMouseLeave}
+                                        ></div>
+                                    </template>
+                                    <!-- Data cell → delegated to recTableCell -->
+                                    <c-rec-table-cell
+                                        cell={cell}
+                                        oncellchange={handleCellChangeFromCell}
+                                        oncelleditstart={handleCellEditStart}
+                                        oncelleditend={handleCellEditEnd}
+                                        oncellbuttonclick={handleCellButtonClick}
+                                    ></c-rec-table-cell>
+                                </td>
+                            </template>
+                        </tr>
+                    </template>
+
+                    <!-- Virtual scroll: bottom spacer -->
+                    <tr class="rec-table__spacer" style={_vsBotSpacerStyle} aria-hidden="true">
+                        <td></td>
+                    </tr>
+                </template>
+
+                <!-- Empty state -->
+                <template if:false={hasData}>
+                    <tr>
+                        <td colspan="100" class="rec-table__empty-cell">
+                            <template if:true={_isHydrating}>
+                                <div class="slds-align_absolute-center slds-p-vertical_large" style="flex-direction: column">
+                                    <div class="slds-is-relative" style="height: 3rem; width: 3rem">
+                                        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                                    </div>
+                                    <h3 class="slds-text-heading_small slds-m-top_medium">Loading data…</h3>
+                                    <p class="slds-text-body_regular slds-text-color_weak slds-m-top_xx-small">
+                                        Resolving record labels
+                                    </p>
+                                </div>
+                            </template>
+                            <template if:false={_isHydrating}>
+                                <div class="slds-align_absolute-center slds-p-vertical_medium rec-table__empty-msg">
+                                    No data available
+                                </div>
+                            </template>
+                        </td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Floating error tooltip — rendered by child component via imperative show()/hide() calls
+         so that parent reactive state is never mutated on hover (prevents processedRows re-execution) -->
+    <c-rec-table-error-tooltip lwc:ref="errorTooltip"></c-rec-table-error-tooltip>
+</template>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SecurityCancel__c</fullName>
+    <defaultValue>&quot;The Reinsured is entitled to cancel this reinsurance at any time on a pro-rata basis if the Reinsurer(s);&quot;
+&amp;BR()&amp;BR()&amp;
+&quot;1.	Publicly announces its intention to discontinue underwriting a class or category of business similar to this reinsurance; or&quot;
+&amp;BR()&amp;
+&quot;2.	Is required by any insurance regulatory authority to cease underwriting operation; or&quot;
+&amp;BR()&amp;
+&quot;3.	Voluntarily or involuntarily elects to wind up, runoff its business, enter a scheme of arrangement, or enter into any form of bankruptcy protection or related formal or informal termination of its (re)insurance operations; or&quot;
+&amp;BR()&amp;
+&quot;4.	Is required or volunteers to enter into receivership, or has its authority to underwrite reinsurance withdrawn or terminated; or&quot;
+&amp;BR()&amp;
+&quot;5.	Incurs a material change in financial condition which results in the Reinsurer’s security rating falling below A- as determined by A.M Best Company and/or BBB as determined by Standard &amp; Poors Rating Services.&quot;
+&amp;BR()&amp;BR()&amp;
+&quot;Cancellation under any of these conditions may be invoked at any time by the written notice from the Reinsured to the Reinsurer(s) of this reinsurance stating the reasons for the termination of this reinsurance. In the event of such cancellation, the Reinsurer(s) shall pay the return premium within 30 days.&quot;</defaultValue>
+    <label>(X)Security cancellation clause</label>
+    <length>1220</length>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

@@ -1,0 +1,223 @@
+<!--
+ * @filename      : comNoteListFilter.html
+ * @project-name  : LK보험중계_신규계약관리시스템 구축
+ * @author        : i2max
+ * @date          : 2026-03-10 (화)
+ * @group         :
+ * @group-content :
+ * @description   : COM_Note__c 검색 필터
+ * @reference     :
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2026-03-10      i2max        Create
+-->
+<template>
+    <div class="slds-p-around_small slds-box slds-box_border" title="Search Filter">
+        <!-- Row 1 -->
+        <div class="slds-grid slds-gutters slds-m-bottom_x-small">
+            <div class="slds-col slds-size_3-of-12">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label">BDX Type</label>
+                    <div class="slds-form-element__control">
+                        <lightning-formatted-text value={searchParams.bdxType}></lightning-formatted-text>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_3-of-12">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label">{fieldLabels.Facility_lk__c}</label>
+                    <div class="slds-form-element__control">
+                        <c-com-lookup
+                            field-name="Facility_lk__c"
+                            value={searchParams.facilityId}
+                            placeholder="Search Facility..."
+                            disabled="true"
+                            config={lookupConfig}
+                            onlookupchange={handleLookupChange}
+                            >
+                        </c-com-lookup>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_3-of-12">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label">{fieldLabels.FacilityUY_fm__c}</label>
+                    <div class="slds-form-element__control">
+                        <lightning-formatted-text value={searchParams.facilityUY} ></lightning-formatted-text>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_3-of-12">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label">{fieldLabels.Account_lk__c}</label>
+                    <div class="slds-form-element__control">
+                        <c-com-lookup
+                                field-name="Account_lk__c"
+                                value={searchParams.accountId}
+                                disabled="true"
+                                config={lookupConfig}
+                                onlookupchange={handleLookupChange}
+                        >
+                        </c-com-lookup>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters slds-m-bottom_x-small">
+            <div class="slds-col slds-size_3-of-12">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label">issueDate From ~ To</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-grid slds-grid_vertical-align-center">
+                            <lightning-input
+                                    type="date"
+                                    label={fieldLabels.IssueDate__c}
+                                    variant="label-hidden"
+                                    value={searchParams.issueDateFrom}
+                                    onchange={handleInputChange}
+                                    data-field="issueDateFrom">
+                            </lightning-input>
+                            <span class="slds-p-horizontal_small">~</span>
+                            <lightning-input
+                                    type="date"
+                                    label={fieldLabels.IssueDate__c}
+                                    variant="label-hidden"
+                                    value={searchParams.issueDateTo}
+                                    onchange={handleInputChange}
+                                    data-field="issueDateTo">
+                            </lightning-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_3-of-12">
+                <div class="slds-grid_vertical-align-center">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label">Period From ~ To</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-grid slds-grid_vertical-align-center">
+                                <lightning-input
+                                        type="date"
+                                        label={fieldLabels.PERIODFrom_fm__c}
+                                        variant="label-hidden"
+                                        value={searchParams.inceptionDateFrom}
+                                        onchange={handleInputChange}
+                                        data-field="inceptionDateFrom">
+                                </lightning-input>
+                                <span class="slds-p-horizontal_small">~</span>
+                                <lightning-input
+                                        type="date"
+                                        label={fieldLabels.PERIODTo_fm__c}
+                                        variant="label-hidden"
+                                        value={searchParams.inceptionDateTo}
+                                        onchange={handleInputChange}
+                                        data-field="inceptionDateTo">
+                                </lightning-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_3-of-12">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label">{fieldLabels.TransactionType_fm__c}</label>
+                    <div class="slds-form-element__control">
+                        <c-com-multi-picklist
+                                options={transactionTypeOption}
+                                values={searchParams.transactionType}
+                                field-name="transactionType"
+                                onpicklistchange={handlePicklistChange}>
+                        </c-com-multi-picklist>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_3-of-12">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label">{fieldLabels.Insured_lk__c}</label>
+                    <div class="slds-form-element__control">
+                        <c-com-lookup
+                                field-name="Insured_lk__c"
+                                icon-name="standard:account"
+                                value={searchParams.insured}
+                                config={lookupConfig}
+                                onlookupchange={handleLookupChange}
+                        >
+                        </c-com-lookup>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="slds-grid slds-gutters slds-m-bottom_x-small">
+            <div class="slds-col slds-size_3-of-12">
+                <div class="slds-grid_vertical-align-center">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label">PPW Date From ~ To</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-grid slds-grid_vertical-align-center">
+                                <lightning-input
+                                        type="date"
+                                        label={fieldLabels.PPWDateFrom__c}
+                                        variant="label-hidden"
+                                        value={searchParams.ppwDateFrom}
+                                        onchange={handleInputChange}
+                                        data-field="ppwDateFrom">
+                                </lightning-input>
+                                <span class="slds-p-horizontal_small">~</span>
+                                <lightning-input
+                                        type="date"
+                                        label={fieldLabels.PPWDateTo__c}
+                                        variant="label-hidden"
+                                        value={searchParams.ppwDateTo}
+                                        onchange={handleInputChange}
+                                        data-field="ppwDateTo">
+                                </lightning-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_3-of-12">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label">{fieldLabels.LOB_fm__c}</label>
+                    <div class="slds-form-element__control">
+                        <c-com-typeahead-picklist
+                                object-api-name="Placement__c"
+                                field-api-names={lobFields}
+                                display-separator=" > "
+                                value-separator="_"
+                                field-name="lob"
+                                value={searchParams.lob}
+                                onpicklistchange={handlePicklistChange}>
+                        </c-com-typeahead-picklist>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_3-of-12">
+                &nbsp;
+            </div>
+            <div class="slds-col slds-size_3-of-12 slds-grid slds-grid_align-end slds-grid_vertical-align-end">
+                <lightning-button-group >
+                    <lightning-button
+                            label="Search"
+                            variant="brand"
+                            icon-name="utility:search"
+                            onclick={handleSearch}
+                    >
+                    </lightning-button>
+                    <lightning-button
+                            label="Reset"
+                            variant="neutral"
+                            icon-name="utility:refresh"
+                            onclick={handleReset}>
+                    </lightning-button>
+                </lightning-button-group>
+            </div>
+        </div>
+    </div>
+</template>

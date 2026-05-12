@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Member</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Members</value>
+    </caseValues>
+    <layouts>
+        <layout>Member Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Salesforce User --></label>
+            <section>Salesforce User</section>
+        </sections>
+    </layouts>
+    <recordTypes>
+        <label><!-- General User --></label>
+        <name>General_User</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Salesforce User --></label>
+        <name>Salesforce_User</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- 대표 Project Manager 의 Role 변경은 불가합니다. --></errorMessage>
+        <name>Primary_PM_Role_Change</name>
+    </validationRules>
+</CustomObjectTranslation>

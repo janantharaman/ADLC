@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Placement Line Item</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Placement Line Items</value>
+    </caseValues>
+    <layouts>
+        <layout>Placement Line Item Layout</layout>
+        <sections>
+            <label><!-- Additional Information --></label>
+            <section>Additional Information</section>
+        </sections>
+        <sections>
+            <label><!-- Admin Fee --></label>
+            <section>Admin Fee</section>
+        </sections>
+        <sections>
+            <label><!-- Brokerage Sharing Amt --></label>
+            <section>Brokerage Sharing Amt</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Endorsement --></label>
+            <section>Endorsement</section>
+        </sections>
+        <sections>
+            <label><!-- LK Co-Broking --></label>
+            <section>LK Co-Broking</section>
+        </sections>
+        <sections>
+            <label><!-- Layer --></label>
+            <section>Layer</section>
+        </sections>
+        <sections>
+            <label><!-- Line --></label>
+            <section>Line</section>
+        </sections>
+        <sections>
+            <label><!-- Market --></label>
+            <section>Market</section>
+        </sections>
+        <sections>
+            <label><!-- New Section --></label>
+            <section>New Section</section>
+        </sections>
+        <sections>
+            <label><!-- PPW Date --></label>
+            <section>PPW Date</section>
+        </sections>
+        <sections>
+            <label><!-- Placing Co-Broking --></label>
+            <section>Placing Co-Broking</section>
+        </sections>
+        <sections>
+            <label><!-- Producing Co-Broking --></label>
+            <section>Producing Co-Broking</section>
+        </sections>
+        <sections>
+            <label><!-- RI Premium Breakdown --></label>
+            <section>RI Premium Breakdown</section>
+        </sections>
+        <sections>
+            <label><!-- Settlement --></label>
+            <section>Settlement</section>
+        </sections>
+        <sections>
+            <label><!-- Total Brokerage --></label>
+            <section>Total Brokerage</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

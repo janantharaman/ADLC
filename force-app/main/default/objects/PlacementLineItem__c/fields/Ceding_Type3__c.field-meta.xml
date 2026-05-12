@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ceding_Type3__c</fullName>
+    <label>Ceding Type3</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>CedingType2__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetName>COM_Ceding_Type3</valueSetName>
+        <valueSettings>
+            <controllingFieldValue>Proportional(T)</controllingFieldValue>
+            <valueName>TP01</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Proportional(T)</controllingFieldValue>
+            <valueName>Quota Share and Surplus</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Proportional(T)</controllingFieldValue>
+            <valueName>Variable Quota Share</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Proportional(T)</controllingFieldValue>
+            <valueName>Proportional Reinsurance Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Proportional(T)</controllingFieldValue>
+            <valueName>TP02</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Proportional(T)</controllingFieldValue>
+            <valueName>TP03</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Proportional(T)</controllingFieldValue>
+            <valueName>TP99</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Non-Proportional(T)</controllingFieldValue>
+            <valueName>TN01</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Non-Proportional(T)</controllingFieldValue>
+            <valueName>Excess of Loss(Per Event)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Non-Proportional(T)</controllingFieldValue>
+            <valueName>Excess of Loss(Risk and Event Combined)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Non-Proportional(T)</controllingFieldValue>
+            <valueName>TN03</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Non-Proportional(T)</controllingFieldValue>
+            <valueName>TN04</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Proportional</controllingFieldValue>
+            <valueName>Proportional</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Non-Proportional</controllingFieldValue>
+            <valueName>Non-Proportional</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

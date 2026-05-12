@@ -1,0 +1,2370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>ACC_LBL_ACTIVE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ACC_LBL_ACTIVE</shortDescription>
+        <value>Active (Y/N)</value>
+    </labels>
+    <labels>
+        <fullName>ACC_LBL_LETTER_OF_AUTHORITY</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ACC_LBL_LETTER_OF_AUTHORITY</shortDescription>
+        <value>Letter of Authority</value>
+    </labels>
+    <labels>
+        <fullName>ACC_LBL_VIEW_FILES</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ACC_LBL_VIEW_FILES</shortDescription>
+        <value>View Files</value>
+    </labels>
+    <labels>
+        <fullName>ACC_MSG_FILE_DEL_BLOCK_ACT_SEC</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ACC_MSG_FILE_DEL_BLOCK_ACT_SEC</shortDescription>
+        <value>Files associated with an active Security cannot be deleted.</value>
+    </labels>
+    <labels>
+        <fullName>ACC_MSG_FILE_LIMIT_ONE_ACT_SEC</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ACC_MSG_FILE_LIMIT_ONE_ACT_SEC</shortDescription>
+        <value>Only one file is allowed per Security record.</value>
+    </labels>
+    <labels>
+        <fullName>BDX_MSG_LINE_ITEM_EXIST</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BDX_MSG_LINE_ITEM_EXIST</shortDescription>
+        <value>Cannot modify this BDX because Line Items are already registered.</value>
+    </labels>
+    <labels>
+        <fullName>BDX_MSG_NO_NOTE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BDX_MSG_NO_NOTE</shortDescription>
+        <value>No BDX Line Items were generated because no matching Note exists for this BDX. Please double-check the Facility BDX information.</value>
+    </labels>
+    <labels>
+        <fullName>BNK_BTN_EXC_DUP_UPLOAD</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BNK_BTN_EXC_DUP_UPLOAD</shortDescription>
+        <value>Upload without duplicate data</value>
+    </labels>
+    <labels>
+        <fullName>BNK_BTN_SHOW_DUP_DATA</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BNK_BTN_SHOW_DUP_DATA</shortDescription>
+        <value>Check Duplicated Data</value>
+    </labels>
+    <labels>
+        <fullName>BNK_BTN_UPLOAD_ALL</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BNK_BTN_UPLOAD_ALL</shortDescription>
+        <value>Upload All</value>
+    </labels>
+    <labels>
+        <fullName>BNK_LBL_ACCOUNT_SELECT</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BNK_LBL_ACCOUNT_SELECT</shortDescription>
+        <value>Upload - Bank Account Select</value>
+    </labels>
+    <labels>
+        <fullName>BNK_LBL_DUP_SUSPECT</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BNK_LBL_DUP_SUSPECT</shortDescription>
+        <value>Suspected duplicate data</value>
+    </labels>
+    <labels>
+        <fullName>BNK_MSG_DUP_ASK</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BNK_MSG_DUP_ASK</shortDescription>
+        <value>{0} duplicates found. How would you like to proceed with the upload?</value>
+    </labels>
+    <labels>
+        <fullName>CLAIM_MSG_PLACEMENT_DATA_MISMATCH</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CLM_MSG_PLACEMENT_DATA_MISMATCH</shortDescription>
+        <value>Placement is mapped, but it does not match the Claim information.&lt;br/&gt;Please review and update the Claim information, then try again.&lt;br/&gt;Validated fields: Inception Date, Expiration Date, Cedant, LK Share, Location of Loss</value>
+    </labels>
+    <labels>
+        <fullName>CLAIM_MSG_PLACEMENT_MAPPING_FAILED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CLM_MSG_PLACEMENT_MAPPING_FAILED</shortDescription>
+        <value>Placement was not mapped.&lt;br/&gt;Please review and update the Claim information, then try again.</value>
+    </labels>
+    <labels>
+        <fullName>CLAIM_MSG_PLACEMENT_UPDATE_BLOCKED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CLM_MSG_PLACEMENT_UPDATE_BLOCKED</shortDescription>
+        <value>Placement cannot be updated because there are other Child Claims linked to this Claim. Please contact your admin for assistance.</value>
+    </labels>
+    <labels>
+        <fullName>CLM_MSG_LOCATION_ALREADY_REGISTERED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CLM_MSG_LOCATION_ALREADY_REGISTERED</shortDescription>
+        <value>This Location of Loss is already registered.&lt;br/&gt;Please select the address from the Parent Claim list in the previous step.</value>
+    </labels>
+    <labels>
+        <fullName>CLM_MSG_LOCATION_NO_DATA</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CLM_MSG_LOCATION_NO_DATA</shortDescription>
+        <value>No Location of Loss data available.&lt;br/&gt;Please fill in the data and proceed with registration.</value>
+    </labels>
+    <labels>
+        <fullName>CLM_MSG_LOCATION_NO_UNNAMED_TSI</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CLM_MSG_LOCATION_NO_UNNAMED_TSI</shortDescription>
+        <value>No unnamed TSI by Location available.&lt;br/&gt;If the location already exists on the Parent Claim, select it first. Otherwise, select from TSI by Location.</value>
+    </labels>
+    <labels>
+        <fullName>CLM_MSG_LOCATION_PLACEMENT_MAPPING_REQUIRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CLM_MSG_LOCATION_PLACEMENT_MAPPING_REQUIRED</shortDescription>
+        <value>Placement mapping must be completed first.&lt;br/&gt;Please complete the mapping before proceeding.</value>
+    </labels>
+    <labels>
+        <fullName>CLM_MSG_LOCATION_SELECT_TO_ADD</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CLM_MSG_LOCATION_SELECT_TO_ADD</shortDescription>
+        <value>Please select the location to add before proceeding.</value>
+    </labels>
+    <labels>
+        <fullName>CLM_MSG_LOCATION_UNNAMED_TSI_AVAILABLE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CLM_MSG_LOCATION_UNNAMED_TSI_AVAILABLE</shortDescription>
+        <value>Unnamed TSI by Location available.&lt;br/&gt;If the location already exists on the Parent Claim, select it first. Otherwise, select from TSI by Location or create a new location.</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_ADD</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_ADD</shortDescription>
+        <value>Add</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_APPLY</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_APPLY</shortDescription>
+        <value>Apply</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_CALCULATE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_CALCULATE</shortDescription>
+        <value>Calculate</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_CANCEL</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_CANCEL</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_CLOSE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_CLOSE</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_COLLAPSE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_COLLAPSE</shortDescription>
+        <value>Collapse</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_CREATECO</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_CREATECO</shortDescription>
+        <value>Create CO</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_DEL</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_DEL</shortDescription>
+        <value>Delete</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_DOC_GEN</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_DOC_GEN</shortDescription>
+        <value>Generate</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_EDIT</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_EDIT</shortDescription>
+        <value>Edit</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_ENTERFULLSCREEN</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_ENTERFULLSCREEN</shortDescription>
+        <value>Enter Full Screen</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_EXITFULLSCREEN</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_EXITFULLSCREEN</shortDescription>
+        <value>Exit Full Screen</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_EXPAND</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_EXPAND</shortDescription>
+        <value>Expand</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_FINALIZE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_FINALIZE</shortDescription>
+        <value>Finalize</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_FULLSCREEN_OFF</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_FULLSCREEN_OFF</shortDescription>
+        <value>fullscreen off</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_FULLSCREEN_ON</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_FULLSCREEN_ON</shortDescription>
+        <value>fullscreen on</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_REFRESH</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_REFRESH</shortDescription>
+        <value>Refresh</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_REMOVE_DATA</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_REMOVE_DATA</shortDescription>
+        <value>Remove Data</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_RESET</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_RESET</shortDescription>
+        <value>Reset</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_RefreshRef</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_RefreshRef</shortDescription>
+        <value>Refresh Ref.</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_SAVE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_SAVE</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_SCHEDULE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_SCHEDULE</shortDescription>
+        <value>Schedule</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_SIMULATION</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_SIMULATION</shortDescription>
+        <value>Simulation</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_TEMPLATE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_TEMPLATE</shortDescription>
+        <value>Template</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_UPLOAD</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_UPLOAD</shortDescription>
+        <value>Upload</value>
+    </labels>
+    <labels>
+        <fullName>COM_BTN_UpdateRef</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_BTN_UpdateRef</shortDescription>
+        <value>Update Ref.</value>
+    </labels>
+    <labels>
+        <fullName>COM_DUPLICATE_CHECK</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_DUPLICATE_CHECK</shortDescription>
+        <value>Duplicate Check</value>
+    </labels>
+    <labels>
+        <fullName>COM_DUPLICATE_WITHOUT_UPLOAD_ALERT</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_DUPLICATE_WITHOUT_UPLOAD_ALERT</shortDescription>
+        <value>duplicate records were found. Do you want to proceed with the upload excluding duplicates?</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_ADDRESS_SEARCH</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_ADDRESS_SEARCH</shortDescription>
+        <value>Search Address</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_ASOFDATE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_ASOFDATE</shortDescription>
+        <value>As of Date</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_COMPLETE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_COMPLETE</shortDescription>
+        <value>Complete</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_COORDINATE_SEARCH</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_COORDINATE_SEARCH</shortDescription>
+        <value>Search by Coordinates</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_CREATED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_CREATED</shortDescription>
+        <value>Created</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_DATA_RETRIEVAL_FAILED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_DATA_RETRIEVAL_FAILED</shortDescription>
+        <value>Data retrieval failed</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_DOC_GEN</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_DOC_GEN</shortDescription>
+        <value>Document Generation</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_ERROR</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_ERROR</shortDescription>
+        <value>Error occurred</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_ERRORS</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_ERRORS</shortDescription>
+        <value>Errors</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_INCLUDING_KOREAN_ADDRESS</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_INCLUDING_KOREAN_ADDRESS</shortDescription>
+        <value>Including Korean address</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_InsurancePolicy</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_InsurancePolicy</shortDescription>
+        <value>Insurance Policy</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_LATITUDE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_LATITUDE</shortDescription>
+        <value>Latitude</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_LONGITUDE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_LONGITUDE</shortDescription>
+        <value>Longitude</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_NOTICE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_NOTICE</shortDescription>
+        <value>Notice</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_PERMISSION_DENIED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_PERMISSION_DENIED</shortDescription>
+        <value>Permission denied</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_PREVIEW</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_PREVIEW</shortDescription>
+        <value>Preview</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_PROCESSING</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_PROCESSING</shortDescription>
+        <value>Processing</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_REFRESH</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_REFRESH</shortDescription>
+        <value>Refresh Data</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_ROAD_ADDRESS</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_ROAD_ADDRESS</shortDescription>
+        <value>Road Address</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_ROAD_ADDRESS_EXAMPLE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_ROAD_ADDRESS_EXAMPLE</shortDescription>
+        <value>Example: 123 Main St</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_RefreshRef</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_RefreshRef</shortDescription>
+        <value>Refresh Reference Data</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_SEARCH</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_SEARCH</shortDescription>
+        <value>Search</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_SEARCH_RECORDS</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_SEARCH_RECORDS</shortDescription>
+        <value>Search Records</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_SEARCH_RESULT</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_SEARCH_RESULT</shortDescription>
+        <value>Search Results:</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_SELECT</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_SELECT</shortDescription>
+        <value>Select</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_TOTAL</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_TOTAL</shortDescription>
+        <value>Total</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_VIEW_ALL</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_VIEW_ALL</shortDescription>
+        <value>View All</value>
+    </labels>
+    <labels>
+        <fullName>COM_LBL_WARNING</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LBL_WARNING</shortDescription>
+        <value>Warning</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_ADDRESS_LOAD_FAILED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_ADDRESS_LOAD_FAILED</shortDescription>
+        <value>Failed to load address information.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_ADDRESS_REQUIRED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_ADDRESS_REQUIRED</shortDescription>
+        <value>Please enter an address.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_APPROVAL_IN_PROGRESS</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_APPROVAL_IN_PROGRESS</shortDescription>
+        <value>This record is currently in an approval process.
+A record can be in only one approval process at a time.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_CHECK_REQUIRED_FIELDS</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_CHECK_REQUIRED_FIELDS</shortDescription>
+        <value>Please check the required fields.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_COMPLETE_FIELD</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_COMPLETE_FIELD</shortDescription>
+        <value>Complete this field.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_COORDINATES_REQUIRED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_COORDINATES_REQUIRED</shortDescription>
+        <value>Please enter latitude and longitude.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_DATA_LOAD_FAIL</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_DATA_LOAD_FAIL</shortDescription>
+        <value>Failed to load data.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_DATA_RELOADED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_DATA_RELOADED</shortDescription>
+        <value>Data has been reloaded.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_DATE_RANGE_INVALID</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_DATE_RANGE_INVALID</shortDescription>
+        <value>{0} (To) cannot be earlier than {0} (From).</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_DOC_GEN_EMAIL_CONFIRM</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_DOC_GEN_EMAIL_CONFIRM</shortDescription>
+        <value>You will receive an email notification once the document generation is complete.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_DOC_GEN_PERMISSION</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_DOC_GEN_PERMISSION</shortDescription>
+        <value>Document generation permission is not available.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_DOC_GEN_SUCCESS</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_DOC_GEN_SUCCESS</shortDescription>
+        <value>Document generation process has been completed successfully.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_DUPLICATION</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_DUPLICATION</shortDescription>
+        <value>A duplicate record already exists.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_EMAIL_FOOTER</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_EMAIL_FOOTER</shortDescription>
+        <value>This email was automatically generated by the LK Insurance internal system.&lt;br/&gt;
+Copyright © LK Insurance Services. All rights reserved.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_ENTER_CONTENT</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_ENTER_CONTENT</shortDescription>
+        <value>Enter content...</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_ENTER_NUMBER</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_ENTER_NUMBER</shortDescription>
+        <value>Enter a number.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_ERROR_RECORD_DELETE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_ERROR_RECORD_DELETE</shortDescription>
+        <value>This record is required and cannot be deleted.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_GRID_RESET</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_GRID_RESET</shortDescription>
+        <value>The grid has been reset.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_INACTIVE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_INACTIVE</shortDescription>
+        <value>Are you sure you want to deactivate?</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_INVALID_FIELD_TYPE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_INVALID_FIELD_TYPE</shortDescription>
+        <value>The specified field is not of type Address.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_NORECORDS</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_NORECORDS</shortDescription>
+        <value>No records found.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_NO_PERMISSION</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_NO_PERMISSION</shortDescription>
+        <value>You don’t have permission.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_NO_ROW_SELECT</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_NO_ROW_SELECT</shortDescription>
+        <value>No rows selected.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_NO_SEARCH_RESULT</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_NO_SEARCH_RESULT</shortDescription>
+        <value>No search results found.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_NO_UPDATE_ACCESS</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_NO_UPDATE_ACCESS</shortDescription>
+        <value>You do not have access to update this record.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_PLACEMENT_MISSING</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_PLACEMENT_MISSING</shortDescription>
+        <value>Placement information is missing. Please ensure the Claim is associated with a valid Placement.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_REQUEST_SUBMITTED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_REQUEST_SUBMITTED</shortDescription>
+        <value>Your request has been submitted.
+It is now pending approval.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_SAVE_FAIL</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_SAVE_FAIL</shortDescription>
+        <value>Failed to save data. Please try again.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_SAVE_FAILED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_SAVE_FAILED</shortDescription>
+        <value>The record could not be saved.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_SAVE_SUCCESS</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_SAVE_SUCCESS</shortDescription>
+        <value>The record has been saved successfully.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_SEARCH_ERROR</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_SEARCH_ERROR</shortDescription>
+        <value>An error occurred during search:</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_SEARCH_KEYWORD_REQUIRED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_SEARCH_KEYWORD_REQUIRED</shortDescription>
+        <value>Please enter a search keyword.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_SELECT_ADDRESS_REQUIRED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_SELECT_ADDRESS_REQUIRED</shortDescription>
+        <value>Please select an address.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_SYSTEM_ERROR</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_SYSTEM_ERROR</shortDescription>
+        <value>An error occurred while processing your request.
+Please try again later. If the problem persists, contact your system administrator.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_TARGET_FIELD_NOT_FOUND</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_TARGET_FIELD_NOT_FOUND</shortDescription>
+        <value>Target field ({0}) does not exist.</value>
+    </labels>
+    <labels>
+        <fullName>COM_MSG_UploadFile</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_MSG_UploadFile</shortDescription>
+        <value>Please upload file</value>
+    </labels>
+    <labels>
+        <fullName>COM_UPLOAD_BANK_TRANSACTION</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_UPLOAD_BANK_TRANSACTION</shortDescription>
+        <value>Upload Bank Transaction</value>
+    </labels>
+    <labels>
+        <fullName>COM_UPLOAD_FX_RATE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_UPLOAD_FX_RATE</shortDescription>
+        <value>Upload FX Rate</value>
+    </labels>
+    <labels>
+        <fullName>EXC_FILE_UPLOAD_EXT</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>EXC_FILE_UPLOAD_EXT</shortDescription>
+        <value>File Upload(.xlsx, .csv)</value>
+    </labels>
+    <labels>
+        <fullName>EXC_LBL_DUP_EXCLUDED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>EXC_LBL_DUP_EXCLUDED</shortDescription>
+        <value>Duplicates Excluded</value>
+    </labels>
+    <labels>
+        <fullName>EXC_UPLOAD_COMPLETED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>EXC_UPLOAD_COMPLETED</shortDescription>
+        <value>Processing completed. Please review the results.</value>
+    </labels>
+    <labels>
+        <fullName>FAC_MSG_BDX_EXIST</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>FAC_MSG_BDX_EXIST</shortDescription>
+        <value>Cannot modify this Facility because Facility BDXs are already registered.</value>
+    </labels>
+    <labels>
+        <fullName>FlowStyles_Box_Default</fullName>
+        <categories>i2PMS</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FlowStyles_Box_Default</shortDescription>
+        <value>&lt;div class=&quot;slds-box slds-theme_default&quot;&gt;</value>
+    </labels>
+    <labels>
+        <fullName>IPL_MSG_ChangedError</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IPL_MSG_ChangedError</shortDescription>
+        <value>No Changes to Save.</value>
+    </labels>
+    <labels>
+        <fullName>IPL_MSG_ChangedSave</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IPL_MSG_ChangedSave</shortDescription>
+        <value>The modified items have been saved.</value>
+    </labels>
+    <labels>
+        <fullName>IPL_MSG_CheckApprover</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IPL_MSG_CheckApprover</shortDescription>
+        <value>Please check the approver settings.</value>
+    </labels>
+    <labels>
+        <fullName>IPL_MSG_Coefficient</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IPL_MSG_Coefficient</shortDescription>
+        <value>A coefficient has been created for final processing.</value>
+    </labels>
+    <labels>
+        <fullName>IPL_MSG_ItemAdded</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IPL_MSG_ItemAdded</shortDescription>
+        <value>The item has been added.</value>
+    </labels>
+    <labels>
+        <fullName>IPL_MSG_Reverse</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IPL_MSG_Reverse</shortDescription>
+        <value>The item has been reverse processed.</value>
+    </labels>
+    <labels>
+        <fullName>IPL_MSG_SelectError</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IPL_MSG_SelectError</shortDescription>
+        <value>No items selected.</value>
+    </labels>
+    <labels>
+        <fullName>IPL_MSG_SelectSubmit</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IPL_MSG_SelectSubmit</shortDescription>
+        <value>The selected items have been posted and submitted.</value>
+    </labels>
+    <labels>
+        <fullName>IPP_MSG_InsurerDuplicate</fullName>
+        <categories>LK</categories>
+        <language>ko</language>
+        <protected>false</protected>
+        <shortDescription>IPP_MSG_InsurerDuplicate</shortDescription>
+        <value>이미 등록되어 있는 보험사가 지정되었습니다.</value>
+    </labels>
+    <labels>
+        <fullName>IPP_MSG_LeadInsurerError</fullName>
+        <language>ko</language>
+        <protected>false</protected>
+        <shortDescription>(X)IPP_MSG_LeadInsurerError</shortDescription>
+        <value>Lead Insurer 로 지정된 보험사 정보를 확인해 주시기 바랍니다.(Lead Insurer 미 지정 또는 복수개 지정 여부)</value>
+    </labels>
+    <labels>
+        <fullName>IPP_MSG_SingedLineError</fullName>
+        <language>ko</language>
+        <protected>false</protected>
+        <shortDescription>(X)IPP_MSG_SingedLineError</shortDescription>
+        <value>보험사별 참여지분의 합이 100% 가 아닙니다. 확인해 주시기 바랍니다.</value>
+    </labels>
+    <labels>
+        <fullName>Implementation_Status</fullName>
+        <categories>i2PMS</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Implementation Status</shortDescription>
+        <value>Total / Ready / In Progress / Completed / Delayed / Canceled</value>
+    </labels>
+    <labels>
+        <fullName>KYC_MSG_ALREADY_COMPLETED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>KYC_MSG_ALREADY_COMPLETED</shortDescription>
+        <value>KYC is already completed. 
+To submit a new approval request, clicking Continue will clear KYC Completed and allow you to proceed.</value>
+    </labels>
+    <labels>
+        <fullName>KYC_MSG_RECORD_CREATED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>KYC_MSG_RECORD_CREATED</shortDescription>
+        <value>KYC record created.
+To proceed, open the KYC record and click Submit for Approval.</value>
+    </labels>
+    <labels>
+        <fullName>LK_RecordUnlockConfirm</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LK_RecordUnlockConfirm</shortDescription>
+        <value>Would you like to make the record editable?</value>
+    </labels>
+    <labels>
+        <fullName>Lv2_Object_Label</fullName>
+        <categories>i2PMS</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lv2 Object Label</shortDescription>
+        <value>Milestone</value>
+    </labels>
+    <labels>
+        <fullName>Lv3_Object_Label</fullName>
+        <categories>i2PMS</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lv3 Object Label</shortDescription>
+        <value>Requirement</value>
+    </labels>
+    <labels>
+        <fullName>Lv4_Object_Label</fullName>
+        <categories>i2PMS</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lv4 Object Label</shortDescription>
+        <value>Implementation</value>
+    </labels>
+    <labels>
+        <fullName>MSG_ALLOCATE_CHILD_CLAIM_FIRST</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MSG_ALLOCATE_CHILD_CLAIM_FIRST</shortDescription>
+        <value>There are Child Claims with pending allocations. Please complete the allocation before proceeding.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_BTN_CEDANT_CLOSING_UPLOAD</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_BTN_CEDANT_CLOSING_UPLOAD</shortDescription>
+        <value>Cedant Closing Slip Upload</value>
+    </labels>
+    <labels>
+        <fullName>OPP_BTN_CEDANT_OFFER_UPLOAD</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_BTN_CEDANT_OFFER_UPLOAD</shortDescription>
+        <value>Cedant Offer Slip Upload</value>
+    </labels>
+    <labels>
+        <fullName>OPP_BTN_GENERATE_RI_CLOSING</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_BTN_GENERATE_RI_CLOSING</shortDescription>
+        <value>Generate RI Closing</value>
+    </labels>
+    <labels>
+        <fullName>OPP_BTN_GENERATE_RI_OFFER</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_BTN_GENERATE_RI_OFFER</shortDescription>
+        <value>Generate RI Offer</value>
+    </labels>
+    <labels>
+        <fullName>OPP_LBL_ADD_PANEL_ITEM</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_LBL_ADD_PANEL_ITEM</shortDescription>
+        <value>Add Panel Item</value>
+    </labels>
+    <labels>
+        <fullName>OPP_LBL_CEDANT_TITLE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_LBL_CEDANT_TITLE</shortDescription>
+        <value>TSI by Location (Cedant Offer Slip)</value>
+    </labels>
+    <labels>
+        <fullName>OPP_LBL_CLOSING_TITLE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_LBL_CLOSING_TITLE</shortDescription>
+        <value>TSI by Location (Cedant Closing Slip)</value>
+    </labels>
+    <labels>
+        <fullName>OPP_LBL_COBROKER_EXIST</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_LBL_COBROKER_EXIST</shortDescription>
+        <value>Co-broking record is already registered. Would you like to replace it with the values you just entered?</value>
+    </labels>
+    <labels>
+        <fullName>OPP_LBL_DELETE_LAYER_ITEM</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_LBL_DELETE_LAYER_ITEM</shortDescription>
+        <value>Delete Layer Item</value>
+    </labels>
+    <labels>
+        <fullName>OPP_LBL_DELETE_PANEL_ITEM</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_LBL_DELETE_PANEL_ITEM</shortDescription>
+        <value>Delete Panel Item</value>
+    </labels>
+    <labels>
+        <fullName>OPP_LBL_GRP_ADMIN_FEE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_LBL_GRP_ADMIN_FEE</shortDescription>
+        <value>Admin Fee</value>
+    </labels>
+    <labels>
+        <fullName>OPP_LBL_GRP_BRKG_AMT</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_LBL_GRP_BRKG_AMT</shortDescription>
+        <value>Brokerage sharing Amt</value>
+    </labels>
+    <labels>
+        <fullName>OPP_LBL_GRP_CONTACT</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_LBL_GRP_CONTACT</shortDescription>
+        <value>Contact</value>
+    </labels>
+    <labels>
+        <fullName>OPP_LBL_GRP_LAYER</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_LBL_GRP_LAYER</shortDescription>
+        <value>Layer</value>
+    </labels>
+    <labels>
+        <fullName>OPP_LBL_GRP_LINE_PCT</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_LBL_GRP_LINE_PCT</shortDescription>
+        <value>Line (%)</value>
+    </labels>
+    <labels>
+        <fullName>OPP_LBL_GRP_MARKET</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_LBL_GRP_MARKET</shortDescription>
+        <value>Market</value>
+    </labels>
+    <labels>
+        <fullName>OPP_LBL_GRP_PLACING</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_LBL_GRP_PLACING</shortDescription>
+        <value>Placing Co-broking</value>
+    </labels>
+    <labels>
+        <fullName>OPP_LBL_GRP_PLACING_LK</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_LBL_GRP_PLACING_LK</shortDescription>
+        <value>Placing Co-broking (LK)</value>
+    </labels>
+    <labels>
+        <fullName>OPP_LBL_GRP_PRODUCING</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_LBL_GRP_PRODUCING</shortDescription>
+        <value>Producing Co-broking</value>
+    </labels>
+    <labels>
+        <fullName>OPP_LBL_GRP_PRODUCING_LK</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_LBL_GRP_PRODUCING_LK</shortDescription>
+        <value>Producing Co-broking (LK)</value>
+    </labels>
+    <labels>
+        <fullName>OPP_LBL_GRP_RI_PREMIUM</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_LBL_GRP_RI_PREMIUM</shortDescription>
+        <value>RI Premium Breakdown</value>
+    </labels>
+    <labels>
+        <fullName>OPP_LBL_GRP_SETTLEMENT</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_LBL_GRP_SETTLEMENT</shortDescription>
+        <value>Settlement</value>
+    </labels>
+    <labels>
+        <fullName>OPP_LBL_GRP_TOTAL_BRKG</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_LBL_GRP_TOTAL_BRKG</shortDescription>
+        <value>Total Brokerage</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_ALLFIELD_REQUIRED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_ALLFIELD_REQUIRED</shortDescription>
+        <value>All fields must be filled.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_BindingDateValidationFailed</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_BindingDateValidationFailed</shortDescription>
+        <value>Binding Date cannot be saved. Please ensure that, for each Premium Currency, the Total Order (%) matches the Written (%), and that all Reinsurers have completed KYC.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_CALCULATE_SUCCESS</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_CALCULATE_SUCCESS</shortDescription>
+        <value>Selected panels Calculated successfully.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_CALC_RULE_CONFIG_ERROR</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_CALC_RULE_CONFIG_ERROR</shortDescription>
+        <value>There are {0} calculation rule configuration errors. (Check console)</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_COBROKERTYPE_LOAD_ERROR</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG__COBROKERTYPE_LOAD_ERROR</shortDescription>
+        <value>Error loading Co-broker options</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_COBROKER_DELETE_CONFIRM</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG__COBROKER_DELETE_CONFIRM</shortDescription>
+        <value>Are you sure you want to delete the following Co-Broking Type(s)</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_COBROKER_DELETE_SUCCESS</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_COBROKER_DELETE_SUCCESS</shortDescription>
+        <value>Co-Broker records deleted successfully</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_COBROKER_LOAD_ERROR</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_COBROKER_LOAD_ERROR</shortDescription>
+        <value>Error loading Co-Broker data</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_COBROKER_NAME</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_COBROKER_NAME</shortDescription>
+        <value>Please enter Co-broker Name</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_COBROKER_SAVE_SUCCESS</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_COBROKER_SAVE_SUCCESS</shortDescription>
+        <value>Co-Broker record saved successfully</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_CONFIRM_LAYER_DELETE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_CONFIRM_LAYER_DELETE</shortDescription>
+        <value>Are you sure you want to delete the selected layer?\nAll panels registered to this layer will also be deleted.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_CONFIRM_RQ_CLONE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_CONFIRM_RQ_CLONE</shortDescription>
+        <value>Replicates RQ information.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_CONFIRM_UNLOCK_RECORD</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_CONFIRM_UNLOCK_RECORD</shortDescription>
+        <value>Would you like to make the record editable?</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_CONTEXT_REFRESHED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_CONTEXT_REFRESHED</shortDescription>
+        <value>Reference values have been refreshed and calculations reapplied.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_DELETEMARK</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_DELETEMARK</shortDescription>
+        <value>Row marked for deletion</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_FINALIZE_MODIFIED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_FINALIZE_MODIFIED</shortDescription>
+        <value>The finalized Panel info has been modified. Please re-run the Simulation to ensure accuracy.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_FINALIZE_SUCCESS</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_FINALIZE_SUCCESS</shortDescription>
+        <value>Selected panels Finalized successfully.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_GRID_CONFIG_LOAD_FAIL</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_GRID_CONFIG_LOAD_FAIL</shortDescription>
+        <value>Failed to load grid configuration. Please contact your administrator.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_MARKETLINEREQUIRED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_MARKETLINEREQUIRED</shortDescription>
+        <value>No Market Line information found. Please register Market Lines first.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_MARKET_TYPE_FACILITY_REQUIRED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_MARKET_TYPE_FACILITY_REQUIRED</shortDescription>
+        <value>Please select &quot;Facility&quot; as the Market Type before searching for a Reinsurer.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_NEED_RECALCULATE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_NEED_RECALCULATE</shortDescription>
+        <value>Reference values have been changed. Please click &quot;Refresh Ref.&quot; to recalculate before saving.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_PANEL_SAVE_REQUIRED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_PANEL_SAVE_REQUIRED</shortDescription>
+        <value>The Panel must be saved before managing Subjectivities.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_PAYMENT_INFO_CHANGED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_PAYMENT_INFO_CHANGED</shortDescription>
+        <value># of Installs has been updated. Please click the Schedule button to update the schedule.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_PAYMENT_SAVE_SUCCESS</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_PAYMENT_SAVE_SUCCESS</shortDescription>
+        <value>Payment information updated successfully</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_PAYMENT_TYPE_REQUIRED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_PAYMENT_TYPE_REQUIRED</shortDescription>
+        <value>Payment Type is required</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_PERCENTAGE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_PERCENTAGE</shortDescription>
+        <value>All percentage values must be greater than 0</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_PERIODFROM_REQUIRED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_PERIODFROM_REQUIRED</shortDescription>
+        <value>Period From field is required.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_PREMIUM_SAVE_SUCCESS</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_PREMIUM_SAVE_SUCCESS</shortDescription>
+        <value>Premium Schedule saved successfully</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_PREMIUM_VALID_ERROR</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_PREMIUM_VALID_ERROR</shortDescription>
+        <value>Please fix all field errors before saving</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_REINSURER_KYC_INCOMPLETE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_REINSURER_KYC_INCOMPLETE</shortDescription>
+        <value>This is a reinsurer that has not completed KYC.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_SELECT_FACILITY_FOR_REINSURER</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_SELECT_FACILITY_FOR_REINSURER</shortDescription>
+        <value>Please select a Facility Name before searching for a Reinsurer.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_SELECT_LAYER_TO_DELETE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_SELECT_LAYER_TO_DELETE</shortDescription>
+        <value>Please select a layer to delete.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_SELECT_MARKET_TYPE_FOR_SECURITY</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_SELECT_MARKET_TYPE_FOR_SECURITY</shortDescription>
+        <value>Please select a Market Type before searching for Security.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_SELECT_MGA_FOR_SECURITY</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_SELECT_MGA_FOR_SECURITY</shortDescription>
+        <value>Please select an MGA Name before searching for Security.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_SELECT_PANEL</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_SELECT_PANEL</shortDescription>
+        <value>Please select at least one non-BrkgAdj panel.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_SELECT_TARGET_FOR_SIMULATION</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_SELECT_TARGET_FOR_SIMULATION</shortDescription>
+        <value>Please select a target for simulation.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_SETTLEMENT_LOAD_ERROR</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG__SETTLEMENT_LOAD_ERROR</shortDescription>
+        <value>Error loading Settlement Type options</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_SIGNED_EXCEEDS_WRITTEN</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_SIGNED_EXCEEDS_WRITTEN</shortDescription>
+        <value>The Signed value cannot exceed the Written value.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_SIGNED_EXCEEDS_WRITTEN_VAL</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_SIGNED_EXCEEDS_WRITTEN_VAL</shortDescription>
+        <value>Signed value ({0}) cannot exceed Written value ({1}).</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_TOTALPERCENTAGE</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_TOTALPERCENTAGE</shortDescription>
+        <value>Total must equal 100%</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_TSI_MISMATCH</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_TSI_MISMATCH</shortDescription>
+        <value>The amount does not match the Total Sum Insured on the Slip.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_MSG_TYPE_CLIENT</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_MSG_TYPE_CLIENT</shortDescription>
+        <value>Settlement Type: Please select “Together” when premium and brokerage are settled together.
+Client: Please select &quot;Yes&quot; if a producing broker remit either premium or brokerage to LK Re.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_TSI_MSG_LAT_LNG</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_TSI_MSG_LAT_LNG</shortDescription>
+        <value>Please enter both Latitude and Longitude.</value>
+    </labels>
+    <labels>
+        <fullName>OPP_TSI_MSG_UNAMEDLOCATION</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OPP_TSI_MSG_UNAMEDLOCATION</shortDescription>
+        <value>When Unnamed Location is No, please enter Address, Postal Code, or Latitude/Longitude.</value>
+    </labels>
+    <labels>
+        <fullName>PLA_MSG_COBROKING_CONFIRM_REQUIRED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PLA_MSG_COBROKING_CONFIRM_REQUIRED</shortDescription>
+        <value>Co-broking information exists. Please click the &apos;Confirm LK Cobroker&apos; button to get confirmation before proceeding with Posting.</value>
+    </labels>
+    <labels>
+        <fullName>PLA_MSG_COBROKING_NOT_SUBJECT</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PLA_MSG_COBROKING_NOT_SUBJECT</shortDescription>
+        <value>No Co-broking information found. This record is not subject to Co-broking confirmation</value>
+    </labels>
+    <labels>
+        <fullName>POL_MSG_DUPLICATE_INSURER_INSERT</fullName>
+        <categories>LK</categories>
+        <language>ko</language>
+        <protected>false</protected>
+        <shortDescription>POL_MSG_DUPLICATE_INSURER_INSERT</shortDescription>
+        <value>이미 등록되어 있는 보험사가 지정되었습니다.</value>
+    </labels>
+    <labels>
+        <fullName>POL_MSG_ERROR_INSTALLMENTS_COUNT</fullName>
+        <categories>LK</categories>
+        <language>ko</language>
+        <protected>false</protected>
+        <shortDescription>POL_MSG_ERROR_INSTALLMENTS_COUNT</shortDescription>
+        <value>Policy 분납횟수와 등록하는 분납건수가 일치하지 않습니다.</value>
+    </labels>
+    <labels>
+        <fullName>POL_MSG_ERROR_INSTALLMENTS_PREMIUM</fullName>
+        <categories>LK</categories>
+        <language>ko</language>
+        <protected>false</protected>
+        <shortDescription>POL_MSG_ERROR_INSTALLMENTS_PREMIUM</shortDescription>
+        <value>분납회차별 보험료의 합이 Policy 보험료와 일치하지 않습니다.</value>
+    </labels>
+    <labels>
+        <fullName>POL_MSG_ERROR_INSTALLMENTS_RATE</fullName>
+        <categories>LK</categories>
+        <language>ko</language>
+        <protected>false</protected>
+        <shortDescription>POL_MSG_ERROR_INSTALLMENTS_RATE</shortDescription>
+        <value>분납비율의 합이 100% 가 아닙니다. 회차별 분납비율 확인해 주시기 바랍니다.</value>
+    </labels>
+    <labels>
+        <fullName>POL_MSG_ERROR_LEAD_INSURER</fullName>
+        <categories>LK</categories>
+        <language>ko</language>
+        <protected>false</protected>
+        <shortDescription>POL_MSG_ERROR_LEAD_INSURER</shortDescription>
+        <value>Lead Insurer 로 지정된 보험사 정보를 확인해 주시기 바랍니다.(Lead Insurer 미 지정 또는 복수개 지정 여부)</value>
+    </labels>
+    <labels>
+        <fullName>POL_MSG_ERROR_PREMIUM_INSTALLMENTS</fullName>
+        <categories>LK</categories>
+        <language>ko</language>
+        <protected>false</protected>
+        <shortDescription>POL_MSG_ERROR_PREMIUM_INSTALLMENTS</shortDescription>
+        <value>Policy 보험료 또는 분납횟수가 입력되지 않았습니다.</value>
+    </labels>
+    <labels>
+        <fullName>POL_MSG_ERROR_SIGNED_LINE</fullName>
+        <categories>LK</categories>
+        <language>ko</language>
+        <protected>false</protected>
+        <shortDescription>POL_MSG_ERROR_SIGNED_LINE</shortDescription>
+        <value>보험사별 참여지분의 합이 100% 가 아닙니다. 확인해 주시기 바랍니다.</value>
+    </labels>
+    <labels>
+        <fullName>POL_MSG_NODATE_ERROR</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>POL_MSG_NODATE_ERROR</shortDescription>
+        <value>No data found in Excel file</value>
+    </labels>
+    <labels>
+        <fullName>POL_MSG_TEMPLATE_DOWNLOAD</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>POL_MSG_TEMPLATE_DOWNLOAD</shortDescription>
+        <value>Template file downloaded</value>
+    </labels>
+    <labels>
+        <fullName>REC_MSG_BASE_BT_NOT_FOUND</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>REC_MSG_BASE_BT_NOT_FOUND</shortDescription>
+        <value>Base Bank Transaction not found.</value>
+    </labels>
+    <labels>
+        <fullName>REC_MSG_BASE_BT_RLI_NOT_FOUND</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>REC_MSG_BASE_BT_RLI_NOT_FOUND</shortDescription>
+        <value>Base Bank Transaction RLI not found for the given Reconciliation Id.</value>
+    </labels>
+    <labels>
+        <fullName>REC_MSG_BASE_SLI_RLI_NOT_FOUND</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>REC_MSG_BASE_SLI_RLI_NOT_FOUND</shortDescription>
+        <value>Base Settlement Line Item RLI not found for the given Reconciliation Id.</value>
+    </labels>
+    <labels>
+        <fullName>REC_MSG_INVALID_RECONCILED_AMT</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>REC_MSG_INVALID_RECONCILED_AMT</shortDescription>
+        <value>The reconciliation amount exceeds the remaining amount for this item.</value>
+    </labels>
+    <labels>
+        <fullName>REC_MSG_RLI_NOT_FOUND</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>REC_MSG_RLI_NOT_FOUND</shortDescription>
+        <value>No existing Reconciliation Line Items found for the given Reconciliation Id.</value>
+    </labels>
+    <labels>
+        <fullName>REC_MSG_SLITYPE_INVALID_FUNDED</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>REC_MSG_SLITYPE_INVALID_FUNDED</shortDescription>
+        <value>Funded items must have a negative (-) amount and be set to &apos;Not-Available&apos;</value>
+    </labels>
+    <labels>
+        <fullName>REC_MSG_SLITYPE_INVALID_NORMAL</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>REC_MSG_SLITYPE_INVALID_NORMAL</shortDescription>
+        <value>Please select the correct type for your origin amount: &apos;Not-Available&apos; for positive (+) or &apos;Available&apos; for negative (-).</value>
+    </labels>
+    <labels>
+        <fullName>REC_MSG_SLI_CPTY_NOT_FOUND</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>REC_MSG_SLI_CPTY_NOT_FOUND</shortDescription>
+        <value>Counterpart not found for SLI {0}. Non-P_C SLIs must have a counterpart.</value>
+    </labels>
+    <labels>
+        <fullName>REC_MSG_SLI_NOT_FOUND</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>REC_MSG_SLI_NOT_FOUND</shortDescription>
+        <value>No Settlement Line Items found for the given IDs.</value>
+    </labels>
+    <labels>
+        <fullName>REC_MSG_SPLIT_CPTY_NOT_FOUND</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>REC_MSG_SPLIT_CPTY_NOT_FOUND</shortDescription>
+        <value>Counterparty SLI not found. Split is allowed only when there is a counterparty SLI with the same Split Key.</value>
+    </labels>
+    <labels>
+        <fullName>REC_MSG_SPLIT_INVALID_CPTY_SETTLE_STATUS</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>REC_MSG_SPLIT_INVALID_CPTY_SETTLE_STATUS</shortDescription>
+        <value>Split is not allowed because the Settlement Status of the counterparty SLI is &quot;{0}&quot;. It must be {1}.</value>
+    </labels>
+    <labels>
+        <fullName>REC_MSG_SPLIT_INVALID_CPTY_STATUS</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>REC_MSG_SPLIT_INVALID_CPTY_STATUS</shortDescription>
+        <value>Split is not allowed because the Status of the counterparty SLI is &quot;{0}&quot;. It must be {1} or {2}.</value>
+    </labels>
+    <labels>
+        <fullName>REC_MSG_SPLIT_INVALID_SETTLE_STATUS</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>REC_MSG_SPLIT_INVALID_SETTLE_STATUS</shortDescription>
+        <value>Split is not allowed because the Settlement Status is &quot;{0}&quot;. It must be {1}.</value>
+    </labels>
+    <labels>
+        <fullName>REC_MSG_SPLIT_INVALID_STATUS</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>REC_MSG_SPLIT_INVALID_STATUS</shortDescription>
+        <value>Split is not allowed because the Status is &quot;{0}&quot;. It must be {1} or {2}.</value>
+    </labels>
+    <labels>
+        <fullName>REC_MSG_UNMATCHED_RECONCILED_AMT</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>REC_MSG_UNMATCHED_RECONCILED_AMT</shortDescription>
+        <value>대사 합계 금액은 SLI의 Origin Amount와 동일해야 합니다.</value>
+    </labels>
+    <labels>
+        <fullName>Related_Files_Test</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Related_Files_Test</shortDescription>
+        <value>Claim Allocation, Attached Content Document</value>
+    </labels>
+    <labels>
+        <fullName>SLIP_MSG_GENERATE_RI_CLOSING</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SLIP_MSG_GENERATE_RI_CLOSING</shortDescription>
+        <value>Unable to generate document. Please ensure that Cedant Closing Slip or finalized Market Line information is available.​</value>
+    </labels>
+    <labels>
+        <fullName>SLIP_MSG_NOT_LATEST</fullName>
+        <categories>LK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SLIP_MSG_NOT_LATEST</shortDescription>
+        <value>A more recent RI Slip record already exists. Would you like to proceed with the current data instead of the latest version?</value>
+    </labels>
+    <labels>
+        <fullName>Start_End_Status</fullName>
+        <categories>i2PMS</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Start/End Status</shortDescription>
+        <value>Plan Start / Actual Start / Next Week Plan Start , Plan End / Actual End / Next Week Plan End</value>
+    </labels>
+    <labels>
+        <fullName>Task_Emoji_Guide</fullName>
+        <categories>i2PMS</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Emoji Guide</shortDescription>
+        <value>Emoji(Stage) :🔘(Ready), 🟢(In Progress/In Review/Approved), 💯(Completed), 🔴(Delayed), ❌(Canceled), ⚠️(Higher Info Canceled)</value>
+    </labels>
+    <labels>
+        <fullName>Weekly_Report_Normal_Message</fullName>
+        <categories>i2PMS</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Weekly Report Normal Message</shortDescription>
+        <value>정상 생성되었습니다.</value>
+    </labels>
+    <labels>
+        <fullName>ers_CancelButton</fullName>
+        <categories>buttons</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>ers_ClearFilterAction</fullName>
+        <categories>actions</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Clear Filter</shortDescription>
+        <value>Clear Filter</value>
+    </labels>
+    <labels>
+        <fullName>ers_ClearFilterButton</fullName>
+        <categories>buttons</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Clear All Filters</shortDescription>
+        <value>Clear All Filters</value>
+    </labels>
+    <labels>
+        <fullName>ers_ClearSelectionButton</fullName>
+        <categories>buttons</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Clear Selection</shortDescription>
+        <value>Clear Selection</value>
+    </labels>
+    <labels>
+        <fullName>ers_ColumnHeader</fullName>
+        <categories>headers</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column</shortDescription>
+        <value>Column</value>
+    </labels>
+    <labels>
+        <fullName>ers_EmptyTableMessage</fullName>
+        <categories>messages</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty</shortDescription>
+        <value>This table currently has no data to display</value>
+    </labels>
+    <labels>
+        <fullName>ers_ErrorRequiredEntry</fullName>
+        <categories>messages</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Required</shortDescription>
+        <value>This is a required entry.  At least 1 row must be selected.</value>
+    </labels>
+    <labels>
+        <fullName>ers_FilterHeader</fullName>
+        <categories>headers</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Filter</shortDescription>
+        <value>Filter</value>
+    </labels>
+    <labels>
+        <fullName>ers_FirstButton</fullName>
+        <categories>buttons</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>First Page</shortDescription>
+        <value>First</value>
+    </labels>
+    <labels>
+        <fullName>ers_LabelHeader</fullName>
+        <categories>headers</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label</shortDescription>
+        <value>Label</value>
+    </labels>
+    <labels>
+        <fullName>ers_LastButton</fullName>
+        <categories>buttons</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Last Page</shortDescription>
+        <value>Last</value>
+    </labels>
+    <labels>
+        <fullName>ers_NextButton</fullName>
+        <categories>buttons</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Next Page</shortDescription>
+        <value>Next</value>
+    </labels>
+    <labels>
+        <fullName>ers_PreviousButton</fullName>
+        <categories>buttons</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Previous Page</shortDescription>
+        <value>Prev</value>
+    </labels>
+    <labels>
+        <fullName>ers_RecordsPerPage</fullName>
+        <categories>labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Records per Page input label</shortDescription>
+        <value>Records per Page</value>
+    </labels>
+    <labels>
+        <fullName>ers_SaveButton</fullName>
+        <categories>buttons</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>ers_SearchPlaceholder</fullName>
+        <categories>messages</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Search Term</shortDescription>
+        <value>Enter search term ...</value>
+    </labels>
+    <labels>
+        <fullName>ers_SetFilterAction</fullName>
+        <categories>actions</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Set Filter</shortDescription>
+        <value>Set Filter</value>
+    </labels>
+    <labels>
+        <fullName>ers_ShowingPageMiddle</fullName>
+        <categories>labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Showing Page x of y Pages input label middle</shortDescription>
+        <value>of</value>
+    </labels>
+    <labels>
+        <fullName>ers_ShowingPagePrefix</fullName>
+        <categories>labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Showing Page x of y Pages input label prefix</shortDescription>
+        <value>Showing Page</value>
+    </labels>
+    <labels>
+        <fullName>ers_ShowingPageSuffix</fullName>
+        <categories>labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Showing Page x of y Pages input label suffix</shortDescription>
+        <value>Pages</value>
+    </labels>
+    <labels>
+        <fullName>ers_filterBlankHelpText</fullName>
+        <categories>messages</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Help Text for Filter Blank Checkbox</shortDescription>
+        <value>Check here if you want to filter rows where the value in this column is blank</value>
+    </labels>
+    <labels>
+        <fullName>ers_filterBlankLabel</fullName>
+        <categories>messages</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for Filter Blank Checkbox</shortDescription>
+        <value>Filter Blank Values?</value>
+    </labels>
+    <labels>
+        <fullName>fsc_AccessLevel</fullName>
+        <categories>labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AccessLevel</shortDescription>
+        <value>Access Level</value>
+    </labels>
+    <labels>
+        <fullName>fsc_Back</fullName>
+        <categories>Buttons,Filters,Title</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Back</shortDescription>
+        <value>Back</value>
+    </labels>
+    <labels>
+        <fullName>fsc_ButtonIsNotSupportedMessage</fullName>
+        <categories>messages</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ButtonIsNotSupportedMessage</shortDescription>
+        <value>Following buttons are note supported:</value>
+    </labels>
+    <labels>
+        <fullName>fsc_ConditionLogicHelpText</fullName>
+        <categories>labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ConditionLogicHelpText</shortDescription>
+        <value>Use parentheses, AND, OR, and NOT to customize the logic. For example, if you enter “(1 AND 2 AND 3) OR 4”, the flow evaluates whether the first three conditions are true or only the fourth condition is true.</value>
+    </labels>
+    <labels>
+        <fullName>fsc_Delete</fullName>
+        <categories>labels, buttons</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Delete</shortDescription>
+        <value>Delete</value>
+    </labels>
+    <labels>
+        <fullName>fsc_FieldIsNotSupportedMessage</fullName>
+        <categories>messages</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>FieldIsNotSupportedMessage</shortDescription>
+        <value>Following fields are not supported:</value>
+    </labels>
+    <labels>
+        <fullName>fsc_FieldTypeNotSuportedMessage</fullName>
+        <categories>messages</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>fsc_FieldTypeNotSuportedMessage</shortDescription>
+        <value>You provided an unsupported value for the DataTypeFilter input on Object and Field Picker. Currently the only supported value is ’picklist’</value>
+    </labels>
+    <labels>
+        <fullName>fsc_For</fullName>
+        <categories>Buttons</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>For</shortDescription>
+        <value>For</value>
+    </labels>
+    <labels>
+        <fullName>fsc_Key_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Key Label</shortDescription>
+        <value>Key</value>
+    </labels>
+    <labels>
+        <fullName>fsc_LackingPermissions</fullName>
+        <categories>messages</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LackingPermissions</shortDescription>
+        <value>You don\&apos;t have the proper permissions for ths action</value>
+    </labels>
+    <labels>
+        <fullName>fsc_ManagerEmptyMessage</fullName>
+        <categories>messages</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ManagerEmptyMessage</shortDescription>
+        <value>&quot;Manager APEX Class&quot; can not be empty</value>
+    </labels>
+    <labels>
+        <fullName>fsc_Manual_Reference_Allowed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ComboBox Placeholder Txxt</shortDescription>
+        <value>Manual reference allowed</value>
+    </labels>
+    <labels>
+        <fullName>fsc_MultipleGroupsForRole</fullName>
+        <categories>messages</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MultipleGroupsForRole</shortDescription>
+        <value>There are multiple groups for that role</value>
+    </labels>
+    <labels>
+        <fullName>fsc_Name</fullName>
+        <categories>quicklinks, Labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Name</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>fsc_NonePicklistValueLabel</fullName>
+        <categories>messages</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NonePicklistValueLabel</shortDescription>
+        <value>-- None --</value>
+    </labels>
+    <labels>
+        <fullName>fsc_OWDReadWrite</fullName>
+        <categories>messages</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OWDReadWrite</shortDescription>
+        <value>Sharing Settings must be private or public read/write to enable manual sharing</value>
+    </labels>
+    <labels>
+        <fullName>fsc_OwnerAdminModify</fullName>
+        <categories>messages</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OwnerAdminModify</shortDescription>
+        <value>Only the record owner or administrators can modify permissions</value>
+    </labels>
+    <labels>
+        <fullName>fsc_PublicGroups</fullName>
+        <categories>labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PublicGroups</shortDescription>
+        <value>Public Groups</value>
+    </labels>
+    <labels>
+        <fullName>fsc_Queues</fullName>
+        <categories>labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Queues</shortDescription>
+        <value>Queues</value>
+    </labels>
+    <labels>
+        <fullName>fsc_Read</fullName>
+        <categories>labels, buttons</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Read</shortDescription>
+        <value>Read</value>
+    </labels>
+    <labels>
+        <fullName>fsc_ReadWrite</fullName>
+        <categories>labels, buttons</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ReadWrite</shortDescription>
+        <value>Read / Write</value>
+    </labels>
+    <labels>
+        <fullName>fsc_Reason</fullName>
+        <categories>labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Reason</shortDescription>
+        <value>Reason</value>
+    </labels>
+    <labels>
+        <fullName>fsc_RelatedUsers</fullName>
+        <categories>labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RelatedUsers</shortDescription>
+        <value>Related Users</value>
+    </labels>
+    <labels>
+        <fullName>fsc_Roles</fullName>
+        <categories>labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Roles</shortDescription>
+        <value>Roles</value>
+    </labels>
+    <labels>
+        <fullName>fsc_Search</fullName>
+        <categories>Actions,Buttons,quicklinks</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Search in</shortDescription>
+        <value>Search in</value>
+    </labels>
+    <labels>
+        <fullName>fsc_SearchFor</fullName>
+        <categories>labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SearchFor</shortDescription>
+        <value>For</value>
+    </labels>
+    <labels>
+        <fullName>fsc_SetAccessLevel</fullName>
+        <categories>labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SetAccessLevel</shortDescription>
+        <value>Set Access Level</value>
+    </labels>
+    <labels>
+        <fullName>fsc_SupportedAddCapabilitiesEmptyMessage</fullName>
+        <categories>messages</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SupportedAddCapabilitiesEmptyMessage</shortDescription>
+        <value>&quot;Add Capabilities&quot; can not be empty</value>
+    </labels>
+    <labels>
+        <fullName>fsc_SupportedButtonsEmptyMessage</fullName>
+        <categories>messages</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SupportedButtonsEmptyMessage</shortDescription>
+        <value>&quot;Supported Buttons&quot; can not be empty</value>
+    </labels>
+    <labels>
+        <fullName>fsc_SupportedEditCapabilitiesEmptyMessage</fullName>
+        <categories>messages</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SupportedEditCapabilitiesEmptyMessage</shortDescription>
+        <value>&quot;Edit Capabilities&quot; can not be empty</value>
+    </labels>
+    <labels>
+        <fullName>fsc_TooManyResultsMessage</fullName>
+        <categories>messages</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TooManyResultsMessage</shortDescription>
+        <value>Your search found more than 200 results.  Keep typing to make it more specific</value>
+    </labels>
+    <labels>
+        <fullName>fsc_Type</fullName>
+        <categories>Buttons,Filters,Title</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Type</shortDescription>
+        <value>Type</value>
+    </labels>
+    <labels>
+        <fullName>fsc_UserOrGroup</fullName>
+        <categories>labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UserOrGroup</shortDescription>
+        <value>User Or Group</value>
+    </labels>
+    <labels>
+        <fullName>fsc_Users</fullName>
+        <categories>labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Users</shortDescription>
+        <value>Users</value>
+    </labels>
+    <labels>
+        <fullName>fsc_Value_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Value Label</shortDescription>
+        <value>Value</value>
+    </labels>
+</CustomLabels>

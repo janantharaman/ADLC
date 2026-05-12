@@ -1,0 +1,90 @@
+<!--
+ * @filename      : ACC_AccountContactDigest.component
+ * @project-name  : LK보험중계_신규계약관리시스템 구축 
+ * @author        : i2max
+ * @date          : 2026-01-30 (금)
+ * @group         :
+ * @group-content :
+ * @description   : 
+ * @reference     : 
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2026-01-30      i2max        Create
+-->
+<apex:component controller="ACC_AccountContactDigestCtrl" access="global">
+    <apex:attribute name="accountId" type="Id"
+                    description="Account Id for digest rendering"
+                    assignTo="{!acctId}" />
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial, sans-serif;">
+        <tr>
+            <td style="padding:16px 0 8px 0; border-bottom:1px solid #D0D5DD;">
+                <img src="{!logoUrl}" alt="Logo" height="28" style="display:block;" />
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding:24px 0 8px 0;">
+                <div style="font-size:24px; font-weight:700; color:#111827;">
+                    Weekly Contact Alert
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding:8px 0 16px 0; color:#374151; font-size:14px; line-height:20px;">
+                {!recipientName} 님<br/>
+                아래는 Account <b>{!accountName}</b> 하위 Contact 목록입니다.
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <table width="100%" cellpadding="10" cellspacing="0" style="border-collapse:collapse; font-size:13px;">
+                    <tr>
+                        <th style="background:#0B5CAB; color:#FFFFFF; text-align:left; border:1px solid #D0D5DD;">No</th>
+                        <th style="background:#0B5CAB; color:#FFFFFF; text-align:left; border:1px solid #D0D5DD;">Name</th>
+                        <th style="background:#0B5CAB; color:#FFFFFF; text-align:left; border:1px solid #D0D5DD;">Title</th>
+                        <th style="background:#0B5CAB; color:#FFFFFF; text-align:left; border:1px solid #D0D5DD;">Email</th>
+                        <th style="background:#0B5CAB; color:#FFFFFF; text-align:left; border:1px solid #D0D5DD;">Phone</th>
+                    </tr>
+
+                    <apex:variable var="idx" value="{!1}" />
+                    <apex:repeat value="{!contacts}" var="c">
+                        <tr>
+                            <td style="border:1px solid #D0D5DD;">{!idx}</td>
+                            <td style="border:1px solid #D0D5DD;">{!c.Name}</td>
+                            <td style="border:1px solid #D0D5DD;">{!c.Title}</td>
+                            <td style="border:1px solid #D0D5DD;">{!c.Email}</td>
+                            <td style="border:1px solid #D0D5DD;">{!c.Phone}</td>
+                        </tr>
+                        <apex:variable var="idx" value="{!idx + 1}" />
+                    </apex:repeat>
+
+                    <apex:outputPanel rendered="{!contactsSize = 0}">
+                        <tr>
+                            <td colspan="5" style="border:1px solid #D0D5DD; color:#6B7280;">
+                                Contact가 없습니다.
+                            </td>
+                        </tr>
+                    </apex:outputPanel>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding:18px 0 0 0;">
+                <div style="height:1px; background:#D0D5DD;"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding:16px; background:#F3F4F6; color:#6B7280; font-size:12px;">
+                Copyright © i2max
+            </td>
+        </tr>
+    </table>
+</apex:component>

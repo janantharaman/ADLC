@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Implementation</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Implementations</value>
+    </caseValues>
+    <fieldSets>
+        <label><!-- History Manage --></label>
+        <name>History_Manage</name>
+    </fieldSets>
+    <layouts>
+        <layout>Implementation Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- New Section --></label>
+            <section>New Section</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- Address Search --></label>
+        <name>COM_AddressSearch_Action</name>
+    </quickActions>
+    <recordTypes>
+        <label><!-- Analysis/Design/Test/etc --></label>
+        <name>AnalysisDesignTestetc</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Configuration --></label>
+        <name>Configuration</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Development --></label>
+        <name>Development</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- I/F --></label>
+        <name>IF</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Actual Date 는 미래일을 지정할 수 없습니다. --></errorMessage>
+        <name>Actual_Date_Future_Date_Check</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- 착수일이 완료일 보다 미래일이 지정되었습니다. --></errorMessage>
+        <name>Actual_Start_Validation_Check</name>
+    </validationRules>
+</CustomObjectTranslation>

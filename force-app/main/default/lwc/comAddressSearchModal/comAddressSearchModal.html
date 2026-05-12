@@ -1,0 +1,122 @@
+<!--
+ * @filename      : comAddressSearchModal.html
+ * @project-name  : LK보험중계_신규계약관리시스템 구축
+ * @author        : i2max
+ * @date          : 2026-02-03 (화)
+ * @group         :
+ * @group-content :
+ * @description   : 
+ * @reference     : 
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2026-02-03      i2max        Create
+-->
+<template>
+    <lightning-quick-action-panel header={labels.COM_LBL_ADDRESS_SEARCH}>
+        <!-- [Body] -->
+        <div class="slds-p-around_medium">
+
+            <div class="slds-m-bottom_medium slds-grid slds-grid_vertical-align-center slds-grid_align-spread">
+                <div class="slds-col slds-grow">
+                    <lightning-radio-group name="searchMode"
+                                           label=""
+                                           variant="label-hidden"
+                                           options={searchModeOptions}
+                                           value={searchMode}
+                                           type="button"
+                                           onchange={handleModeChange}>
+                    </lightning-radio-group>
+                </div>
+                <template if:true={hasAddressKOField}>
+                    <div class="slds-shrink-none slds-m-left_medium" style="display:inline-flex; align-items:center; gap:0.25rem;">
+                        <lightning-input type="checkbox"
+                                         label={labels.COM_LBL_INCLUDING_KOREAN_ADDRESS}
+                                         checked={includeKorean}
+                                         onchange={handleKoreanToggle}
+                                         variant="label-hidden">
+                        </lightning-input>
+                        <span>{labels.COM_LBL_INCLUDING_KOREAN_ADDRESS}</span>
+                    </div>
+                </template>
+            </div>
+
+            <div class="slds-box slds-theme_default">
+                <div class="slds-grid slds-gutters slds-align-bottom">
+                    <div class="slds-col slds-size_10-of-12">
+                        <!-- 주소 검색 모드 -->
+                        <template if:true={isAddressMode}>
+                            <lightning-input type="search"
+                                             label={labels.COM_LBL_ROAD_ADDRESS}
+                                             variant="label-inline"
+                                             value={addressQuery}
+                                             onchange={handleAddressChange}
+                                             onkeypress={handleEnter}
+                                             placeholder={labels.COM_LBL_ROAD_ADDRESS_EXAMPLE}>
+                            </lightning-input>
+                        </template>
+
+                        <!-- 좌표 검색 모드 -->
+                        <template if:false={isAddressMode}>
+                            <div class="slds-grid slds-gutters slds-align-bottom">
+                                <div class="slds-col">
+                                    <lightning-input type="number" label={labels.COM_LBL_LATITUDE} title={labels.COM_LBL_LATITUDE}
+                                                     variant="label-inline" value={latQuery} step={inputNumStep} onchange={handleLatChange}></lightning-input>
+                                </div>
+                                <div class="slds-col">
+                                    <lightning-input type="number" label={labels.COM_LBL_LONGITUDE} title={labels.COM_LBL_LONGITUDE}
+                                                     variant="label-inline" value={lngQuery} step={inputNumStep} onchange={handleLngChange}></lightning-input>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <div class="slds-col slds-size_2-of-12">
+                        <lightning-button label={labels.COM_LBL_SEARCH} variant="brand" onclick={handleSearch} class="slds-m-top_large"></lightning-button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. 검색 결과 목록 -->
+            <template if:true={searchResults}>
+                <div class="slds-m-top_medium">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">{labels.COM_LBL_SEARCH_RESULT}&nbsp;{resultCnt}</h3>
+                    <ul class="slds-has-dividers_around slds-has-block-links_space">
+                        <template for:each={searchResults} for:item="result">
+                            <div key={result.placeId} class="slds-p-vertical_x-small slds-border_bottom slds-p-left_small" style="cursor: pointer;" onclick={handleResultSelect} data-id={result.placeId}>
+                                <lightning-tile label={result.address} type="media">
+                                    <lightning-icon slot="media" icon-name="standard:address" size="small" class="slds-p-left_xxx-small"></lightning-icon>
+                                    <p class="slds-truncate" title={result.address}>{result.address}, {labels.COM_LBL_LATITUDE}: {result.lat}, {labels.COM_LBL_LONGITUDE}: {result.lng}</p>
+                                    <template if:true={result.addressKo}>
+                                        <p class="slds-text-body_small slds-text-color_weak slds-m-top_xx-small">
+                                            🇰🇷 {result.addressKo}
+                                        </p>
+                                    </template>
+                                </lightning-tile>
+                            </div>
+                        </template>
+                    </ul>
+                </div>
+            </template>
+
+        </div>
+
+        <div slot="footer" class="slds-grid slds-grid_align-end slds-grid_vertical-align-center" style="height: 100%; width: 100%;">
+            <lightning-button
+                variant="neutral"
+                label={labels.COM_BTN_CANCEL}
+                onclick={handleClose}
+            ></lightning-button>
+            <lightning-button
+                variant="brand"
+                label={labels.COM_BTN_SAVE}
+                onclick={handleSave}
+                class="slds-m-left_x-small"
+                disabled={isSaveDisabled}
+            ></lightning-button>
+        </div>
+
+    </lightning-quick-action-panel>
+</template>

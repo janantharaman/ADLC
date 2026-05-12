@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insurer_Check</fullName>
+    <active>true</active>
+    <description>원보험 영업기회에서 Insurer 로 지정된 Account.isInsurerAcc = false 인 경우(보험사가 아닌 Account 를 지정한 경우)</description>
+    <errorConditionFormula>RecordType.Name &lt;&gt; &quot;Reinsurance&quot; &amp;&amp;  CRSInsurer_lk__r.isInsurerAcc__c = False</errorConditionFormula>
+    <errorMessage>보험사에 지정된 거래처가 보험사가 맞는지 확인해 주세요.</errorMessage>
+</ValidationRule>

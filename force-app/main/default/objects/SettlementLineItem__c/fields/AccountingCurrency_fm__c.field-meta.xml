@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AccountingCurrency_fm__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE(
+TEXT(BizRegion__c),
+&quot;LK_KR&quot;, &quot;KRW&quot;,
+&quot;LK_Re&quot;, &quot;USD&quot;,
+&quot;LK_VN&quot;, &quot;VND&quot;,
+&quot;LK_A&amp;G&quot;, &quot;KRW&quot;,
+&quot;&quot;
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Accounting Currency</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

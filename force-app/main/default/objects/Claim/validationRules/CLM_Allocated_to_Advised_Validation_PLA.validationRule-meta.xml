@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CLM_Allocated_to_Advised_Validation_PLA</fullName>
+    <active>true</active>
+    <description>사용자가 Post 버튼이 아닌 임의로 Allocated 에서 Advised 로 Stage 변경을 하지 않도록 설</description>
+    <errorConditionFormula>AND(
+				ISPICKVAL(ClaimDocType__c , &quot;PLA&quot;), 
+    ISCHANGED(Stage__c),  
+    ISPICKVAL(PRIORVALUE(Stage__c), &quot;Allocated&quot;),
+    ISPICKVAL(Stage__c, &quot;Advised&quot;),
+    NOT(ISPICKVAL(Status, &quot;Closed&quot;))
+)</errorConditionFormula>
+    <errorMessage>Please change the stage using the SOC/PLA Issue button.</errorMessage>
+</ValidationRule>

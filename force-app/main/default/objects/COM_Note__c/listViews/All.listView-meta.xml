@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>Closing_Origin_fm__c</columns>
+    <columns>NoteType_cd__c</columns>
+    <columns>NoteType_Issueto__c</columns>
+    <columns>Account_lk__c</columns>
+    <columns>Reinsured_lk__c</columns>
+    <columns>NoteStatus__c</columns>
+    <columns>IssueDate__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Placement_lk__c</columns>
+    <columns>PlacingBrkgPct__c</columns>
+    <columns>GrossPrem__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+</ListView>

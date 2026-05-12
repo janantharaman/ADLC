@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Category_Group_Type__c</fullName>
+    <label>Category Group Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>건물</fullName>
+                <default>false</default>
+                <label>건물</label>
+            </value>
+            <value>
+                <fullName>기계</fullName>
+                <default>false</default>
+                <label>기계</label>
+            </value>
+            <value>
+                <fullName>구축물</fullName>
+                <default>false</default>
+                <label>구축물</label>
+            </value>
+            <value>
+                <fullName>집기비품</fullName>
+                <default>false</default>
+                <label>집기비품</label>
+            </value>
+            <value>
+                <fullName>차량운반구</fullName>
+                <default>false</default>
+                <label>차량운반구</label>
+            </value>
+            <value>
+                <fullName>공기구</fullName>
+                <default>false</default>
+                <label>공기구</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

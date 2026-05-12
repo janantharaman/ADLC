@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IsAllocationBlocked_fm__c</fullName>
+    <formula>IF(
+    /* CASE 1: ClaimType이 BDX가 아닐 때 */
+    NOT(ISPICKVAL(ClaimType, &quot;BDX&quot;)),
+
+    /* 1-1, 1-2 중 하나라도 해당하면 False, 아니면 True */
+    NOT(
+        OR(
+            /* 1-1: PLA인데 LastPLA가 체크 안 됨 */
+            AND(
+                ISPICKVAL(ClaimDocType__c, &quot;PLA&quot;),
+                LastPLA_is__c &lt;&gt; True
+            ),
+
+            /* 1-2: 아래 4개 중 하나라도 해당함 */
+            OR(
+                NOT(ISPICKVAL(Stage__c, &quot;Received&quot;)),
+                IsMapped_fm__c = False,
+                NOT(ISBLANK(PlacementValidFields_fm__c)),
+                LocationCount_rs__c = 0
+            )
+        )
+    ),
+
+    /* CASE 2: ClaimType이 BDX일 때 */
+    /* 아래 3개 중 하나라도 해당하면 False, 아니면 True */
+    NOT(
+        OR(
+            IsMapped_fm__c = False,
+            NOT(ISBLANK(PlacementValidFields_fm__c)),
+            TotalAmt_fm__c = 0
+        )
+    )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>IsAllocationBlocked</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Naver News Search</label>
+    <protected>false</protected>
+    <values>
+        <field>APIKey__c</field>
+        <value xsi:type="xsd:string">nkvRKRwgMkR7FMU1UIlF</value>
+    </values>
+    <values>
+        <field>APISecret__c</field>
+        <value xsi:type="xsd:string">XpoZuPx8wv</value>
+    </values>
+    <values>
+        <field>Active_is__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>BaseURL__c</field>
+        <value xsi:type="xsd:string">https://openapi.naver.com</value>
+    </values>
+    <values>
+        <field>Description__c</field>
+        <value xsi:type="xsd:string">Naver Search API - News</value>
+    </values>
+    <values>
+        <field>NamedCredential__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

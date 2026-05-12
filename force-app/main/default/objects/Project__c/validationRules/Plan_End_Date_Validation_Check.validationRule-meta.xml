@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Plan_End_Date_Validation_Check</fullName>
+    <active>true</active>
+    <description>PlanStart__c &gt; PlanEnd__c</description>
+    <errorConditionFormula>PlanStart__c &gt; PlanEnd__c</errorConditionFormula>
+    <errorDisplayField>PlanEnd__c</errorDisplayField>
+    <errorMessage>Please Check Plan End Date!</errorMessage>
+</ValidationRule>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BankAccountCurrency__c</fullName>
+    <externalId>false</externalId>
+    <formula>TEXT( AdditionalAccountInfo__r.Currency__c )</formula>
+    <label>Bank Account Currency</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

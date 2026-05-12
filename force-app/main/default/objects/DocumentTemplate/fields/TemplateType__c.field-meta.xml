@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TemplateType__c</fullName>
+    <description>Doc Gen 문서 타입</description>
+    <label>TemplateType</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>RQ</fullName>
+                <default>false</default>
+                <label>RQ</label>
+            </value>
+            <value>
+                <fullName>InsuranceBinder</fullName>
+                <default>false</default>
+                <label>InsuranceBinder</label>
+            </value>
+            <value>
+                <fullName>PLA</fullName>
+                <default>false</default>
+                <label>PLA</label>
+            </value>
+            <value>
+                <fullName>SOC</fullName>
+                <default>false</default>
+                <label>SOC</label>
+            </value>
+            <value>
+                <fullName>Cover</fullName>
+                <default>false</default>
+                <label>Cover</label>
+            </value>
+            <value>
+                <fullName>Credit</fullName>
+                <default>false</default>
+                <label>Credit</label>
+            </value>
+            <value>
+                <fullName>Debit</fullName>
+                <default>false</default>
+                <label>Debit</label>
+            </value>
+            <value>
+                <fullName>RI</fullName>
+                <default>false</default>
+                <label>RI</label>
+            </value>
+            <value>
+                <fullName>RIClosing</fullName>
+                <default>false</default>
+                <label>RIClosing</label>
+            </value>
+            <value>
+                <fullName>Facility Debit</fullName>
+                <default>false</default>
+                <label>Facility Debit</label>
+            </value>
+            <value>
+                <fullName>Facility SOA</fullName>
+                <default>false</default>
+                <label>Facility SOA</label>
+            </value>
+            <value>
+                <fullName>RIEND</fullName>
+                <default>false</default>
+                <label>RIEND</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

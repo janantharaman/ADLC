@@ -1,0 +1,86 @@
+/* Salesforce 표준 스타일 적용 */
+
+/* Error Message Styling */
+.error-message {
+    color: #c23934;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.error-area {
+    min-width: 0; /* flex item overflow 잘림 방지 핵심 */
+    min-height: 20px;
+    overflow: visible; /* 혹시 부모가 잘라도 최대한 보이게 */
+}
+
+.error-text {
+    display: block; /* 줄바꿈 자연스럽게 */
+    white-space: normal; /* 줄바꿈 허용 */
+    word-break: break-word; /* 긴 단어/문장도 잘리지 말고 줄바꿈 */
+}
+
+/* Table Styling */
+.schedule-table {
+    overflow-x: auto;
+}
+
+/* Total Row Styling */
+.total-row {
+    background-color: #f3f3f3;
+    font-weight: 600;
+    border-top: 2px solid #dddbda;
+}
+
+.total-percentage {
+    color: #c23934;
+    font-weight: 700;
+    font-size: 0.875rem;
+}
+
+/* Table Header */
+.slds-table thead th {
+    background-color: #fafaf9;
+    font-weight: 700;
+    font-size: 0.75rem;
+    color: #3e3e3c;
+    padding: 0.5rem;
+    border-bottom: 2px solid #dddbda;
+}
+
+/* Table Body Cells */
+.slds-table tbody td {
+    padding: 0.25rem 0.5rem;
+    vertical-align: middle;
+}
+
+/* Center alignment for specific columns */
+.slds-text-align_center {
+    text-align: center !important;
+}
+
+/* Form Element Label */
+.slds-form-element__label {
+    font-size: 0.75rem;
+    color: #3e3e3c;
+}
+
+/* Input Field Padding */
+.slds-p-horizontal_x-small {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+/* Button Spacing */
+.slds-m-right_x-small {
+    margin-right: 0.5rem;
+}
+
+.slds-p-left_small {
+    padding-left: 0.75rem;
+}
+
+/* View Mode Cell Styling */
+.view-cell-right {
+    text-align: right;
+    padding: 0.5rem;
+}

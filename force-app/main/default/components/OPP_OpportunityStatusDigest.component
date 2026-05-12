@@ -1,0 +1,93 @@
+<!--
+ * @filename      : OPP_OpportunityStatusDigest.component
+ * @project-name  : LK보험중계_신규계약관리시스템 구축
+ * @author        : i2max
+ * @date          : 2026-02-02 (월)
+ * @group         :
+ * @group-content :
+ * @description   :
+ * @reference     :
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2026-02-02      i2max        Create
+-->
+<apex:component controller="OPP_OpportunityStatusDigest_Ctrl" access="global">
+    <!-- 파라미터: Opportunity 정보 -->
+    <apex:attribute name="opp" type="Opportunity" description="Opportunity Record" />
+    <apex:attribute name="targetOppId" type="Id" description="Opportunity ID" assignTo="{!oppId}" />
+
+    <!-- 카드 영역 -->
+    <tr>
+        <td style="padding:0 30px 20px;">
+            <table width="100%" cellpadding="10" cellspacing="0" style="background:#f8fafa; border:1px solid #e0e0e0; font-size:13px;">
+                <tr>
+                    <!-- 대상 (Opportunity Name) -->
+                    <td width="30%" style="font-weight:bold;">{!$ObjectType.Opportunity.Fields.Name.Label}</td>
+                    <td>{!opp.Name}</td>
+                </tr>
+                <tr>
+                    <!-- 단계 (StageName) -->
+                    <td style="font-weight:bold;">{!$ObjectType.Opportunity.Fields.StageName.Label}</td>
+                    <td>{!opp.StageName}</td>
+                </tr>
+                <tr>
+                    <!-- 금액 (Amount) -->
+                    <td style="font-weight:bold;">{!$ObjectType.Opportunity.Fields.Amount.Label}</td>
+                    <td>
+                        <apex:outputText value="{0, number, ###,###,###}">
+                            <apex:param value="{!opp.Amount}" />
+                        </apex:outputText>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+
+    <!-- Layer & Panel 목록 (항상 표시) -->
+    <tr>
+        <td style="padding:0 30px 20px;">
+            <table width="100%" cellpadding="5" cellspacing="0" style="border:1px solid #e0e0e0; font-size:12px; border-collapse:collapse;">
+
+                <!-- 헤더 (항상 표시) -->
+                <tr style="background-color:#eee;">
+                    <th style="border:1px solid #ddd;">No.</th>
+                    <!-- Type -->
+                    <th style="border:1px solid #ddd;">{!$ObjectType.OPP_Layer__c.Fields.Type__c.Label}</th>
+                    <!-- Currency -->
+                    <th style="border:1px solid #ddd;">{!$ObjectType.OPP_Panel__c.Fields.Currency__c.Label}</th>
+                    <!-- Market Type -->
+                    <th style="border:1px solid #ddd;">{!$ObjectType.OPP_Panel__c.Fields.MarketType__c.Label}</th>
+                </tr>
+
+                <!-- 1. 데이터가 있을 때: 반복문 실행 -->
+                <apex:variable var="idx" value="{!1}" />
+                <apex:repeat value="{!layers}" var="layer">
+                    <apex:repeat value="{!layer.Panels__r}" var="panel">
+                        <tr>
+                            <td style="border:1px solid #ddd; text-align:center;">{!idx}</td>
+                            <td style="border:1px solid #ddd;">{!layer.Type__c}</td>
+                            <td style="border:1px solid #ddd;">{!panel.Currency__c}</td>
+                            <td style="border:1px solid #ddd;">{!panel.MarketType__c}</td>
+                        </tr>
+                        <apex:variable var="idx" value="{!idx + 1}" />
+                    </apex:repeat>
+                </apex:repeat>
+
+                <!-- 2. 데이터가 없을 때: 메시지 행 표시 (colspan=4) -->
+                <apex:outputPanel layout="none" rendered="{!NOT(hasLayers)}">
+                    <tr>
+                        <td colspan="4" style="border:1px solid #ddd; text-align:center; color:#999; padding: 20px;">
+                            {!$Label.COM_MSG_NORECORDS}
+                        </td>
+                    </tr>
+                </apex:outputPanel>
+
+            </table>
+        </td>
+    </tr>
+
+</apex:component>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Co-broker name --></label>
+    <name>CobrokerName_lk__c</name>
+    <relationshipLabel><!-- Co-Broker --></relationshipLabel>
+</CustomFieldTranslation>

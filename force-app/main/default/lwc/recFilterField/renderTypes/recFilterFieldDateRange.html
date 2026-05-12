@@ -1,0 +1,18 @@
+<template>
+    <!--
+        date-range: c-rec-period-selector fills the content column.
+        getValue() reads periodFromDate/periodToDate on demand.
+        reset() calls recPeriodSelector.reset().
+    -->
+    <lightning-layout vertical-align="center" multiple-rows>
+        <lightning-layout-item size={labelSize} class={labelClass}>
+            <span class="slds-text-body_small slds-text-color_weak">
+                <template if:true={isRequired}><abbr class="slds-required" title="required">*</abbr></template
+                >{label}
+            </span>
+        </lightning-layout-item>
+        <lightning-layout-item size={contentSize} class="slds-p-horizontal_x-small">
+            <c-rec-period-selector variant="label-hidden"></c-rec-period-selector>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

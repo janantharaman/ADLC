@@ -1,0 +1,150 @@
+<template>
+    <div class="slds-form slds-p-horizontal_medium slds-p-vertical_medium" role="list">
+        <!-- Gross Premium Row -->
+        <div class="slds-form__row">
+            <div class="slds-form__item half-width" role="listitem">
+                <div class="slds-form-element kat-form-element_horizontal slds-hint-parent">
+                    <span class="slds-form-element__label">{grossPremLabel}</span>
+                    <div class="slds-form-element__control">
+                        <template if:true={isGrossPremEditable}>
+                            <lightning-input variant="label-hidden" type="number" value={grossPrem} onchange={handleGrossPremChange} class="inline-edit-input cus-lk-input-num-right"> </lightning-input>
+                        </template>
+                        <template if:false={isGrossPremEditable}>
+                            <span class="slds-form-element__static">{grossPremDisplayValue}</span>
+                            <template if:true={showGrossPremEditIcon}>
+                                <button class="slds-button slds-button_icon slds-button_icon-small edit-icon-button" onclick={handleEditClick} title={labels.edit}>
+                                    <lightning-icon icon-name="utility:edit" size="xx-small"></lightning-icon>
+                                </button>
+                            </template>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <template if:true={showActionButtons}>
+                <div class="slds-form__item slds-text-align_right" role="listitem">
+                    <lightning-button-group>
+                        <lightning-button label={labels.cancel} variant="neutral" onclick={handleCancelEdit}> </lightning-button>
+                        <lightning-button label={labels.save} variant="brand" onclick={handleSave} disabled={isSaveDisabled}> </lightning-button>
+                    </lightning-button-group>
+                </div>
+            </template>
+        </div>
+    </div>
+    <!-- Payment Type & # of Installs Brokerage SummaryGrid -->
+    <div class="slds-form slds-p-horizontal_medium slds-p-vertical_medium" role="list">
+        <div>
+            <h1 class="slds-text-heading_small slds-m-bottom_none">Payment Term</h1>
+        </div>
+        <div class="slds-form__row">
+            <!-- Payment Type -->
+            <div class="slds-form__item" role="listitem">
+                <div class="slds-form-element kat-form-element_horizontal slds-hint-parent">
+                    <span class="slds-form-element__label"> <abbr class="slds-required" title="required">* </abbr>{paymentTypeLabel} </span>
+                    <div class="slds-form-element__control">
+                        <!-- Read Mode -->
+                        <template if:false={isEditMode}>
+                            <span class="slds-form-element__static">{paymentTypeDisplayValue}</span>
+                            <template if:true={showEditIcon}>
+                                <button class="slds-button slds-button_icon slds-button_icon-small edit-icon-button" onclick={handleEditClick} title={labels.edit}>
+                                    <lightning-icon icon-name="utility:edit" size="xx-small" alternative-text="Edit"></lightning-icon>
+                                </button>
+                            </template>
+                        </template>
+                        <!-- Edit Mode -->
+                        <template if:true={isEditMode}>
+                            <lightning-combobox data-field="paymentType" variant="label-hidden" value={paymentType} options={paymentTypeOptions} onchange={handlePaymentTypeChange} required class="inline-edit-input cus-lk-input-num-right"></lightning-combobox>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <!-- # of Installs + Schedule Button -->
+            <div class="slds-form__item" role="listitem">
+                <div class="install-field-wrapper">
+                    <div class="slds-form-element kat-form-element_horizontal slds-hint-parent">
+                        <span class="slds-form-element__label">
+                            <template if:true={isInstallType}>
+                                <abbr class="slds-required" title="required">* </abbr>
+                            </template>
+                            <template if:false={isInstallType}>
+                                <abbr class="slds-required" title="required">&nbsp; </abbr>
+                            </template>
+                            {totalInstallsLabel}
+                        </span>
+                        <div class="slds-form-element__control">
+                            <template if:false={isEditMode}>
+                                <!-- Read Mode: Install/Single/SOA 타입일 때 값 표시 -->
+                                <template if:true={displayTotalInstalls}>
+                                    <span class="slds-form-element__static">{displayTotalInstalls}</span>
+                                </template>
+                                <!-- 값이 없을 때는 빈 값 -->
+                                <template if:false={displayTotalInstalls}>
+                                    <span class="slds-form-element__static"></span>
+                                </template>
+                                <template if:true={showEditIcon}>
+                                    <button class="slds-button slds-button_icon slds-button_icon-small edit-icon-button" onclick={handleEditClick} title={labels.edit}>
+                                        <lightning-icon icon-name="utility:edit" size="xx-small" alternative-text="Edit"></lightning-icon>
+                                    </button>
+                                </template>
+                            </template>
+                            <template if:true={isEditMode}>
+                                <!-- Edit Mode: Single/SOA는 readonly, Install은 수정 가능 -->
+                                <lightning-input
+                                    data-field="totalInstalls"
+                                    variant="label-hidden"
+                                    type="number"
+                                    value={displayTotalInstalls}
+                                    onchange={handleTotalInstallsChange}
+                                    min="2"
+                                    step="1"
+                                    required={isInstallType}
+                                    disabled={isTotalInstallsReadonly}
+                                    message-when-range-underflow="Value must be at least 2"
+                                    class="slds-col_bump-left inline-edit-input-install cus-lk-input-num-right"
+                                ></lightning-input>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Schedule 버튼 -->
+                    <lightning-button label={labels.schedule} variant="brand" onclick={handleScheduleClick} disabled={isScheduleButtonDisabled} class="schedule-button-outside"></lightning-button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Warning Message -->
+        <template if:true={installsWarningMessage}>
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-text-color_error slds-text-body_small slds-m-top_x-small">
+                        <strong>{installsWarningMessage}</strong>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+
+    <!-- Error/Success Messages -->
+    <template if:true={errorMessage}>
+        <div class="slds-m-top_small">
+            <lightning-formatted-text value={errorMessage} class="slds-text-color_error"></lightning-formatted-text>
+        </div>
+    </template>
+
+    <!-- Premium Schedule Modal using ComModal -->
+    <template if:true={showScheduleModal}>
+        <c-com-modal title="Premium Schedule" hide-footer size="small" oncancel={handleCloseModal}>
+            <c-opp-premium-schedule record-id={recordId} selected-currency={selectedCurrency} expected-installs={totalInstalls} gross-prem={grossPrem} onscheduleclose={handleCloseModal} onschedulesave={handleScheduleSaved}> </c-opp-premium-schedule>
+        </c-com-modal>
+    </template>
+
+    <!-- SOA 변경 확인 모달 -->
+    <template if:true={showSoaConfirmModal}>
+        <c-com-modal title="Payment Type SOA 변경 확인" save-label={labels.confirm} size="medium" onconfirm={handleSoaConfirmModalConfirm} oncancel={handleSoaConfirmModalCancel}>
+            <p class="slds-m-bottom_small">If you change the Payment Type to SOA, the Premium Schedule records below will be updated in bulk.</p>
+            <c-opp-soa-change-confirm-modal to-update={soaPreviewToUpdate} to-delete={soaPreviewToDelete}></c-opp-soa-change-confirm-modal>
+        </c-com-modal>
+    </template>
+</template>

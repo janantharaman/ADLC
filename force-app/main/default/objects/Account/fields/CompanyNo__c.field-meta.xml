@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CompanyNo__c</fullName>
+    <description>기존 Dynamics 참조(거래처 등록 시 자동 생성-숫자 5자리)</description>
+    <displayFormat>{00000}</displayFormat>
+    <externalId>false</externalId>
+    <inlineHelpText>거래처 번호(숫자 5자리 자동 생성)</inlineHelpText>
+    <label>Company No.</label>
+    <type>AutoNumber</type>
+</CustomField>

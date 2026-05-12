@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CedingType2__c</fullName>
+    <label>Ceding Type2</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>CedingType1__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetName>COM_Ceding_Type2</valueSetName>
+        <valueSettings>
+            <controllingFieldValue>Treaty</controllingFieldValue>
+            <valueName>Proportional(T)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Treaty</controllingFieldValue>
+            <valueName>Non-Proportional(T)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Facultative</controllingFieldValue>
+            <valueName>Proportional</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Facultative</controllingFieldValue>
+            <valueName>Non-Proportional</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,121 @@
+<!--
+ * @filename      : comLookup.html
+ * @project-name  : LK보험중계_신규계약관리시스템 구축
+ * @author        : i2max
+ * @date          : 2025-11-04 (화)
+ * @group         :
+ * @group-content :
+ * @description   : 
+ * @reference     : 
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2025-11-04      i2max        Create
+-->
+<template>
+    <div class="slds-combobox_container lkp slds-is-relative">
+        <div class={comboboxClass} style="position: relative; width: 100%" data-id="box">
+            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_left-right" role="none">
+                <template if:false={hasSingleSelection}>
+                    <lightning-icon
+                        class="slds-input__icon slds-input__icon_left"
+                        icon-name={getSelectIconName}
+                        size="x-small"
+                    ></lightning-icon>
+                    <input
+                        class="slds-input slds-combobox__input"
+                        aria-label=""
+                        type="text"
+                        placeholder={placeholder}
+                        value={keyword}
+                        disabled={disabled}
+                        onblur={handleBlur}
+                        oninput={handleInput}
+                        onkeydown={handleKeydown}
+                        role="combobox"
+                        aria-autocomplete="list"
+                        aria-expanded={isOpen}
+                        aria-haspopup="listbox"
+                    />
+                </template>
+
+                <template if:true={hasSingleSelection}>
+                    <div class="slds-size_small slds-truncate">
+                        <lightning-formatted-url
+                            label={selectedLabel}
+                            value={selectedRecordUrl}
+                            tooltip={selectedLabel}
+                            target="_blank"
+                        ></lightning-formatted-url>
+                    </div>
+                    <button
+                        class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
+                        title="Remove"
+                        onclick={clearSelection}
+                        if:false={disabled}
+                    >
+                        <lightning-icon
+                            icon-name="utility:close"
+                            size="x-small"
+                            alternative-text="Remove"
+                            onclick={clearSelection}
+                        ></lightning-icon>
+                    </button>
+                </template>
+            </div>
+            <template if:true={errorMessage}>
+                <div class="slds-form-element__help" aria-live="assertive">{errorMessage}</div>
+            </template>
+
+            <template if:true={isOpen}>
+                <div class={dropdownClass}
+                     role="listbox"
+                     style="z-index: 9999; background-color: white; width: 100%;"
+                     onmousedown={handleDropdownMouseDown}
+                     onclick={stopEvent}>
+                    <!--                     style={dropdownStyle}-->
+                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                        <template if:true={showNoResults}>
+                            <li class="slds-listbox__item" role="presentation">
+                                <div class="slds-p-around_small slds-text-color_weak slds-truncate"
+                                     role="option" aria-disabled="true">
+                                    {noResultsMsg}
+                                </div>
+                            </li>
+                        </template>
+                        <template for:each={options} for:item="o">
+                            <li key={o.value} class="slds-listbox__item" role="presentation">
+                                <div
+                                    class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                    role="option"
+                                    data-id={o.value}
+                                    data-label={o.label}
+                                    onclick={onPick}
+                                >
+                                    <span class="slds-media__figure slds-listbox__option-icon">
+                                        <lightning-icon icon-name={getSelectIconName} size="x-small"></lightning-icon>
+                                    </span>
+                                    <span class="slds-media__body" style="display: flex; flex-direction: column;">
+                                        <span class="slds-truncate">{o.label}</span>
+                                        <template if:true={o.subLabel}>
+                                            <span class="slds-listbox__option-meta slds-truncate slds-color__text_gray-9">{o.subLabel}</span>
+                                        </template>
+                                    </span>
+                                </div>
+                            </li>
+                        </template>
+                        <template if:true={hasMore}>
+                            <li class="slds-listbox__item" role="presentation" onblur={handleBlur}>
+                                <div class="slds-p-around_x-small slds-align_absolute-center">
+                                    <lightning-button variant="base" label="More" onclick={loadMore}></lightning-button>
+                                </div>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

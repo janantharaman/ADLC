@@ -1,0 +1,71 @@
+<template>
+    <lightning-modal-header label="Account Depositor Mapping"></lightning-modal-header>
+
+    <lightning-modal-body>
+        <template lwc:if={isLoading}>
+            <div class="slds-var-p-around_large slds-is-relative" style="min-height: 6rem">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <template lwc:if={hasExisting}>
+            <div class="slds-var-p-around_medium">
+                <p class="slds-text-body_regular">
+                    An active Account-Depositor mapping already exists for this combination. No action is needed.
+                </p>
+            </div>
+        </template>
+
+        <template lwc:if={showFormContainer}>
+            <div class={formVisibilityClass}>
+                <div class="slds-var-p-around_medium">
+                    <template lwc:if={isAutoMatched}>
+                        <div class="slds-notify_container slds-var-m-bottom_medium" style="position: relative">
+                            <div class="slds-notify slds-notify_toast slds-theme_info" role="status">
+                                <div class="slds-notify__content">
+                                    <p class="slds-text-body_regular">
+                                        An existing Account-Depositor mapping was found for this Depositor. The Account Name
+                                        has been automatically filled. Only the Bank Transaction will be updated.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <lightning-record-edit-form object-api-name="AccountDepositor__c" onload={handleFormLoad}>
+                        <lightning-input-field
+                            field-name="Depositor__c"
+                            value={depositorValue}
+                            disabled={isDepositorDisabled}
+                            onchange={handleDepositorChange}
+                        ></lightning-input-field>
+                        <lightning-input-field
+                            field-name="AccountName__c"
+                            value={accountNameId}
+                            disabled={isAccountNameDisabled}
+                            onchange={handleAccountNameChange}
+                        ></lightning-input-field>
+                        <lightning-input-field
+                            field-name="Remarks__c"
+                            value={_remarks}
+                            disabled={isFieldDisabled}
+                            onchange={handleRemarksChange}
+                        ></lightning-input-field>
+                        <lightning-input-field
+                            field-name="UpdateScope__c"
+                            value={_updateScope}
+                            disabled={isFieldDisabled}
+                            onchange={handleUpdateScopeChange}
+                        ></lightning-input-field>
+                    </lightning-record-edit-form>
+                </div>
+            </div>
+        </template>
+    </lightning-modal-body>
+
+    <lightning-modal-footer>
+        <lightning-button label="Cancel" class="slds-var-m-right_small" onclick={handleCancelClick}></lightning-button>
+        <template lwc:if={showSaveButton}>
+            <lightning-button label="Save" variant="brand" disabled={_isSaving} onclick={handleSaveClick}></lightning-button>
+        </template>
+    </lightning-modal-footer>
+</template>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Originatedby__c</fullName>
+    <label>(X)Originated by</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>LK_KR</fullName>
+                <default>false</default>
+                <label>LK_KR</label>
+            </value>
+            <value>
+                <fullName>LK_VN</fullName>
+                <default>false</default>
+                <label>LK_VN</label>
+            </value>
+            <value>
+                <fullName>LK_Re</fullName>
+                <default>false</default>
+                <label>LK_Re</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

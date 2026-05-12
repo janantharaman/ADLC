@@ -1,0 +1,129 @@
+<!--
+ * @filename      : oppMarketLineToolbar.html
+ * @project-name  : LK보험중계_신규계약관리시스템 구축
+ * @author        : i2max
+ * @date          : 2026-01-15 (목)
+ * @group         :
+ * @group-content :
+ * @description   :
+ * @reference     :
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2026-01-15       i2max        Create
+-->
+<template>
+    <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
+        <!-- 왼쪽: 정보 표시 -->
+        <div class="slds-col slds-text-heading_large slds-text-title_bold">
+            <div style="padding-right: 1rem;" if:true={isSaveVisible}> <!-- white-space: nowrap;  -->
+<!--                Selected Currency: {displaySelectedCurrency}, Finalized Line: {cntFinalizedLine}-->
+                <template if:true={hasFinalizeModified}>
+                    <p class="slds-text-color_error slds-p-left_xxx-small finalize_Title">
+                        {labels.OPP_MSG_FINALIZE_MODIFIED}
+                    </p>
+                </template>
+                <template if:true={hasNeedRecalculate}>
+                      <p class="slds-text-color_error slds-p-left_xxx-small finalize_Title">
+                          {labels.OPP_MSG_NEED_RECALCULATE}
+                      </p>
+                </template>
+            </div>
+        </div>
+
+        <!-- 오른쪽: 버튼 그룹 -->
+        <div class="slds-col slds-no-flex">
+            <!-- 1. 보기 설정 그룹 -->
+            <lightning-button-group class="slds-p-right_xxx-small">
+                <lightning-button-icon
+                        data-action="expand_alt"
+                        icon-name={iconName}
+                        alternative-text={buttonLabel}
+                        title={buttonLabel}
+                        variant="border-filled"
+                        onclick={handleAction}>
+                </lightning-button-icon>
+                <lightning-button-icon
+                        data-action="toggleGroup"
+                        icon-name={groupToggleIcon}
+                        alternative-text={groupToggleLabel}
+                        title={groupToggleLabel}
+                        onclick={handleAction}
+                        disabled={isGroupToggleDisabled}>
+                </lightning-button-icon>
+            </lightning-button-group>
+
+            <!-- 2. 행 편집 그룹 -->
+            <lightning-button-group class="slds-p-right_xxx-small">
+                <lightning-button
+                        data-action="addRow"
+                        label="Add Layer"
+                        title="Adds a new row."
+                        icon-name="utility:add"
+                        disabled={isReadOnly}
+                        if:true={isStandardOpp}
+                        onclick={handleAction}>
+                </lightning-button>
+<!--                <lightning-button
+                        data-action="delRow"
+                        label="Delete Layer"
+                        title="Deletes all rows selected by the checkbox."
+                        icon-name="utility:delete"
+                        disabled={isReadOnly}
+                        onclick={handleAction}>
+                </lightning-button>-->
+            </lightning-button-group>
+
+            <!-- 3. 데이터 조작 그룹 -->
+            <lightning-button-group>
+                <lightning-button
+                        data-action="refresh"
+                        label={labels.COM_BTN_REFRESH}
+                        title={labels.COM_LBL_REFRESH}
+                        icon-name="action:refresh"
+                        onclick={handleAction}>
+                </lightning-button>
+                <lightning-button
+                        data-action="refreshCtx"
+                        label={labels.COM_BTN_RefreshRef}
+                        title={labels.COM_LBL_RefreshRef}
+                        icon-name="utility:sync"
+                        if:true={isSaveVisible}
+                        onclick={handleAction}
+                        disabled={isReadOnly}>
+                </lightning-button>
+                <lightning-button
+                        data-action="createCO"
+                        label={labels.COM_BTN_CREATECO}
+                        title={labels.COM_BTN_CREATECO}
+                        icon-name="utility:add"
+                        if:true={isStandardOpp}
+                        onclick={handleAction}
+                        disabled={isReadOnly}>
+                </lightning-button>
+                <lightning-button
+                        data-action="save"
+                        label={labels.COM_BTN_SAVE}
+                        title={labels.COM_BTN_SAVE}
+                        variant="brand"
+                        icon-name="utility:save"
+                        if:true={isSaveVisible}
+                        onclick={handleAction}
+                        disabled={isSaveDisabled}>
+                </lightning-button>
+                <lightning-button
+                        data-action="simulation"
+                        label={labels.COM_BTN_SIMULATION}
+                        title={labels.COM_BTN_SIMULATION}
+                        variant="brand"
+                        icon-name="utility:metrics"
+                        if:true={isSimulationVisible}
+                        onclick={handleAction}
+                        disabled={isSimulDisabled}>
+                </lightning-button>
+            </lightning-button-group>
+        </div>
+    </div>
+</template>

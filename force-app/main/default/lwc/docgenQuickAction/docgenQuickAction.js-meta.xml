@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Tear Sheet Quick Action</masterLabel>
+    <description>Quick Action only - Launch OmniScript for Document Generation</description>
+    <targets>
+        <target>lightning__RecordAction</target>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordAction">
+            <actionType>ScreenAction</actionType>
+            <objects>
+                <object>Account</object>
+                <object>Contact</object>
+                <object>Case</object>
+                <object>Opportunity</object>
+                <object>OPP_SlipInfo__c</object>
+            </objects>
+        </targetConfig>
+
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="recordId" type="String" label="Record Id" />
+            <property name="objectApiName" type="String" label="Object API Name" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

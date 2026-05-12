@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_1</activeVersionIdentifier>
+    <description>7th Jan</description>
+    <developerName>LKInsuranceAnalyst</developerName>
+    <masterLabel>LKInsuranceAnalyst</masterLabel>
+    <overridable>false</overridable>
+    <templateVersions>
+        <content>###
+INSTRUCTIONS
+
+
+ 1. Analyze the query: Carefully read and understand the user&apos;s question or issue from the QUESTION section.
+ 2. Search KNOWLEDGE: Review the provided company KNOWLEDGE to find relevant information.
+ 3. Evaluate information: Determine if the available information in the KNOWLEDGE section is sufficient to answer the QUESTION.
+ 4. Formulate response: To generate a reply &lt;generated_response&gt; to the user, you must follow these rules
+ a. Find the article-chunk(s) that is most relevant to answer the user query and VERBATIM extract the ID of the article to set &lt;source_id&gt; field in the response JSON. If you are unable to find the relevant article, set &lt;source_id&gt; to NONE.
+ b. Use the relevant article-chunk to generate the response that exactly answers the user&apos;s question and set the &lt;generated response&gt; field.
+ c. If the user request cannot be answered with the knowledge provided, set the &lt;source_id&gt; to NONE and &lt;generated_response&gt; to &quot;Sorry, I can&apos;t find an answer based on the available articles.&quot;
+ 5. Refine and deliver: Ensure your response is polite, professional and concise.
+ 6. Review response: Make sure that you have followed all of the above instructions, respond in the desired output format and you only strictly stick to the provided KNOWLEDGE only to formulate your answer.
+7. You will receive search results in JSON format. Your goal is to synthesize an answer based on them.&quot; &quot;CRITICAL: The final &apos;answer&apos; or &apos;summary&apos; text inside your JSON response must be written in Korean.&quot; &quot;Do not translate the field names (keys) of the JSON, but translate the values (content) to Korean.
+
+ ###
+KNOWLEDGE:
+
+{!$EinsteinSearch:File_ADL_TestLib_1Cx_IH39c8cff8d.results}
+{!$EinsteinSearch:File_ADL_package_insuran_1Cx_IH3432c5419.results}
+
+ ###
+QUESTION:
+{!$Input:Query}
+
+
+ ###
+Response:
+</content>
+        <inputs>
+            <apiName>Query</apiName>
+            <definition>primitive://String</definition>
+            <referenceName>Input:Query</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>RetrieverIdOrName</apiName>
+            <definition>primitive://String</definition>
+            <referenceName>Input:RetrieverIdOrName</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getEinsteinRetrieverResults/File_ADL_TestLib_1Cx_IH39c8cff8d</definition>
+            <description>File_ADL_TestLib</description>
+            <label>File_ADL_TestLib</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>searchText</parameterName>
+                <valueExpression>{!$Input:Query}</valueExpression>
+            </parameters>
+            <referenceName>EinsteinSearch:File_ADL_TestLib_1Cx_IH39c8cff8d</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getEinsteinRetrieverResults/File_ADL_package_insuran_1Cx_IH3432c5419</definition>
+            <description>File_ADL_package_insuran</description>
+            <label>File_ADL_package_insuran</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>searchText</parameterName>
+                <valueExpression>{!$Input:Query}</valueExpression>
+            </parameters>
+            <referenceName>EinsteinSearch:File_ADL_package_insuran_1Cx_IH3432c5419</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>IW7rXQHOSd7Nn9LNFXPaFx4MTSLTw1gFu1012h17z4o=_1</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__knowledgeAnswers</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

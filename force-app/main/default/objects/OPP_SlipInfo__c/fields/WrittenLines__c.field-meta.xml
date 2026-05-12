@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>WrittenLines__c</fullName>
+    <defaultValue>&quot;In a co-reinsurance placement, following Reinsurers may, but are not obliged to, follow the premium charged by the Slip Leader.&quot;
+&amp;BR()&amp;BR()&amp;
+&quot;Reinsurers may not seek to guarantee for themselves terms as favourable as those which others subsequently achieved during the placement.&quot;</defaultValue>
+    <label>(X)Written lines</label>
+    <length>270</length>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

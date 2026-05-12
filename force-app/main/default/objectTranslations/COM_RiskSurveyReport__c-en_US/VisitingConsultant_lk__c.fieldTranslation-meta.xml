@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Visiting Consultant --></label>
+    <name>VisitingConsultant_lk__c</name>
+    <relationshipLabel><!-- Risk Survey Reports (Visiting Consultant) --></relationshipLabel>
+</CustomFieldTranslation>

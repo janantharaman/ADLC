@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Income Class --></label>
+    <name>IncomeClass__c</name>
+    <picklistValues>
+        <masterLabel>Declaration</masterLabel>
+        <translation><!-- Declaration --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>END</masterLabel>
+        <translation><!-- END --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>New(Non-recurring)</masterLabel>
+        <translation><!-- New(Non-recurring) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>New(Recurring)</masterLabel>
+        <translation><!-- New(Recurring) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Renew</masterLabel>
+        <translation><!-- Renew --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

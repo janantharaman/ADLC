@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>PF01</fullName>
+        <default>false</default>
+        <label>Fire(Normal)</label>
+    </customValue>
+    <customValue>
+        <fullName>PF02</fullName>
+        <default>false</default>
+        <label>Fire(House)</label>
+    </customValue>
+    <customValue>
+        <fullName>PF03</fullName>
+        <default>false</default>
+        <label>Fire(Factory)</label>
+    </customValue>
+    <customValue>
+        <fullName>PF04</fullName>
+        <default>false</default>
+        <label>Fire(Apartment)</label>
+    </customValue>
+    <customValue>
+        <fullName>PF99</fullName>
+        <default>false</default>
+        <label>Fire(Other)</label>
+    </customValue>
+    <customValue>
+        <fullName>PR01</fullName>
+        <default>false</default>
+        <label>Property All Risks</label>
+    </customValue>
+    <customValue>
+        <fullName>PR02</fullName>
+        <default>false</default>
+        <label>Inland Floater</label>
+    </customValue>
+    <customValue>
+        <fullName>PR03</fullName>
+        <default>false</default>
+        <label>Museum</label>
+    </customValue>
+    <customValue>
+        <fullName>PR04</fullName>
+        <default>false</default>
+        <label>Exhibition(Display)</label>
+    </customValue>
+    <customValue>
+        <fullName>PR05</fullName>
+        <default>false</default>
+        <label>Terror</label>
+    </customValue>
+    <customValue>
+        <fullName>PR06</fullName>
+        <default>false</default>
+        <label>Cyber</label>
+    </customValue>
+    <customValue>
+        <fullName>PR07</fullName>
+        <default>false</default>
+        <label>Railway Rolling Stock</label>
+    </customValue>
+    <customValue>
+        <fullName>PR99</fullName>
+        <default>false</default>
+        <label>Property All Risks(Other)</label>
+    </customValue>
+    <customValue>
+        <fullName>PE01</fullName>
+        <default>false</default>
+        <label>Contractor&apos;s All Risks</label>
+    </customValue>
+    <customValue>
+        <fullName>PE02</fullName>
+        <default>false</default>
+        <label>Erection All Risks</label>
+    </customValue>
+    <customValue>
+        <fullName>PE03</fullName>
+        <default>false</default>
+        <label>Machinery</label>
+    </customValue>
+    <customValue>
+        <fullName>PE04</fullName>
+        <default>false</default>
+        <label>Electronic Equipment</label>
+    </customValue>
+    <customValue>
+        <fullName>PE05</fullName>
+        <default>false</default>
+        <label>Civil Engineering Completed Risk</label>
+    </customValue>
+    <customValue>
+        <fullName>PE06</fullName>
+        <default>false</default>
+        <label>Contractor&apos;s Plant &amp; Machinery</label>
+    </customValue>
+    <customValue>
+        <fullName>PE07</fullName>
+        <default>false</default>
+        <label>Comprehensive Machinery</label>
+    </customValue>
+    <customValue>
+        <fullName>PE08</fullName>
+        <default>false</default>
+        <label>Construction Package Insurance</label>
+    </customValue>
+    <customValue>
+        <fullName>PE99</fullName>
+        <default>false</default>
+        <label>Engineering(Other)</label>
+    </customValue>
+    <customValue>
+        <fullName>MA01</fullName>
+        <default>false</default>
+        <label>Hull</label>
+    </customValue>
+    <customValue>
+        <fullName>MA02</fullName>
+        <default>false</default>
+        <label>Aviation</label>
+    </customValue>
+    <customValue>
+        <fullName>MA03</fullName>
+        <default>false</default>
+        <label>Cargo</label>
+    </customValue>
+    <customValue>
+        <fullName>MA04</fullName>
+        <default>false</default>
+        <label>Transportation</label>
+    </customValue>
+    <customValue>
+        <fullName>MA05</fullName>
+        <default>false</default>
+        <label>Logistics</label>
+    </customValue>
+    <customValue>
+        <fullName>MA06</fullName>
+        <default>false</default>
+        <label>Marine, Aviation and Transport, Multi-Modal Insurance Policy</label>
+    </customValue>
+    <customValue>
+        <fullName>MA99</fullName>
+        <default>false</default>
+        <label>Marine(Other)</label>
+    </customValue>
+    <customValue>
+        <fullName>CG01</fullName>
+        <default>false</default>
+        <label>Commercial General Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CG02</fullName>
+        <default>false</default>
+        <label>Product Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CG03</fullName>
+        <default>false</default>
+        <label>Product Recall</label>
+    </customValue>
+    <customValue>
+        <fullName>CG04</fullName>
+        <default>false</default>
+        <label>Product Guarantee</label>
+    </customValue>
+    <customValue>
+        <fullName>CG05</fullName>
+        <default>false</default>
+        <label>Premises Pollution Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CG06</fullName>
+        <default>false</default>
+        <label>Personal Information Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CG07</fullName>
+        <default>false</default>
+        <label>Gas Accident Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CG08</fullName>
+        <default>false</default>
+        <label>Disaster Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CG09</fullName>
+        <default>false</default>
+        <label>Loading Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CG10</fullName>
+        <default>false</default>
+        <label>Sports Facilities Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CG11</fullName>
+        <default>false</default>
+        <label>Amusement Facilities Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CG12</fullName>
+        <default>false</default>
+        <label>No Fault Compensation</label>
+    </customValue>
+    <customValue>
+        <fullName>CG13</fullName>
+        <default>false</default>
+        <label>Publicly Used Facilities Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CG14</fullName>
+        <default>false</default>
+        <label>Academy/School Facility Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CG15</fullName>
+        <default>false</default>
+        <label>International Freight Movement Operators</label>
+    </customValue>
+    <customValue>
+        <fullName>CG16</fullName>
+        <default>false</default>
+        <label>Elevator Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CG17</fullName>
+        <default>false</default>
+        <label>Aircraft Refueling Liability / Airport Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CG18</fullName>
+        <default>false</default>
+        <label>Contractor Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CG19</fullName>
+        <default>false</default>
+        <label>Life Science</label>
+    </customValue>
+    <customValue>
+        <fullName>CG20</fullName>
+        <default>false</default>
+        <label>Laboratory Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CG21</fullName>
+        <default>false</default>
+        <label>Drone Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CG22</fullName>
+        <default>false</default>
+        <label>Medical Malpractice Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CG99</fullName>
+        <default>false</default>
+        <label>Umbrella Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CP01</fullName>
+        <default>false</default>
+        <label>Directors &amp; Officiers Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CP02</fullName>
+        <default>false</default>
+        <label>Errors &amp; Omissions(KR) Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CP03</fullName>
+        <default>false</default>
+        <label>IT Errors or Omissions</label>
+    </customValue>
+    <customValue>
+        <fullName>CP04</fullName>
+        <default>false</default>
+        <label>E-biz Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CP05</fullName>
+        <default>false</default>
+        <label>Medical Liability</label>
+    </customValue>
+    <customValue>
+        <fullName>CP06</fullName>
+        <default>false</default>
+        <label>Financial Professional Indemnity Insurance</label>
+    </customValue>
+    <customValue>
+        <fullName>CP99</fullName>
+        <default>false</default>
+        <label>Professional Liability(Other)</label>
+    </customValue>
+    <customValue>
+        <fullName>CW01</fullName>
+        <default>false</default>
+        <label>Workers Compensation(Domestic)</label>
+    </customValue>
+    <customValue>
+        <fullName>CW02</fullName>
+        <default>false</default>
+        <label>Workers Compensation(Overseas)</label>
+    </customValue>
+    <customValue>
+        <fullName>CW03</fullName>
+        <default>false</default>
+        <label>Workers Compensation(Crew)</label>
+    </customValue>
+    <customValue>
+        <fullName>CW04</fullName>
+        <default>false</default>
+        <label>Workers Compensation(Apprentice)</label>
+    </customValue>
+    <customValue>
+        <fullName>CW05</fullName>
+        <default>false</default>
+        <label>Workers Compensation(Special)</label>
+    </customValue>
+    <customValue>
+        <fullName>CW99</fullName>
+        <default>false</default>
+        <label>Workers Compensation(Other)</label>
+    </customValue>
+    <customValue>
+        <fullName>CO01</fullName>
+        <default>false</default>
+        <label>Miscellaneous Insurance</label>
+    </customValue>
+    <customValue>
+        <fullName>CO02</fullName>
+        <default>false</default>
+        <label>Contigency</label>
+    </customValue>
+    <customValue>
+        <fullName>CO03</fullName>
+        <default>false</default>
+        <label>Weather</label>
+    </customValue>
+    <customValue>
+        <fullName>CO04</fullName>
+        <default>false</default>
+        <label>Handset</label>
+    </customValue>
+    <customValue>
+        <fullName>CO05</fullName>
+        <default>false</default>
+        <label>Bond</label>
+    </customValue>
+    <customValue>
+        <fullName>CO06</fullName>
+        <default>false</default>
+        <label>Burglary, Robbery</label>
+    </customValue>
+    <customValue>
+        <fullName>CO07</fullName>
+        <default>false</default>
+        <label>Kidnap, Ransom</label>
+    </customValue>
+    <customValue>
+        <fullName>CO08</fullName>
+        <default>false</default>
+        <label>War</label>
+    </customValue>
+    <customValue>
+        <fullName>CO09</fullName>
+        <default>false</default>
+        <label>Warranty &amp; Indemnity</label>
+    </customValue>
+    <customValue>
+        <fullName>CO10</fullName>
+        <default>false</default>
+        <label>Travel</label>
+    </customValue>
+    <customValue>
+        <fullName>CO99</fullName>
+        <default>false</default>
+        <label>Other Specialty</label>
+    </customValue>
+    <customValue>
+        <fullName>CS01</fullName>
+        <default>false</default>
+        <label>Guarantee</label>
+    </customValue>
+    <customValue>
+        <fullName>CS99</fullName>
+        <default>false</default>
+        <label>Guarantee(Other)</label>
+    </customValue>
+    <customValue>
+        <fullName>PA01</fullName>
+        <default>false</default>
+        <label>Personal Accident(Organization)</label>
+    </customValue>
+    <customValue>
+        <fullName>PA02</fullName>
+        <default>false</default>
+        <label>Personal Accident(Private)</label>
+    </customValue>
+    <customValue>
+        <fullName>PA03</fullName>
+        <default>false</default>
+        <label>Travel(Overseas)</label>
+    </customValue>
+    <customValue>
+        <fullName>PA04</fullName>
+        <default>false</default>
+        <label>Travel(Domestic)</label>
+    </customValue>
+    <customValue>
+        <fullName>PA05</fullName>
+        <default>false</default>
+        <label>Travel(Overseas Long-term)</label>
+    </customValue>
+    <customValue>
+        <fullName>PA99</fullName>
+        <default>false</default>
+        <label>Personal Accident(other)</label>
+    </customValue>
+    <customValue>
+        <fullName>AU01</fullName>
+        <default>false</default>
+        <label>Commercial Auto</label>
+    </customValue>
+    <customValue>
+        <fullName>AU02</fullName>
+        <default>false</default>
+        <label>Commercial Auto(Motocycle)</label>
+    </customValue>
+    <customValue>
+        <fullName>ET01</fullName>
+        <default>false</default>
+        <label>Accomplishment&apos;s Brokerage</label>
+    </customValue>
+    <customValue>
+        <fullName>ETCS</fullName>
+        <default>false</default>
+        <label>Consulting</label>
+    </customValue>
+    <customValue>
+        <fullName>ET99</fullName>
+        <default>false</default>
+        <label>Etc</label>
+    </customValue>
+    <description>LOB Code Level 3</description>
+    <masterLabel>[COM] LOB3</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

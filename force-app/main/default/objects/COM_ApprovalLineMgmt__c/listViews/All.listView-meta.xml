@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>ApproveType__c</columns>
+    <columns>BizArea__c</columns>
+    <columns>Team__c</columns>
+    <columns>Approver1_lk__c</columns>
+    <columns>ApproverLine__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+</ListView>

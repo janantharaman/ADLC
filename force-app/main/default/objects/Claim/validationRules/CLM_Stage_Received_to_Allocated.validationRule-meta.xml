@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CLM_Stage_Received_to_Allocated</fullName>
+    <active>true</active>
+    <description>Claim Stage 변경 시 (Received to Allocated) 필드 제어</description>
+    <errorConditionFormula>AND(
+  ISCHANGED(Stage__c), 
+  NOT(ISPICKVAL(Stage__c, &quot;Received&quot;)),
+				OR(
+  ISBLANK(LKShare__c ),
+  NOT(IsMapped_fm__c ),
+  NOT(PlacementValid_is__c),
+		LocationCount_rs__c  =0
+)
+				)</errorConditionFormula>
+    <errorMessage>Before proceeding, ensure all required items are completed: LKshare (%), Placement ID mapping, validation field alignment, and Location.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,12 @@
+.slds-dropdown {
+    background-color: white;
+}
+
+.slds-listbox__option {
+    background-color: white;
+}
+
+
+.slds-listbox__option:hover {
+    background-color: #f3f3f3;
+}

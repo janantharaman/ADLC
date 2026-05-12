@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Naver news api 조회를 위한 keyword 관리</description>
+    <label>News Config</label>
+    <pluralLabel>News Configs</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

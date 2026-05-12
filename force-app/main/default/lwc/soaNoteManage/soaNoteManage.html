@@ -1,0 +1,114 @@
+<!--
+ * @filename      : SoaNoteManage.html
+ * @project-name  : LK보험중계_신규계약관리시스템 구축
+ * @author        : i2max
+ * @date          : 2026-03-18 (수)
+ * @group         :
+ * @group-content :
+ * @description   :
+ * @reference     :
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2026-03-18      i2max        Create
+-->
+<template>
+    <div class="slds-p-around_medium slds-p-left_large">
+        <lightning-card title={pageTitle} icon-name="standard:note">
+
+            <!-- 탭 모드: 필터 -->
+            <template if:true={isTabMode}>
+                <div class="slds-p-horizontal_small">
+                    <c-soa-note-manage-filter
+                            onsearch={handleFilterSearch}
+                            onreset={handleFilterReset}>
+                    </c-soa-note-manage-filter>
+                </div>
+            </template>
+
+            <!-- Loading -->
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </template>
+
+            <!-- Button Bar & Total Count -->
+            <div class="slds-p-horizontal_x-small slds-p-top_x-small slds-p-bottom_xx-small slds-grid slds-grid_vertical-align-end">
+                <span class="slds-text-body_small slds-text-title">Total Count: {totalCount}</span>
+                <div class="slds-col_bump-left">
+                    <lightning-button-group>
+                        <lightning-button-icon
+                                icon-name="utility:add"
+                                alternative-text="Expand All"
+                                title="Expand All"
+                                onclick={handleExpandAll}>
+                        </lightning-button-icon>
+                        <lightning-button-icon
+                                icon-name="utility:dash"
+                                alternative-text="Collapse All"
+                                title="Collapse All"
+                                onclick={handleCollapseAll}>
+                        </lightning-button-icon>
+                        <lightning-button label={labels.COM_BTN_REFRESH}
+                                          icon-name="action:refresh"
+                                          title={labels.COM_LBL_REFRESH}
+                                          onclick={handleRefresh}></lightning-button>
+                    </lightning-button-group>
+
+                    <!-- 탭 모드: Create SOA -->
+                    <template if:true={isTabMode}>
+                        <lightning-button
+                                label="Create SOA"
+                                icon-name="utility:add"
+                                variant="brand"
+                                class="slds-p-left_x-small"
+                                onclick={handleCreateSOA}
+                                disabled={isCreateSOADisabled}>
+                        </lightning-button>
+                    </template>
+
+                    <!-- 레코드 모드: Save as Excel -->
+                    <template if:true={isRecordMode}>
+                        <lightning-button-group >
+                            <lightning-button
+                                    label="Download Debit/Cover Notes"
+                                    icon-name="utility:download"
+                                    variant="brand-outline"
+                                    onclick={handleDownloadNotes}
+                                    disabled={isDownloadNotesDisabled}
+                            >
+                            </lightning-button>
+<!--                        <lightning-button-->
+<!--                                label="Download"-->
+<!--                                icon-name="utility:download"-->
+<!--                                variant="brand"-->
+<!--                                class="slds-p-left_x-small"-->
+<!--                                onclick={handleDownload}-->
+<!--                                disabled={isExportBtnDisabled}>-->
+<!--                        </lightning-button>-->
+                            <lightning-button
+                                    label="Save as Excel"
+                                    icon-name="doctype:excel"
+                                    variant="brand"
+                                    onclick={handleSaveAsExcel}
+                                    disabled={isExportBtnDisabled}>
+                            </lightning-button>
+                        </lightning-button-group>
+                    </template>
+                </div>
+            </div>
+
+            <div class="slds-p-horizontal_x-small">
+                <c-rec-table
+                        lwc:ref="table"
+                        key-field="Id"
+                        columns={tableColumns}
+                        data={tableData}
+                        style={tableStyle}
+                        onrowselection={handleRowSelection}>
+                </c-rec-table>
+            </div>
+        </lightning-card>
+    </div>
+</template>

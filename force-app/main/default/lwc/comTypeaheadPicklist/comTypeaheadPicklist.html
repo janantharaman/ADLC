@@ -1,0 +1,94 @@
+<!--
+ * @filename      : ComTypeaheadPicklist.html
+ * @project-name  : LK보험중계_신규계약관리시스템 구축
+ * @author        : i2max
+ * @date          : 2026-03-15 (일)
+ * @group         :
+ * @group-content :
+ * @description   :
+ * @reference     :
+ * @copyright     : LK Insurance Services
+ * @modification  Log
+ * ===================================================================
+ * ver   date             author            description
+ * ===================================================================
+ * 1.0   2026-03-15      i2max        Create
+-->
+<template>
+    <div class="slds-combobox_container slds-is-relative">
+        <div class={comboboxClass} style="position: relative; width: 100%">
+            <div class={formElementClass}>
+                <template if:false={hasSelection}>
+                    <lightning-icon
+                            class="slds-input__icon slds-input__icon_right"
+                            icon-name="utility:search"
+                            size="x-small">
+                    </lightning-icon>
+                    <input
+                            class="slds-input slds-combobox__input"
+                            type="text"
+                            placeholder={placeholder}
+                            value={keyword}
+                            disabled={disabled}
+                            oninput={handleInput}
+                            onblur={handleBlur}
+                            onkeydown={handleKeydown}
+                            role="combobox"
+                            aria-autocomplete="list"
+                            aria-expanded={isOpen}
+                            aria-haspopup="listbox"
+                    />
+                </template>
+
+                <template if:true={hasSelection}>
+                    <span class="slds-truncate slds-p-left_x-small">{selectedLabel}</span>
+                    <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
+                            title="Remove"
+                            onclick={handleClear}
+                            if:false={disabled}>
+                        <lightning-icon
+                                icon-name="utility:close"
+                                size="x-small"
+                                alternative-text="Remove">
+                        </lightning-icon>
+                    </button>
+                </template>
+            </div>
+
+            <!-- Validation Message -->
+            <template if:true={validationMessage}>
+                <div class="slds-form-element__help" aria-live="assertive">{validationMessage}</div>
+            </template>
+
+            <!-- Dropdown -->
+            <template if:true={isOpen}>
+                <div class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid"
+                     role="listbox" style="z-index: 9999;"
+                     onmousedown={handleDropdownMouseDown}>
+                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                        <template if:true={showNoResults}>
+                            <li class="slds-listbox__item" role="presentation">
+                                <div class="slds-p-around_small slds-text-color_weak">
+                                    검색 결과가 없습니다.
+                                </div>
+                            </li>
+                        </template>
+                        <template for:each={filteredOptions} for:item="o">
+                            <li key={o.value} class="slds-listbox__item" role="presentation">
+                                <div class="slds-media slds-listbox__option slds-listbox__option_plain"
+                                     role="option"
+                                     data-value={o.value}
+                                     data-label={o.label}
+                                     onclick={handleSelect}>
+                                      <span class="slds-media__body">
+                                          <span class="slds-truncate">{o.label}</span>
+                                      </span>
+                                </div>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

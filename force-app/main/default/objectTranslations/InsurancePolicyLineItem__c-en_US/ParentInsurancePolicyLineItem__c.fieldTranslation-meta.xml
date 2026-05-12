@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- END Target InsurancePolicy Details --></label>
+    <name>ParentInsurancePolicyLineItem__c</name>
+    <relationshipLabel><!-- Insurance Policy Line Items (END Target InsurancePolicy Details) --></relationshipLabel>
+</CustomFieldTranslation>

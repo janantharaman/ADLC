@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CategorySub__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Category(Sub)</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <controllingField>CategoryMain__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetName>Category_Sub</valueSetName>
+        <valueSettings>
+            <controllingFieldValue>Configuration</controllingFieldValue>
+            <valueName>User Manage</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Configuration</controllingFieldValue>
+            <valueName>Role/Profile</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Configuration</controllingFieldValue>
+            <valueName>Public Group</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Configuration</controllingFieldValue>
+            <valueName>Sharing Rule</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Configuration</controllingFieldValue>
+            <valueName>(Assignment or Escalation) Rule Manage</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Configuration</controllingFieldValue>
+            <valueName>Object Field Manage</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Configuration</controllingFieldValue>
+            <valueName>PageLayout/App Builder</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Configuration</controllingFieldValue>
+            <valueName>Path Setting</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Configuration</controllingFieldValue>
+            <valueName>Validation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Configuration</controllingFieldValue>
+            <valueName>Restrict/Scope Rule</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Configuration</controllingFieldValue>
+            <valueName>Flow/Approval</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Configuration</controllingFieldValue>
+            <valueName>Report/Dashboard</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Configuration</controllingFieldValue>
+            <controllingFieldValue>Development</controllingFieldValue>
+            <controllingFieldValue>I/F</controllingFieldValue>
+            <valueName>Data Loader</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Configuration</controllingFieldValue>
+            <controllingFieldValue>Development</controllingFieldValue>
+            <controllingFieldValue>I/F</controllingFieldValue>
+            <valueName>etc</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Configuration</controllingFieldValue>
+            <controllingFieldValue>Development</controllingFieldValue>
+            <controllingFieldValue>I/F</controllingFieldValue>
+            <valueName>...</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Development</controllingFieldValue>
+            <valueName>Custom UX(LWC/Aura/Visualforce)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Development</controllingFieldValue>
+            <valueName>Apex/Trigger</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Development</controllingFieldValue>
+            <valueName>Scheduler</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Development</controllingFieldValue>
+            <valueName>Document Generation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Development</controllingFieldValue>
+            <valueName>Java</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Development</controllingFieldValue>
+            <valueName>Oracle(Procedure etc)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Development</controllingFieldValue>
+            <valueName>Heroku</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Development</controllingFieldValue>
+            <valueName>3rd-Party(AWS etc)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Development</controllingFieldValue>
+            <valueName>Tableau</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>I/F</controllingFieldValue>
+            <valueName>Rest/Soap API</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>I/F</controllingFieldValue>
+            <valueName>Mule</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>I/F</controllingFieldValue>
+            <valueName>xPlenty</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>I/F</controllingFieldValue>
+            <valueName>Heroku Connect</valueName>
+        </valueSettings>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

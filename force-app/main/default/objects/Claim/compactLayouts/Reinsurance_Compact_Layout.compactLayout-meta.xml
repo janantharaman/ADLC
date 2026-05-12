@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reinsurance_Compact_Layout</fullName>
+    <fields>Name</fields>
+    <fields>ReceivedDate__c</fields>
+    <fields>PostingDate__c</fields>
+    <fields>AccountingDate__c</fields>
+    <fields>IssueDate__c</fields>
+    <label>Reinsurance Compact Layout</label>
+</CompactLayout>

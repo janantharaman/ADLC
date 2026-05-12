@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Assign_Layer_Id</name>
+        <label>Assign Layer Id</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>var_LayerIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Layer.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Layer</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Placement_Id</name>
+        <label>Assign Placement Id</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>var_PlacementIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Claim_for_Placement_Id.Placement_lk__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Claim_for_Placement_Id</targetReference>
+        </connector>
+    </assignments>
+    <customErrors>
+        <name>Check_Claim_Allocation</name>
+        <label>Check Claim Allocation</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <customErrorMessages>
+            <errorMessage>{!$Label.MSG_ALLOCATE_CHILD_CLAIM_FIRST}</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <customErrors>
+        <name>Duplication_Error</name>
+        <label>Duplication Error</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <customErrorMessages>
+            <errorMessage>{!$Label.COM_MSG_DUPLICATION}</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <customErrors>
+        <name>Line_Item_Exist_Error</name>
+        <label>Line Item Exist Error</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <customErrorMessages>
+            <errorMessage>{!$Label.BDX_MSG_LINE_ITEM_EXIST}</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <customErrors>
+        <name>Query_Limit</name>
+        <label>Query Limit</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <customErrorMessages>
+            <errorMessage>{!$Label.COM_MSG_SYSTEM_ERROR}</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <decisions>
+        <description>기존에 Line Item이 존재하는 경우, 변경 불가 메세지</description>
+        <name>BDX_Line_Item_Exist</name>
+        <label>BDX Line Item Exist?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Get_Duplicated_Records</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>None</defaultConnectorLabel>
+        <rules>
+            <name>Exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_BDX_Line_Item</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Line_Item_Exist_Error</targetReference>
+            </connector>
+            <label>Exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>새로 생성되는 레코드인지 확인 후, 기존 레코드에서 Key값인 필드를 변경하려고 하는 경우 Line Item 유무 확인</description>
+        <name>Is_New</name>
+        <label>Is New?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Get_BDX_Line_Item</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Updated</defaultConnectorLabel>
+        <rules>
+            <name>New</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record__Prior.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Duplicated_Records</targetReference>
+            </connector>
+            <label>New</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Allocation이 되지 않은 Claim이 있는지 확인</description>
+        <name>Is_Not_Allocated</name>
+        <label>Is Not Allocated?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Only_Change_Seq_or_Remark</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Allocated</defaultConnectorLabel>
+        <rules>
+            <name>Not_Allocated</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Panel</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_Claim_Allocation</targetReference>
+            </connector>
+            <label>Not Allocated</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>중복되는 레코드가 없는 경우, Seq 업데이트
+중복되는 레코드가 있는 경우, 업데이트 불가 메세지 출력</description>
+        <name>Is_null</name>
+        <label>Is null?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Duplication_Error</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Exist</defaultConnectorLabel>
+        <rules>
+            <name>Null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Duplicated_Records</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_BDX_Records_for_Seq</targetReference>
+            </connector>
+            <label>Null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Seq, Remark 변경인 경우, 해당 값 업데이트</description>
+        <name>Only_Change_Seq_or_Remark</name>
+        <label>Only Change Seq or Remark?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Is_New</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>fm_OnlyRemarksOrSeqChanged</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Type이 SOA인지 확인</description>
+        <name>SOA_Type</name>
+        <label>SOA Type?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Only_Change_Seq_or_Remark</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Debit Note</defaultConnectorLabel>
+        <rules>
+            <name>Outcome_1_of_SOA</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BDXType__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>SOA</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Claim</targetReference>
+            </connector>
+            <label>SOA</label>
+        </rules>
+    </decisions>
+    <description>Facility BDX 생성/수정 시, 
+1. Duplicate 체크
+2. Line Item 여부 체크
+하나라도 존재 시, 수정 불가</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>fm_BDXNo</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.Facility_lk__r.ShortName__c} &amp; &quot;-&quot; &amp;
+TEXT({!$Record.Facility_lk__r.UY__c}) &amp; &quot;-&quot; &amp;
+CASE({!$Record.BDXType__c},
+    &quot;Debit Note&quot;, &quot;1&quot;,
+    &quot;SOA&quot;, &quot;2&quot;,
+    &quot;0&quot;
+) &amp; &quot;-&quot; &amp;
+{!$Record.BDXPeriod__c} &amp; &quot;-&quot; &amp;
+TEXT(BLANKVALUE({!Get_BDX_Records_for_Seq.Seq__c}, 0) + 1)</expression>
+    </formulas>
+    <formulas>
+        <name>fm_IsNew</name>
+        <dataType>Boolean</dataType>
+        <expression>ISNEW()</expression>
+    </formulas>
+    <formulas>
+        <name>fm_OnlyRemarksOrSeqChanged</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+    NOT(ISBLANK({!$Record__Prior.Id})),
+    OR(
+        ISCHANGED({!$Record.Remarks__c}),
+        ISCHANGED({!$Record.Seq__c})
+    ),
+    NOT(ISCHANGED({!$Record.BDXType__c})),
+    NOT(ISCHANGED({!$Record.BDXPeriod__c})),
+    NOT(ISCHANGED({!$Record.Account_lk__c})),
+    NOT(ISCHANGED({!$Record.IssueFrom__c})),
+    NOT(ISCHANGED({!$Record.IssueTo__c})),
+    NOT(ISCHANGED({!$Record.Facility_lk__c})),
+    NOT(ISCHANGED({!$Record.FacilityParticipant_lk__c}))
+)</expression>
+    </formulas>
+    <formulas>
+        <name>fm_Seq</name>
+        <dataType>Number</dataType>
+        <expression>BLANKVALUE({!Get_BDX_Records_for_Seq.Seq__c}, 0) + 1</expression>
+        <scale>2</scale>
+    </formulas>
+    <interviewLabel>LK_TRG_Faciility {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>LK_TRG_FacilityBDX_Check</label>
+    <loops>
+        <description>Claim의 Placement ID를 변수에 할당하기 위한 Loop</description>
+        <name>Loop_Claim_for_Placement_Id</name>
+        <label>Loop Claim for Placement Id</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>Get_Claim</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_Placement_Id</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Layer</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <description>Layer ID를 변수에 할당하기 위한 Loop</description>
+        <name>Loop_Layer</name>
+        <label>Loop Layer</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>Get_Layer</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_Layer_Id</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Panel</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_BDX_Line_Item</name>
+        <label>Get BDX Line Item</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>BDX_Line_Item_Exist</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>FacilityBDX_md__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>COM_FacilityBDXLineItem__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Facility, BDX Type, BDX Period(Cycle)이 동일한 Record</description>
+        <name>Get_BDX_Records_for_Seq</name>
+        <label>Get BDX Records for Seq</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_Seq</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Facility_lk__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Facility_lk__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>BDXType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.BDXType__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>BDXPeriod__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.BDXPeriod__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Id</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>COM_FacilityBDX__c</object>
+        <sortField>Seq__c</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>아래 요건을 위하여, Allocation 미진행된 Child Claim 레코드 조회  
+(확정된 Allocation 여부는 PLA인 경우에는 Status = Closed로 판단, SOC인 경우에는 Note 발행 여부 Closing Status = Posting Closed로 판단)
+
+1. Market Type = Facility로 지정된 Panel
+2. Allocation 미진행한 Child Claim 이 있으면 메세지 출력 &amp; Facility BDX를 발행불가</description>
+        <name>Get_Claim</name>
+        <label>Get Claim</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Claim_for_Placement_Id</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Query_Limit</targetReference>
+        </faultConnector>
+        <filterLogic>1 AND ((2 AND 3 AND 4) OR (5 AND 6))</filterLogic>
+        <filters>
+            <field>ParentClaim_lk__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>LastPLA_is__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>ClaimDocType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>PLA</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Closed</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>ClaimDocType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>SOC</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>ClosingStatus__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Posting Closed</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Claim</object>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>중복되는 레코드가 있는지 확인</description>
+        <name>Get_Duplicated_Records</name>
+        <label>Get Duplicated Records</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Is_null</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Facility_lk__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Facility_lk__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>BDXType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.BDXType__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>FacilityParticipant_lk__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.FacilityParticipant_lk__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IssueFrom__c</field>
+            <operator>LessThanOrEqualTo</operator>
+            <value>
+                <elementReference>$Record.IssueTo__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IssueTo__c</field>
+            <operator>GreaterThanOrEqualTo</operator>
+            <value>
+                <elementReference>$Record.IssueFrom__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Id</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>COM_FacilityBDX__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>조회한 Placement의 Layer 레코드 조회</description>
+        <name>Get_Layer</name>
+        <label>Get Layer</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Layer</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Placement_lk__c</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>var_PlacementIds</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>OPP_Layer__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>조회한 Layer의 Panel 레코드 중, Facility BDX 발행 대상 (Account to)인 패널 레코드 조회</description>
+        <name>Get_Panel</name>
+        <label>Get Panel</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Is_Not_Allocated</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Reinsurer_lk__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.FacilityParticipant_lk__r.ReinsurerAccount_lk__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Finalize_is__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Layer_md__c</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>var_LayerIds</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>MarketType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Facility</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>FacilityParticipant_lk__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.FacilityParticipant_lk__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OPP_Panel__c</object>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Seq Update</description>
+        <name>Update_Seq</name>
+        <label>Update Seq</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>fm_BDXNo</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Seq__c</field>
+            <value>
+                <elementReference>fm_Seq</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>SOA_Type</targetReference>
+        </connector>
+        <object>COM_FacilityBDX__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>var_LayerIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>var_PlacementIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

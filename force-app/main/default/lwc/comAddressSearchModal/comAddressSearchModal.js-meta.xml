@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>COM Address Search Modal</description>
+    <masterLabel>COM Address Search Modal</masterLabel>
+    <targets>
+        <target>lightning__RecordAction</target>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <isExposed>true</isExposed>
+    <apiVersion>66.0</apiVersion>
+</LightningComponentBundle>

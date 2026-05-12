@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Project</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Projects</value>
+    </caseValues>
+    <layouts>
+        <layout>Project Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Description --></label>
+            <section>Description</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- Add Milestone --></label>
+        <name>Add_Milestone</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Add Project Member --></label>
+        <name>Add_Project_Member</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Delete Project --></label>
+        <name>Delete_Project</name>
+    </quickActions>
+    <sharingReasons>
+        <label><!-- i2PMS --></label>
+        <name>i2PMS</name>
+    </sharingReasons>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Please Check Actual End Date! --></errorMessage>
+        <name>Actual_End_Date_Validation_Check</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- (Stage = &quot;In Progress&quot;) Please Input Actual Start Date! --></errorMessage>
+        <name>Actual_Start_Date_Input_Check</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Please Input Actual Start Date! --></errorMessage>
+        <name>Actual_Start_Date_Validation_Check</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Please Check Plan End Date! --></errorMessage>
+        <name>Plan_End_Date_Validation_Check</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Project Manager 를 지정하세요. --></errorMessage>
+        <name>Project_Manager_Null_Check</name>
+    </validationRules>
+</CustomObjectTranslation>

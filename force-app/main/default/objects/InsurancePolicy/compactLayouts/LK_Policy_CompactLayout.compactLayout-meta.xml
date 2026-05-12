@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LK_Policy_CompactLayout</fullName>
+    <fields>Name</fields>
+    <fields>LKRefNo_fm__c</fields>
+    <fields>SourceOpportunityId</fields>
+    <fields>Total_Premium_Amount__c</fields>
+    <fields>BrokerageAmt__c</fields>
+    <fields>BrokerageRate__c</fields>
+    <fields>Currency__c</fields>
+    <fields>Status</fields>
+    <fields>OwnerId</fields>
+    <label>LK_Policy_CompactLayout</label>
+</CompactLayout>

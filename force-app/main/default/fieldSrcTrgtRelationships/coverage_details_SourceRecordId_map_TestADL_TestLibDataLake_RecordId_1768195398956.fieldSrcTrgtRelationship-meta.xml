@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FieldSrcTrgtRelationship xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <definitionCreationType>Custom</definitionCreationType>
+    <lookupFieldName>coverage_details__dlm.rel_1768195398956_end__c</lookupFieldName>
+    <masterLabel>coverage_details_SourceRecordId_map_TestADL_TestLibDataLake_RecordId_1768195398956</masterLabel>
+    <owner>DataCloud</owner>
+    <relationshipCardinality>ManyToOne</relationshipCardinality>
+    <sourceFieldName>coverage_details__dlm.SourceRecordId__c</sourceFieldName>
+    <targetEntity xsi:nil="true"/>
+    <targetFieldName>TestADL_TestLibDataLake__dlm.RecordId__c</targetFieldName>
+</FieldSrcTrgtRelationship>
