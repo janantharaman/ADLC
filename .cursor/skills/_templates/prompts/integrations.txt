@@ -1,0 +1,17 @@
+List all external systems and integration patterns commonly used with this industry cloud.
+
+For each integration, provide:
+1. **System Name**: Name of the external system (e.g., Core Banking System, EHR System)
+2. **Protocol**: Integration protocol used (REST API, SOAP, WebSocket, Batch, etc.)
+3. **Use Case**: Primary business use case for this integration
+4. **Example Endpoint**: Sample API endpoint or integration pattern
+
+Format your response as structured data with clear sections for each integration.
+
+Example format:
+1. System Name
+   - Protocol: REST API
+   - Use Case: [business purpose]
+   - Example Endpoint: /api/v1/endpoint
+
+Please provide comprehensive information for ALL integrations mentioned in the sources.

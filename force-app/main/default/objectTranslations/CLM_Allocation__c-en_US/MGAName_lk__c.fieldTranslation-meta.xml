@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label><!-- MGA Name --></label>
-    <name>MGAName_lk__c</name>
-    <relationshipLabel><!-- Claim Allocation (MGA Name) --></relationshipLabel>
-</CustomFieldTranslation>

@@ -1,0 +1,32 @@
+{
+  "notebooklm": {
+    "notebook_id": "06dda307-e864-475d-957e-8e92de24d79d",
+    "notebook_url": "https://notebooklm.google.com/notebook/06dda307-e864-475d-957e-8e92de24d79d",
+    "notebook_title": "Node.js / JavaScript Knowledge Base - Architect",
+    "enabled": true,
+    "timeout_seconds": 120,
+    "fallback_to_builtin": true
+  },
+  "query_strategy": {
+    "architecture": {
+      "template": "What are the architecture patterns for {topic} in Node.js/TypeScript? Include scalability and performance.",
+      "use_notebooklm": true
+    },
+    "performance": {
+      "template": "How do I optimize Node.js for {scenario}? Include event loop, streaming, and clustering.",
+      "use_notebooklm": true
+    },
+    "data_structures": {
+      "template": "What data structures and algorithms are best for {use_case} in JavaScript/TypeScript?",
+      "use_notebooklm": true
+    },
+    "scalability": {
+      "template": "What are the patterns for {feature} in highly scalable Node.js enterprise systems?",
+      "use_notebooklm": true
+    },
+    "salesforce_integration": {
+      "template": "How do I integrate Node.js with Salesforce {api_type}? Include OAuth and error handling.",
+      "use_notebooklm": true
+    }
+  }
+}

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help><!-- Gantt의 Start Datetime을 9시간 전으로 조정 --></help>
-    <label><!-- Start Datetime(-9) --></label>
-    <name>fm_StartDatetime__c</name>
-</CustomFieldTranslation>

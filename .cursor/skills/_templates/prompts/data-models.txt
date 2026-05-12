@@ -1,0 +1,17 @@
+Analyze all sources in this notebook and identify Salesforce objects used in this industry cloud.
+
+For each object, provide:
+1. **Object API Name**: The exact Salesforce API name (e.g., FinServ__FinancialAccount__c)
+2. **Description**: Brief 1-sentence description of the object's purpose
+3. **Key Fields**: List the 5-10 most important fields with their API names
+4. **Related Objects**: List parent/child relationships with other objects
+
+Format your response as structured data with clear sections for each object.
+
+Example format:
+1. ObjectName__c
+   - Description: [purpose]
+   - Key Fields: Field1__c, Field2__c, Field3__c
+   - Related Objects: ParentObject__c, ChildObject__c
+
+Please provide comprehensive information for ALL objects mentioned in the sources.

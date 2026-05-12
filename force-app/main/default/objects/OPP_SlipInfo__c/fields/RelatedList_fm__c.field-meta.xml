@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>RelatedList_fm__c</fullName>
-    <formula>IF( ClosingHeader_is__c = true,false,true)</formula>
-    <label>Related List</label>
-    <trackHistory>false</trackHistory>
-    <trackTrending>false</trackTrending>
-    <type>Checkbox</type>
-</CustomField>

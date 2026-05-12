@@ -1,0 +1,17 @@
+Identify the key skill areas and domain expertise required for developers working with this industry cloud.
+
+For each competency area, provide:
+1. **Area Name**: Name of the skill area (e.g., Wealth Management, Patient Care Coordination)
+2. **Expertise Level**: Required level - Expert, Advanced, or Intermediate
+3. **Capabilities**: List 3-5 specific capabilities or skills within this area
+
+Format your response as structured data with clear sections for each competency.
+
+Example format:
+1. Area Name (Expertise Level)
+   Capabilities:
+   - Capability 1
+   - Capability 2
+   - Capability 3
+
+Please provide comprehensive information for ALL competency areas mentioned in the sources.

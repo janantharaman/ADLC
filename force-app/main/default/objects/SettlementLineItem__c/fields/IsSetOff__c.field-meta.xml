@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>IsSetOff__c</fullName>
-    <defaultValue>false</defaultValue>
-    <description>상계여부</description>
-    <label>(M)Is Set Off</label>
-    <trackTrending>false</trackTrending>
-    <type>Checkbox</type>
-</CustomField>

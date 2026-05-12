@@ -1,1 +1,0 @@
-- 2026-04-29 | Discovery complete (DRAFT) | Org: LKInsuranceDev | 45+ custom objects, 175 Apex, 12 triggers (all handler-delegating), 269 flows, 80 LWC, 4 Agentforce agents | Key risks: 37/74 users on SysAdmin, LatestContractNumMgmt__c ReadWrite, 10 unmanaged packages, no formal requirements document

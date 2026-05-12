@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>KycCompletedIs_fm__c</fullName>
-    <formula>IF(OR(AND(ActiveKr_is__c, KycCompletedKr_is__c), AND(ActiveRe_is__c, KycCompletedRe_is__c), AND(ActiveVn_is__c, KycCompletedVn_is__c)), true, false)</formula>
-    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <label>KYC Completed(KR/Re/VN)</label>
-    <type>Checkbox</type>
-</CustomField>

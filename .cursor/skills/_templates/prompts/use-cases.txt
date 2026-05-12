@@ -1,0 +1,15 @@
+List the most common implementation scenarios and use cases for this industry cloud.
+
+For each use case, provide:
+1. **Title**: Concise use case title (e.g., "Wealth Management Portal")
+2. **Description**: 1-2 sentence description of what the use case accomplishes
+3. **Technical Components**: List key technical components involved (Apex classes, LWC components, integrations, etc.)
+
+Format your response as structured data with clear sections for each use case.
+
+Example format:
+1. Use Case Title
+   - Description: [what it does]
+   - Technical Components: Apex backend, LWC frontend, External API integration
+
+Please provide comprehensive information for ALL use cases mentioned in the sources.

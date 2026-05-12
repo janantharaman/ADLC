@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Allows custom permissions for Agentforce Agent : Document_Analysis_Agent&apos;s agent user : document_analysis_agent@00djo000001mih3284186170.ext.</description>
-    <hasActivationRequired>false</hasActivationRequired>
-    <label>Document_Analysis_Agent1315916709 Permissions</label>
-    <license>Einstein Agent</license>
-</PermissionSet>

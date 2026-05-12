@@ -2,7 +2,7 @@
     "mcpServers": {                                                                                                                                                                                            
       "salesforce": {                                                                                                                                                                                          
         "command": "npx",
-        "args": ["@salesforce/mcp", "--orgs", "headlessstormorg,LKInsuranceDevOrg", "--toolsets", "all"]                                                                                                                                                     
+        "args": ["@salesforce/mcp", "--orgs", "YOUR_ORG_ALIAS", "--toolsets", "all"]                                                                                                                                                     
       }                                                                                                                                                                                                        
     }                                                                                                                                                                                                          
   }

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help><!-- (매주 월요일)주간 착수/완료 예정 과제 알림 이메일 발송 여부 --></help>
-    <label><!-- Enable Weekly Task Alert --></label>
-    <name>Enable_Weekly_Task_Alert__c</name>
-</CustomFieldTranslation>

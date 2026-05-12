@@ -1,0 +1,45 @@
+{
+  "notebooklm": {
+    "notebook_id": "9ca50af3-1937-43a6-87c4-3d8629a1ccbd",
+    "notebook_title": "Industry Knowledge Base: CG TPM",
+    "source_count": 41,
+    "last_updated": "2026-03-06",
+    "enabled": true,
+    "timeout_seconds": 120,
+    "fallback_to_pretrained": true
+  },
+  "query_strategy": {
+    "data_models": {
+      "template": "What is the data model for {topic} in CG Cloud TPM? Include fields, relationships, and purpose.",
+      "use_notebooklm": true
+    },
+    "business_processes": {
+      "template": "Explain the {process} workflow in CG Cloud TPM, including steps, data involved, and best practices.",
+      "use_notebooklm": true
+    },
+    "kpi_configuration": {
+      "template": "How do I configure {kpi} in CG Cloud TPM? Include calculation formula and data sources.",
+      "use_notebooklm": true
+    },
+    "technical_patterns": {
+      "template": "What are the implementation patterns for {feature} in CG Cloud TPM? Include code examples if available.",
+      "use_notebooklm": true
+    },
+    "integration": {
+      "template": "Describe the integration approach for {system} with CG Cloud TPM. Include data flow and API patterns.",
+      "use_notebooklm": true
+    }
+  },
+  "pretrained_baseline": {
+    "generated_from_notebooklm": true,
+    "snapshot_date": "2026-03-06",
+    "location": "knowledge/",
+    "files": [
+      "data-models.md",
+      "business-processes.md",
+      "technical-patterns.md",
+      "integration-patterns.md",
+      "use-cases.md"
+    ]
+  }
+}

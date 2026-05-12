@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label><!-- Cedant Name --></label>
-    <name>CedantName_lk__c</name>
-    <relationshipLabel><!-- Placements (Cedant Name) --></relationshipLabel>
-</CustomFieldTranslation>

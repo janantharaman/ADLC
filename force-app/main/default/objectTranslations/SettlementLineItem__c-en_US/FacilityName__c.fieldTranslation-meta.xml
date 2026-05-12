@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label><!-- Facility Name --></label>
-    <name>FacilityName__c</name>
-    <relationshipLabel><!-- Settlement Line Items (Facility Name) --></relationshipLabel>
-</CustomFieldTranslation>

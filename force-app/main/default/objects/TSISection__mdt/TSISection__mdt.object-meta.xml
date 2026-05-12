@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>PR01(재산종합) : Section 1~4
-PR05(테러) : Section 1~2
-PR06(사이버) : Section 1~10</description>
-    <label>TSISection</label>
-    <pluralLabel>TSISections</pluralLabel>
-    <visibility>Public</visibility>
-</CustomObject>

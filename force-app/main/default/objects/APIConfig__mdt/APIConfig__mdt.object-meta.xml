@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Naver, Google 등 API Key 관리</description>
-    <label>API Config</label>
-    <pluralLabel>API Configs</pluralLabel>
-    <visibility>Public</visibility>
-</CustomObject>

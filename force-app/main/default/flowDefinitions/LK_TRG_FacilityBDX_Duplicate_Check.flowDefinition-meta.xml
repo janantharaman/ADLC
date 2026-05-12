@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<FlowDefinition xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>동일 Facility Name, Facility UY, BDX Type, Account(Issue to), BDX Period From/To 레코드가 존재하는 경우 중복으로 체크하여 생성불가 제어</description>
-    <masterLabel>(X)LK_TRG_FacilityBDX_Duplicate_Check</masterLabel>
-</FlowDefinition>

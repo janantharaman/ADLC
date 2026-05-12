@@ -1,0 +1,18 @@
+Identify all regulatory frameworks and compliance requirements mentioned in the sources.
+
+For each regulation, provide:
+1. **Regulation Name**: Official name (e.g., FINRA, HIPAA, GDPR, SEC)
+2. **Description**: Brief explanation of the regulation's scope
+3. **Key Requirements**: List 3-5 specific compliance requirements that affect Salesforce implementations
+
+Format your response as structured data with clear sections for each regulation.
+
+Example format:
+1. Regulation Name
+   - Description: [scope and purpose]
+   - Key Requirements:
+     - Requirement 1
+     - Requirement 2
+     - Requirement 3
+
+Please provide comprehensive information for ALL regulations mentioned in the sources.

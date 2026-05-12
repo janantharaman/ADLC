@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>IS_OCR_Lineitem_Complted__c</fullName>
-    <defaultValue>false</defaultValue>
-    <label>IS OCR Lineitem Complted?</label>
-    <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
-    <type>Checkbox</type>
-</CustomField>

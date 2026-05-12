@@ -1,0 +1,57 @@
+{
+  "commands": [
+    {
+      "name": "Skill Builder: Generate from JSON",
+      "id": "skill-builder.from-json",
+      "command": "cd {{workspaceFolder}}/.cursor/skills/_templates && node builder.js --json {{file}}",
+      "description": "Generate industry skill from JSON definition file",
+      "when": "editorLangId == 'json'"
+    },
+    {
+      "name": "Skill Builder: Generate from NotebookLM",
+      "id": "skill-builder.from-notebooklm",
+      "command": "cd {{workspaceFolder}}/.cursor/skills/_templates && node builder.js --notebook {{input:notebookId}} --skill-name {{input:skillName}} --industry {{input:industryName}}",
+      "description": "Generate skill from NotebookLM notebook",
+      "inputs": [
+        {
+          "id": "notebookId",
+          "type": "promptString",
+          "description": "NotebookLM notebook ID (from URL)"
+        },
+        {
+          "id": "skillName",
+          "type": "promptString",
+          "description": "Skill name (e.g., fsc-dev)"
+        },
+        {
+          "id": "industryName",
+          "type": "promptString",
+          "description": "Industry name (e.g., Financial Services Cloud)"
+        }
+      ]
+    },
+    {
+      "name": "Skill Builder: Generate from PDFs",
+      "id": "skill-builder.from-pdfs",
+      "command": "cd {{workspaceFolder}}/.cursor/skills/_templates && node builder.js --pdfs {{input:pdfPattern}} --skill-name {{input:skillName}} --industry {{input:industryName}}",
+      "description": "Generate skill from PDF files",
+      "inputs": [
+        {
+          "id": "pdfPattern",
+          "type": "promptString",
+          "description": "PDF glob pattern (e.g., ./docs/*.pdf)"
+        },
+        {
+          "id": "skillName",
+          "type": "promptString",
+          "description": "Skill name (e.g., fsc-dev)"
+        },
+        {
+          "id": "industryName",
+          "type": "promptString",
+          "description": "Industry name"
+        }
+      ]
+    }
+  ]
+}

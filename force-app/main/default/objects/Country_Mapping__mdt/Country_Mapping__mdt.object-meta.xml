@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>RQ DocGen 관련하여
-country의 label &lt;&gt; value 인경우
-value -&gt; label 로 역으로 mapping 하기위한 cmdt</description>
-    <label>Country Mapping</label>
-    <pluralLabel>Country Mappings</pluralLabel>
-    <visibility>Public</visibility>
-</CustomObject>

@@ -1,0 +1,32 @@
+{
+  "notebooklm": {
+    "notebook_id": "c7c284d4-30f1-4770-9b34-7cda51acf9fd",
+    "notebook_url": "https://notebooklm.google.com/notebook/c7c284d4-30f1-4770-9b34-7cda51acf9fd",
+    "notebook_title": "Java Knowledge Base - Senior Developer",
+    "enabled": true,
+    "timeout_seconds": 120,
+    "fallback_to_builtin": true
+  },
+  "query_strategy": {
+    "spring_boot": {
+      "template": "What are the best practices for {topic} in Spring Boot? Include code examples if available.",
+      "use_notebooklm": true
+    },
+    "rest_api": {
+      "template": "What are the REST API design patterns for {domain}? Include validation and error handling.",
+      "use_notebooklm": true
+    },
+    "database": {
+      "template": "How do I optimize JPA/Hibernate for {scenario}? Include N+1 prevention and indexing.",
+      "use_notebooklm": true
+    },
+    "microservices": {
+      "template": "What are the patterns for {feature} in Java microservices? Include resilience and observability.",
+      "use_notebooklm": true
+    },
+    "salesforce_integration": {
+      "template": "How do I integrate Java with Salesforce {api_type}? Include OAuth and error handling.",
+      "use_notebooklm": true
+    }
+  }
+}

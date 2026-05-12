@@ -1,0 +1,234 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Industry Skill Definition",
+  "description": "Schema for defining industry-specific Salesforce developer skills",
+  "type": "object",
+  "required": [
+    "skill_name",
+    "industry_name",
+    "description",
+    "routing_indicators",
+    "data_models",
+    "regulatory_frameworks",
+    "key_integrations",
+    "unique_competencies",
+    "use_cases",
+    "reference_files"
+  ],
+  "properties": {
+    "skill_name": {
+      "type": "string",
+      "pattern": "^[a-z]+-dev$",
+      "description": "Skill name (must end with -dev, e.g., fsc-dev)"
+    },
+    "industry_name": {
+      "type": "string",
+      "minLength": 3,
+      "description": "Full industry name (e.g., Financial Services Cloud)"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 500,
+      "description": "Brief description of the skill's expertise"
+    },
+    "routing_indicators": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "string",
+        "minLength": 2
+      },
+      "description": "Keywords for Astro routing (e.g., 'financial account', 'FINRA')"
+    },
+    "data_models": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["object", "description", "key_fields", "relationships"],
+        "properties": {
+          "object": {
+            "type": "string",
+            "description": "Salesforce object API name"
+          },
+          "description": {
+            "type": "string",
+            "description": "Brief object description"
+          },
+          "key_fields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Important field API names"
+          },
+          "relationships": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Related object API names"
+          }
+        }
+      },
+      "description": "Industry-specific Salesforce objects"
+    },
+    "regulatory_frameworks": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": ["name", "description", "key_requirements"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Regulation name (e.g., FINRA, HIPAA)"
+          },
+          "description": {
+            "type": "string",
+            "description": "Regulation description"
+          },
+          "key_requirements": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "Key compliance requirements"
+          }
+        }
+      },
+      "description": "Regulatory compliance frameworks"
+    },
+    "key_integrations": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": ["name", "protocol", "use_case", "example_endpoint"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "External system name"
+          },
+          "protocol": {
+            "type": "string",
+            "description": "Integration protocol (REST, SOAP, WebSocket, etc.)"
+          },
+          "use_case": {
+            "type": "string",
+            "description": "Primary use case"
+          },
+          "example_endpoint": {
+            "type": "string",
+            "description": "Example API endpoint or pattern"
+          }
+        }
+      },
+      "description": "External system integration patterns"
+    },
+    "unique_competencies": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["area", "expertise_level", "capabilities"],
+        "properties": {
+          "area": {
+            "type": "string",
+            "description": "Competency area name"
+          },
+          "expertise_level": {
+            "type": "string",
+            "enum": ["Expert", "Advanced", "Intermediate"],
+            "description": "Required expertise level"
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 2,
+            "description": "Specific capabilities in this area"
+          }
+        }
+      },
+      "description": "Industry-specific competency areas"
+    },
+    "use_cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["title", "description", "technical_components"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Use case title"
+          },
+          "description": {
+            "type": "string",
+            "description": "Use case description (1-2 sentences)"
+          },
+          "technical_components": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "Technical components involved"
+          }
+        }
+      },
+      "description": "Common implementation scenarios"
+    },
+    "reference_files": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "description", "sections"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+\\.md$",
+            "description": "Reference file name (must be .md)"
+          },
+          "description": {
+            "type": "string",
+            "description": "File description"
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "Section names for the reference file"
+          }
+        }
+      },
+      "description": "Industry-specific reference files to generate"
+    },
+    "sources": {
+      "type": "object",
+      "properties": {
+        "notebook_id": {
+          "type": "string",
+          "description": "NotebookLM notebook ID"
+        },
+        "notebook_url": {
+          "type": "string",
+          "description": "NotebookLM notebook URL"
+        },
+        "extraction_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the knowledge was extracted"
+        }
+      },
+      "description": "Source information (optional, populated by extractors)"
+    }
+  }
+}

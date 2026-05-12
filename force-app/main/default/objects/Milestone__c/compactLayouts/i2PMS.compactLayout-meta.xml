@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>i2PMS</fullName>
-    <fields>Name</fields>
-    <fields>MilestoneOwner__c</fields>
-    <fields>PlanStart__c</fields>
-    <fields>PlanEnd__c</fields>
-    <label>i2PMS</label>
-</CompactLayout>

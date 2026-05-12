@@ -1,0 +1,265 @@
+{
+  "skill_name": "fsc-dev",
+  "industry_name": "Financial Services Cloud",
+  "description": "FSC full-stack developer with expertise in wealth management, retail banking, and regulatory compliance",
+
+  "routing_indicators": [
+    "financial account",
+    "securities",
+    "FINRA",
+    "wealth management",
+    "retail banking",
+    "investment portfolio",
+    "FSC"
+  ],
+
+  "data_models": [
+    {
+      "object": "FinServ__FinancialAccount__c",
+      "description": "Core financial account object for tracking customer accounts, balances, and account types",
+      "key_fields": [
+        "FinServ__Balance__c",
+        "FinServ__AccountType__c",
+        "FinServ__Status__c",
+        "FinServ__AccountNumber__c",
+        "FinServ__OpenDate__c"
+      ],
+      "relationships": [
+        "FinServ__FinancialAccountRole__c",
+        "Account",
+        "FinServ__FinancialGoal__c"
+      ]
+    },
+    {
+      "object": "FinServ__Securities__c",
+      "description": "Investment securities tracking for stocks, bonds, and other financial instruments",
+      "key_fields": [
+        "FinServ__Price__c",
+        "FinServ__Symbol__c",
+        "FinServ__AssetClass__c",
+        "FinServ__CUSIP__c",
+        "FinServ__Exchange__c"
+      ],
+      "relationships": [
+        "FinServ__FinancialAccount__c",
+        "FinServ__FinancialHolding__c"
+      ]
+    },
+    {
+      "object": "FinServ__FinancialGoal__c",
+      "description": "Client financial goals for retirement planning, education savings, etc.",
+      "key_fields": [
+        "FinServ__TargetValue__c",
+        "FinServ__TargetDate__c",
+        "FinServ__Status__c",
+        "FinServ__Type__c"
+      ],
+      "relationships": [
+        "FinServ__FinancialAccount__c",
+        "Account"
+      ]
+    }
+  ],
+
+  "regulatory_frameworks": [
+    {
+      "name": "FINRA",
+      "description": "Financial Industry Regulatory Authority compliance for trade surveillance and customer protection",
+      "key_requirements": [
+        "Trade surveillance and monitoring",
+        "Customer verification (KYC/AML)",
+        "Audit trail maintenance for all transactions",
+        "Disclosure requirements for investment products",
+        "Suitability assessments for client investments"
+      ]
+    },
+    {
+      "name": "SEC",
+      "description": "Securities and Exchange Commission regulations for investment advisors and broker-dealers",
+      "key_requirements": [
+        "Form ADV filing and updates",
+        "Disclosure of conflicts of interest",
+        "Regular compliance reporting",
+        "Record retention requirements",
+        "Anti-fraud provisions"
+      ]
+    }
+  ],
+
+  "key_integrations": [
+    {
+      "name": "Core Banking System",
+      "protocol": "REST API",
+      "use_case": "Real-time account balance synchronization and transaction history",
+      "example_endpoint": "/api/v1/accounts/{accountId}/balance"
+    },
+    {
+      "name": "Market Data Provider",
+      "protocol": "WebSocket",
+      "use_case": "Live securities pricing and market data streaming",
+      "example_endpoint": "wss://market.example.com/quotes"
+    },
+    {
+      "name": "Custodian System",
+      "protocol": "SFTP Batch",
+      "use_case": "Nightly portfolio holdings and transactions reconciliation",
+      "example_endpoint": "sftp://custodian.example.com/holdings"
+    }
+  ],
+
+  "unique_competencies": [
+    {
+      "area": "Wealth Management",
+      "expertise_level": "Expert",
+      "capabilities": [
+        "Investment portfolio management and rebalancing",
+        "Goal-based financial planning workflows",
+        "Household relationship modeling (advisors, clients, beneficiaries)",
+        "Performance reporting and attribution",
+        "Fee calculation and billing"
+      ]
+    },
+    {
+      "area": "Retail Banking",
+      "expertise_level": "Advanced",
+      "capabilities": [
+        "Customer onboarding workflows (KYC/AML)",
+        "Loan origination processes",
+        "Credit decisioning integration",
+        "Account opening automation",
+        "Branch operations support"
+      ]
+    },
+    {
+      "area": "Regulatory Compliance",
+      "expertise_level": "Expert",
+      "capabilities": [
+        "FINRA reporting and surveillance",
+        "SEC Form ADV generation",
+        "Audit trail implementation",
+        "Suitability assessment automation",
+        "Data retention policies"
+      ]
+    },
+    {
+      "area": "Investment Analytics",
+      "expertise_level": "Advanced",
+      "capabilities": [
+        "Portfolio performance calculation",
+        "Risk analysis and metrics",
+        "Asset allocation optimization",
+        "Benchmark comparison",
+        "Tax-loss harvesting"
+      ]
+    }
+  ],
+
+  "use_cases": [
+    {
+      "title": "Wealth Management Portal",
+      "description": "Client-facing portal for investment portfolio tracking, performance analysis, and goal monitoring",
+      "technical_components": [
+        "LWC dashboard with charts (Chart.js)",
+        "Real-time market data feed (WebSocket)",
+        "PDF statement generation (Apex)",
+        "Data Cloud for historical performance",
+        "Agentforce for portfolio recommendations"
+      ]
+    },
+    {
+      "title": "Automated Compliance Reporting",
+      "description": "Generate regulatory reports (Form ADV, FINRA) with automated data collection and validation",
+      "technical_components": [
+        "Scheduled batch Apex for data aggregation",
+        "Data Cloud queries for audit trail",
+        "Document generation (PDF/Excel)",
+        "External Client App for compliance officer access",
+        "Email notification workflows"
+      ]
+    },
+    {
+      "title": "Client Onboarding Automation",
+      "description": "Streamlined KYC/AML process with automated identity verification and account opening",
+      "technical_components": [
+        "LWC multi-step wizard",
+        "Integration with identity verification service (REST)",
+        "Flow orchestration for approval workflows",
+        "Platform Events for system notifications",
+        "Agentforce for risk scoring"
+      ]
+    },
+    {
+      "title": "Portfolio Rebalancing Engine",
+      "description": "Automated portfolio rebalancing based on target allocation and tax optimization",
+      "technical_components": [
+        "Batch Apex for portfolio analysis",
+        "Queueable Apex for trade execution",
+        "Integration with trading platform (REST)",
+        "Custom metadata for rebalancing rules",
+        "LWC approval interface for advisors"
+      ]
+    },
+    {
+      "title": "Advisor 360 Dashboard",
+      "description": "Comprehensive advisor view of clients, households, portfolios, and activities",
+      "technical_components": [
+        "LWC with multiple card components",
+        "Agentforce for client insights and next-best-actions",
+        "Data Cloud for cross-account analytics",
+        "Slack integration for advisor collaboration",
+        "Einstein Analytics for predictive insights"
+      ]
+    }
+  ],
+
+  "reference_files": [
+    {
+      "name": "fsc-data-models.md",
+      "description": "FSC data model deep dive with ERD diagrams and field definitions",
+      "sections": [
+        "Overview",
+        "FinancialAccount and Roles",
+        "Securities and Holdings",
+        "Financial Goals",
+        "Household Relationships",
+        "Best Practices"
+      ]
+    },
+    {
+      "name": "fsc-regulatory.md",
+      "description": "FINRA and SEC compliance patterns for Salesforce implementations",
+      "sections": [
+        "FINRA Compliance",
+        "SEC Regulations",
+        "Audit Trail Implementation",
+        "PII Protection and Data Masking",
+        "Reporting Requirements",
+        "Best Practices"
+      ]
+    },
+    {
+      "name": "fsc-integrations.md",
+      "description": "Core banking and market data integration patterns",
+      "sections": [
+        "Core Banking Integration (REST)",
+        "Market Data Feeds (WebSocket)",
+        "Custodian Reconciliation (SFTP)",
+        "Identity Verification Services",
+        "Error Handling Patterns",
+        "Best Practices"
+      ]
+    },
+    {
+      "name": "fsc-use-cases.md",
+      "description": "Common FSC implementation scenarios with code examples",
+      "sections": [
+        "Wealth Management Portal",
+        "Compliance Reporting",
+        "Client Onboarding",
+        "Portfolio Rebalancing",
+        "Advisor Dashboard",
+        "Best Practices"
+      ]
+    }
+  ]
+}

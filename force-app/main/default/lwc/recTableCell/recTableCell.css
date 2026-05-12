@@ -1,7 +1,0 @@
-/* recTableCell.html (default text view) */
-:host {
-    display: block;
-    width: 100%;
-    min-width: 0;
-    overflow: hidden;
-}

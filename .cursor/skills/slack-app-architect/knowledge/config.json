@@ -1,0 +1,38 @@
+{
+  "notebooklm": {
+    "notebook_id": "cf579b20-7f14-4828-8a9a-c0d7214e73f8",
+    "notebook_url": "https://notebooklm.google.com/notebook/cf579b20-7f14-4828-8a9a-c0d7214e73f8",
+    "notebook_title": "Slack App Knowledge Base - Architect",
+    "enabled": true,
+    "timeout_seconds": 120,
+    "fallback_to_builtin": true
+  },
+  "extends": {
+    "js_architect": {
+      "notebook_id": "06dda307-e864-475d-957e-8e92de24d79d",
+      "use_for": "Node.js base patterns when Slack-specific not needed"
+    }
+  },
+  "query_strategy": {
+    "slack_design": {
+      "template": "What are the architecture and design patterns for {topic} in Slack apps? Include enterprise requirements.",
+      "use_notebooklm": true
+    },
+    "bolt_framework": {
+      "template": "What are the Bolt framework best practices for {feature}? Include events and modals.",
+      "use_notebooklm": true
+    },
+    "slack_api": {
+      "template": "How do I use Slack API for {use_case}? Include rate limits and error handling.",
+      "use_notebooklm": true
+    },
+    "deployment": {
+      "template": "What are the deployment patterns for {scenario} in enterprise Slack apps?",
+      "use_notebooklm": true
+    },
+    "security": {
+      "template": "What are the security requirements for Slack apps in enterprise? Include tokens and OAuth.",
+      "use_notebooklm": true
+    }
+  }
+}
