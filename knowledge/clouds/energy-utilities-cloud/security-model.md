@@ -1,5 +1,5 @@
 ---
-source: Vlocity CLM Guide; Vlocity ASLM Guide; E&U Developer Guide (Summer '26); grounded 2026-05-12
+source: Vlocity CLM Guide; Vlocity ASLM Guide; E&U Developer Guide (Summer '26, PDF v67.0 confirmed 2026-05-12); grounded 2026-05-12
 cloud: Energy and Utilities Cloud
 section: security-model
 last-updated: 2026-05-12
@@ -38,6 +38,19 @@ last-updated: 2026-05-12
 | DocGen runtime (generating documents) | DocGen runtime permissions PSL |
 | CLM contract admin | `Contract Admin` permission set |
 | Service part returns (ASLM) | `Service Part Return Management` permission set |
+
+### Named Permission Sets — Required by Standard E&U Objects (from Developer Guide)
+
+These permission sets gate access at the object level and are documented in the Developer Guide's "Special Access Rules" for each object:
+
+| Permission Set | Objects It Unlocks |
+|---|---|
+| `EAndU Cloud Program Access` | `ApplicationFormTemplate`, `ProgramEnrollment`, `ProgramProduct`, `IndicatorAssignment` |
+| `EAndU Cloud Usage Impact Access` | `UsageImpactFactor`, `UsageImpactGroup`, `UsageImpactGroupFactor`, `UsageImpactGroupPgmMeasure`, `UsageImpactGroupVersion` |
+| `Contractor Work Report Access` | `WorkReportLineItem`, `WorkReportError`, `WorkReport` (contractor-submitted fields) |
+| `User Work Report Access` | `WorkReportLineItem`, `WorkReportError`, `WorkReport` (user fields) |
+
+**Important:** `Budget`, `BudgetCategory`, `BudgetCategoryValue`, `BudgetPeriod` require both the **Grantmaking license enabled** AND the `Manage Budgets` system permission assigned — not just permission set assignment.
 
 ---
 

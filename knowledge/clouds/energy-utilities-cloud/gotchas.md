@@ -153,6 +153,26 @@ The legacy Product Console (Angular-based) has been frozen — no new features a
 
 ---
 
-## G-20: ServicePoint and Premises Are Separate from Account Address
+## G-20: ServicePoint Premises Field Points to Location, Not vlocity_cmt__Premises__c
 
-`ServicePoint` (where energy is delivered) and `vlocity_cmt__Premises__c` (the physical location) are distinct from the Account's mailing/billing address. A single Account can have multiple Premises, each with multiple ServicePoints. Do not use Account address fields as a proxy for service location — always model via Premises → ServicePoint.
+`ServicePoint.PremisesId` is a lookup to the standard **`Location`** object (the relationship name in the UI is "Premises"). It is NOT a lookup to `vlocity_cmt__Premises__c`. Writing SOQL like `ServicePoint.vlocity_cmt__Premises__r.Name` will fail — use `ServicePoint.Premises.Name` instead.
+
+A single Account → BillingAccount → Location (premises) → ServicePoint chain. The service point is the physical metered entry point; the Location holds the physical address (DistributionArea, GrossFloorArea, HasLifeSupport, HasSensitiveLoad). Do not use Account address fields as a proxy for service location.
+
+---
+
+## G-21: BillingAccount and ServicePoint Have Separate Status Lifecycles
+
+`BillingAccount.Status` (Active / Inactive / Suspended) and `ServicePoint.Status` (Active / Disconnected / Abolished) are independent picklists. A billing account can be Active while a ServicePoint is Disconnected (e.g., non-pay disconnection pending reinstatement). Always check both statuses when determining whether a customer's service is live.
+
+---
+
+## G-22: ProgramEnrollment Does Not Directly Store AccountId
+
+`ProgramEnrollment` does not have a direct `AccountId` field. The enrollee link is via `IndividualApplication.AccountId`. Querying program enrollments for a specific account requires joining through `IndividualApplication`: `WHERE IndividualApplication.AccountId = :accountId`.
+
+---
+
+## G-23: Budget/BudgetCategory Require Grantmaking License in Addition to Permissions
+
+`Budget`, `BudgetCategory`, `BudgetCategoryValue`, and `BudgetPeriod` objects require **both** the Grantmaking license enabled in Setup AND the `Manage Budgets` system permission assigned. Assigning a permission set alone is not sufficient. If users get "Object not accessible" errors on Budget objects, check whether Grantmaking is enabled in Setup (not just licensed).

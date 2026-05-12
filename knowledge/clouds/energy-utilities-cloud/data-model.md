@@ -163,7 +163,7 @@ The E&U Developer Guide documents 63 standard objects across these domains:
 | `vlocity_cmt__Premises__c` | Complex/building where services are delivered; energy/utility service location |
 | `vlocity_cmt__PremisesPartyRelationship__c` | Owner/tenant/facility manager relationship to premises |
 
-**Note:** `ServicePoint` is a standard E&U object (no namespace). It is "useful for fixed line services including energy and utility services" — key linking Account → Premises → ServicePoint.
+**Note:** `ServicePoint` is a standard E&U object (no namespace). It links to `Location` via `PremisesId` (the relationship name is "Premises" but it refers to the standard `Location` object, not a `vlocity_cmt__Premises__c` object). Key chain: Account → BillingAccount → Location (Premises) → ServicePoint → EnergyServiceAgreement.
 
 ### CPQ / Quote / Order Objects
 | API Name | Description |
@@ -381,10 +381,12 @@ FROM Account
 WHERE Id = :accountId
 
 -- Active Energy Service Agreements for a premises
-SELECT Id, Name, Status,
-    ServicePoint.Name, ServicePoint.vlocity_cmt__Premises__r.Name
+-- Note: ServicePoint.PremisesId refers to Location (relationship name is "Premises")
+SELECT Id, Name, Status, ActivationDate,
+    ServicePoint.Name, ServicePoint.ServiceType,
+    ServicePoint.Premises.Name, ServicePoint.Premises.ExternalReference
 FROM EnergyServiceAgreement
-WHERE ServicePoint.vlocity_cmt__Premises__r.vlocity_cmt__Account__c = :accountId
+WHERE AccountId = :accountId
 AND Status = 'Active'
 
 -- Program enrollments for a customer

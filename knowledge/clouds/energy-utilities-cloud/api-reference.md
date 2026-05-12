@@ -1,5 +1,5 @@
 ---
-source: E&U Developer Guide (Atlas TOC, Summer '26); Vlocity Build GitHub; OmniStudio transcripts; grounded 2026-05-12
+source: E&U Developer Guide (Summer '26, v67.0, PDF confirmed 2026-05-12); Vlocity Build GitHub; OmniStudio transcripts; grounded 2026-05-12
 cloud: Energy and Utilities Cloud
 section: api-reference
 last-updated: 2026-05-12
@@ -11,60 +11,77 @@ last-updated: 2026-05-12
 
 ### Program Application (the only E&U-specific REST endpoint in the Developer Guide)
 
-**Endpoint:** `POST /services/data/v{version}/connect/energy-utilities/programs/{programId}/applications`
+**Endpoint:** `POST /services/data/v{version}/connect/eu-program/applications`
 
-**Purpose:** Programmatic enrollment of a customer into an energy program (efficiency, rebate, assistance, etc.)
+**Available since:** API v58.0
+
+**Purpose:** Programmatic enrollment of a customer into an energy program (efficiency, rebate, EV charger, energy efficiency, etc.). Creates an `IndividualApplication` record plus child `IndividualApplicationItem` records.
+
+**Example URI:**
+```
+https://yourInstance.salesforce.com/services/data/v67.0/connect/eu-program/applications
+```
 
 #### Request Body — ProgramApplicationInput
 
 | Field | Type | Required | Description |
 |---|---|---|---|
-| `accountId` | String | Yes | Salesforce Account Id of the applicant |
-| `contactId` | String | No | Contact Id (if individual applicant) |
-| `applicationItems` | List<ProgramApplicationItemInput> | Yes | Line items for the application |
-| `files` | List<ProgramApplicationFileInput> | No | Supporting documents |
+| `programId` | String | Yes | Id of the Program record |
+| `accountId` | String | Yes | Id of the applicant's Account record |
+| `description` | String | No | Description of the application |
+| `applicationItems` | ProgramApplicationItemInput[] | Yes | List of program products being applied for |
+| `files` | ProgramApplicationFileInput[] | No | Supporting documents (ContentDocument references) |
 
 #### Request Body — ProgramApplicationItemInput
 
 | Field | Type | Required | Description |
 |---|---|---|---|
-| `programProductId` | String | Yes | Id of the ProgramProduct being applied for |
-| `quantity` | Integer | No | Quantity requested |
-| `attributes` | Map<String, Object> | No | Custom attributes for the application item |
+| `programProductId` | String | Yes | Id of the ProgramProduct associated with the program |
+| `status` | String | No | Status of the item |
 
 #### Request Body — ProgramApplicationFileInput
 
 | Field | Type | Required | Description |
 |---|---|---|---|
-| `fileName` | String | Yes | File name including extension |
-| `fileContent` | String | Yes | Base64-encoded file content |
-| `mimeType` | String | Yes | MIME type (e.g., `application/pdf`) |
-| `documentType` | String | No | Type of supporting document |
+| `contentDocumentId` | String | Yes | Id of an existing ContentDocument record to attach |
 
 #### Response Body — ProgramApplicationOutput
 
 | Field | Type | Description |
 |---|---|---|
-| `applicationId` | String | Salesforce Id of the created IndividualApplication |
-| `status` | String | Application status (Submitted, Pending Review, etc.) |
-| `referenceNumber` | String | Human-readable reference number |
-| `items` | List | Created IndividualApplicationItem records |
+| `applicationId` | String | Tracking number for the created IndividualApplication |
+| `message` | String | Response message (e.g., "Your application has been submitted successfully") |
+| `success` | Boolean | `true` if application created successfully, `false` otherwise |
 
 **Sample request:**
 ```json
 {
-  "accountId": "001XXXXXXXXXXXXXXXXX",
-  "contactId": "003XXXXXXXXXXXXXXXXX",
-  "applicationItems": [
-    {
-      "programProductId": "0XXXXXXXXXXXXXXXXXX",
-      "quantity": 1,
-      "attributes": {
-        "HomeOwnershipStatus": "Owner",
-        "AnnualIncome": 45000
+  "programId": "11Wxx0000004GkaEAE",
+  "accountId": "001xx000003GlBHAA0",
+  "description": "Individual Application created for Program EV Charger Rebate",
+  "applicationItems": {
+    "records": [
+      {
+        "programProductId": "11mxx0000004PROAA2"
       }
-    }
-  ]
+    ]
+  },
+  "files": {
+    "records": [
+      {
+        "contentDocumentId": "069xx0000004DWWAA2"
+      }
+    ]
+  }
+}
+```
+
+**Sample response:**
+```json
+{
+  "success": true,
+  "message": "Your application has been submitted successfully",
+  "applicationId": "IA-0000000456"
 }
 ```
 
@@ -237,23 +254,26 @@ Decimal rate = (Decimal) result.get('BaseRate');
 ## SOQL Reference
 
 ```soql
--- Active service agreements for an account via premises
-SELECT Id, Name, Status,
-    ServicePoint.Name,
-    ServicePoint.vlocity_cmt__Premises__r.Name,
-    ServicePoint.vlocity_cmt__Premises__r.vlocity_cmt__StreetAddress__c
+-- Active service agreements for an account
+-- ServicePoint.PremisesId → Location (relationship name "Premises", NOT vlocity_cmt__Premises__c)
+SELECT Id, Name, Status, ActivationDate, Type,
+    ServicePoint.Name, ServicePoint.ServiceType,
+    ServicePoint.MarketIdentifier,
+    ServicePoint.Premises.Name, ServicePoint.Premises.ExternalReference
 FROM EnergyServiceAgreement
-WHERE ServicePoint.vlocity_cmt__Premises__r.vlocity_cmt__Account__c = :accountId
+WHERE AccountId = :accountId
 AND Status = 'Active'
 
--- Program enrollments with benefit disbursements
-SELECT Id, Name, Status__c,
-    Program.Name,
-    (SELECT Id, Amount__c, DisbursementDate__c, Status__c
-     FROM BenefitDisbursements__r
-     WHERE Status__c = 'Paid')
+-- Program enrollments with benefit assignments
+SELECT Id, Name,
+    Program.Name, Program.ProgramType,
+    EnrolleeRole,
+    (SELECT Id, Status, EntitlementAmount,
+            NextPayoutDate, PayoutFrequency
+     FROM BenefitAssignments__r
+     WHERE Status = 'Active')
 FROM ProgramEnrollment
-WHERE AccountId = :accountId
+WHERE IndividualApplication.AccountId = :accountId
 
 -- Open OM tasks for an order
 SELECT Id, Name, Status,
@@ -265,14 +285,20 @@ WHERE vlocity_cmt__OrchestrationPlan__r.vlocity_cmt__Order__c = :orderId
 AND Status != 'Completed'
 ORDER BY vlocity_cmt__Sequence__c ASC
 
--- Timesheet entries for a service resource in a pay period
-SELECT Id, Name, vlocity_cmt__Date__c,
-    vlocity_cmt__RegularHours__c,
-    vlocity_cmt__OvertimeHours__c,
-    vlocity_cmt__TimeSheet__r.vlocity_cmt__ServiceResource__r.Name
-FROM vlocity_cmt__TimeSheetEntry__c
-WHERE vlocity_cmt__TimeSheet__r.vlocity_cmt__ServiceResource__c = :resourceId
-AND vlocity_cmt__TimeSheet__r.vlocity_cmt__PayPeriod__c = :payPeriodId
+-- TimeSheetEntry for a service resource (standard E&U objects — no vlocity_cmt prefix)
+-- TimeSheet and TimeSheetEntry are standard objects; PayType, OvertimeType are related
+SELECT Id, TimeSheetId, StartDateTime, EndDateTime, Status, StatusComment, Category,
+    TimeBlockSequence,
+    TimeSheet.ServiceResourceId,
+    TimeSheet.PayGrade.Name,
+    TimeSheet.Status,
+    JobExpenseType.Name,
+    OvertimeType.Name
+FROM TimeSheetEntry
+WHERE TimeSheet.ServiceResourceId = :resourceId
+AND TimeSheet.StartDateTime >= :periodStart
+AND TimeSheet.EndDateTime <= :periodEnd
+ORDER BY TimeBlockSequence ASC
 
 -- Calculation matrix lookup for pricing
 SELECT Id, DeveloperName,
