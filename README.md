@@ -48,7 +48,16 @@ All Salesforce org operations go through **Headless 360** (`@salesforce/mcp`) �
   sdd-template.md                   ← Solution Design Document template
   omnistudio.md                     ← OmniStudio platform reference (720 lines, Apex Hours series)
   agentforce/                       ← Agentforce platform (8 files — see below)
-  clouds/                           ← Industry cloud knowledge (11 clouds, 84 files — see below)
+  clouds/                           ← Industry cloud knowledge (11 clouds, 84 files)
+    {cloud-name}/
+      overview.md                   ← What it is, when to use it, license types, feature domains
+      data-model.md                 ← Objects, fields, relationships, SOQL patterns, load order
+      security-model.md             ← OWD defaults, sharing rules, permission sets, platform security
+      automation-patterns.md        ← Flows, Apex, invocable actions, platform events, OmniStudio
+      gotchas.md                    ← Known issues, deployment traps, undocumented behaviours
+      api-reference.md              ← SOQL patterns, REST/SOAP endpoints, Apex class signatures
+      implementation-guide.md       ← Step-by-step setup, prerequisites, activation sequences
+      metadata-tooling.md           ← Metadata types, package.xml patterns, CI/CD considerations
 
 /engagements/                       ← Per-customer engagement artifacts
   _template/                        ← Blank engagement folder structure (copy to start new engagement)
