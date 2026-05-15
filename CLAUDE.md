@@ -87,6 +87,29 @@ Key tools available:
 - Design phase: describe existing FlexCards to understand current state before redesigning
 - Use alongside `mcp__salesforce__*` tools — OmniStudio MCP handles component authoring, Headless 360 handles org operations (deploy, query, permissions)
 
+### B2C Commerce MCP (`b2c-dx-mcp`)
+Agentic B2C Developer Toolkit for Salesforce B2C Commerce (SFCC). Use for any engagement involving B2C Commerce cartridge development, PWA Kit, Managed Runtime, or SCAPI.
+
+Key toolsets available (configured in `.mcp.json`):
+- `CARTRIDGES` — cartridge deployment to B2C instances, script debugger, code version management
+- `MRT` — Managed Runtime bundle building and deployment
+- `SCAPI` — schema listing, custom API status, endpoint scaffolding
+- `PWAV3` — PWA Kit development guidelines + SCAPI tools
+- `STOREFRONTNEXT` — Page Designer, Figma-to-component, WCAG validation (Preview — add to `--toolsets` only when needed)
+
+**When to use B2C Commerce MCP:**
+- Any engagement on Salesforce B2C Commerce (SFCC / formerly Demandware)
+- Cartridge development, deployment, and debugging
+- SCAPI / SLAS custom API work
+- PWA Kit / headless storefront builds
+- Note: B2C Commerce MCP is separate from Headless 360 (`@salesforce/mcp`) — they serve different platforms and must both be active for cross-platform engagements
+
+**Claude Code installation (if not already installed):**
+```
+/plugin marketplace add SalesforceCommerceCloud/b2c-developer-tooling
+/plugin install b2c-dx-mcp@b2c-developer-tooling
+```
+
 **Tool execution rules:**
 - Read-only tools (query, retrieve, list, describe): run freely, no approval needed
 - Mutation tools (deploy, assign, bulk operations, `create`): present the action and scope to the user and wait for explicit approval before executing
@@ -254,6 +277,23 @@ Also read the relevant files from `knowledge/` at the start of each phase:
 
 **Knowledge is local-only.** All reference lookups must use files in the `knowledge/` directory. Do not perform web searches, fetch external URLs, or consult any source outside this repository. If a topic is not covered in `knowledge/`, state the gap explicitly and ask the user to provide a source — do not attempt to fill the gap from the web.
 
+### Knowledge Base Inventory
+
+**Cross-cloud (`knowledge/`):**
+- `naming-conventions.md` — object, field, class, LWC, flow naming standards
+- `security-baseline.md` — OWD defaults, CRUD/FLS, sharing, permission set patterns
+- `governor-limits.md` — SOQL, DML, CPU, heap, callout limits with Apex patterns
+- `sdd-template.md` — Solution Design Document template
+- `omnistudio.md` — OmniScript, FlexCard, DataRaptor, Integration Procedure, IDX Workbench
+
+**Agentforce platform (`knowledge/agentforce/`) — 8 files:**
+`overview`, `data-model`, `security-model`, `automation-patterns`, `gotchas`, `api-reference`, `implementation-guide`, `metadata-tooling`
+
+**Industry clouds (`knowledge/clouds/`) — 12 clouds, 8 files each:**
+`financial-services-cloud`, `experience-cloud`, `health-cloud`, `service-cloud`, `sales-cloud`, `manufacturing-cloud`, `revenue-cloud`, `automotive-cloud`, `energy-utilities-cloud`, `life-sciences-cloud`, `consumer-goods-cloud`, `retail-cloud`, `b2c-commerce`
+
+Each cloud has: `overview`, `data-model`, `security-model`, `automation-patterns`, `gotchas`, `api-reference`, `implementation-guide`, `metadata-tooling`
+
 ---
 
 ## How to Start a New Engagement
@@ -264,10 +304,11 @@ When the user says something like "Start ADLC for [Customer]" or "Run Discovery 
 2. Confirm the Salesforce org alias to use
 3. Check if an engagement folder already exists at `engagements/{customer}/`
    - If yes: read existing artifacts and core memory before proceeding
-   - If no: create the folder structure
-4. For Full Pipeline, check if `engagements/{customer}/pre-sales.md` exists. If it does, start at Phase 0 (Pre-Sales). If it does not, start directly at Phase 1 (Discovery) without asking the user about Pre-Sales.
-5. For Quick Delivery, confirm all four criteria are met before starting
-6. Load the appropriate SKILL.md and begin
+   - If no: copy `engagements/_template/` to create the folder structure
+4. If `engagements/{customer}/docs/index.md` exists, read it before doing anything else — it is the index of all customer-provided documents for this engagement
+5. For Full Pipeline, check if `engagements/{customer}/pre-sales.md` exists. If it does, start at Phase 0 (Pre-Sales). If it does not, start directly at Phase 1 (Discovery) without asking the user about Pre-Sales.
+6. For Quick Delivery, confirm all four criteria are met before starting
+7. Load the appropriate SKILL.md and begin
 
 ---
 
@@ -276,10 +317,11 @@ When the user says something like "Start ADLC for [Customer]" or "Run Discovery 
 When the user says "Continue [Customer] engagement" or "Resume Design for [Customer]":
 
 1. Read `engagements/{customer}/memory/core-memory.md`
-2. Identify the last completed phase (look for APPROVED status in artifact files)
-3. Confirm with the user which phase to run next
-4. Load the SKILL.md for that phase and begin
-5. Always read the previous phase artifact before starting work
+2. If `engagements/{customer}/docs/index.md` exists, read it — it lists all customer-provided documents available for context
+3. Identify the last completed phase (look for APPROVED status in artifact files)
+4. Confirm with the user which phase to run next
+5. Load the SKILL.md for that phase and begin
+6. Always read the previous phase artifact before starting work
 
 ---
 
