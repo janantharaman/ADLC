@@ -1,3 +1,82 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+---
+
+## Commands
+
+### LWC / JavaScript
+```bash
+npm run lint                  # ESLint on all Aura + LWC JS
+npm run test:unit             # Jest via sfdx-lwc-jest (all tests)
+npm run test:unit:watch       # Watch mode
+npm run test:unit:coverage    # Coverage report
+npm run prettier              # Format all files (Apex, LWC, XML, JSON, etc.)
+npm run prettier:verify       # Check formatting without writing
+```
+
+### Salesforce CLI
+```bash
+sf org login web --alias YOUR_ORG_ALIAS          # Authenticate org
+sf project deploy start --source-dir force-app   # Deploy to default org
+sf project retrieve start --source-dir force-app # Retrieve from org
+sf apex run test --test-level RunLocalTests       # Run all Apex tests
+sf apex run anonymous -f path/to/file.apex        # Execute anonymous Apex
+```
+
+### Pre-commit (runs automatically via husky)
+On every `git commit`: Prettier formats staged files, ESLint checks LWC/Aura JS, Jest runs related LWC tests (bail on first failure).
+
+---
+
+## Salesforce Source Structure
+
+- **Package directory:** `force-app/` (default, defined in `sfdx-project.json`)
+- **Source API version:** `66.0` (Spring '26)
+- **Namespace:** none (unmanaged)
+- All Apex, LWC, flows, and metadata live under `force-app/main/default/`
+
+---
+
+## Cursor Rules Layer Architecture
+
+The `.cursor/rules/` directory implements a 4-layer context system. Each layer is `alwaysApply: true` and loads into every session:
+
+| Layer | Files | What it provides |
+|---|---|---|
+| 1 — Foundation | `00-06.md` | Salesforce platform fundamentals, naming conventions, security baseline, testing standards, automation decision guide, LWC standards, architecture principles |
+| 3.5 — Project Context | `07-active-project-context.md` | Active project requirements, architecture decisions, sprint state — generated from a `PROJECT: *.md` file |
+| 4 — Methodology | `layer-4-methodology/*.md` | SPSM framework, Well-Architected Framework, Configuration-First principle, production quality standards |
+
+**Switching project context:**
+```bash
+# Activate a project
+python .cursor/tools/generate-project-context.py --input="PROJECT: MyProject.md"
+
+# Switch projects (--force overwrites)
+python .cursor/tools/generate-project-context.py --input="PROJECT: OtherProject.md" --force
+
+# Deactivate (generic mode — Layer 1 + 4 remain active)
+python .cursor/tools/generate-project-context.py --deactivate
+```
+
+Layer 3.5 is purely additive — disabling it leaves all foundation and methodology rules intact.
+
+---
+
+## MCP Servers (`.mcp.json`)
+
+Three MCP servers are pre-configured. Update `YOUR_ORG_ALIAS` before use:
+
+| Server | Package | When to use |
+|---|---|---|
+| `salesforce` | `@salesforce/mcp` | All org operations (deploy, query, retrieve, test) — Headless 360 |
+| `omnistudio-mcp` | `@salesforce/omnistudio-mcp` | Any engagement involving FlexCards, OmniScripts, or DataMappers |
+| `b2c-dx-mcp` | `@salesforce/b2c-dx-mcp` | B2C Commerce cartridge, PWA Kit, SCAPI, or Managed Runtime work |
+
+---
+
 # ADLC — Agent-Assisted Delivery Lifecycle
 ## GDC Professional Services | Runtime Instructions
 
@@ -29,9 +108,24 @@ You work with architects who design, developers who build, and QA engineers who 
   deployment/SKILL.md + references/
   retrofit/SKILL.md + references/
 /knowledge/
-  naming-conventions.md
-  security-baseline.md
-  governor-limits.md
+  platform/
+    naming-conventions.md
+    security-baseline.md
+    governor-limits.md
+    sdd-template.md
+    omnistudio.md
+  agentforce/
+  agentforce-apps/           ← Agentforce Sales, Service, Experience
+  agentforce-industry-apps/  ← FSC, Health, Life Sciences, Manufacturing, Automotive, etc.
+  commerce/
+    b2c-commerce/
+  revenue/
+    salesforce-revenue/
+    salesforce-contracts/
+    cpq-to-rlm-migration/
+  analytics/
+    crm-analytics/
+    salesforce-analytics-tableau/
 /engagements/
   {customer-name}/
     pre-sales.md
@@ -271,28 +365,95 @@ Retrofit → skills/retrofit/SKILL.md
 Follow the SKILL.md workflow exactly. The SKILL.md is the procedure for that phase — do not deviate from it, skip steps, or reorder steps without explicit user instruction.
 
 Also read the relevant files from `knowledge/` at the start of each phase:
-- `knowledge/naming-conventions.md` — always load
-- `knowledge/security-baseline.md` — load for Discovery, Design, Implementation, Deployment
-- `knowledge/governor-limits.md` — load for Implementation and Testing
+- `knowledge/platform/naming-conventions.md` — always load
+- `knowledge/platform/security-baseline.md` — load for Discovery, Design, Implementation, Deployment
+- `knowledge/platform/governor-limits.md` — load for Implementation and Testing
 
-**Knowledge is local-only.** All reference lookups must use files in the `knowledge/` directory. Do not perform web searches, fetch external URLs, or consult any source outside this repository. If a topic is not covered in `knowledge/`, state the gap explicitly and ask the user to provide a source — do not attempt to fill the gap from the web.
+**Knowledge is local-only during delivery.** All reference lookups during engagement phases must use files in the `knowledge/` directory. Do not perform web searches or fetch external URLs while running Pre-Sales through Deployment phases.
+
+**Exception — knowledge base authoring:** When explicitly asked to build or refresh knowledge base files (i.e., writing or updating files under `knowledge/`), web fetching from official Salesforce sources is permitted and encouraged. Approved sources: `help.salesforce.com`, `developer.salesforce.com`, `trailhead.salesforce.com`, `resources.docs.salesforce.com`. After fetching, write the grounded content into the appropriate `knowledge/` file so it is available offline for all future delivery sessions.
+
+If a topic is not covered in `knowledge/` during a delivery phase, state the gap explicitly and ask the user to provide a source — do not attempt to fill the gap from the web at that time.
 
 ### Knowledge Base Inventory
 
-**Cross-cloud (`knowledge/`):**
+**Core Platform (`knowledge/platform/`) — 5 files:**
 - `naming-conventions.md` — object, field, class, LWC, flow naming standards
 - `security-baseline.md` — OWD defaults, CRUD/FLS, sharing, permission set patterns
 - `governor-limits.md` — SOQL, DML, CPU, heap, callout limits with Apex patterns
 - `sdd-template.md` — Solution Design Document template
 - `omnistudio.md` — OmniScript, FlexCard, DataRaptor, Integration Procedure, IDX Workbench
 
-**Agentforce platform (`knowledge/agentforce/`) — 8 files:**
+**Agentforce AI Platform (`knowledge/agentforce/`) — 8 files:**
 `overview`, `data-model`, `security-model`, `automation-patterns`, `gotchas`, `api-reference`, `implementation-guide`, `metadata-tooling`
 
-**Industry clouds (`knowledge/clouds/`) — 12 clouds, 8 files each:**
-`financial-services-cloud`, `experience-cloud`, `health-cloud`, `service-cloud`, `sales-cloud`, `manufacturing-cloud`, `revenue-cloud`, `automotive-cloud`, `energy-utilities-cloud`, `life-sciences-cloud`, `consumer-goods-cloud`, `retail-cloud`, `b2c-commerce`
+**Agentforce Apps — Business Clouds (`knowledge/agentforce-apps/`) — 3 apps, 8 files each:**
+`agentforce-sales` (was Sales Cloud), `agentforce-service` (was Service Cloud), `agentforce-experience` (was Experience Cloud)
 
-Each cloud has: `overview`, `data-model`, `security-model`, `automation-patterns`, `gotchas`, `api-reference`, `implementation-guide`, `metadata-tooling`
+Each app has: `overview`, `data-model`, `security-model`, `automation-patterns`, `gotchas`, `api-reference`, `implementation-guide`, `metadata-tooling`
+
+**Agentforce Industry Apps (`knowledge/agentforce-industry-apps/`) — 9 apps, 8 files each:**
+`agentforce-financial-services` (was FSC), `agentforce-health` (was Health Cloud), `agentforce-life-sciences`, `agentforce-manufacturing`, `agentforce-automotive`, `agentforce-consumer-goods`, `agentforce-retail`, `agentforce-energy-utilities`, `agentforce-communications` (was Telecommunications Cloud)
+
+Each app has: `overview`, `data-model`, `security-model`, `automation-patterns`, `gotchas`, `api-reference`, `implementation-guide`, `metadata-tooling`
+
+**Commerce (`knowledge/commerce/`) — 1 product:**
+`b2c-commerce/` — 8 files: `overview`, `data-model`, `security-model`, `automation-patterns`, `gotchas`, `api-reference`, `implementation-guide`, `metadata-tooling`
+
+**Revenue (`knowledge/revenue/`) — 3 sub-folders:**
+- `salesforce-revenue/` (was Revenue Cloud) — RLM, pricing, contracts: `overview`, `data-model`, `security-model`, `automation-patterns`, `gotchas`, `implementation-guide`, `discovery-questions`
+- `salesforce-contracts/` — 8 files: `overview`, `data-model`, `security-model`, `automation-patterns`, `gotchas`, `api-reference`, `implementation-guide`, `metadata-tooling`
+- `cpq-to-rlm-migration/` (was CPQToRLMMigration) — `overview`, `data-model`, `design-patterns`, `implementation-guide`, `discovery-questions`, `gotchas`
+
+**Agentforce Sustainability / Net Zero Cloud (`knowledge/agentforce-sustainability/`) — 8 files:**
+`overview`, `data-model`, `security-model`, `automation-patterns`, `gotchas`, `api-reference`, `implementation-guide`, `metadata-tooling`
+
+Key topics: GHG Protocol Scope 1/2/3 tracking, CarbonFootprint object, EmissionFactor management, Scope 3 Emissions Hub (supplier/subsidiary portal), What-If Analysis, Programme Analysis, ESG disclosure (CSRD/GRI/SASB/CDP), Agentforce ESG Authoring, Climate Action Dashboard, CRM Analytics integration, MuleSoft ingestion, multi-org aggregation. Naming history: Net Zero Cloud → Agentforce Net Zero / Agentforce Sustainability.
+
+Load when: engagement scope includes sustainability reporting, ESG disclosures, carbon accounting, emissions tracking, CSRD compliance, net zero target management, or Scope 3 supplier engagement.
+
+**Data 360 (`knowledge/data-360/`) — 8 files:**
+`overview`, `data-model`, `security-model`, `automation-patterns`, `gotchas`, `api-reference`, `implementation-guide`, `metadata-tooling`
+
+Key topics: unified profiles, identity resolution, Data Streams, Data Lake Objects, Calculated Insights, Segments, Data Actions, Activation Targets, Data Graphs (Agentforce grounding), Ingestion API, Query API, consent management, GDPR patterns. Naming history: Salesforce CDP → Genie → Data Cloud → Data 360.
+
+Load when: engagement scope includes customer data unification, real-time segmentation, CDP migration, Agentforce grounding, Marketing Cloud activation, or Data Cloud licensing.
+
+**Agentforce Public Sector (`knowledge/agentforce-public-sector/`) — 8 files:**
+`overview`, `data-model`, `security-model`, `automation-patterns`, `gotchas`, `api-reference`, `implementation-guide`, `metadata-tooling`
+
+Key topics: Benefit Management, Grantmaking, License/Permit/Inspection, Investigative Case Management, Workforce Management, Business Rules Engine (eligibility), OmniStudio portals, Constituent Snapshot, Dynamic Forms, Experience Cloud constituent portal, Government Cloud Plus (FedRAMP High), Agentforce AI agents (benefits eligibility, complaints, IT support). Naming history: Public Sector Solutions (PSS) → Agentforce Public Sector.
+
+Load when: engagement scope includes government/public sector agencies, benefit/grant program administration, permit and inspection management, investigative case management, or FedRAMP compliance requirements.
+
+**Analytics (`knowledge/analytics/`) — 2 sub-folders, 21 files:**
+
+`crm-analytics/` — 7 files:
+- `overview` — what CRM Analytics is, architecture components, licensing, naming history, CRM Analytics vs Tableau
+- `data-model` — datasets, dataflows, recipes, data sync, connected objects, field types, scheduling
+- `dashboards` — dashboard designer, widgets, faceting, bindings, SAQL query language, embedding in Lightning
+- `security-model` — permission sets, security predicates (row-level security), app sharing, audit
+- `implementation-guide` — setup checklist, Data Sync config, recipe patterns, deployment to production
+- `gotchas` — 20 known issues: data pipeline failures, security predicate traps, dashboard performance, deployment gaps, SAQL edge cases
+- `admin-setup` — enabling CRM Analytics, licenses, permission sets table, Analytics Settings, Data Manager tabs, Connected Objects, template app cloning, deployment checklist, REST API overview
+
+`salesforce-analytics-tableau/` (was `tableau/`) — 14 files:
+- `overview` — product family (Desktop, Cloud, Server, Prep, Pulse, Next), user roles (Creator/Explorer/Viewer), admin tracks, Salesforce integration
+- `data-model` — dimensions vs measures, discrete vs continuous, calculated fields (basic/LOD/table calc), parameters, data types
+- `visualizations` — chart types, dashboard design, actions, stories, filters (all types, order of operations), sets, groups
+- `publishing` — publishing to Cloud/Server, extract vs live, permissions, Tableau Bridge, embedding, governance
+- `prep` — Prep Builder vs Conductor, step types, AI features, scheduling, lineage, PS use cases
+- `data-connections` — logical vs physical layer, relationships vs joins, unions, data blending, live vs extract, incremental refresh, Hyper API, custom data source settings
+- `functions-reference` — complete function tables (Number/String/Date/Logical/Aggregate/User/Table Calc/RAWSQL), parameters (creation, dynamic, usage), reference lines and bands
+- `server-cloud-admin` — Server vs Cloud comparison, all auth methods (SAML/OIDC/Kerberos/Connected Apps/PATs), permissions model, sites/projects, TSM CLI, Tableau Cloud Manager, Pulse, AI features table, embedding API v3
+- `advanced-analytics` — LOD expressions (FIXED/INCLUDE/EXCLUDE patterns, order of operations), table calculation partitioning/addressing, trend line models, forecasting, Explain Data
+- `advanced-design` — maps (6 types, geocoding, background styles), dashboard actions (all 6 types), sets (dynamic/fixed/combined), groups, bins, shelves/marks card deep-dive, performance optimization
+- `governance-sharing` — all file types (.twb/.twbx/.tds/.hyper etc.), permissions deep-dive (matrix, hierarchy, data source auth interaction), global filters, Tableau Catalog/Data Management, virtual connections + data policies, data alerts, accessibility (WCAG 2.2 AA)
+- `viz-techniques` — all mark types with auto-selection logic, dual axis + combo charts, dashboard layout (tiled/floating, sizing, containers, device layouts), sorting, workbook formatting, custom colour palettes (Preferences.tps), full keyboard shortcut reference, Viz in Tooltip, Measure Names/Values
+- `filters-deep-dive` — all filter types (categorical/measure/date/table calc), complete filter order of operations, context filters (when and how), filter cards with all display modes and customisation options, aggregation behaviour and ATTR, parameters (create/use/dynamic/troubleshoot)
+- `developer-apis` — REST API (all endpoint categories, TSC Python library patterns), Hyper API (create/update .hyper files, supported languages), tabcmd v1/v2 (commands reference, auth), Metadata API (GraphQL lineage queries), Embedding API v3 (Web Component, JWT auth, JS interaction patterns)
+
+Load analytics knowledge when: engagement scope includes BI/reporting, CRM Analytics dashboards, Salesforce Analytics (Tableau) implementation, or data visualisation requirements.
 
 ---
 
